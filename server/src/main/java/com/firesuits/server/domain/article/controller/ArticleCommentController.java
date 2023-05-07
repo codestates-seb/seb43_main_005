@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.article.controller;
 
+import com.firesuits.server.domain.article.dto.ArticleCommentDto;
 import com.firesuits.server.domain.article.dto.request.ArticleCommentRequest;
 import com.firesuits.server.domain.article.dto.response.ArticleCommentResponse;
 import com.firesuits.server.domain.article.service.ArticleCommentService;
@@ -21,8 +22,29 @@ public class ArticleCommentController {
 
     //생성
     @PostMapping("/{articleId}/articleComments")
-    public Response<Void> create(@PathVariable Long articleId, @RequestBody ArticleCommentRequest request, Authentication authentication){
+    public Response<Void> create(@PathVariable Long articleId,
+                                 @RequestBody ArticleCommentRequest request,
+                                 Authentication authentication){
         articleCommentService.create(articleId, authentication.getName(), request.getContent());
+        return Response.success();
+    }
+
+    //수정
+    @PatchMapping("/{articleId}/articleComments/{articleCommentId}")
+    public Response<ArticleCommentResponse> update(@PathVariable Long articleId,
+                                                   @PathVariable Long articleCommentId,
+                                                   @RequestBody ArticleCommentRequest request,
+                                                   Authentication authentication){
+        ArticleCommentDto articleCommentDto = articleCommentService.update(request.getContent(), authentication.getName(), articleId, articleCommentId);
+        return Response.success(ArticleCommentResponse.from(articleCommentDto));
+    }
+
+    //삭제
+    @DeleteMapping("/{articleId}/articleComments/{articleCommentId}")
+    public Response<Void> delete(@PathVariable Long articleId,
+                                 @PathVariable Long articleCommentId,
+                                 Authentication authentication){
+        articleCommentService.delete(authentication.getName(), articleId, articleCommentId);
         return Response.success();
     }
 
@@ -32,5 +54,5 @@ public class ArticleCommentController {
         return Response.success(articleCommentService.list(articleId, pageable).map(ArticleCommentResponse::from));
     }
 
-    
+
 }
