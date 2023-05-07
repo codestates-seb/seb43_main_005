@@ -45,9 +45,22 @@ public class ArticleController {
         return Response.success();
     }
 
+    //단건 조회
+    @GetMapping("/{articleId}")
+    public Response<ArticleResponse> get(@PathVariable Long articleId){
+        ArticleDto articleDto = articleService.findById(articleId);
+        return Response.success(ArticleResponse.from(articleDto));
+    }
+
     //전체 조회
     @GetMapping
     public Response<Page<ArticleResponse>> list(Pageable pageable){
         return Response.success(articleService.list(pageable).map(ArticleResponse::from));
+    }
+
+    //검색
+    @GetMapping("/search")
+    public Response<Page<ArticleResponse>> search(@RequestParam String keyword, Pageable pageable){
+        return Response.success(articleService.search(keyword, pageable).map(ArticleResponse::from));
     }
 }
