@@ -63,9 +63,24 @@ public class ArticleService {
         articleRepository.delete(article);
     }
 
+    //단건 조회
+    @Transactional(readOnly = true)
+    public ArticleDto findById(Long articleId){
+        Article article = articleRepository.findById(articleId).orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.ARTICLE_NOT_FOUND, String.format("%s 을 찾을 수 없습니다.", articleId)));
+        return ArticleDto.from(article);
+    }
+
     //전체 조회
+    @Transactional(readOnly = true)
     public Page<ArticleDto> list(Pageable pageable){
         return articleRepository.findAll(pageable).map(ArticleDto::from);
+    }
+
+    //검색 리스트
+    @Transactional(readOnly = true)
+    public Page<ArticleDto> search(String keyword, Pageable pageable){
+        return articleRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable).map(ArticleDto::from);
     }
 
 }
