@@ -19,8 +19,9 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
 
-    @Column(columnDefinition = "TEXT", length = 20000)
     private String title;
+
+    @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
 
     @ManyToOne
