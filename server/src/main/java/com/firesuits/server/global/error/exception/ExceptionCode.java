@@ -9,6 +9,8 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "멤버가 이미 존재"),
     MEMBER_NOT_FOUND(404,"멤버를 찾을 수 없음"),
     ARTICLE_NOT_FOUND(404, "게시물을 찾을 수 없음"),
+    COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없음"),
+    INVALID_REQUEST(400, "잘못된 요청"),
     INVALID_PERMISSION(403,"권한이 없습니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류"),
     ;

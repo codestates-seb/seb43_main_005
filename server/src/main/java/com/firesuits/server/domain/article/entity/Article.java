@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -19,13 +21,17 @@ public class Article extends AuditingFields {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long articleId;
 
-    @Column(columnDefinition = "TEXT", length = 20000)
     private String title;
+
+    @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<ArticleComment> articleComments = new ArrayList<>();
 
     public static Article of(String title, String content, Member member){
         Article article = new Article();
