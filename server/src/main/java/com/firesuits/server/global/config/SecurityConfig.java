@@ -3,11 +3,13 @@ package com.firesuits.server.global.config;
 import com.firesuits.server.global.auth.filter.JwtAuthenticationFilter;
 import com.firesuits.server.global.auth.filter.JwtVerificationFilter;
 import com.firesuits.server.global.auth.handler.MemberAccessDeniedHandler;
+import com.firesuits.server.global.auth.handler.MemberAuthenticationEntryPoint;
 import com.firesuits.server.global.auth.handler.MemberAuthenticationFailureHandler;
 import com.firesuits.server.global.auth.handler.MemberAuthenticationSuccessHandler;
 import com.firesuits.server.global.auth.jwt.JwtTokenizer;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,13 +38,18 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
-//                .authenticationEntryPoint()// 인증실패시 처리
-                .accessDeniedHandler(new MemberAccessDeniedHandler()) // 인증 실패시 처리
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint())
+                .accessDeniedHandler(new MemberAccessDeniedHandler())
                 .and()
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests(authorize -> authorize
-                        .anyRequest().permitAll()
+                                .antMatchers("/members").permitAll()
+                                .antMatchers(HttpMethod.POST, "/article").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/article").hasRole("ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/article").hasRole("ADMIN")
+                                .antMatchers("/article").permitAll()
+                                .anyRequest().permitAll()
                 );
         return http.build();
     }
