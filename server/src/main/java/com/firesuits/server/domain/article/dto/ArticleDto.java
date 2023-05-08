@@ -17,6 +17,7 @@ public class ArticleDto {
     private String title;
     private String content;
     private Integer view;
+    private Integer commentCount;
     private MemberDto member;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
@@ -27,6 +28,7 @@ public class ArticleDto {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getViews().stream().mapToInt(View::getViewCount).sum(),
+                entity.getArticleComments().size(),
                 MemberDto.from(entity.getMember()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
