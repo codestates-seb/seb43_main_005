@@ -1,0 +1,21 @@
+:root {
+  --brand-color: #39896b;
+  --sub-color: #fae928;
+  --bg-color: #ffefe7;
+  --text-color: #495057;
+  --text-bold: #343a40;
+  --gray-200: #868e96;
+  /* sub-text */
+  --gray-100: #adb5bd;
+  /* 댓글 날짜 etc */
+  --gray-50: #dee2e6;
+  /* progress bg, 구분선 etc */
+  --black: #000000;
+  --white: #ffffff;
+  --white-op50: rgba(255, 255, 255, 50%);
+  --blue: #339af0;
+  --red: #ff6b6b;
+
+  --border-bold: 1px solid #343a40;
+  --border-light: 1px solid #dee2e6;
+}
