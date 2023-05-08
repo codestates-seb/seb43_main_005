@@ -1,6 +1,5 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Main from "./pages/Main.jsx";
-import PageContainer from "./common/PageContainer.jsx";
 function App() {
   return (
     <div>

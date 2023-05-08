@@ -1,10 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "./reset.css";
-import index from "./index.css";
 
 const GlobalStyle = createGlobalStyle`
  ${reset}
- ${index}
  @font-face {
   font-family: "GmarketSansLight";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff")
@@ -29,13 +27,9 @@ const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Shrikhand&display=swap');
 /* import Fonts */
 
-html{
-  font-size: 16px;
-}
 body{
-  background-color: var(--bg-color);
+  background-color: ${props => props.theme.color.bg};
   font-family: 'GmarketSansMedium', cursive;
-  font-size: 1em;
 }
 `;
 export default GlobalStyle;
