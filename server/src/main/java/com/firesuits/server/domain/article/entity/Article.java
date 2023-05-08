@@ -33,6 +33,9 @@ public class Article extends AuditingFields {
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<ArticleComment> articleComments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private List<View> views;
+
     public static Article of(String title, String content, Member member){
         Article article = new Article();
         article.setTitle(title);

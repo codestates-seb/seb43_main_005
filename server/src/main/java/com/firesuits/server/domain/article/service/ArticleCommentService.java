@@ -79,7 +79,7 @@ public class ArticleCommentService {
 
     private ArticleComment commentOrException(Long articleCommentId){
         return articleCommentRepository.findById(articleCommentId).orElseThrow(() ->
-                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND, String.format("%s 번의 댓글을 찾을 수 없습니다.")));
+                new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND, String.format("%s 번의 댓글을 찾을 수 없습니다.", articleCommentId)));
     }
 
     private void checkCommentMember(ArticleComment articleComment, Member member, String email, Long articleCommentId){
