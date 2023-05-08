@@ -2,6 +2,7 @@ package com.firesuits.server.domain.article.service;
 
 import com.firesuits.server.domain.article.dto.ArticleDto;
 import com.firesuits.server.domain.article.entity.Article;
+import com.firesuits.server.domain.article.entity.View;
 import com.firesuits.server.domain.article.repository.ArticleRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -52,9 +54,16 @@ public class ArticleService {
     }
 
     //단건 조회
-    @Transactional(readOnly = true)
+    @Transactional
     public ArticleDto findById(Long articleId){
         Article article = articleOrException(articleId);
+        List<View> views = article.getViews();
+        if (views.isEmpty()) {
+            views.add(new View(article, 1));
+        } else {
+            View lastView = views.get(views.size() - 1);
+            lastView.setViewCount(lastView.getViewCount() + 1);
+        }
         return ArticleDto.from(article);
     }
 
@@ -69,7 +78,6 @@ public class ArticleService {
     public Page<ArticleDto> search(String keyword, Pageable pageable){
         return articleRepository.findByTitleContainingOrContentContaining(keyword, keyword, pageable).map(ArticleDto::from);
     }
-
 
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow( () ->
