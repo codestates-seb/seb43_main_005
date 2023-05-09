@@ -3,6 +3,7 @@ package com.firesuits.server.domain.member.entity;
 import com.firesuits.server.domain.article.entity.Article;
 import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.entity.CommentLike;
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +40,11 @@ public class Member extends AuditingFields {
     private List<ArticleComment> articleComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<CommentLike> commentLikes = new ArrayList<>();
+    private List<CommentLike> commentLikes = new ArrayList<>()
+      
+    // content 테이블 생성을 위해서 임의로 작성
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Content> contents = new ArrayList<>();
 
     public static Member of(String email, String nickName, String encodedPwd){
         Member entity = new Member();
