@@ -12,6 +12,7 @@ public enum ExceptionCode {
     COMMENT_NOT_FOUND(404, "댓글을 찾을 수 없음"),
     INVALID_REQUEST(400, "잘못된 요청"),
     INVALID_PERMISSION(403,"권한이 없습니다."),
+    ALREADY_LIKED(409,"이미 좋아요를 눌렀습니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류"),
     CONTENT_NOT_FOUND(404,"컨텐츠를 찾을 수 없음"),
     ;
