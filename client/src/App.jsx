@@ -1,11 +1,11 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import Main from "./pages/Main.jsx";
+import Login from "./pages/Login.jsx";
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Login />} />
         </Routes>
       </BrowserRouter>
     </div>
