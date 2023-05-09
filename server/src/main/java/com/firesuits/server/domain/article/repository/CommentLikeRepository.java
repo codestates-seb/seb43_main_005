@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface CommentLikeRepository extends JpaRepository<CommentLike, Long> {
     Optional<CommentLike> findByMemberAndArticleComment(Member member, ArticleComment articleComment);
 
-    @Query(value = "SELECT COUNT(*) FROM CommentLike entity WHERE entity.articleComment = :articleComment")
-    Long countByArticleComment(@Param("articleComment") ArticleComment articleComment);
+    @Query(value = "SELECT COUNT(*) FROM CommentLike entity WHERE entity.articleComment = :articleComment AND entity.value = :value")
+    Long countByArticleComment(@Param("articleComment") ArticleComment articleComment, @Param("value") Integer value);
 }

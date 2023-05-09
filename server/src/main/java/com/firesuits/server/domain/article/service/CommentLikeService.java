@@ -32,14 +32,15 @@ public class CommentLikeService {
         commentLikeRepository.findByMemberAndArticleComment(member, articleComment).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.ALREADY_LIKED, String.format("%s 는 이미 %s 댓글의 좋아요를 눌렀습니다.", email, articleCommentId));
         });
-        commentLikeRepository.save(CommentLike.of(member, articleComment));
+        commentLikeRepository.save(CommentLike.of(member, articleComment, 1));
     }
 
+    //TODO: 성능개선 방법검토
     //좋아요 리스트
     @Transactional
     public Long likeCount(Long articleCommentId){
         ArticleComment articleComment = articleCommentOrException(articleCommentId);
-        return commentLikeRepository.countByArticleComment(articleComment);
+        return commentLikeRepository.countByArticleComment(articleComment, 1);
     }
 
     private ArticleComment articleCommentOrException(Long articleCommentId){

@@ -24,10 +24,13 @@ public class CommentLike extends AuditingFields {
     @JoinColumn(name = "article_comment_id")
     private ArticleComment articleComment;
 
-    public static CommentLike of(Member member, ArticleComment articleComment){
+    private Integer value;
+
+    public static CommentLike of(Member member, ArticleComment articleComment, Integer value){
         CommentLike entity = new CommentLike();
         entity.setMember(member);
         entity.setArticleComment(articleComment);
+        entity.setValue(value);
         return entity;
     }
 }
