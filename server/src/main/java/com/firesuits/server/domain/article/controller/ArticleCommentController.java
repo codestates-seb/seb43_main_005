@@ -5,6 +5,8 @@ import com.firesuits.server.domain.article.dto.request.ArticleCommentRequest;
 import com.firesuits.server.domain.article.dto.response.ArticleCommentResponse;
 import com.firesuits.server.domain.article.service.ArticleCommentService;
 import com.firesuits.server.global.error.response.Response;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Safelist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -25,7 +27,8 @@ public class ArticleCommentController {
     public Response<Void> create(@PathVariable Long articleId,
                                  @RequestBody ArticleCommentRequest request,
                                  Authentication authentication){
-        articleCommentService.create(articleId, authentication.getName(), request.getContent());
+        String bodyRemoveTag = Jsoup.clean(request.getContent(), Safelist.none());
+        articleCommentService.create(articleId, authentication.getName(), bodyRemoveTag);
         return Response.success();
     }
 
@@ -35,7 +38,8 @@ public class ArticleCommentController {
                                                    @PathVariable Long articleCommentId,
                                                    @RequestBody ArticleCommentRequest request,
                                                    Authentication authentication){
-        ArticleCommentDto articleCommentDto = articleCommentService.update(request.getContent(), authentication.getName(), articleId, articleCommentId);
+        String bodyRemoveTag = Jsoup.clean(request.getContent(), Safelist.none());
+        ArticleCommentDto articleCommentDto = articleCommentService.update(bodyRemoveTag, authentication.getName(), articleId, articleCommentId);
         return Response.success(ArticleCommentResponse.from(articleCommentDto));
     }
 
