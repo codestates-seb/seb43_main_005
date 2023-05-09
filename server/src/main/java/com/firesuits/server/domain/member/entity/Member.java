@@ -38,6 +38,7 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ArticleComment> articleComments = new ArrayList<>();
 
+    // content 테이블 생성을 위해서 임의로 작성
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Content> contents = new ArrayList<>();
 
