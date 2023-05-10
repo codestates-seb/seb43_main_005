@@ -11,6 +11,7 @@ import com.firesuits.server.global.error.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
@@ -26,11 +27,13 @@ public class QuizService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public void create(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email){
         Member member = memberOrException(email);
         quizRepository.save(Quiz.of(detail, example, correct, commentary, result, experience, member));
     }
 
+    @Transactional
     public QuizDto update(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email, Long quizId){
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
@@ -53,11 +56,13 @@ public class QuizService {
 
     }
 
+    @Transactional
     public QuizDto findById(Long quizId){
         Quiz quiz = quizOrException(quizId);
         return QuizDto.from(quiz);
     }
 
+    @Transactional(readOnly = true)
     public Page<QuizDto> list(Pageable pageable){
         return quizRepository.findAll(pageable).map(QuizDto::from);
     }
