@@ -15,15 +15,24 @@ function AuthInput({ type, id, placeholder, alertMessage }) {
 export default AuthInput;
 
 const FormGroup = styled.div`
-  padding: 0px;
-  border: none;
-
   input {
-    width: 445px;
+    width: 415px;
     height: 48px;
+    table-layout: fixed;
+    padding: 0px 15px;
+    border: 0px;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin-bottom: 15px;
+    // 이렇게 크기 정하면 되는건지
+    font-size: 1em;
   }
+
   p {
+    // 나중에 폰트 바꾸자
+    margin-top: 10px;
     display: none;
+    font-size: 0.75em;
   }
 
   &.alert-on {
