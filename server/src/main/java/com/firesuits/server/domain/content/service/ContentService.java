@@ -65,9 +65,9 @@ public class ContentService {
                 new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 게시물이 존재 하지 않습니다.", contentId)));
     }
 
-    private void checkContentMember(Content content, Member member, String email, Long articleId){
+    private void checkContentMember(Content content, Member member, String email, Long contentId){
         if(!Objects.equals(content.getMember().getMemberId(), member.getMemberId())){
-            throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s는 %s 의 권한이 없습니다.", email, articleId));
+            throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s는 %s 의 권한이 없습니다.", email, contentId));
         }
     }
 

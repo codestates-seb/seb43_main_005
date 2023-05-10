@@ -3,6 +3,7 @@ package com.firesuits.server.domain.content.entity;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.learn.entity.LearnTag;
 import com.firesuits.server.domain.member.entity.Member;
+import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class Content extends AuditingFields {
     // learn 테이블 생성을 위해서 임의로 작성
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Learn> learns = new ArrayList<>();
+
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
+    private List<Quiz> quizzes = new ArrayList<>();
 
     public static Content of(String title, String contentImg, BigDecimal progress, Member member){
         Content content =new Content();
