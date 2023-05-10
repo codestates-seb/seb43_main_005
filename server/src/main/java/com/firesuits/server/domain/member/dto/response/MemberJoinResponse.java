@@ -12,6 +12,7 @@ public class MemberJoinResponse {
     private Long memberId;
     private String email;
     private String nickname;
+    private String profileImage;
     private LocalDateTime createdAt;
 
     public static MemberJoinResponse from(MemberDto dto){
@@ -19,6 +20,7 @@ public class MemberJoinResponse {
                 dto.getMemberId(),
                 dto.getEmail(),
                 dto.getNickName(),
+                dto.getProfileImage(),
                 dto.getCreateAt()
         );
     }
