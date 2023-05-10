@@ -35,6 +35,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    implementation 'org.jsoup:jsoup:1.15.4'
 
     implementation 'io.jsonwebtoken:jjwt-api:0.11.5' // JWT 기능을 위한 jjwt 라이브러리
    	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'

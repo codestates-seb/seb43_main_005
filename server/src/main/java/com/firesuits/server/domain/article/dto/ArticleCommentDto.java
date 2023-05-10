@@ -1,6 +1,7 @@
 package com.firesuits.server.domain.article.dto;
 
 import com.firesuits.server.domain.article.entity.ArticleComment;
+import com.firesuits.server.domain.article.entity.CommentLike;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ public class ArticleCommentDto {
     private Long articleCommentId;
     private String content;
     private Long articleId;
+    private Integer like;
     private MemberDto member;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -24,6 +26,7 @@ public class ArticleCommentDto {
                 entity.getArticleCommentId(),
                 entity.getContent(),
                 entity.getArticle().getArticleId(),
+                entity.getCommentLikes().stream().mapToInt(CommentLike::getValue).sum(),
                 MemberDto.from(entity.getMember()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()

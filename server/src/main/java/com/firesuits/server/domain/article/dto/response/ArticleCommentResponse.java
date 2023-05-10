@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class ArticleCommentResponse {
     private Long articleCommentId;
     private String content;
+    private Integer like;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberResponse member;
@@ -20,6 +21,7 @@ public class ArticleCommentResponse {
         return new ArticleCommentResponse(
                 dto.getArticleCommentId(),
                 dto.getContent(),
+                dto.getLike(),
                 dto.getCreatedAt(),
                 dto.getModifiedAt(),
                 MemberResponse.from(dto.getMember())

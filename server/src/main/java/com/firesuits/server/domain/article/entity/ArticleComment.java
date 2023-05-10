@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -25,6 +27,9 @@ public class ArticleComment extends AuditingFields {
     @ManyToOne(optional = false)
     @JoinColumn(name = "article_id")
     private Article article;
+
+    @OneToMany(mappedBy = "articleComment", cascade = CascadeType.ALL)
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     public static ArticleComment of(Member member, Article article, String content){
         ArticleComment articleComment = new ArticleComment();
