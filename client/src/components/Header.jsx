@@ -99,6 +99,7 @@ const HeaderWrap = styled.header`
       padding-top: 30px;
       height: 100vh;
       background-color: ${props => props.theme.color.bg};
+      z-index: 9999;
       .burger {
         animation-name: ${spinMenu2};
         animation-duration: 0.3s;
