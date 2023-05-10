@@ -10,8 +10,7 @@ import naver from "../assets/images/icon_sns_naver.svg";
 export default function Login() {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
-  const [emailAlert, setEmailAlert] = useState("");
-  const [passwordAlert, setPasswordAlert] = useState("");
+  const [loginAlert, setLoginAlert] = useState("");
   const [loginFailed, setLoginFailed] = useState("");
   // 이메일 핸들러
   const onEmailHandler = event => {
@@ -27,8 +26,9 @@ export default function Login() {
     event.preventDefault();
 
     //빈값일 경우 에러창뜨게하기
-    setEmailAlert(email === "" && "이메일을 입력해주세요");
-    setPasswordAlert(password === "" && "비밀번호를 입력해주세요");
+    setLoginAlert(
+      email === "" && password === "" && "아이디 또는 비밀번호를 입력해주세요"
+    );
     if (email === "" || password === "") return;
 
     //로그인 처리
@@ -55,17 +55,12 @@ export default function Login() {
       <LoginWrap>
         <h2>Log in</h2>
         <form onSubmit={onSubmitHandler}>
-          <AuthInput
-            type="email"
-            id="email"
-            placeholder="이메일"
-            alertMessage={emailAlert}
-          />
+          <AuthInput type="email" id="email" placeholder="이메일" />
           <AuthInput
             type="password"
             id="password"
             placeholder="비밀번호"
-            alertMessage={passwordAlert}
+            alertMessage={loginAlert}
           />
           <div>비밀번호를 잊으셨나요?</div>
           <ButtonGroup>
@@ -74,12 +69,16 @@ export default function Login() {
             {/* <p className={loginFailed}>Login failed</p> */}
           </ButtonGroup>
         </form>
-        <form>
-          <div>SNS 계정으로 로그인</div>
-          <img src={google} alt="googleLogo" />
-          <img src={kakao} alt="kakaoLogo" />
-          <img src={naver} alt="naverLogo" />
-        </form>
+        <AuthButton>
+          <div className="line">SNS 계정으로 로그인</div>
+          <form>
+            <img src={google} alt="googleLogo" />
+            <img src={kakao} alt="kakaoLogo" />
+            <img src={naver} alt="naverLogo" />
+          </form>
+          <div>아직 회원이 아니신가요?</div>
+          <div>회원가입</div>
+        </AuthButton>
       </LoginWrap>
     </PageContainer>
   );
@@ -100,8 +99,42 @@ const ButtonGroup = styled.div`
 const LoginWrap = styled.div`
   max-width: 445px;
   width: 100%;
+  margin: 0 auto;
+`;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+const AuthButton = styled.div`
+  .line {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    font-size: 0.875rem;
+    margin: 8px 0px;
+  }
+  .line::before {
+    content: "";
+    flex-grow: 1;
+    margin: 0px 16px;
+    background: ${props => props.theme.color.black};
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+  }
+  .line::after {
+    content: "";
+    flex-grow: 1;
+    margin: 0px 16px;
+    background: ${props => props.theme.color.black};
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+  }
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  img {
+    padding: 0px 20px;
+  }
 `;

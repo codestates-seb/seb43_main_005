@@ -16,6 +16,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/edit" element={<EditMyPage />} />
           <Route path="/teampage" element={<TeamPage />} />
