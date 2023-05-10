@@ -6,6 +6,7 @@ import TextContainer from "../components/Mypage/TextContainer.js";
 
 export default function Mypage() {
   let navigate = useNavigate();
+  // 로그인한 유저의 데이터 불러오기
   // 임시 데이터
   let myType = "고독을 즐기는 혼공러";
   let myLevel = "10";

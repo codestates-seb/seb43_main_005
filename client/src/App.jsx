@@ -3,7 +3,7 @@ import Header from "./components/Header.jsx";
 import Footer from "./components/Footer.jsx";
 import Main from "./pages/Main.jsx";
 import Mypage from "./pages/Mypage.jsx";
-import TeamPage from "./pages/Mypage.jsx";
+import TeamPage from "./pages/TeamPage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
 
