@@ -38,13 +38,21 @@ public class QuizService {
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
+
+        if(detail != null){quiz.setDetail(detail);}
+        if(example != null){quiz.setExample(example);}
+        if(correct != null){quiz.setCorrect(correct);}
+        if(commentary != null){quiz.setCommentary(commentary);}
+        if(result != null){quiz.setResult(result);}
+        if(experience != null){quiz.setExperience(experience);}
+        /*  수정 방식에 대해서 문의 할 것
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCorrect(correct);
         quiz.setCommentary(commentary);
         quiz.setResult(result);
         quiz.setExperience(experience);
-
+*/
         return QuizDto.from(quizRepository.save(quiz));
     }
 
