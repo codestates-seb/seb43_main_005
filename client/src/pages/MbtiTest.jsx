@@ -10,7 +10,7 @@ function MbtiTest() {
     <PageContainer>
       <Container>
         <h2>MBTI TEST</h2>
-        <CustomProgressBar progress={(1 / 13) * 100} />
+        <CustomProgressBar progress={(5 / 13) * 100} />
         <Quiz>새로운 장소(모임, 수업, 회사)에 가게 된 나는?</Quiz>
         <AnswerBtnContainer>
           <AnswerBtn>옆자리 사람에게 먼저 해맑게 인사한다.</AnswerBtn>

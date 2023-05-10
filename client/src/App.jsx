@@ -8,6 +8,7 @@ import Mypage from "./pages/Mypage.jsx";
 import TeamPage from "./pages/TeamPage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
+import MbtiResult from "./pages/MbtiResult.jsx";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/teampage" element={<TeamPage />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/mbti" element={<MbtiTest />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/mbtiresult" element={<MbtiResult />} />
         </Routes>
       </BrowserRouter>
       <Footer />
