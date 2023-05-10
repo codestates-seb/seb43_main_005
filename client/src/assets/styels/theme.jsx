@@ -18,6 +18,7 @@ const color = {
   gray100: `var(--gray-100)`,
   gray50: `var(--gray-50)`,
   black: `var(--black)`,
+  blackOp50: `var(--black-op50)`,
   white: `var(--white)`,
   whiteOp50: `var(--white-op50)`,
   blue: `var(--blue)`,
