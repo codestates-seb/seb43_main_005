@@ -20,7 +20,7 @@ public class ContentDto {
     private String contentImg;
     private BigDecimal progress;
     private MemberDto member;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     // 정적 팩토리 메소드 사용하여 생성

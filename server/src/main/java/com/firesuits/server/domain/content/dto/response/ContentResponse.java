@@ -15,7 +15,7 @@ public class ContentResponse {
     private String title;
     private String contentImg;
     private BigDecimal progress;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberResponse member;
 
@@ -25,7 +25,7 @@ public class ContentResponse {
                 dto.getTitle(),
                 dto.getContentImg(),
                 dto.getProgress(),
-                dto.getCreateAt(),
+                dto.getCreatedAt(),
                 dto.getModifiedAt(),
                 MemberResponse.from(dto.getMember())
         );
