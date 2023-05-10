@@ -44,19 +44,26 @@ public class SecurityConfig {
                 .apply(new CustomFilterConfigurer())
                 .and()
                 .authorizeRequests(authorize -> authorize
-                    .antMatchers("/members").permitAll()
-                    .antMatchers(HttpMethod.POST, "/upload").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(
+                                "/v2/api-docs",
+                                "/swagger-resources/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**",
+                                "/webjars/**")
+                        .permitAll()
+                        .antMatchers("/members").permitAll()
+                        .antMatchers(HttpMethod.POST, "/upload").hasAnyRole("USER", "ADMIN")
 
-                    .antMatchers(HttpMethod.POST, "/article").hasRole("ADMIN")
-                    .antMatchers(HttpMethod.PATCH, "/article/*").hasRole("ADMIN")
-                    .antMatchers(HttpMethod.DELETE, "/article/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.POST, "/article").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/article/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/article/*").hasRole("ADMIN")
 
-                    .antMatchers(HttpMethod.POST, "/articleComments/*/likes").hasAnyRole("USER","ADMIN")
+                        .antMatchers(HttpMethod.POST, "/articleComments/*/likes").hasAnyRole("USER", "ADMIN")
 
-                    .antMatchers(HttpMethod.POST, "/article/*/articleComments").hasAnyRole("USER", "ADMIN")
-                    .antMatchers(HttpMethod.PATCH, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
-                    .antMatchers(HttpMethod.DELETE, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
-                    .anyRequest().permitAll()
+                        .antMatchers(HttpMethod.POST, "/article/*/articleComments").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
+                        .anyRequest().permitAll()
                 );
         return http.build();
     }
