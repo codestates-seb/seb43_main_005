@@ -10,8 +10,8 @@ function App() {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/main" element={<Main />} />
-          <Route path="/" element={<MbtiTest />} />
+          <Route path="/" element={<Main />} />
+          <Route path="/mbti" element={<MbtiTest />} />
         </Routes>
       </BrowserRouter>
       <Footer />
