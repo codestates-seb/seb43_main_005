@@ -7,6 +7,8 @@ import com.firesuits.server.domain.article.service.ArticleCommentService;
 import com.firesuits.server.global.error.response.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,9 +52,10 @@ public class ArticleCommentController {
 
     //전체 조회
     @GetMapping("/{articleId}/articleComments")
-    public Response<Page<ArticleCommentResponse>> get(Pageable pageable, @PathVariable Long articleId){
-        return Response.success(articleCommentService.list(articleId, pageable).map(ArticleCommentResponse::from));
+    public Response<Page<ArticleCommentResponse>> get(
+            @PageableDefault(sort = "createdBy", direction = Sort.Direction.ASC) Pageable pageable,
+            @PathVariable Long articleId,
+            @RequestParam(name = "sort", required = false) String sort){
+        return Response.success(articleCommentService.list(articleId, pageable, sort).map(ArticleCommentResponse::from));
     }
-
-
 }

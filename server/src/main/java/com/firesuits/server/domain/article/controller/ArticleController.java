@@ -9,6 +9,8 @@ import com.firesuits.server.domain.article.service.ArticleService;
 import com.firesuits.server.global.error.response.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,13 +56,17 @@ public class ArticleController {
 
     //전체 조회
     @GetMapping
-    public Response<Page<ArticleResponse>> list(Pageable pageable){
-        return Response.success(articleService.list(pageable).map(ArticleResponse::from));
+    public Response<Page<ArticleResponse>> list(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(name = "sort", required = false) String sort){
+        return Response.success(articleService.list(pageable, sort).map(ArticleResponse::from));
     }
 
     //검색
     @GetMapping("/search")
-    public Response<Page<ArticleResponse>> search(@RequestParam String keyword, Pageable pageable){
+    public Response<Page<ArticleResponse>> search(
+            @PageableDefault(sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam String keyword){
         return Response.success(articleService.search(keyword, pageable).map(ArticleResponse::from));
     }
 }
