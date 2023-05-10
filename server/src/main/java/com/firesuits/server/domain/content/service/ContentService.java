@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ContentService {
@@ -36,9 +37,15 @@ public class ContentService {
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
-        content.setTitle(title);
-        content.setContentImg(contentImg);
-        content.setProgress(progress);
+        if(title != null) {
+            content.setTitle(title);
+        }
+        if(contentImg != null){
+            content.setContentImg(contentImg);
+        }
+        if(progress != null){
+            content.setProgress(progress);
+        }
 
         return ContentDto.from(contentRepository.save(content));
     }

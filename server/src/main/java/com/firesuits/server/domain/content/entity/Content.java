@@ -26,7 +26,6 @@ public class Content extends AuditingFields {
 
     private String title;
 
-    @Column(nullable = false)
     private String contentImg;
 
     @Column(columnDefinition = "Decimal")
