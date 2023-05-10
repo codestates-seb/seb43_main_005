@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -24,11 +25,13 @@ public class ContentService {
         this.memberRepository = memberRepository;
     }
 
+    @Transactional
     public void create(String title, String contentImg, BigDecimal progress, String email){
         Member member = memberOrException(email);
         contentRepository.save(Content.of(title, contentImg, progress, member));
     }
 
+    @Transactional
     public ContentDto update(String title, String contentImg, BigDecimal progress, String email, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
@@ -47,11 +50,13 @@ public class ContentService {
         contentRepository.delete(content);
     }
 
+    @Transactional
     public ContentDto findById(Long contentId){
         Content content = contentOrException(contentId);
         return ContentDto.from(content);
     }
 
+    @Transactional(readOnly = true)
     public Page<ContentDto> list(Pageable pageable){
         return contentRepository.findAll(pageable).map(ContentDto::from);
     }
