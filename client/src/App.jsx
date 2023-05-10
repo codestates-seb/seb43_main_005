@@ -1,6 +1,8 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Main from "./pages/Main.jsx";
 import Mypage from "./pages/Mypage.jsx";
+import TeamPage from "./pages/Mypage.jsx";
+import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
 
 function App() {
@@ -10,6 +12,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/mypage/edit" element={<EditMyPage />} />
+          <Route path="/teampage" element={<TeamPage />} />
           <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

@@ -6,6 +6,9 @@ import TextContainer from "../components/Mypage/TextContainer.js";
 
 export default function Mypage() {
   let navigate = useNavigate();
+  // 임시 데이터
+  let myType = "고독을 즐기는 혼공러";
+  let myLevel = "10";
   return (
     <PageContainer>
       <MyContainer>
@@ -14,11 +17,11 @@ export default function Mypage() {
           <LvBox>
             <div>
               <img src="/" alt="img" />
-              lv.10
+              lv.{myLevel}
             </div>
             <TextContainer color="#fff">
               <div>내 학습유형</div>
-              <p>고독을 즐기는 혼공러</p>
+              <p>{myType}</p>
             </TextContainer>
             <TestContainer>
               <div>학습유형 테스트 하러가기</div>

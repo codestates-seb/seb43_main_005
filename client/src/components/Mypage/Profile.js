@@ -20,7 +20,7 @@ export default function Mypage() {
           <p>{email}</p>
         </TextContainer>
       </InnerBox>
-      <ProfileBtn onClick={() => navigate("/editProfile")}>
+      <ProfileBtn onClick={() => navigate("/mypage/edit")}>
         프로필 수정
       </ProfileBtn>
     </ProfileContainer>
