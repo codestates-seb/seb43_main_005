@@ -7,6 +7,7 @@ const GlobalStyle = createGlobalStyle`
 body{
   background-color: ${props => props.theme.color.bg};
   font-family: 'GmarketSansMedium', cursive;
+  color: ${props => props.theme.color.text};
 }
 button{
   padding: 0;
