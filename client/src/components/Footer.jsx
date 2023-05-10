@@ -20,7 +20,7 @@ export default function Footer() {
               <AiFillGithub />
               github
             </a>
-            <a href="https://codestates.notion.site/5f81b2a8f9c74ba7bdae616f46dd378b?v=ec51e24bbb7e48389129c508081eb106&p=6dc1a7150e464e0095f569e66bae353c&pm=s">
+            <a href="https://codestates.notion.site/FireSuits-6dc1a7150e464e0095f569e66bae353c">
               <RxNotionLogo />
               Notion
             </a>
