@@ -1,3 +1,27 @@
+@font-face {
+  font-family: "GmarketSansLight";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "GmarketSansBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&display=swap");
+/* import Fonts */
+
 :root {
   --brand-color: #39896b;
   --sub-color: #fae928;
@@ -11,6 +35,7 @@
   --gray-50: #dee2e6;
   /* progress bg, 구분선 etc */
   --black: #000000;
+  --black-op50: rgba(0, 0, 0, 50%);
   --white: #ffffff;
   --white-op50: rgba(255, 255, 255, 50%);
   --blue: #339af0;
