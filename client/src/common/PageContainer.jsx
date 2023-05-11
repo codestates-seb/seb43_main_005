@@ -35,7 +35,7 @@ const PageContainer = styled.section`
     min-height: calc(100vh - 397px);
     h2 {
       font-size: 2.5em;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
   }
 `;
