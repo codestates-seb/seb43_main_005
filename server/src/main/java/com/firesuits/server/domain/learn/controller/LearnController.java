@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.learn.controller;
 
+import com.firesuits.server.domain.content.dto.response.ContentResponse;
 import com.firesuits.server.domain.learn.dto.LearnDto;
 import com.firesuits.server.domain.learn.dto.request.LearnCreateRequest;
 import com.firesuits.server.domain.learn.dto.request.LearnUpdateRequest;
@@ -61,6 +62,5 @@ public class LearnController {
     public Response<Page<LearnResponse>> list(@PathVariable Long contentId, Pageable pageable){
         return Response.success(learnService.list(contentId, pageable).map(LearnResponse::from));
     }
-
 
 }
