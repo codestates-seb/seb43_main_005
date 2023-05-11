@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 
+// text  넣고싶은 문구
+// rounded  true 넣으면 둥금
+// reverse 색상
+// onClick
+// path 이동 "./asd"
 export default function CustomButton({
   text,
   onClick,
