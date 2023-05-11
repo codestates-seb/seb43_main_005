@@ -32,6 +32,10 @@ public class Member extends AuditingFields {
     private int requiredExperience;
     private String profileImage;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberMbti memberMbti;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -55,11 +59,12 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    public static Member of(String email, String nickName, String encodedPwd){
+    public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti){
         Member entity = new Member();
         entity.setEmail(email);
         entity.setNickName(nickName);
         entity.setPassword(encodedPwd);
+        entity.setMemberMbti(memberMbti);
         return entity;
     }
 }
