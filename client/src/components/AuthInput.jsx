@@ -15,11 +15,10 @@ function AuthInput({ type, id, placeholder, alertMessage }) {
 export default AuthInput;
 
 const FormGroup = styled.div`
-  margin-bottom: 10px;
+  width: 100%;
   input {
-    width: 100%;
+    margin-bottom: 10px;
     height: 48px;
-    table-layout: fixed;
     padding: 0px 15px;
     border: 0px;
     border-radius: 10px;

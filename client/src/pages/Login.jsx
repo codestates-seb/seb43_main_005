@@ -62,7 +62,7 @@ export default function Login() {
             placeholder="비밀번호"
             alertMessage={loginAlert}
           />
-          <div>비밀번호를 잊으셨나요?</div>
+          <PasswordFinder>비밀번호를 잊으셨나요?</PasswordFinder>
           <ButtonGroup>
             <button type="submit">로그인</button>
             {/* 로그인 실패시 뜨게할 창 */}
@@ -76,13 +76,29 @@ export default function Login() {
             <img src={kakao} alt="kakaoLogo" />
             <img src={naver} alt="naverLogo" />
           </form>
-          <div>아직 회원이 아니신가요?</div>
-          <div>회원가입</div>
+          <div>
+            아직 회원이 아니신가요? <span>회원가입</span>
+          </div>
         </AuthButton>
       </LoginWrap>
     </PageContainer>
   );
 }
+
+const PasswordFinder = styled.div`
+  text-align: right;
+  text-decoration: underline;
+  color: ${({ theme }) => theme.color.gray100};
+  font-size: 0.875em;
+  margin: 10px 0px;
+  cursor: pointer;
+`;
+
+const LoginWrap = styled.div`
+  max-width: 445px;
+  width: 100%;
+  margin: 0 auto;
+`;
 
 const ButtonGroup = styled.div`
   button {
@@ -90,16 +106,11 @@ const ButtonGroup = styled.div`
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 9px;
-    background-color: ${props => props.theme.color.white};
+    background-color: ${({ theme }) => theme.color.white};
     border: 1px solid black;
     cursor: pointer;
+    margin-bottom: 50px;
   }
-`;
-
-const LoginWrap = styled.div`
-  max-width: 445px;
-  width: 100%;
-  margin: 0 auto;
 `;
 
 const AuthButton = styled.div`
@@ -109,6 +120,8 @@ const AuthButton = styled.div`
     align-items: center;
     font-size: 0.875rem;
     margin: 8px 0px;
+    color: ${({ theme }) => theme.color.black};
+    margin-bottom: 30px;
   }
   .line::before {
     content: "";
@@ -132,9 +145,23 @@ const AuthButton = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: 50px;
   }
 
   img {
     padding: 0px 20px;
+  }
+
+  div {
+    white-space: normal;
+    font-size: 0.875em;
+    text-align: center;
+    color: ${({ theme }) => theme.color.gray100};
+  }
+
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.color.black};
+    cursor: pointer;
   }
 `;
