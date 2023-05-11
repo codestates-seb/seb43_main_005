@@ -8,6 +8,7 @@ import Mypage from "./pages/Mypage.jsx";
 import TeamPage from "./pages/TeamPage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
+import Signup from "./pages/Signup.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/mypage/edit" element={<EditMyPage />} />
           <Route path="/teampage" element={<TeamPage />} />

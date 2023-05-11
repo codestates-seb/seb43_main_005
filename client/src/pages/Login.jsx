@@ -85,6 +85,12 @@ export default function Login() {
   );
 }
 
+const LoginWrap = styled.div`
+  max-width: 445px;
+  width: 100%;
+  margin: 0 auto;
+`;
+
 const PasswordFinder = styled.div`
   text-align: right;
   text-decoration: underline;
@@ -92,12 +98,6 @@ const PasswordFinder = styled.div`
   font-size: 0.875em;
   margin: 10px 0px;
   cursor: pointer;
-`;
-
-const LoginWrap = styled.div`
-  max-width: 445px;
-  width: 100%;
-  margin: 0 auto;
 `;
 
 const ButtonGroup = styled.div`
