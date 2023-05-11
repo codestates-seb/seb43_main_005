@@ -2,14 +2,17 @@ package com.firesuits.server.domain.member.service;
 
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.entity.Member;
+import com.firesuits.server.domain.member.entity.MemberMbti;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional
@@ -26,12 +29,16 @@ public class MemberService {
     }
 
     //회원가입
-    public MemberDto join(String email, String password, String name){
+    public MemberDto join(String email, String password, String name, MemberMbti memberMbti){
         memberRepository.findByEmail(email).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_EMAIL, String.format("%s is duplicated", email));
         });
 
-        Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password)));
+        if (memberMbti == null){
+            memberMbti = MemberMbti.테스트전;
+        }
+
+        Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
         List<String> roles = customAuthorityUtils.createRoles(email);
         savedMember.setRoles(roles);
         return MemberDto.from(savedMember);
@@ -41,6 +48,14 @@ public class MemberService {
     public MemberDto updateProfileImage(String email, String profileImage){
         Member member = memberOrException(email);
         member.setProfileImage(profileImage);
+        return MemberDto.from(memberRepository.save(member));
+    }
+
+    //Mbti 수정
+    public MemberDto updateMemberMbti(String email, MemberMbti memberMbti){
+        Member member = memberOrException(email);
+        member.setMemberMbti(memberMbti);
+        memberRepository.save(member);
         return MemberDto.from(memberRepository.save(member));
     }
 

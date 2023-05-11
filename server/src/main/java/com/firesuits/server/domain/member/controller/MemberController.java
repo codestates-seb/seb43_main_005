@@ -2,7 +2,8 @@ package com.firesuits.server.domain.member.controller;
 
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.dto.request.MemberJoinRequest;
-import com.firesuits.server.domain.member.dto.request.MemberProfileImageRequest;
+import com.firesuits.server.domain.member.dto.request.MemberMbtiUpdateRequest;
+import com.firesuits.server.domain.member.dto.request.MemberProfileImageUpdateRequest;
 import com.firesuits.server.domain.member.dto.response.MemberJoinResponse;
 import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.member.service.MemberService;
@@ -24,7 +25,7 @@ public class MemberController {
     //회원가입
     @PostMapping
     public Response<MemberJoinResponse> join(@RequestBody MemberJoinRequest request){
-        return Response.success(MemberJoinResponse.from(memberService.join(request.getEmail(), request.getPassword(), request.getNickname())));
+        return Response.success(MemberJoinResponse.from(memberService.join(request.getEmail(), request.getPassword(), request.getNickname(), request.getMemberMbti())));
     }
 
     // 로그인 Security 위임, 문서화를 위한 용도
@@ -34,9 +35,17 @@ public class MemberController {
 
     //프로필 이미지 수정
     @PatchMapping("/profile-image")
-    public Response<MemberResponse> updateProfileImage(@RequestBody MemberProfileImageRequest request,
+    public Response<MemberResponse> updateProfileImage(@RequestBody MemberProfileImageUpdateRequest request,
                                                        Authentication authentication){
         MemberDto memberDto = memberService.updateProfileImage(authentication.getName(), request.getProfileImage());
+        return Response.success(MemberResponse.from(memberDto));
+    }
+
+    //Mbti 수정
+    @PatchMapping("/mbti")
+    public Response<MemberResponse> updateMbti(@RequestBody MemberMbtiUpdateRequest request,
+                                               Authentication authentication){
+        MemberDto memberDto = memberService.updateMemberMbti(authentication.getName(), request.getMemberMbti());
         return Response.success(MemberResponse.from(memberDto));
     }
 
@@ -46,6 +55,5 @@ public class MemberController {
         memberService.delete(authentication.getName());
         return Response.success();
     }
-
 
 }
