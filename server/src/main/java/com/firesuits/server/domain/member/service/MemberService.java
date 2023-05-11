@@ -25,6 +25,7 @@ public class MemberService {
         this.customAuthorityUtils = customAuthorityUtils;
     }
 
+    //회원가입
     public MemberDto join(String email, String password, String name){
         memberRepository.findByEmail(email).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_EMAIL, String.format("%s is duplicated", email));
@@ -34,5 +35,23 @@ public class MemberService {
         List<String> roles = customAuthorityUtils.createRoles(email);
         savedMember.setRoles(roles);
         return MemberDto.from(savedMember);
+    }
+
+    //프로필 이미지 수정
+    public MemberDto updateProfileImage(String email, String profileImage){
+        Member member = memberOrException(email);
+        member.setProfileImage(profileImage);
+        return MemberDto.from(memberRepository.save(member));
+    }
+
+    //회원 탈퇴
+    public void delete(String email){
+        Member member = memberOrException(email);
+        memberRepository.delete(member);
+    }
+
+    private Member memberOrException(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() ->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
     }
 }
