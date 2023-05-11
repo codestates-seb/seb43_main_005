@@ -3,6 +3,7 @@ package com.firesuits.server.domain.learn.service;
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.learn.dto.LearnDto;
+import com.firesuits.server.domain.learn.dto.response.LearnResponse;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.learn.repository.LearnRepository;
 import com.firesuits.server.domain.member.entity.Member;
@@ -64,7 +65,7 @@ public class LearnService {
     @Transactional(readOnly = true)
     public Page<LearnDto> list(Long contentId, Pageable pageable){
         Content contentBoard = contentOrException(contentId);
-        return learnRepository.findAllByContent(contentBoard, pageable).map(LearnDto::from);
+        return learnRepository.findAll(pageable).map(LearnDto::from);
     }
 
 
@@ -89,7 +90,6 @@ public class LearnService {
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s 는 %s 학습에 대한 권한을 가지고 있지 않습니다.", email, learnId));
         }
     }
-
 
     private void checkLearnContent(Learn learn, Content content, Long contentId, Long learnId) {
         if (!Objects.equals(learn.getContentBoard().getContentId(), content.getContentId())){

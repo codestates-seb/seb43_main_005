@@ -23,6 +23,7 @@ public class Learn extends AuditingFields {
     @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
     private boolean completed;
+    private Integer experience;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -31,17 +32,6 @@ public class Learn extends AuditingFields {
     @ManyToOne
     @JoinColumn(name = "content_Id")
     private Content contentBoard;
-
-    @OneToMany(mappedBy = "learn")
-    private List<LearnTag> learnTags = new ArrayList<>();
-
-//    public static Learn of(String title, String content, Member member){
-//        Learn learn = new Learn();
-//        learn.setTitle(title);
-//        learn.setContent(content);
-//        learn.setMember(member);
-//        return learn;
-//    }
 
     public static Learn of(String title, String content, Member member, Content contentBoard){
         Learn learn = new Learn();

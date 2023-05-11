@@ -5,7 +5,6 @@ import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.entity.CommentLike;
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.learn.entity.Learn;
-import com.firesuits.server.domain.learn.entity.LearnTag;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
@@ -51,10 +50,6 @@ public class Member extends AuditingFields {
     // learn 테이블 생성을 위해서 임의로 작성
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Learn> learns = new ArrayList<>();
-
-    // learnTag 테이블 생성을 위해서 임의로 작성
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<LearnTag> learnTags = new ArrayList<>();
 
     // quiz 테이블 생성을 위해서 임의로 작성
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
