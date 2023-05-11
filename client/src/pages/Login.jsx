@@ -106,7 +106,8 @@ const ButtonGroup = styled.div`
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 9px;
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.color.whiteOp50};
+    color: ${({ theme }) => theme.color.black};
     border: 1px solid black;
     cursor: pointer;
     margin-bottom: 50px;
