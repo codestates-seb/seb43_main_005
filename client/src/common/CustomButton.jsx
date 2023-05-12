@@ -3,6 +3,11 @@ import styled, { css } from "styled-components";
 import { TbHandFinger } from "react-icons/tb";
 import memoji from "../assets/images/memoji.png";
 
+// text  넣고싶은 문구
+// rounded  true 넣으면 둥금
+// reverse 색상
+// onClick
+// path 이동 "./asd"
 export default function CustomButton({
   text,
   onClick,
