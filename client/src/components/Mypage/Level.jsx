@@ -88,11 +88,17 @@ export default function Level() {
           marginBottom="0"
         />
         <ExpNum>
-          <span>exp{currentExp}</span>
+          <span>
+            <span>exp </span>
+            <span>{currentExp}</span>
+          </span>
+
           <span>{nextLevelExp}</span>
         </ExpNum>
       </ExpBox>
-      <Link href="/">레벨업하면 보상!</Link>
+      <Link>
+        <a href="/">레벨업하면 보상!</a>
+      </Link>
     </LvExpContainer>
   );
 }
@@ -141,12 +147,22 @@ const ExpBox = styled.div`
 const ExpNum = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
+  & > span:first-child {
+    color: ${props => props.theme.color.main};
+    font-size: 0.6rem;
+  }
+  & > span > span:nth-child(2) {
+    font-size: 1.2rem;
+  }
 `;
-const Link = styled.a`
+const Link = styled.span`
   display: flex;
   justify-content: flex-end;
-  color: ${props => props.theme.color.gray200};
   margin: 8px 0;
+  & > a {
+    color: ${props => props.theme.color.gray200};
+  }
   & :hover {
     text-decoration: underline;
   }
