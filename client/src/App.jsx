@@ -12,6 +12,7 @@ import TeamPage from "./pages/TeamPage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
+import MbtiResult from "./pages/MbtiResult.jsx";
 import Signup from "./pages/Signup.jsx";
 import FindPassword from "./pages/FindPassword.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
