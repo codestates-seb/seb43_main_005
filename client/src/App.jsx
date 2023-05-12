@@ -15,6 +15,7 @@ import ErrorPage from "./pages/404page.jsx";
 import MbtiTest from "./pages/MbtiTest.jsx";
 import MbtiResult from "./pages/MbtiResult.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
+import DiscussionDetail from "./pages/DiscussionDetail.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/discussion" element={<DiscussionList />} />
+        <Route path="/discussion/1" element={<DiscussionDetail />} />
         <Route path="/admin/write" element={<AdminWrite />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}

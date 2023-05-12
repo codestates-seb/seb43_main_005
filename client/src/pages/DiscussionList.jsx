@@ -10,8 +10,8 @@ export default function Discussion() {
       <h2>Discussion</h2>
       <Bar>
         <form>
-          <CustomButton text="최신순" rounded="true" reverse="true" />
-          <CustomButton text="댓글순" rounded="true" />
+          <CustomButton text="최신순" feat="round" reverse="true" />
+          <CustomButton text="댓글순" feat="round" />
         </form>
         {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}
         <Search>
