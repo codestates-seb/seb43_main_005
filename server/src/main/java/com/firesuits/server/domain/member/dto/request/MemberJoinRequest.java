@@ -11,5 +11,6 @@ public class MemberJoinRequest {
     private String email;
     private String nickname;
     private String password;
+    private String checkPassword;
     private MemberMbti memberMbti;
 }

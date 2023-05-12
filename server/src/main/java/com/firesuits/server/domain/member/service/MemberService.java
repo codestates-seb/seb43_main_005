@@ -37,10 +37,14 @@ public class MemberService {
     }
 
     //회원가입
-    public MemberDto join(String email, String password, String name, MemberMbti memberMbti){
+    public MemberDto join(String email, String password, String checkPassword, String name, MemberMbti memberMbti){
         memberRepository.findByEmail(email).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_EMAIL, String.format("%s is duplicated", email));
         });
+        if(!password.equals(checkPassword)){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH, "비밀번호가 일치하지 않습니다.");
+        }
+
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }

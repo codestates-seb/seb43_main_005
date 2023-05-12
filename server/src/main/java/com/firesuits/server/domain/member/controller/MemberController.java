@@ -31,7 +31,7 @@ public class MemberController {
     //회원가입
     @PostMapping
     public Response<MemberJoinResponse> join(@RequestBody MemberJoinRequest request){
-        return Response.success(MemberJoinResponse.from(memberService.join(request.getEmail(), request.getPassword(), request.getNickname(), request.getMemberMbti())));
+        return Response.success(MemberJoinResponse.from(memberService.join(request.getEmail(), request.getPassword(), request.getCheckPassword(), request.getNickname(), request.getMemberMbti())));
     }
 
     // 로그인 Security 위임, 문서화를 위한 용도
