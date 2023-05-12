@@ -33,7 +33,7 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
-        <Route path="/error" element={<ErrorPage />} />
+        <Route path="/user/error" element={<ErrorPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/discussion" element={<DiscussionList />} />
