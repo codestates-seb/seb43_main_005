@@ -16,6 +16,7 @@ public class ArticleCommentDto {
     private Long articleCommentId;
     private String content;
     private Long articleId;
+    private String articleTitle;
     private Integer like;
     private MemberDto member;
     private LocalDateTime createdAt;
@@ -26,6 +27,7 @@ public class ArticleCommentDto {
                 entity.getArticleCommentId(),
                 entity.getContent(),
                 entity.getArticle().getArticleId(),
+                entity.getArticle().getTitle(),
                 entity.getCommentLikes().stream().mapToInt(CommentLike::getValue).sum(),
                 MemberDto.from(entity.getMember()),
                 entity.getCreatedAt(),

@@ -33,6 +33,7 @@ public class ArticleService {
     @Transactional
     public void create(String title, String content, String email) {
         Member member = memberOrException(email);
+        member.addExperience(20);
         articleRepository.save(Article.of(title, content, member));
     }
 
