@@ -64,12 +64,35 @@ public class MemberService {
         return MemberDto.from(memberRepository.save(member));
     }
 
+    //닉네임 변경
+    public MemberDto updateNickName(String email, String nickName){
+        Member member = memberOrException(email);
+        member.setNickName(nickName);
+        memberRepository.save(member);
+        return MemberDto.from(member);
+    }
+
     //Mbti 수정
     public MemberDto updateMemberMbti(String email, MemberMbti memberMbti){
         Member member = memberOrException(email);
         member.setMemberMbti(memberMbti);
         memberRepository.save(member);
         return MemberDto.from(memberRepository.save(member));
+    }
+
+    //비밀번호 수정
+    public MemberDto updatePassword(String email, String currentPassword, String newPassword, String checkNewPassword){
+        Member member = memberOrException(email);
+
+        if(!passwordEncoder.matches(currentPassword, member.getPassword())){
+            throw new BusinessLogicException(ExceptionCode.WRONG_PASSWORD, "현재 비밀번호가 일치하지 않습니다.");
+        }
+        if(!newPassword.equals(checkNewPassword)){
+            throw new BusinessLogicException(ExceptionCode.PASSWORD_MISMATCH, "새 비밀번호와 확인 비밀번호가 일치하지 않습니다.");
+        }
+        member.setPassword(passwordEncoder.encode(newPassword));
+        memberRepository.save(member);
+        return MemberDto.from(member);
     }
 
     //회원 탈퇴

@@ -1,11 +1,8 @@
 package com.firesuits.server.domain.member.controller;
 
-import com.firesuits.server.domain.article.dto.response.ArticleCommentResponse;
 import com.firesuits.server.domain.article.dto.response.MyCommentsResponse;
 import com.firesuits.server.domain.member.dto.MemberDto;
-import com.firesuits.server.domain.member.dto.request.MemberJoinRequest;
-import com.firesuits.server.domain.member.dto.request.MemberMbtiUpdateRequest;
-import com.firesuits.server.domain.member.dto.request.MemberProfileImageUpdateRequest;
+import com.firesuits.server.domain.member.dto.request.*;
 import com.firesuits.server.domain.member.dto.response.MemberJoinResponse;
 import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.member.service.MemberService;
@@ -47,12 +44,28 @@ public class MemberController {
         return Response.success(MemberResponse.from(memberDto));
     }
 
+    //닉네임 수정
+    @PatchMapping("/change-nickname")
+    public Response<Void> updateNickName(@RequestBody MemberNickNameUpdateRequest request,
+                                                   Authentication authentication){
+        memberService.updateNickName(authentication.getName(), request.getNickName());
+        return Response.success();
+    }
+
     //Mbti 수정
     @PatchMapping("/mbti")
     public Response<MemberResponse> updateMbti(@RequestBody MemberMbtiUpdateRequest request,
                                                Authentication authentication){
         MemberDto memberDto = memberService.updateMemberMbti(authentication.getName(), request.getMemberMbti());
         return Response.success(MemberResponse.from(memberDto));
+    }
+
+    //비밀번호 수정
+    @PatchMapping("/change-password")
+    public Response<Void> updatePassword(@RequestBody MemberPasswordUpdateRequest request,
+                                         Authentication authentication){
+        memberService.updatePassword(authentication.getName(), request.getCurrentPassword(), request.getNewPassword(), request.getCheckNewPassword());
+        return Response.success();
     }
 
     //회원 탈퇴
