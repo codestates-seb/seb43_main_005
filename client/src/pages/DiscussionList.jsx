@@ -26,6 +26,10 @@ export default function Discussion() {
         view="25"
         commentCount="10"
       />
+      {/* 어드민만 보이도록 해야된다. */}
+      <DiscussionCreat>
+        <CustomButton text="토론글 작성" rounded="true" />
+      </DiscussionCreat>
     </PageContainer>
   );
 }
@@ -44,4 +48,8 @@ const Search = styled.div`
 
     background-color: ${({ theme }) => theme.color.bg};
   }
+`;
+
+const DiscussionCreat = styled.div`
+  float: right;
 `;
