@@ -8,5 +8,4 @@ import lombok.Getter;
 public class LearnCreateRequest {
     private String title;
     private String content;
-    private Integer experience;
 }

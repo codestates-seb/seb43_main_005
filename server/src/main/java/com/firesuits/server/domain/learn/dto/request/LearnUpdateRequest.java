@@ -8,5 +8,4 @@ import lombok.Getter;
 public class LearnUpdateRequest {
     private String title;
     private String content;
-    private Integer experience;
 }

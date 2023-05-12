@@ -15,7 +15,6 @@ public class LearnResponse {
     private String title;
     private String content;
     private boolean completed;
-    private Integer experience;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberResponse member;
@@ -26,7 +25,6 @@ public class LearnResponse {
                 dto.getTitle(),
                 dto.getContent(),
                 dto.isCompleted(),
-                dto.getExperience(),
                 dto.getCreateAt(),
                 dto.getModifiedAt(),
                 MemberResponse.from(dto.getMember()),
