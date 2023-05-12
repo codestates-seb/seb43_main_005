@@ -23,7 +23,6 @@ public class Learn extends AuditingFields {
     @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
     private boolean completed;
-    private Integer experience;
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;

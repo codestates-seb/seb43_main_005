@@ -17,7 +17,6 @@ public class LearnDto {
     private String title;
     private String content;
     private boolean completed;
-    private Integer experience;
     private MemberDto member;
     private ContentDto contentBoard;
     private LocalDateTime createAt;
@@ -29,7 +28,6 @@ public class LearnDto {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.isCompleted(),
-                entity.getExperience(),
                 MemberDto.from(entity.getMember()),
                 ContentDto.from(entity.getContentBoard()),
                 entity.getCreatedAt(),

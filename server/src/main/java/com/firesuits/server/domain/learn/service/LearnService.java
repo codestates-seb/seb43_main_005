@@ -68,7 +68,6 @@ public class LearnService {
         return learnRepository.findAll(pageable).map(LearnDto::from);
     }
 
-
     //회원 존재 여부
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow( () ->
