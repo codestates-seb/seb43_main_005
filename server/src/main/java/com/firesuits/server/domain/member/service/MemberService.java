@@ -10,7 +10,9 @@ import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,8 +76,17 @@ public class MemberService {
 
     //내가 작성한 토론 댓글
     @Transactional(readOnly = true)
-    public Page<ArticleCommentDto> myCommentList(String email, Pageable pageable){
+    public Page<ArticleCommentDto> myCommentList(String email, Pageable pageable, String sort){
         Member member = memberOrException(email);
+        if (sort != null) {
+            if (sort.equals("createdAt")) {
+                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());
+            } else if (sort.equals("likes")) {
+                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("commentLikes").descending().and(Sort.by("createdAt").ascending()));
+            }
+        } else {
+            pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").ascending());
+        }
         return articleCommentRepository.findAllByMember(member, pageable).map(ArticleCommentDto::from);
     }
 
