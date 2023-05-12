@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import useModal from "../hooks/useModal.js";
-import Dialog from "./Dialog.jsx";
-import CustomButton from "./CustomButton.jsx";
+import useModal from "../../hooks/useModal.js";
+import Dialog from "../../common/Dialog.jsx";
+import CustomButton from "../../common/CustomButton.jsx";
 
 const img =
   "https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80";
@@ -47,7 +47,7 @@ export default function HeaderUser({ login }) {
       {login ? (
         <Profile onClick={handleDrop} />
       ) : (
-        <CustomButton text="login" path="/login" rounded={true} />
+        <CustomButton text="login" feat="round" path="/user/login" />
       )}
       {drop && (
         <DropBox ref={dropRef}>

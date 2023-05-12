@@ -10,6 +10,8 @@ const mediaQuery = {
 };
 const color = {
   main: `var(--brand-color)`,
+  mainHover: `var(--brand-color-hover)`,
+  mainHoverLight: `var(--brand-color-hover-light)`,
   sub: `var(--sub-color)`,
   bg: `var(--bg-color)`,
   text: `var(--text-color)`,
@@ -25,6 +27,7 @@ const color = {
   red: `var(--red)`,
   borderBold: `var(--border-bold)`,
   borderLight: `var(--border-light)`,
+  borderMain: `var(--border-main)`,
   green900: "#343A40", //mypage 레벨도형 외곽선
 };
 const theme = {
