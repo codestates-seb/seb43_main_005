@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 //이미지 불러오기
-import train from "../assets/images/train.png";
-import sign from "../assets/images/sign.png";
+import train from "../../assets/images/train.png";
+import sign from "../../assets/images/sign.png";
 
 // 프로그레스바입니다.
 // progress 상태에 따라 증가도를 나타냅니다. 상태는 1~100의 정수입니다.

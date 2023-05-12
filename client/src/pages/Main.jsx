@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import earth from "../assets/images/imgEarth.png";
 import Banner from "../components/Main/Banner.jsx";
-import CustomCourse from "../common/CustomCourse.jsx";
-import CustomButton from "../common/CustomButton.jsx";
+import CustomCourse from "../components/common/CustomCourse.jsx";
+import CustomButton from "../components/common/CustomButton.jsx";
 
 export default function Main() {
   const login = true;

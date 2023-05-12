@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "./CustomButton.jsx";
-import CustomProgressBar from "../components/CustomProgressBar.jsx";
+import CustomProgressBar from "./CustomProgressBar.jsx";
 
 export default function CustomCourse({ feat = "default" }) {
   // type = 'default' | 'progress'

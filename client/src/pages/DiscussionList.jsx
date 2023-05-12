@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import CustomButton from "../common/CustomButton.jsx";
-import PageContainer from "../common/PageContainer.jsx";
+import CustomButton from "../components/common/CustomButton.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 import search from "../assets/images/search.svg";
-import Discussions from "../components/Discussions.jsx";
+import Discussions from "../components/common/Discussions.jsx";
 export default function Discussion() {
   return (
     <PageContainer>

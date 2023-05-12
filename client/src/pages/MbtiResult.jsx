@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 // 이미지를 불러옵니다.
 import entpImage from "../assets/images/mbtiResultImg/entp.png";
 import kakaoIcon from "../assets/images/icon_sns_kakao.svg";

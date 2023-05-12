@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 
 export default function ErrorPage() {
   return (
