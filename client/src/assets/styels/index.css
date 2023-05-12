@@ -24,6 +24,8 @@
 
 :root {
   --brand-color: #39896b;
+  --brand-color-hover-light: #e5f0ec;
+  --brand-color-hover: #2b6d55;
   --sub-color: #fae928;
   --bg-color: #ffefe7;
   --text-color: #495057;
@@ -43,4 +45,5 @@
 
   --border-bold: 1px solid #343a40;
   --border-light: 1px solid #dee2e6;
+  --border-main: 1px solid #39896b;
 }
