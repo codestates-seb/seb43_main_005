@@ -59,12 +59,44 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti){
+    public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti) {
         Member entity = new Member();
         entity.setEmail(email);
         entity.setNickName(nickName);
         entity.setPassword(encodedPwd);
         entity.setMemberMbti(memberMbti);
+        entity.setLevel(0);
+        entity.updateRequiredExperience();
         return entity;
+    }
+
+    public void addExperience(int exp) {
+        this.experience += exp;
+        updateRequiredExperience();
+        if (this.level < 5) {
+            checkLevelUp();
+        }
+    }
+
+    private void checkLevelUp() {
+        while (this.experience >= ((this.level + 1) * 100)) {
+            this.experience -= ((this.level + 1) * 100);
+            levelUp();
+        }
+    }
+
+    public void levelUp() {
+        if (this.level < 5) {
+            this.level++;
+        }
+        updateRequiredExperience();
+    }
+
+    private void updateRequiredExperience() {
+        if (this.level == 5) {
+            this.requiredExperience = 0;
+        } else {
+            this.requiredExperience = ((this.level + 1) * 100) - this.experience;
+        }
     }
 }

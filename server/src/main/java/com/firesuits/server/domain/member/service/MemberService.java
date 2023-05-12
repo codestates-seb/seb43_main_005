@@ -117,6 +117,12 @@ public class MemberService {
         return articleCommentRepository.findAllByMember(member, pageable).map(ArticleCommentDto::from);
     }
 
+    //멤버 정보
+    public MemberDto getMemberInfo(String email){
+        Member member = memberOrException(email);
+        return MemberDto.from(member);
+    }
+
     private Member memberOrException(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));

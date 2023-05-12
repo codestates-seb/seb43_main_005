@@ -3,6 +3,7 @@ package com.firesuits.server.domain.member.controller;
 import com.firesuits.server.domain.article.dto.response.MyCommentsResponse;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.dto.request.*;
+import com.firesuits.server.domain.member.dto.response.MemberDetailResponse;
 import com.firesuits.server.domain.member.dto.response.MemberJoinResponse;
 import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.member.service.MemberService;
@@ -82,5 +83,11 @@ public class MemberController {
                                                             @PageableDefault(sort = "createdBy", direction = Sort.Direction.ASC) Pageable pageable,
                                                             Authentication authentication){
         return Response.success(memberService.myCommentList(authentication.getName(), pageable, sort).map(MyCommentsResponse::from));
+    }
+
+    @GetMapping("/info")
+    public Response<MemberDetailResponse> getMemberInfo(Authentication authentication){
+        MemberDto memberDto = memberService.getMemberInfo(authentication.getName());
+        return Response.success(MemberDetailResponse.from(memberDto));
     }
 }
