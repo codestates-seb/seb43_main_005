@@ -13,6 +13,9 @@ import EditMyPage from "./pages/Mypage_edit.jsx";
 import ErrorPage from "./pages/404page.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
 import MbtiResult from "./pages/MbtiResult.jsx";
+import Signup from "./pages/Signup.jsx";
+import FindPassword from "./pages/FindPassword.jsx";
+import DiscussionList from "./pages/DiscussionList.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -33,22 +36,6 @@ function App() {
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
-    <div>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/mypage" element={<Mypage />} />
-          <Route path="/mypage/edit" element={<EditMyPage />} />
-          <Route path="/teampage" element={<TeamPage />} />
-          <Route path="/error" element={<ErrorPage />} />
-          <Route path="/mbti" element={<MbtiTest />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/mbtiresult" element={<MbtiResult />} />
-        </Routes>
-      </BrowserRouter>
-      <Footer />
-    </div>
   );
 }
 
