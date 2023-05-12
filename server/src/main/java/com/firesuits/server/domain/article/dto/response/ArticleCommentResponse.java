@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 public class ArticleCommentResponse {
     private Long articleCommentId;
+    private Long articleId;
     private String content;
     private Integer like;
     private LocalDateTime createdAt;
@@ -20,6 +21,7 @@ public class ArticleCommentResponse {
     public static ArticleCommentResponse from(ArticleCommentDto dto){
         return new ArticleCommentResponse(
                 dto.getArticleCommentId(),
+                dto.getArticleId(),
                 dto.getContent(),
                 dto.getLike(),
                 dto.getCreatedAt(),

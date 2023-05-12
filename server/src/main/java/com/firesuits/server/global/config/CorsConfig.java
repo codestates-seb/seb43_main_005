@@ -1,6 +1,7 @@
 package com.firesuits.server.global.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 public class CorsConfig {
 
     @Bean
-    public CorsFilter corsFilter(){
+    public CorsConfigurationSource corsConfigurationSource(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
 
@@ -24,8 +25,8 @@ public class CorsConfig {
         config.setExposedHeaders(Arrays.asList("*"));
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
-        source.registerCorsConfiguration("/**,", config);
+        source.registerCorsConfiguration("/**",config);
 
-        return new CorsFilter(source);
+        return source;
     }
 }

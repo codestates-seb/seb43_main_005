@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.member.controller;
 
+import com.firesuits.server.domain.article.dto.response.ArticleCommentResponse;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.dto.request.MemberJoinRequest;
 import com.firesuits.server.domain.member.dto.request.MemberMbtiUpdateRequest;
@@ -9,6 +10,8 @@ import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.member.service.MemberService;
 import com.firesuits.server.global.auth.dto.LoginDto;
 import com.firesuits.server.global.error.response.Response;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,10 +53,16 @@ public class MemberController {
     }
 
     //회원 탈퇴
-    @DeleteMapping
+    @DeleteMapping("/withdrawal")
     public Response<Void> delete(Authentication authentication){
         memberService.delete(authentication.getName());
         return Response.success();
     }
 
+    //내가 작성한 토론 댓글
+    @GetMapping("/my-comment")
+    public Response<Page<ArticleCommentResponse>> myCommentList(Pageable pageable,
+                                                                Authentication authentication){
+        return Response.success(memberService.myCommentList(authentication.getName(), pageable).map(ArticleCommentResponse::from));
+    }
 }

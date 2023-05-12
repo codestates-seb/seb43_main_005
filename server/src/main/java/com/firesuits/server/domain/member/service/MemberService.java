@@ -1,5 +1,7 @@
 package com.firesuits.server.domain.member.service;
 
+import com.firesuits.server.domain.article.dto.ArticleCommentDto;
+import com.firesuits.server.domain.article.repository.ArticleCommentRepository;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.entity.MemberMbti;
@@ -7,6 +9,8 @@ import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,11 +23,13 @@ import java.util.List;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final ArticleCommentRepository articleCommentRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils) {
+    public MemberService(MemberRepository memberRepository, ArticleCommentRepository articleCommentRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils) {
         this.memberRepository = memberRepository;
+        this.articleCommentRepository = articleCommentRepository;
         this.passwordEncoder = passwordEncoder;
         this.customAuthorityUtils = customAuthorityUtils;
     }
@@ -33,13 +39,14 @@ public class MemberService {
         memberRepository.findByEmail(email).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_EMAIL, String.format("%s is duplicated", email));
         });
-
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }
-
         Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
         List<String> roles = customAuthorityUtils.createRoles(email);
+        if(savedMember.getProfileImage() == null || savedMember.getProfileImage().isEmpty()){
+            savedMember.setProfileImage("");
+        }
         savedMember.setRoles(roles);
         return MemberDto.from(savedMember);
     }
@@ -63,6 +70,13 @@ public class MemberService {
     public void delete(String email){
         Member member = memberOrException(email);
         memberRepository.delete(member);
+    }
+
+    //내가 작성한 토론 댓글
+    @Transactional(readOnly = true)
+    public Page<ArticleCommentDto> myCommentList(String email, Pageable pageable){
+        Member member = memberOrException(email);
+        return articleCommentRepository.findAllByMember(member, pageable).map(ArticleCommentDto::from);
     }
 
     private Member memberOrException(String email) {
