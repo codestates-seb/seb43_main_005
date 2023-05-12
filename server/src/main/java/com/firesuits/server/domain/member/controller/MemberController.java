@@ -53,7 +53,7 @@ public class MemberController {
     }
 
     //회원 탈퇴
-    @DeleteMapping
+    @DeleteMapping("/withdrawal")
     public Response<Void> delete(Authentication authentication){
         memberService.delete(authentication.getName());
         return Response.success();
