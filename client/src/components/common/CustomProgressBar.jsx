@@ -13,12 +13,12 @@ import sign from "../../assets/images/sign.png";
  * @param progress 진행도를 입력하세요.
  * @returns 상태바가 현재 진행도를 나타냅니다.
  */
-function CustomProgressBar({ progress, marginBottom }) {
+function CustomProgressBar({ progress, marginBottom, feat }) {
   return (
     <ProgressBarContainer marginBottom={marginBottom}>
-      <Sign></Sign>
-      <Bar progress={progress}></Bar>
-      <Train progress={progress}></Train>
+      {feat !== "simple" && <Sign></Sign>}
+      <Bar progress={progress} feat={feat}></Bar>
+      {feat !== "simple" && <Train progress={progress}></Train>}
     </ProgressBarContainer>
   );
 }
@@ -29,11 +29,12 @@ const ProgressBarContainer = styled.div`
   background-color: ${props => props.theme.color.gray50};
   border-radius: 5px;
   border: 1px solid ${props => props.theme.color.black};
+  box-sizing: border-box;
   margin-bottom: ${props => props.marginBottom || "50px"};
 `;
 
 const Bar = styled.div`
-  height: 24px;
+  height: ${({ feat }) => (feat === "simple" && "1.25em") || "24px"};
   border-radius: 5px;
   background-color: ${props => props.theme.color.main};
   width: ${({ progress }) => progress}%;
