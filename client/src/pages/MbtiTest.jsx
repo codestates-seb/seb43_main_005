@@ -2,9 +2,9 @@ import React, { useState } from "react";
 //페이지 이동
 import { useNavigate } from "react-router-dom";
 
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 //컴포넌트
-import CustomProgressBar from "../components/CustomProgressBar.jsx";
+import CustomProgressBar from "../components/common/CustomProgressBar.jsx";
 import styled from "styled-components";
 //정적 데이터 불러오기
 import { mbtiQuestionData } from "../assets/data/mbtiQuestionData.js";

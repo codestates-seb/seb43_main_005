@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { TbHandFinger } from "react-icons/tb";
-import memoji from "../assets/images/memoji.png";
+import memoji from "../../assets/images/memoji.png";
 
 // text  넣고싶은 문구
 // rounded  true 넣으면 둥금

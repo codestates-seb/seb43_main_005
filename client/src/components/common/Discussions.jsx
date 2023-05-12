@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "./PageContainer.jsx";
 export default function Discusstions({
   title, // 제목
   createdAt, // 생성일

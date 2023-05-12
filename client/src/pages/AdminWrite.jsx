@@ -1,9 +1,9 @@
 import styled from "styled-components";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 import CategoryInput from "../components/Admin/CategoryInput.jsx";
 import { useEffect } from "react";
 import axios from "axios";
-import CustomButton from "../common/CustomButton.jsx";
+import CustomButton from "../components/common/CustomButton.jsx";
 
 export default function AdminWrite({ type = "course" }) {
   const description = [

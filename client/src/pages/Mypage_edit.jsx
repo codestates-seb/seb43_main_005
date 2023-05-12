@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CustomButton from "../common/CustomButton.jsx";
+import CustomButton from "../components/common/CustomButton.jsx";
 import ProfileImage from "../components/Mypage/ProfileImage";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 import axios from "axios";
 
 export default function EditMypage() {

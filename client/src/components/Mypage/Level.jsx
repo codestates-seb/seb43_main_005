@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TextContainer from "./TextContainer";
-import CustomProgressBar from "../CustomProgressBar.jsx";
+import CustomProgressBar from "../common/CustomProgressBar.jsx";
 
 export default function Level() {
   let navigate = useNavigate();

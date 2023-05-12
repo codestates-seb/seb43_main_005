@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import PageContainer from "../common/PageContainer.jsx";
+import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
 // import axios from "axios";
 import google from "../assets/images/icon_sns_google.svg";
