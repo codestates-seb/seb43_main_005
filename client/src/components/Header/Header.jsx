@@ -1,12 +1,18 @@
 import styled, { keyframes, css } from "styled-components";
-import useModal from "../hooks/useModal.js";
-import HeaderUser from "../common/HeaderUser.jsx";
-import WaveSvg from "../assets/images/WaveSvg.jsx";
-import ship from "../assets/images/imgShip.png";
+import { Link, useNavigate } from "react-router-dom";
+import useModal from "../../hooks/useModal.js";
+import HeaderUser from "./HeaderUser.jsx";
+import WaveSvg from "../../assets/images/WaveSvg.jsx";
+import ship from "../../assets/images/imgShip.png";
 
 export default function Header() {
   const login = true; // 임시변수
   const [menu, openMenu, closeMenu] = useModal(false);
+  const navigate = useNavigate();
+  const handleLink = path => {
+    navigate(path);
+    closeMenu();
+  };
 
   return (
     <HeaderWrap menu={menu}>
@@ -17,23 +23,25 @@ export default function Header() {
           onClick={() => (menu ? closeMenu() : openMenu())}>
           <Burger className="burger" />
         </BurgerBtn>
-        <Logo className="logo">CODE TRAVELER</Logo>
+        <Logo className="logo">
+          <Link to="/">CODE TRAVELER</Link>
+        </Logo>
         <UserWrap className="user">
           <HeaderUser login={login} />
         </UserWrap>
       </Wrap>
       <Nav className="nav">
         <ul>
-          <li>
-            <a href="/">학습하기</a>
+          <li onClick={() => handleLink("/")} role="none">
+            학습하기
           </li>
-          <li>
-            <a href="/">토론하기</a>
+          <li onClick={() => handleLink("/")} role="none">
+            토론하기
           </li>
         </ul>
-        <a className="author" href="/">
+        <button onClick={() => handleLink("/teampage")} className="author">
           만든사람들
-        </a>
+        </button>
       </Nav>
     </HeaderWrap>
   );
@@ -72,6 +80,7 @@ const HeaderWrap = styled.header`
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 8888;
   height: unset;
   transition-duration: 0.5s;
   transition-delay: 0.4s;
@@ -99,7 +108,6 @@ const HeaderWrap = styled.header`
       padding-top: 30px;
       height: 100vh;
       background-color: ${props => props.theme.color.bg};
-      z-index: 9999;
       .burger {
         animation-name: ${spinMenu2};
         animation-duration: 0.3s;
@@ -166,7 +174,9 @@ const Logo = styled.h1`
   line-height: 40px;
   font-family: "Shrikhand", cursive;
   text-align: center;
-  color: ${props => props.theme.color.main};
+  a {
+    color: ${props => props.theme.color.main};
+  }
 
   @media ${props => props.theme.mediaQuery.mobile} {
     font-size: 1.2em;
@@ -237,7 +247,6 @@ const Nav = styled.nav`
   position: relative;
   transition-duration: 0.3s;
   transform: scale(0);
-
   &:after {
     position: absolute;
     bottom: -48px;
@@ -253,22 +262,24 @@ const Nav = styled.nav`
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    li {
+      font-size: 3em;
+      font-family: "GmarketSansBold";
+      color: ${props => props.theme.color.white};
+      cursor: pointer;
+      -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
+      &:hover {
+        text-shadow: 5px 5px 0px ${props => props.theme.color.textBold};
+      }
+    }
   }
-  a {
-    font-family: "GmarketSansLight";
-    color: ${props => props.theme.color.white};
-  }
-  ul a {
-    font-size: 3em;
-    font-family: "GmarketSansBold";
-    -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
-  }
-  ul a:hover {
-    text-shadow: 5px 5px 0px ${props => props.theme.color.textBold};
-  }
+
   .author {
+    font-family: "GmarketSansLight";
     position: absolute;
     bottom: -25px;
+    color: ${props => props.theme.color.white};
+    font-size: 1em;
   }
   .author:hover {
     animation: ${shakeText} 0.2s 0s alternate linear infinite;
