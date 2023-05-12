@@ -39,13 +39,14 @@ public class MemberService {
         memberRepository.findByEmail(email).ifPresent(it -> {
             throw new BusinessLogicException(ExceptionCode.DUPLICATED_EMAIL, String.format("%s is duplicated", email));
         });
-
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }
-
         Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
         List<String> roles = customAuthorityUtils.createRoles(email);
+        if(savedMember.getProfileImage() == null || savedMember.getProfileImage().isEmpty()){
+            savedMember.setProfileImage("");
+        }
         savedMember.setRoles(roles);
         return MemberDto.from(savedMember);
     }
