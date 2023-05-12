@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import CustomButton from "../../common/CustomButton.jsx";
+import CustomButton from "../common/CustomButton.jsx";
 import ProfileImage from "./ProfileImage.js";
 import TextContainer from "./TextContainer.js";
 
