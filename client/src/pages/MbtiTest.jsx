@@ -1,20 +1,68 @@
-import React from "react";
+import React, { useState } from "react";
+//페이지 이동
+import { useNavigate } from "react-router-dom";
 
 import PageContainer from "../common/PageContainer.jsx";
 //컴포넌트
 import CustomProgressBar from "../components/CustomProgressBar.jsx";
 import styled from "styled-components";
+//정적 데이터 불러오기
+import { mbtiQuestionData } from "../assets/data/mbtiQuestionData.js";
 
 function MbtiTest() {
+  //문제의 총 길이
+  const QUESTIONS_LENGTH = mbtiQuestionData.length;
+  //현재 질문 번호
+  const [questionNumber, setQuestionNumber] = useState(1);
+  //mbti 도출을 위한 총합 객체
+  const [totalScore, setTotalScore] = useState([
+    { id: "EI", score: 0 },
+    { id: "SN", score: 0 },
+    { id: "TF", score: 0 },
+    { id: "JP", score: 0 },
+  ]);
+  const navigate = useNavigate();
+
+  const handleClickBtn = (score, type) => {
+    const newScore = totalScore.map(indivScore =>
+      indivScore.id === type
+        ? { id: indivScore.id, score: indivScore.score + score }
+        : indivScore
+    );
+    //객체값 확인
+    setTotalScore(newScore);
+    console.log(totalScore);
+
+    if (QUESTIONS_LENGTH !== questionNumber + 1) {
+      //다음 문항으로 넘어간다.
+      setQuestionNumber(questionNumber + 1);
+    } else {
+      //결과 화면으로 넘기기
+      navigate("/mbtiresult");
+    }
+  };
+
   return (
     <PageContainer>
       <Container>
         <h2>MBTI TEST</h2>
-        <CustomProgressBar progress={(1 / 13) * 100} />
-        <Quiz>새로운 장소(모임, 수업, 회사)에 가게 된 나는?</Quiz>
+        <CustomProgressBar
+          progress={(questionNumber / QUESTIONS_LENGTH) * 100}
+        />
+        <Quiz>{mbtiQuestionData[questionNumber - 1].quiz}</Quiz>
         <AnswerBtnContainer>
-          <AnswerBtn>옆자리 사람에게 먼저 해맑게 인사한다.</AnswerBtn>
-          <AnswerBtn>눈이 마주치면 조심스럽게 인사한다.</AnswerBtn>
+          <AnswerBtn
+            onClick={() =>
+              handleClickBtn(1, mbtiQuestionData[questionNumber - 1].type)
+            }>
+            {mbtiQuestionData[questionNumber - 1].answerA}
+          </AnswerBtn>
+          <AnswerBtn
+            onClick={() =>
+              handleClickBtn(0, mbtiQuestionData[questionNumber - 1].type)
+            }>
+            {mbtiQuestionData[questionNumber - 1].answerB}
+          </AnswerBtn>
         </AnswerBtnContainer>
       </Container>
     </PageContainer>
@@ -29,6 +77,11 @@ const Container = styled.div`
   justify-content: center;
   text-align: center; //인라인 요소와 텍스트 중앙 정렬
   align-items: center;
+  @media ${props => props.theme.mediaQuery.mobile} {
+    h2 {
+      margin-bottom: 40px;
+    }
+  }
 `;
 
 const Quiz = styled.div`
