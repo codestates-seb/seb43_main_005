@@ -28,6 +28,7 @@ const color = {
   borderBold: `var(--border-bold)`,
   borderLight: `var(--border-light)`,
   borderMain: `var(--border-main)`,
+  green900: "#343A40", //mypage 레벨도형 외곽선
 };
 const theme = {
   mediaQuery,
