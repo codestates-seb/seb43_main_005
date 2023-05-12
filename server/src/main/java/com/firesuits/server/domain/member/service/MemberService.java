@@ -45,7 +45,7 @@ public class MemberService {
         Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
         List<String> roles = customAuthorityUtils.createRoles(email);
         if(savedMember.getProfileImage() == null || savedMember.getProfileImage().isEmpty()){
-            savedMember.setProfileImage("");
+            savedMember.setProfileImage("https://gonue-bucket.s3.ap-northeast-2.amazonaws.com/dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png");
         }
         savedMember.setRoles(roles);
         return MemberDto.from(savedMember);
