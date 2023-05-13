@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
+import Comment from "../components/Discusstion/Comment.jsx";
 export default function DiscussionDetail() {
   return (
     <PageContainer>
@@ -22,6 +23,12 @@ export default function DiscussionDetail() {
         <button>최신순</button>
         <button>추천순</button>
       </CommitBar>
+      <Comments>
+        <Comment profile="true" />
+        <Comment profile="false" />
+        <Comment profile="true" twoline="true" />
+        <Comment profile="false" twoline="true" />
+      </Comments>
     </PageContainer>
   );
 }
@@ -33,8 +40,6 @@ const Bar = styled.div`
 const Subject = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-
   background-color: ${({ theme }) => theme.color.white};
   margin: 30px 0px;
   border-radius: 10px;
@@ -77,4 +82,11 @@ const CommitBar = styled.div`
       border-right: 1px solid ${props => props.theme.color.gray100};
     }
   }
+`;
+
+const Comments = styled.div`
+  margin-top: 15px;
+  border-radius: 10px;
+  border: solid 1px ${({ theme }) => theme.color.gray100};
+  background-color: ${({ theme }) => theme.color.white};
 `;
