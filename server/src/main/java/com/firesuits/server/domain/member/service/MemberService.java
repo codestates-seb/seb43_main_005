@@ -49,6 +49,10 @@ public class MemberService {
             memberMbti = MemberMbti.테스트전;
         }
         Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
+        if(!savedMember.getMemberMbti().equals(MemberMbti.테스트전)){
+            savedMember.addExperience(100);
+            savedMember = memberRepository.save(savedMember);
+        }
         List<String> roles = customAuthorityUtils.createRoles(email);
         if(savedMember.getProfileImage() == null || savedMember.getProfileImage().isEmpty()){
             savedMember.setProfileImage("https://gonue-bucket.s3.ap-northeast-2.amazonaws.com/dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png");
@@ -75,6 +79,9 @@ public class MemberService {
     //Mbti 수정
     public MemberDto updateMemberMbti(String email, MemberMbti memberMbti){
         Member member = memberOrException(email);
+        if (member.getMemberMbti().equals(MemberMbti.테스트전) && !memberMbti.equals(MemberMbti.테스트전)){
+            member.addExperience(100);
+        }
         member.setMemberMbti(memberMbti);
         memberRepository.save(member);
         return MemberDto.from(memberRepository.save(member));
