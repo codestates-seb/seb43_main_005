@@ -14,7 +14,7 @@ export default function Mypage({ userInfo }) {
   return (
     <ProfileContainer>
       <InnerBox>
-        <ProfileImage profileImg={userInfo.profileImage} />
+        <ProfileImage profileImg={userInfo.profileImage} feat="mypage" />
         <TextContainer margin="0 10px 0 0" fontSize="0.8rem" pFontSize="1rem">
           <div>Nickname</div>
           <StyledSpan>

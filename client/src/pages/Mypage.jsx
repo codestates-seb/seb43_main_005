@@ -38,6 +38,9 @@ export default function Mypage() {
   // userInfo props 경로 :
   //  마이페이지 -> Profile -> ProfileImage
   //            -> Level
+  // (프로필 이미지) -> BtnTabContainer -> BtnDropdown / BtnTab -> MyDebate / Setting
+  // => 한번 불러와서 상태로 관리하기?
+
   // const [userInfo, setUserInfo] = useState({});
   // async function getUserInfo() {
   //   try {
