@@ -3,6 +3,7 @@ package com.firesuits.server.domain.member.service;
 import com.firesuits.server.domain.article.dto.ArticleCommentDto;
 import com.firesuits.server.domain.article.repository.ArticleCommentRepository;
 import com.firesuits.server.domain.member.dto.MemberDto;
+import com.firesuits.server.domain.member.entity.Attendance;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.entity.MemberMbti;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -18,8 +19,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -128,6 +131,37 @@ public class MemberService {
     public MemberDto getMemberInfo(String email){
         Member member = memberOrException(email);
         return MemberDto.from(member);
+    }
+
+    //출석체크
+    @Transactional
+    public void checkIn(String email){
+        Member member = memberOrException(email);
+        LocalDate today = LocalDate.now();
+
+        boolean alreadyCheckIn = member.getAttendances().stream()
+                .anyMatch(attendance ->  attendance.getCheckDate().equals(today));
+
+        if (alreadyCheckIn){
+            throw new BusinessLogicException(ExceptionCode.ALREADY_CHECKED_IN, "오늘은 이미 출석체크를 하였습니다.");
+        }
+
+        Attendance attendance = new Attendance();
+        attendance.setMember(member);
+        attendance.setCheckDate(today);
+        member.getAttendances().add(attendance);
+        member.addExperience(20);
+        memberRepository.save(member);
+    }
+
+    //출석체크한 날짜
+    @Transactional(readOnly = true)
+    public List<LocalDate> getCheckInDates(String email){
+        Member member = memberOrException(email);
+
+        return member.getAttendances().stream()
+                .map(Attendance::getCheckDate)
+                .collect(Collectors.toList());
     }
 
     private Member memberOrException(String email) {

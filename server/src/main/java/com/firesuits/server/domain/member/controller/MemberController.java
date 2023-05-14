@@ -16,6 +16,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -90,4 +93,19 @@ public class MemberController {
         MemberDto memberDto = memberService.getMemberInfo(authentication.getName());
         return Response.success(MemberDetailResponse.from(memberDto));
     }
+
+    //출석체크
+    @PostMapping("/check-in")
+    public Response<Void> checkIn(Authentication authentication){
+        memberService.checkIn(authentication.getName());
+        return Response.success();
+    }
+
+    //출석체크한 날짜
+    @GetMapping("/check-in-date")
+    public Response<List<LocalDate>> getCheckDates(Authentication authentication){
+        List<LocalDate> checkInDates = memberService.getCheckInDates(authentication.getName());
+        return Response.success(checkInDates);
+    }
+
 }
