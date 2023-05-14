@@ -26,6 +26,24 @@ export default function Discussion() {
         view="25"
         commentCount="10"
       />
+      <Discussions
+        title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
+        createdAt="2023.05.11"
+        view="25"
+        commentCount="10"
+      />
+      <Discussions
+        title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
+        createdAt="2023.05.11"
+        view="25"
+        commentCount="10"
+      />
+      <Discussions
+        title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
+        createdAt="2023.05.11"
+        view="25"
+        commentCount="10"
+      />
       {/* 어드민만 보이도록 해야된다. */}
       <DiscussionCreat>
         <CustomButton text="토론글 작성" rounded="true" />

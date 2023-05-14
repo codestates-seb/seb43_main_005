@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
@@ -8,27 +9,21 @@ import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
 
 export default function Login() {
-  let [email, setEmail] = useState("email");
-  let [password, setPassword] = useState("pw");
+  const navigate = useNavigate();
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
-  const [loginFailed, setLoginFailed] = useState("");
 
   // 이메일 핸들러
-  const onEmailHandler = event => {
-    setEmail(event.currentTarget.value);
-  };
-  // 비밀번호 핸들러
-  const onPasswordHandler = event => {
-    setPassword(event.target.value);
-  };
 
+  // 로그인 버튼 핸들러
   const onSubmitHandler = event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
 
     //빈값일 경우 에러창뜨게하기
     setLoginAlert(
-      email === "" || (password === "" && "아이디 또는 비밀번호를 입력해주세요")
+      (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
     );
     if (email === "" || password === "") return;
 
@@ -69,7 +64,14 @@ export default function Login() {
             alertMessage={loginAlert}
             value={setPassword}
           />
-          <PasswordFinder>비밀번호를 잊으셨나요?</PasswordFinder>
+          <PasswordFinder
+            onClick={() => {
+              navigate("/user/findpw");
+            }}
+            // 이거 안넣으면 오류뜸
+            aria-hidden="true">
+            비밀번호를 잊으셨나요?
+          </PasswordFinder>
           <ButtonGroup>
             <button type="submit">로그인</button>
             {/* 로그인 실패시 뜨게할 창 */}
@@ -85,7 +87,14 @@ export default function Login() {
           </form>
           <div>
             아직 회원이 아니신가요?
-            <span>회원가입</span>
+            <span
+              onClick={() => {
+                navigate("/user/signup");
+              }}
+              // 이거 안넣으면 오류뜸
+              aria-hidden="true">
+              회원가입
+            </span>
           </div>
         </AuthButton>
       </LoginWrap>

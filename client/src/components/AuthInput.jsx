@@ -39,6 +39,7 @@ const FormGroup = styled.div`
     margin-top: 10px;
     display: none;
     font-size: 0.75em;
+    position: absolute;
   }
 
   &.alert-on {
