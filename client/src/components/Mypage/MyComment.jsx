@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ProfileImage from "./ProfileImage";
+import ProfileImage from "../common/ProfileImage.jsx";
 
 export default function MyComment() {
   // 임시 랜덤이미지

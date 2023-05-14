@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "../common/CustomButton.jsx";
-import ProfileImage from "./ProfileImage.js";
+import ProfileImage from "../common/ProfileImage.jsx";
 import TextContainer from "./TextContainer.js";
 
 export default function Mypage({ userInfo }) {
