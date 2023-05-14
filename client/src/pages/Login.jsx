@@ -8,17 +8,18 @@ import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
 
 export default function Login() {
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
+  let [email, setEmail] = useState("email");
+  let [password, setPassword] = useState("pw");
   const [loginAlert, setLoginAlert] = useState("");
   const [loginFailed, setLoginFailed] = useState("");
+
   // 이메일 핸들러
   const onEmailHandler = event => {
     setEmail(event.currentTarget.value);
   };
   // 비밀번호 핸들러
   const onPasswordHandler = event => {
-    setPassword(event.currentTarget.value);
+    setPassword(event.target.value);
   };
 
   const onSubmitHandler = event => {
@@ -27,7 +28,7 @@ export default function Login() {
 
     //빈값일 경우 에러창뜨게하기
     setLoginAlert(
-      email === "" && password === "" && "아이디 또는 비밀번호를 입력해주세요"
+      email === "" || (password === "" && "아이디 또는 비밀번호를 입력해주세요")
     );
     if (email === "" || password === "") return;
 
@@ -55,12 +56,18 @@ export default function Login() {
       <LoginWrap>
         <h2>Log in</h2>
         <form onSubmit={onSubmitHandler}>
-          <AuthInput type="email" id="email" placeholder="이메일" />
+          <AuthInput
+            type="email"
+            id="email"
+            placeholder="이메일"
+            value={setEmail}
+          />
           <AuthInput
             type="password"
             id="password"
             placeholder="비밀번호"
             alertMessage={loginAlert}
+            value={setPassword}
           />
           <PasswordFinder>비밀번호를 잊으셨나요?</PasswordFinder>
           <ButtonGroup>
@@ -77,7 +84,8 @@ export default function Login() {
             <img src={naver} alt="naverLogo" />
           </form>
           <div>
-            아직 회원이 아니신가요? <span>회원가입</span>
+            아직 회원이 아니신가요?
+            <span>회원가입</span>
           </div>
         </AuthButton>
       </LoginWrap>
