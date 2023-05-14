@@ -1,11 +1,20 @@
 import styled, { css } from "styled-components";
 // eslint-disable-next-line import/no-unresolved
 import Tool from "../../assets/images/Tool.svg";
+import Good from "../../assets/images/good.svg";
 
 // 죄측에 프로필 사진이 뜨게하는 유무
 // 상단 중단 하단 글 뜨게하는거 2개 or 3개
 // 하단은 흐리게 하게 해야됨
 // 우측엔 댓글 또는 추천 수 뜨게하거나 수정하기 버튼나오게하거나 굳추천수 나오게하거나
+function SettingTool() {
+  return (
+    <Modal>
+      <li>수정하기</li>
+      <li>삭제하기</li>
+    </Modal>
+  );
+}
 
 export default function Comment({ profile, twoline }) {
   console.log(twoline);
@@ -20,15 +29,17 @@ export default function Comment({ profile, twoline }) {
       </Body>
 
       <Side>
-        {/* eslint-disable-next-line jsx-a11y/alt-text */}
+        {/* img 추가하면 왜 커짐? */}
+        <img
+          src={Tool}
+          alt="CommentTool"
+          onClick={SettingTool}
+          aria-hidden="true"
+        />
 
-        <img src={Tool} alt="CommentTool"></img>
-        <Modal>
-          <li>수정하기</li>
-          <li>삭제하기</li>
-        </Modal>
-
-        <div>34</div>
+        <div>
+          <img src={Good} alt="good" /> 34
+        </div>
       </Side>
     </CommentContainer>
   );
@@ -78,7 +89,15 @@ const Body = styled.div`
     `}
 `;
 
-const Side = styled.div``;
+const Side = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  img {
+    cursor: pointer;
+  }
+`;
 
 const Modal = styled.ul`
   display: flex;
