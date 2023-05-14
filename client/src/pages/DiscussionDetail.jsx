@@ -28,7 +28,17 @@ export default function DiscussionDetail() {
         <Comment profile="false" />
         <Comment profile="true" twoline="true" />
         <Comment profile="false" twoline="true" />
+        <CommentInput>
+          <textarea
+            maxLength="200"
+            placeholder="댓글을 입력하세요."
+            type="text"></textarea>
+          <div>댓글등록</div>
+        </CommentInput>
       </Comments>
+      <MoveList>
+        <CustomButton text="목록보기" feat="round" path="/discussion" />
+      </MoveList>
     </PageContainer>
   );
 }
@@ -86,7 +96,35 @@ const CommitBar = styled.div`
 
 const Comments = styled.div`
   margin-top: 15px;
+  margin-bottom: 50px;
   border-radius: 10px;
   border: solid 1px ${({ theme }) => theme.color.gray100};
   background-color: ${({ theme }) => theme.color.white};
+`;
+
+const CommentInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 50px;
+  margin: 30px;
+  padding: 20px;
+  border: solid 1px ${({ theme }) => theme.color.gray100};
+  border-radius: 10px;
+  textarea {
+    flex-grow: 1;
+    border: none;
+    // input 눌렀을 떄 테두리 제거
+    :focus {
+      outline: none;
+    }
+  }
+  div {
+    color: ${({ theme }) => theme.color.mainHover};
+    text-align: right;
+  }
+`;
+
+const MoveList = styled.div`
+  text-align: right;
 `;

@@ -37,7 +37,6 @@ export default function Comment({ profile, twoline }) {
 const CommentContainer = styled.div`
   display: flex;
   height: 120px;
-  margin: 8px 0px;
   border-bottom: solid 1px ${({ theme }) => theme.color.gray100};
   background-color: ${({ theme }) => theme.color.white};
   margin: 30px;
