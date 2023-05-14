@@ -1,6 +1,7 @@
 package com.firesuits.server.domain.member.dto.response;
 
 import com.firesuits.server.domain.member.dto.MemberDto;
+import com.firesuits.server.domain.member.entity.MemberMbti;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,6 +14,7 @@ public class MemberDetailResponse {
     private String email;
     private String nickName;
     private String profileImage;
+    private MemberMbti memberMbti;
     private int level;
     private int experience;
     private int requiredExperience;
@@ -24,6 +26,7 @@ public class MemberDetailResponse {
                 dto.getEmail(),
                 dto.getNickName(),
                 dto.getProfileImage(),
+                dto.getMemberMbti(),
                 dto.getLevel(),
                 dto.getExperience(),
                 dto.getRequiredExperience(),

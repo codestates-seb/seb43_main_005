@@ -1,6 +1,7 @@
 package com.firesuits.server.domain.member.dto;
 
 import com.firesuits.server.domain.member.entity.Member;
+import com.firesuits.server.domain.member.entity.MemberMbti;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,6 +18,7 @@ public class MemberDto {
     private int level;
     private int requiredExperience;
     private String profileImage;
+    private MemberMbti memberMbti;
     private LocalDateTime createAt;
     private LocalDateTime modifiedAt;
 
@@ -31,6 +33,7 @@ public class MemberDto {
                 entity.getLevel(),
                 entity.getRequiredExperience(),
                 entity.getProfileImage(),
+                entity.getMemberMbti(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

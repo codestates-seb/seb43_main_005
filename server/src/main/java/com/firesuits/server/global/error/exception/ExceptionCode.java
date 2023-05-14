@@ -16,6 +16,7 @@ public enum ExceptionCode {
     WRONG_PASSWORD(400, "현재 비밀번호가 일치 하지 않습니다."),
     INVALID_MBTI(400, "잘못된 결과값 입니다."),
     ALREADY_LIKED(409,"이미 좋아요를 눌렀습니다."),
+    ALREADY_CHECKED_IN(409,"오늘은 이미 출석체크를 하였습니다."),
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류"),
     CONTENT_NOT_FOUND(404,"컨텐츠를 찾을 수 없음"),
     QUIZ_NOT_FOUND(404,"퀴즈를 찾을 수 없음"),
