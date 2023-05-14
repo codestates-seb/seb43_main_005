@@ -45,7 +45,9 @@ const Search = styled.div`
     height: 40px;
     width: 40vw;
     border: none;
-
+    :focus {
+      outline: none;
+    }
     background-color: ${({ theme }) => theme.color.bg};
   }
 `;
