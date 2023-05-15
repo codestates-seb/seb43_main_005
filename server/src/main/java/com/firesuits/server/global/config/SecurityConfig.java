@@ -54,6 +54,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**")
                         .permitAll()
+                        .antMatchers("/oauth2/authorization/**").permitAll()
+                        .antMatchers("/login/oauth2/code/*").permitAll()
                         .antMatchers("/members", "/members/login").permitAll()
                         .antMatchers("/members/**").hasAnyRole("USER", "ADMIN")
 
