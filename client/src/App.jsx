@@ -37,7 +37,19 @@ function App() {
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/discussion" element={<DiscussionList />} />
-        <Route path="/admin/write" element={<AdminWrite />} />
+        <Route path="/admin/write/:feat" element={<AdminWrite />} />
+        <Route
+          path="/admin/write/course/:courseId/:feat"
+          element={<AdminWrite />}
+        />
+        <Route
+          path="/admin/edit/:feat/:id"
+          element={<AdminWrite mode="patch" />}
+        />
+        <Route
+          path="/admin/write/course/:courseId/:feat/:id"
+          element={<AdminWrite mode="patch" />}
+        />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
