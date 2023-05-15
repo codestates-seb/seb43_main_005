@@ -3,27 +3,44 @@ import styled from "styled-components";
 import CustomButton from "./CustomButton.jsx";
 import CustomProgressBar from "./CustomProgressBar.jsx";
 
-export default function CustomCourse({ feat = "default" }) {
-  // type = 'default' | 'progress'
-  const thumnail =
-    "https://i0.wp.com/hanamon.kr/wp-content/uploads/2021/07/redux-logo.png?w=1200&ssl=1";
-  const title = "Redux";
+/**
+ *
+ * @param feat component style
+ * ----- feat = 'default' | 'progress' | 'admin'
+ * @param item 서버로 부터 받은 데이터 객체
+ *
+ */
+
+export default function CustomCourse({ feat = "default", item }) {
   const admin = true;
   // 임시변수
 
+  const id = item?.contentId;
+  const thumnail = item?.contentImg;
+  const title = item?.title;
+  const path = `/course/${id}`;
+
   return (
-    <Course>
+    <Course feat={feat}>
       <Thumnail>
-        <Link to={`/`}>{<img src={thumnail} alt="" />}</Link>
+        <Link to={path} onClick={e => feat === "admin" && e.preventDefault()}>
+          {<img src={thumnail} alt="" />}
+        </Link>
       </Thumnail>
       <Title>
-        {feat === "default" && (
+        {feat === "default" ? (
           <>
-            <CustomButton text={title} feat="course" path={`/`} />
-            {admin && <CustomButton feat="tag" text="강좌 편집" path={`/`} />}
+            <CustomButton text={title} feat="course" path={path} />
+            {admin && (
+              <CustomButton
+                feat="tag"
+                text="강좌 편집"
+                path={`/admin`}
+                item={item}
+              />
+            )}
           </>
-        )}
-        {feat === "progress" && (
+        ) : feat === "progress" ? (
           <ProgressWrap>
             <h4>{title}</h4>
             <CustomProgressBar
@@ -33,6 +50,8 @@ export default function CustomCourse({ feat = "default" }) {
             />
             <p>{"8"}% complete</p>
           </ProgressWrap>
+        ) : (
+          <h3 className="normalTitle">{title}</h3>
         )}
       </Title>
     </Course>
@@ -41,8 +60,9 @@ export default function CustomCourse({ feat = "default" }) {
 
 const Course = styled.figure`
   width: 100%;
+
   &:hover img {
-    transform: scale(1.2);
+    transform: ${({ feat }) => feat !== "admin" && "scale(1.2)"};
   }
 `;
 const Thumnail = styled.div`
@@ -62,6 +82,10 @@ const Thumnail = styled.div`
 const Title = styled.figcaption`
   display: grid;
   gap: 1rem;
+  .normalTitle {
+    font-size: 1em;
+    margin-top: 10px;
+  }
 `;
 const ProgressWrap = styled.div`
   font-size: 14px;
