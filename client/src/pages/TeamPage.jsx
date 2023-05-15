@@ -20,6 +20,8 @@ export default function EditMypage() {
           </CircleBox>
           <Diagonal className="bottom" />
         </Card>
+        <Card />
+        <Card />
       </MyContainer>
     </PageContainer>
   );
@@ -34,6 +36,7 @@ const MyContainer = styled.article`
     flex-direction: column;
   }
 `;
+// 카드 컴포넌트를 따로 빼야겠다... 반복시키려면...
 const Card = styled.div`
   position: relative;
   width: 230px;
