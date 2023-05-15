@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 //페이지 이동
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 import PageContainer from "../components/common/PageContainer.jsx";
 //컴포넌트
@@ -10,6 +11,9 @@ import styled from "styled-components";
 import { mbtiQuestionData } from "../assets/data/mbtiQuestionData.js";
 
 function MbtiTest() {
+  //로그인 여부
+  const isLogin = false;
+
   //문제의 총 길이
   const QUESTIONS_LENGTH = mbtiQuestionData.length;
   //현재 질문 번호
@@ -31,14 +35,46 @@ function MbtiTest() {
     );
     //객체값 확인
     setTotalScore(newScore);
-    console.log(totalScore);
 
     if (QUESTIONS_LENGTH !== questionNumber + 1) {
       //다음 문항으로 넘어간다.
       setQuestionNumber(questionNumber + 1);
     } else {
+      //mbti 결과 저장
+      const mbti = newScore.reduce(
+        (acc, cur) => acc + (cur.score >= 2 ? cur.id[0] : cur.id[1]),
+        ""
+      );
+      if (!isLogin) {
+        const url = `http://13.124.42.111:8080/members/mbti`; // replace {{host}} with your actual host
+        const token =
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQxNDk3NTcsImV4cCI6MTY4NDE5Mjk1N30.nwVoEbMCQo0Od5Qspy_QiuZszv25UoTvecU9jzr6AYE";
+
+        axios
+          .patch(
+            url,
+            {
+              memberMbti: mbti,
+            },
+            {
+              headers: {
+                Authorization: token,
+              },
+            }
+          )
+          .then(response => console.log("보내기 성공"))
+          .catch(error => console.error("Mbti patch Error:", error));
+      } else {
+        localStorage.setItem("mbti", mbti);
+      }
+
       //결과 화면으로 넘기기
-      navigate("/mbtiresult");
+      navigate({
+        pathname: "/mbtiresult",
+        search: `?${createSearchParams({
+          mbti: mbti,
+        })}`,
+      });
     }
   };
 
