@@ -40,8 +40,24 @@ function App() {
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/courselist" element={<CourseList />} />
         <Route path="/discussion" element={<DiscussionList />} />
+<<<<<<< HEAD
         <Route path="/discussion/1" element={<DiscussionDetail />} />
         <Route path="/admin/write" element={<AdminWrite />} />
+=======
+        <Route path="/admin/write/:feat" element={<AdminWrite />} />
+        <Route
+          path="/admin/write/course/:courseId/:feat"
+          element={<AdminWrite />}
+        />
+        <Route
+          path="/admin/edit/:feat/:id"
+          element={<AdminWrite mode="patch" />}
+        />
+        <Route
+          path="/admin/write/course/:courseId/:feat/:id"
+          element={<AdminWrite mode="patch" />}
+        />
+>>>>>>> 29d342e0082b55d131a188597e77e6faa92c3ff3
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
