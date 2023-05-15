@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/members")
@@ -54,6 +55,14 @@ public class MemberController {
                                                    Authentication authentication){
         memberService.updateNickName(authentication.getName(), request.getNickName());
         return Response.success();
+    }
+
+    //프로필 이미지, 닉네임 동시
+    @PatchMapping("/update")
+    public Response<MemberResponse> update(@RequestBody MemberUpdateRequest request,
+                                           Authentication authentication){
+        MemberDto memberDto = memberService.update(authentication.getName(), Optional.ofNullable(request.getNickName()), Optional.ofNullable(request.getProfileImage()));
+        return Response.success(MemberResponse.from(memberDto));
     }
 
     //Mbti 수정
