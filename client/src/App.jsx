@@ -16,6 +16,7 @@ import MbtiTest from "./pages/MbtiTest.jsx";
 import MbtiResult from "./pages/MbtiResult.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
+import Admin from "./pages/Admin.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -37,6 +38,7 @@ function App() {
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/discussion" element={<DiscussionList />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
