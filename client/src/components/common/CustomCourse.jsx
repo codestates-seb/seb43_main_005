@@ -83,8 +83,11 @@ const Title = styled.figcaption`
   display: grid;
   gap: 1rem;
   .normalTitle {
+    border: ${({ theme }) => theme.color.borderBold};
+    background-color: ${({ theme }) => theme.color.white};
     font-size: 1em;
-    margin-top: 10px;
+    padding: 20px 10px;
+    border-radius: 1.25em;
   }
 `;
 const ProgressWrap = styled.div`
