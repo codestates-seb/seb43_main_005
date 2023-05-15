@@ -14,14 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Transactional
@@ -51,16 +51,9 @@ public class MemberService {
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }
-        Member savedMember = memberRepository.save(Member.of(email, name, passwordEncoder.encode(password), memberMbti));
-        if(!savedMember.getMemberMbti().equals(MemberMbti.테스트전)){
-            savedMember.addExperience(100);
-            savedMember = memberRepository.save(savedMember);
-        }
-        List<String> roles = customAuthorityUtils.createRoles(email);
-        if(savedMember.getProfileImage() == null || savedMember.getProfileImage().isEmpty()){
-            savedMember.setProfileImage("https://gonue-bucket.s3.ap-northeast-2.amazonaws.com/dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png");
-        }
-        savedMember.setRoles(roles);
+        Member savedMember = saveMember(email, name, password, memberMbti);
+        defaultImageSet(savedMember);
+        setRoles(savedMember, email);
         return MemberDto.from(savedMember);
     }
 
@@ -91,7 +84,7 @@ public class MemberService {
     }
 
     //비밀번호 수정
-    public MemberDto updatePassword(String email, String currentPassword, String newPassword, String checkNewPassword){
+    public void updatePassword(String email, String currentPassword, String newPassword, String checkNewPassword){
         Member member = memberOrException(email);
 
         if(!passwordEncoder.matches(currentPassword, member.getPassword())){
@@ -102,7 +95,7 @@ public class MemberService {
         }
         member.setPassword(passwordEncoder.encode(newPassword));
         memberRepository.save(member);
-        return MemberDto.from(member);
+        MemberDto.from(member);
     }
 
     //회원 탈퇴
@@ -164,8 +157,42 @@ public class MemberService {
                 .collect(Collectors.toList());
     }
 
+    //Oauth2 유저 회원가입
+    public MemberDto oauthJoin(String email, String name, MemberMbti memberMbti){
+        Optional<Member> existingMemberOptional = memberRepository.findByEmail(email);
+        Member savedMember;
+        if (existingMemberOptional.isPresent()) {
+            savedMember = existingMemberOptional.get();
+        } else {
+            String password = UUID.randomUUID().toString();
+            savedMember = saveMember(email, name, password, memberMbti);
+        }
+        defaultImageSet(savedMember);
+        setRoles(savedMember, email);
+        return MemberDto.from(savedMember);
+    }
+
     private Member memberOrException(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
+    }
+
+    private Member saveMember(String email, String name, String password, MemberMbti memberMbti){
+        Member member = Member.of(email, name, passwordEncoder.encode(password), memberMbti);
+        if (!member.getMemberMbti().equals(MemberMbti.테스트전)){
+            member.addExperience(100);
+        }
+        return memberRepository.save(member);
+    }
+
+    private void defaultImageSet(Member member){
+        if (member.getProfileImage() == null || member.getProfileImage().isEmpty()){
+            member.setProfileImage("https://gonue-bucket.s3.ap-northeast-2.amazonaws.com/dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png");
+        }
+    }
+
+    private void setRoles(Member member, String email){
+        List<String> roles = customAuthorityUtils.createRoles(email);
+        member.setRoles(roles);
     }
 }
