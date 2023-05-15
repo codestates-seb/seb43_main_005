@@ -46,7 +46,7 @@ export default function HeaderUser({ login }) {
   return (
     <>
       {login ? (
-        <ProfileImage feat="header" profileImg={img} />
+        <ProfileImage feat="header" profileImg={img} onClick={handleDrop} />
       ) : (
         <CustomButton text="login" feat="round" path="/user/login" />
       )}

@@ -6,6 +6,7 @@ export default function ProfileImage({
   path = undefined,
   feat = "mypage",
   profileImg, // 이미지 url
+  width,
   margin,
 }) {
   // feat = 'header' | 'mypage' | 'mycomment'
@@ -17,6 +18,7 @@ export default function ProfileImage({
       onClick={onClick || handlePath}
       feat={feat}
       profileImg={profileImg}
+      width={width}
       margin={margin}></StyledProfileImage>
   );
 }
@@ -33,6 +35,7 @@ const StyledProfileImage = styled.div`
     css`
       width: 40px;
       height: 40px;
+      cursor: pointer;
       @media ${props => props.theme.mediaQuery.mobile} {
         width: 34px;
         height: 34px;
@@ -57,4 +60,7 @@ const StyledProfileImage = styled.div`
       height: 36px;
       margin: auto 18px;
     `}
+
+  width: ${({ width }) => width} !important;
+  height: ${({ width }) => width} !important;
 `;
