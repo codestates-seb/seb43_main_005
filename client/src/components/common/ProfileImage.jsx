@@ -6,6 +6,7 @@ export default function ProfileImage({
   path = undefined,
   feat = "mypage",
   profileImg, // 이미지 url
+  margin,
 }) {
   // feat = 'header' | 'mypage' | 'mycomment'
   const navigate = useNavigate();
@@ -15,7 +16,8 @@ export default function ProfileImage({
     <StyledProfileImage
       onClick={onClick || handlePath}
       feat={feat}
-      profileImg={profileImg}></StyledProfileImage>
+      profileImg={profileImg}
+      margin={margin}></StyledProfileImage>
   );
 }
 
@@ -41,11 +43,11 @@ const StyledProfileImage = styled.div`
     css`
       width: 145px;
       height: 145px;
-      margin: 30px;
+      margin: ${({ margin }) => margin || "30px"};
       @media ${props => props.theme.mediaQuery.mobile} {
         width: 110px;
         height: 110px;
-        margin: 20px auto 0;
+        margin: ${({ margin }) => margin || "20px auto 0"};
       }
     `}
   ${({ feat }) =>
