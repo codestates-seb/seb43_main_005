@@ -1,15 +1,14 @@
 package com.firesuits.server.global.config;
 
+import com.firesuits.server.domain.member.service.MemberService;
 import com.firesuits.server.global.auth.filter.JwtAuthenticationFilter;
 import com.firesuits.server.global.auth.filter.JwtVerificationFilter;
-import com.firesuits.server.global.auth.handler.MemberAccessDeniedHandler;
-import com.firesuits.server.global.auth.handler.MemberAuthenticationEntryPoint;
-import com.firesuits.server.global.auth.handler.MemberAuthenticationFailureHandler;
-import com.firesuits.server.global.auth.handler.MemberAuthenticationSuccessHandler;
+import com.firesuits.server.global.auth.handler.*;
 import com.firesuits.server.global.auth.jwt.JwtTokenizer;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +26,7 @@ public class SecurityConfig {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final CorsConfigurationSource corsConfigurationSource;
+    private final MemberService memberService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -54,6 +54,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/webjars/**")
                         .permitAll()
+                        .antMatchers("/oauth2/authorization/**").permitAll()
+                        .antMatchers("/login/oauth2/code/*").permitAll()
                         .antMatchers("/members", "/members/login").permitAll()
                         .antMatchers("/members/**").hasAnyRole("USER", "ADMIN")
 
@@ -69,7 +71,9 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.PATCH, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
                         .anyRequest().permitAll()
-                );
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService)));
         return http.build();
     }
 
@@ -88,7 +92,7 @@ public class SecurityConfig {
 
             builder
                     .addFilter(jwtAuthenticationFilter)
-                    .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
         }
     }
 }
