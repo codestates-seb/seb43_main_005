@@ -3,6 +3,7 @@ import earth from "../assets/images/imgEarth.png";
 import Banner from "../components/Main/Banner.jsx";
 import CustomCourse from "../components/common/CustomCourse.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
+import AttendanceModal from "../components/Mypage/AttendanceModal.jsx";
 
 export default function Main() {
   const login = true;
@@ -64,6 +65,7 @@ export default function Main() {
           ))}
         </Content>
       </ContentsArea>
+      <AttendanceModal />
     </MainContainer>
   );
 }
