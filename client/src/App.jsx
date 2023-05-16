@@ -19,6 +19,7 @@ import DiscussionDetail from "./pages/DiscussionDetail.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
 import Admin from "./pages/Admin.jsx";
 import Course from "./pages/Course.jsx";
+import CouresDetail from "./pages/CouresDetail.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -43,6 +44,7 @@ function App() {
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
+        <Route path="/user/coursedetail" element={<CouresDetail />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
           element={<AdminWrite />}
