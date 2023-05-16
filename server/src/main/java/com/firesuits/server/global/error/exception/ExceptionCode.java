@@ -14,6 +14,7 @@ public enum ExceptionCode {
     INVALID_PERMISSION(403,"권한이 없습니다."),
     PASSWORD_MISMATCH(400, "새 비밀번호와 확인 비밀번호가 일치하지 않습니다."),
     WRONG_PASSWORD(400, "현재 비밀번호가 일치 하지 않습니다."),
+    WRONG_CODE(400,"코드가 일치하지 않습니다."),
     INVALID_MBTI(400, "잘못된 결과값 입니다."),
     ALREADY_LIKED(409,"이미 좋아요를 눌렀습니다."),
     ALREADY_CHECKED_IN(409,"오늘은 이미 출석체크를 하였습니다."),

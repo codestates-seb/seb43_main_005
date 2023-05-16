@@ -7,6 +7,7 @@ import com.firesuits.server.domain.member.dto.response.MemberDetailResponse;
 import com.firesuits.server.domain.member.dto.response.MemberJoinResponse;
 import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.member.service.MemberService;
+import com.firesuits.server.domain.member.service.PasswordResetService;
 import com.firesuits.server.global.auth.dto.LoginDto;
 import com.firesuits.server.global.error.response.Response;
 import org.springframework.data.domain.Page;
@@ -18,15 +19,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
+    private final PasswordResetService passwordResetService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, PasswordResetService passwordResetService) {
         this.memberService = memberService;
+        this.passwordResetService = passwordResetService;
     }
 
     //회원가입
@@ -56,6 +60,14 @@ public class MemberController {
         return Response.success();
     }
 
+    //프로필 이미지, 닉네임 동시
+    @PatchMapping("/update")
+    public Response<MemberResponse> update(@RequestBody MemberUpdateRequest request,
+                                           Authentication authentication){
+        MemberDto memberDto = memberService.update(authentication.getName(), Optional.ofNullable(request.getNickName()), Optional.ofNullable(request.getProfileImage()));
+        return Response.success(MemberResponse.from(memberDto));
+    }
+
     //Mbti 수정
     @PatchMapping("/mbti")
     public Response<MemberResponse> updateMbti(@RequestBody MemberMbtiUpdateRequest request,
@@ -69,6 +81,20 @@ public class MemberController {
     public Response<Void> updatePassword(@RequestBody MemberPasswordUpdateRequest request,
                                          Authentication authentication){
         memberService.updatePassword(authentication.getName(), request.getCurrentPassword(), request.getNewPassword(), request.getCheckNewPassword());
+        return Response.success();
+    }
+
+    //비밀번호 재설정 코드 이메일 전송
+    @PostMapping("/password-reset-request")
+    public Response<Void> requestPasswordReset(@RequestBody MemberPasswordResetRequest request){
+        passwordResetService.sendResetPasswordCode(request.getEmail());
+        return Response.success();
+    }
+
+    //비밀번호 재설정
+    @PostMapping("/password-reset")
+    public Response<Void> resetPassword(@RequestBody MemberPasswordResetRequestTo request){
+        passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
         return Response.success();
     }
 
@@ -88,6 +114,7 @@ public class MemberController {
         return Response.success(memberService.myCommentList(authentication.getName(), pageable, sort).map(MyCommentsResponse::from));
     }
 
+    //멤버 정보
     @GetMapping("/info")
     public Response<MemberDetailResponse> getMemberInfo(Authentication authentication){
         MemberDto memberDto = memberService.getMemberInfo(authentication.getName());
