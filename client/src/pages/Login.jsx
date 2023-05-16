@@ -7,17 +7,15 @@ import AuthInput from "../components/AuthInput.jsx";
 import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
-
+import { updateData } from "../api/apiUtil.js";
 export default function Login() {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
 
-  // 이메일 핸들러
-
   // 로그인 버튼 핸들러
-  const onSubmitHandler = event => {
+  const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
 
@@ -26,6 +24,18 @@ export default function Login() {
       (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
     );
     if (email === "" || password === "") return;
+
+    let data = { email, password };
+    // 성공하면 "/으로이동"
+    try {
+      await updateData(data, `/members/login`, "post");
+      // 요청이 성공하면 페이지 이동
+      window.location.href = "/";
+    } catch (error) {
+      // 요청이 실패한 경우 에러 처리
+      console.error(error);
+      setLoginAlert("아이디와 비밀번호를 확인해주세요");
+    }
   };
   return (
     <PageContainer>

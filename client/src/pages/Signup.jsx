@@ -33,6 +33,7 @@ export default function Signup() {
       nickName === "" || email === "" ? "필수 정보 입니다." : ""
     );
     // 비밀번호 조건
+    console.log(isPasswordValid(password));
     setPasswordAlert(
       isPasswordValid(password) === false &&
         "8~16자 영문 대,소문자, 특수문자를 사용하세요"
