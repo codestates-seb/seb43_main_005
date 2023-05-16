@@ -30,6 +30,10 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "content_id")
     private Content content;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quizResult_id")
+    private QuizResult quizResult;
+
     public static Quiz of(Content content, Member member, String detail, String example, String commentary){
         Quiz quiz = new Quiz();
         quiz.setContent(content);
