@@ -5,14 +5,17 @@ import CustomCourse from "../components/common/CustomCourse.jsx";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteData, getData } from "../api/apiUtil.js";
+import Empty from "../components/common/Empty.jsx";
+import useModal from "../hooks/useModal.js";
+import Dialog from "../components/common/Dialog.jsx";
 
 export default function Admin() {
-  const navigate = useNavigate();
   const { state } = useLocation();
   const item = state?.item;
   const id = item?.contentId;
   const [contents, setContents] = useState(null);
   const [quizzes, setQuizzes] = useState(null);
+  const [dialog, openDialog, closeDialog] = useModal();
 
   // ! get
   const sliceData = async path => {
@@ -29,29 +32,19 @@ export default function Admin() {
     sliceData("quizzes");
   }, []);
 
-  // ! delete
-  const deleteCourse = async () => {
-    await deleteData(`/contents/${id}`);
-    navigate("/");
-  };
-
   return (
     <PageContainer>
       <Container>
         <CourseWrap>
           <BtnGroup>
             <CustomButton
-              text="코스 수정"
+              text="강의 수정"
               feat="round"
               reverse
               path={`/admin/edit/course/${id}`}
               item={item}
             />
-            <CustomButton
-              text="코스 삭제"
-              feat="round"
-              onClick={deleteCourse}
-            />
+            <CustomButton text="강의 삭제" feat="round" onClick={openDialog} />
           </BtnGroup>
           <CustomCourse feat="admin" item={item} />
         </CourseWrap>
@@ -73,30 +66,41 @@ export default function Admin() {
             <Contents>
               {contents?.map(content => (
                 <li key={content.learnId}>
-                  <Link to={`/course/${id}/learn`}>{content.title}</Link>
+                  <Link to={`/course/${id}`}>{content.title}</Link>
                 </li>
               ))}
 
               {quizzes && (
                 <li>
-                  <Link to={`/course/${id}/learn`}> OX 퀴즈</Link>
+                  <Link to={`/course/${id}`}> OX 퀴즈</Link>
                 </li>
               )}
             </Contents>
           ) : (
             <Contents as="div" className="empty">
-              데이터가 없습니다
+              <Empty />
             </Contents>
           )}
         </ContentsWrap>
       </Container>
+      {dialog && (
+        <Dialog
+          feat="삭제하기"
+          path={`/contents/${id}`}
+          text={["강의를 삭제하시겠습니까?"]}
+          closeDialog={closeDialog}
+        />
+      )}
     </PageContainer>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 const BtnGroup = styled.div`
   display: flex;
@@ -105,12 +109,32 @@ const BtnGroup = styled.div`
   &.btnGroup {
     flex-direction: row-reverse;
   }
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
+    &.btnGroup {
+      flex-direction: row;
+    }
+  }
 `;
 const CourseWrap = styled.article`
-  width: 41%;
+  max-width: 500px;
+  width: 100%;
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
+    width: 41%;
+  }
 `;
 const ContentsWrap = styled.article`
-  width: 53%;
+  width: 100%;
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
+    width: 53%;
+    display: flex;
+    flex-direction: column;
+  }
+  @media ${({ theme }) => theme.mediaQuery.tablet} {
+    margin-top: 30px;
+  }
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
+    margin-top: 60px;
+  }
 `;
 const Contents = styled.ul`
   background-color: ${({ theme }) => theme.color.white};
