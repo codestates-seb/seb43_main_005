@@ -19,7 +19,7 @@ export default function AdminWrite({ mode = "post" }) {
   const types = {
     course: {
       description: "강의",
-      path: "/contents",
+      path: mode === "post" ? `/contents` : `/contents/${id}`,
       fields: [
         { key: "contentImg", value: "대표 사진" },
         { key: "title", value: "강의 이름" },
@@ -60,7 +60,7 @@ export default function AdminWrite({ mode = "post" }) {
     },
   };
 
-  const [contentImg, payload] = useUploadImg();
+  const [contentImg, payload] = useUploadImg(item?.contentImg);
   const [title, titleReset] = useInput(item?.title || "");
   const [content, conentReset] = useInput(item?.content || "", "editor");
   // course, content, article
@@ -86,7 +86,12 @@ export default function AdminWrite({ mode = "post" }) {
   };
 
   // ! 썸네일 인터셉터
-  const interceptor = () => getImagesUrl(payload).then(res => res.result);
+  const interceptor = () => {
+    // 강좌수정시 대표사진 변경안하면 500 -> 요청 전에 /upload로 이미지 요청 보내기 때문
+    // patch 모드일때 img요청 안하고 바로 return
+    if (mode === "patch") return;
+    return getImagesUrl(payload).then(res => res.result);
+  };
   const handleSubmit = async e => {
     e.preventDefault();
     const contentImg = feat === "course" && (await interceptor());
