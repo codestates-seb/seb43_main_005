@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.service;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -28,17 +29,20 @@ public class QuizService {
     }
 
     @Transactional
-    public void create(String detail, String example, String commentary, String email){
+    public void create(Long contentId ,String detail, String example, String commentary, String email){
         Member member = memberOrException(email);
-        quizRepository.save(Quiz.of(detail, example, commentary, member));
+        Content content = contentOrException(contentId);
+        quizRepository.save(Quiz.of(content, member, detail, example, commentary));
     }
 
     @Transactional
-    public QuizDto update(String detail, String example, String commentary, String email, Long quizId){
+    public QuizDto update(Long contentId, String detail, String example, String commentary, String email, Long quizId){
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
+        Content content = contentOrException(contentId);
         checkQuizMember(quiz, member, email, quizId);
 
+        quiz.setContent(content);
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCommentary(commentary);
@@ -72,6 +76,11 @@ public class QuizService {
     private Quiz quizOrException(Long quizId){
         return quizRepository.findById(quizId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.QUIZ_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", quizId)));
+    }
+
+    private Content contentOrException(Long contentId){
+        return contentRepository.findById(contentId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND,String.format("%s 번의 컨텐츠가 존재하지 않습니다.",contentId)));
     }
 
     private void checkQuizMember(Quiz quiz, Member member, String email, Long quizId){

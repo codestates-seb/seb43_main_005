@@ -8,8 +8,5 @@ import lombok.Getter;
 public class QuizUpdateRequest {
     private String detail;
     private String example;
-    private Boolean correct;
     private String commentary;
-    private String result;
-    private Integer experience;
 }

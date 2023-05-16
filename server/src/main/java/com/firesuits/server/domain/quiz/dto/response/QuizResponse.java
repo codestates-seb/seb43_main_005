@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.dto.response;
 
+import com.firesuits.server.domain.content.dto.response.ContentResponse;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.quiz.dto.QuizDto;
@@ -17,7 +18,7 @@ public class QuizResponse {
     private String content;
     private String example;
     private String commentary;
-    private MemberResponse member;
+    private ContentResponse contentResponse;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -27,7 +28,7 @@ public class QuizResponse {
                 entity.getDetail(),
                 entity.getExample(),
                 entity.getCommentary(),
-                MemberResponse.from(entity.getMember()),
+                ContentResponse.from(entity.getContent()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

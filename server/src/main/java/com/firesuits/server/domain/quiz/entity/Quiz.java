@@ -30,12 +30,14 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "content_id")
     private Content content;
 
-    public static Quiz of(String detail, String example, String commentary, Member member){
+    public static Quiz of(Content content, Member member, String detail, String example, String commentary){
         Quiz quiz = new Quiz();
+        quiz.setContent(content);
+        quiz.setMember(member);
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCommentary(commentary);
-        quiz.setMember(member);
+        quiz.setContent(content);
 
         return quiz;
     }

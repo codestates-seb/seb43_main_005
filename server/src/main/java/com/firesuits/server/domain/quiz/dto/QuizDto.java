@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.dto;
 
+import com.firesuits.server.domain.content.dto.ContentDto;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class QuizDto {
     private String example;
     private String commentary;
     private MemberDto member;
+    private ContentDto content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -29,6 +31,7 @@ public class QuizDto {
                 entity.getExample(),
                 entity.getCommentary(),
                 MemberDto.from(entity.getMember()),
+                ContentDto.from(entity.getContent()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );
