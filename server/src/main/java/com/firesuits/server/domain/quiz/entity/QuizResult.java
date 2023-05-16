@@ -17,10 +17,16 @@ public class QuizResult {
 
     @OneToOne(mappedBy = "quizResult")
     private Quiz quiz;
+
+    private Integer answer;
     private Boolean result;
 
-    public QuizResult(Quiz quiz, Boolean result){
-        this.quiz = quiz;
-        this.result = result;
+    public static QuizResult of(Quiz quiz, Integer answer, Boolean result){
+        QuizResult quizResult = new QuizResult();
+        quizResult.setQuiz(quiz);
+        quizResult.setAnswer(answer);
+        quizResult.setResult(result);
+
+        return quizResult;
     }
 }

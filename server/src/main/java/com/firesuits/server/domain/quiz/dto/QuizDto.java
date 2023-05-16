@@ -19,7 +19,7 @@ public class QuizDto {
     private String detail;
     private String example;
     private String commentary;
-    private String correct;
+    private Integer correct;
     private MemberDto member;
     private ContentDto content;
     private LocalDateTime createdAt;

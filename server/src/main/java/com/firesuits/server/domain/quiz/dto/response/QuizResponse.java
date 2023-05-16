@@ -18,7 +18,7 @@ public class QuizResponse {
     private String content;
     private String example;
     private String commentary;
-    private String correct;
+    private Integer correct;
     private ContentResponse contentResponse;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
