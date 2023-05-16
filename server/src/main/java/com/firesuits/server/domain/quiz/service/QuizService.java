@@ -28,31 +28,21 @@ public class QuizService {
     }
 
     @Transactional
-    public void create(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email){
+    public void create(String detail, String example, String commentary, String email){
         Member member = memberOrException(email);
-        quizRepository.save(Quiz.of(detail, example, correct, commentary, result, experience, member));
+        quizRepository.save(Quiz.of(detail, example, commentary, member));
     }
 
     @Transactional
-    public QuizDto update(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email, Long quizId){
+    public QuizDto update(String detail, String example, String commentary, String email, Long quizId){
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
 
-        if(detail != null){quiz.setDetail(detail);}
-        if(example != null){quiz.setExample(example);}
-        if(correct != null){quiz.setCorrect(correct);}
-        if(commentary != null){quiz.setCommentary(commentary);}
-        if(result != null){quiz.setResult(result);}
-        if(experience != null){quiz.setExperience(experience);}
-        /*  수정 방식에 대해서 문의 할 것
         quiz.setDetail(detail);
         quiz.setExample(example);
-        quiz.setCorrect(correct);
         quiz.setCommentary(commentary);
-        quiz.setResult(result);
-        quiz.setExperience(experience);
-*/
+
         return QuizDto.from(quizRepository.save(quiz));
     }
 

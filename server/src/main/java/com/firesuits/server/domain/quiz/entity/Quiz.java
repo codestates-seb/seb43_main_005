@@ -20,10 +20,7 @@ public class Quiz extends AuditingFields {
     private Long quizId;
     private String detail;
     private String example;
-    private Boolean correct;
     private String commentary;
-    private String result;
-    private Integer experience;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -33,14 +30,11 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "content_id")
     private Content content;
 
-    public static Quiz of(String detail, String example, Boolean correct, String commentary, String result, Integer experience, Member member){
+    public static Quiz of(String detail, String example, String commentary, Member member){
         Quiz quiz = new Quiz();
         quiz.setDetail(detail);
         quiz.setExample(example);
-        quiz.setCorrect(correct);
         quiz.setCommentary(commentary);
-        quiz.setResult(result);
-        quiz.setExperience(experience);
         quiz.setMember(member);
 
         return quiz;
