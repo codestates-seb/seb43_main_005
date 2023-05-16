@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import styled, { css } from "styled-components";
-import ProfileImage from "../Mypage/ProfileImage.js";
+import ProfileImage from "../common/ProfileImage.jsx";
 import CustomButton from "./CustomButton.jsx";
 import Editor from "../Admin/Editor.jsx";
 
