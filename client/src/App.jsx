@@ -23,7 +23,9 @@ import CouresDetail from "./pages/CouresDetail.jsx";
 
 function App() {
   const { pathname } = useLocation();
-  const hideHeaderFooter = pathname.startsWith("/user");
+  const hideHeaderFooter =
+    pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
+  // path가 '/user'로 시작하거나, '/course/문자혹은숫자' 로 시작하면 common header 숨김
 
   return (
     <ThemeProvider theme={theme}>

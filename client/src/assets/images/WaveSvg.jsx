@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
 
-export default function WaveSvg({ menu }) {
+export default function WaveSvg({ menu, course }) {
   return (
     <SvgWrap
+      course={course}
       menu={menu}
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
@@ -16,6 +17,7 @@ export default function WaveSvg({ menu }) {
 }
 
 const SvgWrap = styled.svg`
+  display: ${({ course }) => course && "none"};
   position: absolute;
   top: 0;
   width: 100%;
