@@ -41,6 +41,7 @@ function App() {
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
