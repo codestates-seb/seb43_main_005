@@ -1,31 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
+import KakaoShateBtn from "../components/mbti/KakaoShateBtn.jsx";
 // 이미지를 불러옵니다.
-import entpImage from "../assets/images/mbtiResultImg/entp.png";
 import kakaoIcon from "../assets/images/icon_sns_kakao.svg";
 
+// 결과 데이터를 불러옵니다.
+import { mbtiResultData } from "../assets/data/mbtiResultData.js";
+//url에서 mbti 값을 가져오기 위함
+import { useSearchParams, useNavigate } from "react-router-dom";
 function MbtiResult(props) {
+  // const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const mbti = searchParams.get("mbti");
+  //mbti state
+  const [resultData, setResultData] = useState({});
+
+  useEffect(() => {
+    const mbtiResultObj = mbtiResultData.find(el => el.mbti === mbti);
+    console.log(mbtiResultObj);
+    setResultData(mbtiResultObj);
+  }, [mbti]);
+
   return (
     <PageContainer>
       <Container>
         <h2>Test Result</h2>
-        <ResultMbtiImg src={entpImage} alt="entp 이미지" />
-        <MbtiHeading>ENTP</MbtiHeading>
-        <MbtiSubText>뜨거운 논쟁을 즐기는 변론가, 발명가형</MbtiSubText>
+        <ResultMbtiImg src={resultData.image} alt="entp 이미지" />
+        <MbtiHeading>{resultData.mbti}</MbtiHeading>
+        <MbtiSubText>{resultData.mbtiSubText}</MbtiSubText>
         <WhiteBox>
-          추천 컨텐츠: <BoldText>토론 컨텐츠</BoldText>
+          추천 컨텐츠: <BoldText>{resultData.recommendedContent}</BoldText>
         </WhiteBox>
         <RecommendedStudyMethod>
           <BoldText>공부법</BoldText>
-          <p>1. 체계적이고 집중적</p>
-          <p>2. 내용이 개념적</p>
-          <p>3. 관심을 사로 잡거나 지적인 도전을 할 수 있는 내용</p>
-          <p>4. 다양한 예시</p>
-          <p>5. 빠른 수업 진도</p>
+          {/* {resultData.studyMethods.map((studyMethod, i) => (
+            <p key={i}>{studyMethod}</p>
+          ))} */}
+          {resultData?.studyMethods?.map((studyMethod, i) => (
+            <p key={i}>{studyMethod}</p>
+          ))}
         </RecommendedStudyMethod>
 
-        <img src={kakaoIcon} alt="카카오 아이콘" />
+        <KakaoStyleBtn />
+        {/* <img src={kakaoIcon} alt="카카오 아이콘" /> */}
       </Container>
     </PageContainer>
   );
@@ -85,4 +103,16 @@ const BoldText = styled.span`
   display: inline-block;
   font-size: 1.25em;
   font-weight: bold;
+`;
+
+const KakaoStyleBtn = styled.button`
+  background: url(${kakaoIcon}) no-repeat center center;
+  border: 1px solid black;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+
+  :hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
 `;
