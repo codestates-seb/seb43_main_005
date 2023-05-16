@@ -1,26 +1,41 @@
-import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { TbHandFinger } from "react-icons/tb";
 import memoji from "../../assets/images/memoji.png";
 
-// text  넣고싶은 문구
-// rounded  true 넣으면 둥금
-// reverse 색상
-// onClick
-// path 이동 "./asd"
+/**
+ * admin 수정시 item 속성 필수!
+ *
+ * @param text 버튼에 표시될 텍스트를 입력합니다. (** 생략불가  **)
+ * @param type button tag 기본 속성입니다. (ex. <button type='submit' />)
+ * @param onClick 페이지 경로 이동외 다른 Click 이벤트가 있는 경우 부모 컴포넌트의 속성이 우선 적용됩니다.
+ * @param path 버튼의 기능이 단순 경로 이동만 있을 경우 사용합니다.
+ * @param item 경로이동하면서 state로 같이 전달할 item
+ * @param feat button style (상세설명 figma 참조)
+ * ----- feat = 'round' | 'square' | 'tag' | 'course' | 'login' | 'article' | 'underline'
+ * @param reverse 색상반전
+ *
+ */
+
 export default function CustomButton({
   text,
+  type,
   onClick,
   path = undefined,
-  reverse = false,
+  item = undefined,
   feat = "square",
+  reverse = false,
 }) {
-  // feat = 'round' | 'square' | 'tag' | 'course'  | 'login' | 'article'
   const navigate = useNavigate();
-  const handlePath = () => path && navigate(path);
+  const handlePath = () => path && navigate(path, { state: { item } });
 
   return (
-    <StyledButton onClick={onClick || handlePath} feat={feat} reverse={reverse}>
+    <StyledButton
+      className="test"
+      onClick={onClick || handlePath}
+      feat={feat}
+      reverse={reverse}
+      type={type}>
       <span>{text}</span>
       {(feat === "course" || feat === "article") && (
         <TbHandFinger className="icon-finger" />
@@ -28,6 +43,7 @@ export default function CustomButton({
     </StyledButton>
   );
 }
+
 const StyledButton = styled.button`
   text-transform: uppercase;
   box-sizing: border-box;
@@ -52,16 +68,20 @@ const StyledButton = styled.button`
       border-radius: 29px;
       color: ${({ theme }) => theme.color.main};
       background-color: ${({ theme }) => theme.color.white};
+      @media ${({ theme }) => theme.mediaQuery.mobile} {
+        width: unset;
+        height: unset;
+        padding: 10px 15px;
+      }
     `}
   // round
-
+  
   ${({ feat }) =>
     feat === "square" &&
     css`
       width: 150px;
       height: 50px;
       color: ${({ theme }) => theme.color.main};
-      background-color: ${({ theme }) => theme.color.white};
     `}
   // square
 
@@ -144,6 +164,14 @@ const StyledButton = styled.button`
       }
     `}
   // article
+
+  ${({ feat }) =>
+    feat === "underline" &&
+    css`
+      color: ${({ theme }) => theme.color.main};
+      border-width: 0 0 1px 0;
+    `}
+  // underline
   
   ${({ reverse }) =>
     reverse &&

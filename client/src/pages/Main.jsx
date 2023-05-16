@@ -18,55 +18,57 @@ export default function Main() {
   // 임시 변수
 
   return (
-    <MainContainer>
-      <VisualArea>
-        <h2>
-          Set Sail on <br /> Your Coding Voyage!
-        </h2>
-        <img src={earth} alt="icon" />
-      </VisualArea>
-      <Banner />
-      {login && (
-        <LoginArea>
-          <Myinfo />
-          <Dashboard>
-            <Title>
-              <p>아직 완료하지 못한 강의가 있어요!</p>
-              <a href="/" className="h3">
-                Go to Dashboard
-              </a>
-            </Title>
-            <Content>
-              <CustomCourse feat="progress" />
-            </Content>
-          </Dashboard>
-        </LoginArea>
-      )}
+    <>
+      <MainContainer>
+        <VisualArea>
+          <h2>
+            Set Sail on <br /> Your Coding Voyage!
+          </h2>
+          <img src={earth} alt="icon" />
+        </VisualArea>
+        <Banner />
+        {login && (
+          <LoginArea>
+            <Myinfo />
+            <Dashboard>
+              <Title>
+                <p>아직 완료하지 못한 강의가 있어요!</p>
+                <a href="/" className="h3">
+                  Go to Dashboard
+                </a>
+              </Title>
+              <Content>
+                <CustomCourse feat="progress" />
+              </Content>
+            </Dashboard>
+          </LoginArea>
+        )}
 
-      <ContentsArea>
-        <Title>
-          <h3>Roadmap</h3>
-          <p>이제 막 개발을 시작한 Code Traveler들을 위한 개발자 안내서!</p>
-        </Title>
-        <Content className="course">
-          {course.map(el => (
-            <CustomCourse key={el.id} />
-          ))}
-        </Content>
-      </ContentsArea>
-      <ContentsArea>
-        <Title>
-          <h3>Discussion</h3>
-          <p>뜨거운 논쟁을 즐기는 열정적인 Code Traveler 위한 토론방</p>
-        </Title>
-        <Content>
-          {article.map(el => (
-            <CustomButton key={el.id} text={el.title} feat="article" />
-          ))}
-        </Content>
-      </ContentsArea>
+        <ContentsArea>
+          <Title>
+            <h3>Roadmap</h3>
+            <p>이제 막 개발을 시작한 Code Traveler들을 위한 개발자 안내서!</p>
+          </Title>
+          <Content className="course">
+            {course.map(el => (
+              <CustomCourse key={el.id} />
+            ))}
+          </Content>
+        </ContentsArea>
+        <ContentsArea>
+          <Title>
+            <h3>Discussion</h3>
+            <p>뜨거운 논쟁을 즐기는 열정적인 Code Traveler 위한 토론방</p>
+          </Title>
+          <Content>
+            {article.map(el => (
+              <CustomButton key={el.id} text={el.title} feat="article" />
+            ))}
+          </Content>
+        </ContentsArea>
+      </MainContainer>
       <AttendanceModal />
-    </MainContainer>
+    </>
   );
 }
 const MainContainer = styled.main`
