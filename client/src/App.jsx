@@ -17,6 +17,7 @@ import MbtiResult from "./pages/MbtiResult.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
 import DiscussionDetail from "./pages/DiscussionDetail.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
+import Admin from "./pages/Admin.jsx";
 import Course from "./pages/Course.jsx";
 
 function App() {
@@ -40,7 +41,6 @@ function App() {
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
-        <Route path="/discussion/1" element={<DiscussionDetail />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route
           path="/admin/write/course/:courseId/:feat"

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import useModal from "../../hooks/useModal.js";
 import Dialog from "../common/Dialog.jsx";
 import CustomButton from "../common/CustomButton.jsx";
+import ProfileImage from "../common/ProfileImage.jsx";
 
 const img =
   "https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80";
@@ -45,7 +46,7 @@ export default function HeaderUser({ login }) {
   return (
     <>
       {login ? (
-        <Profile onClick={handleDrop} />
+        <ProfileImage feat="header" profileImg={img} onClick={handleDrop} />
       ) : (
         <CustomButton text="login" feat="round" path="/user/login" />
       )}
@@ -65,20 +66,6 @@ export default function HeaderUser({ login }) {
     </>
   );
 }
-
-const Profile = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid ${props => props.theme.color.main};
-  background-image: url(${img});
-  background-repeat: no-repeat;
-  background-size: cover;
-  @media ${props => props.theme.mediaQuery.mobile} {
-    width: 34px;
-    height: 34px;
-  }
-`;
 
 const DropBox = styled.div`
   display: flex;

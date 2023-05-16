@@ -6,6 +6,8 @@ export default function ProfileImage({
   path = undefined,
   feat = "mypage",
   profileImg, // 이미지 url
+  width,
+  margin,
 }) {
   // feat = 'header' | 'mypage' | 'mycomment'
   const navigate = useNavigate();
@@ -15,7 +17,9 @@ export default function ProfileImage({
     <StyledProfileImage
       onClick={onClick || handlePath}
       feat={feat}
-      profileImg={profileImg}></StyledProfileImage>
+      profileImg={profileImg}
+      width={width}
+      margin={margin}></StyledProfileImage>
   );
 }
 
@@ -31,6 +35,7 @@ const StyledProfileImage = styled.div`
     css`
       width: 40px;
       height: 40px;
+      cursor: pointer;
       @media ${props => props.theme.mediaQuery.mobile} {
         width: 34px;
         height: 34px;
@@ -41,11 +46,11 @@ const StyledProfileImage = styled.div`
     css`
       width: 145px;
       height: 145px;
-      margin: 30px;
+      margin: ${({ margin }) => margin || "30px"};
       @media ${props => props.theme.mediaQuery.mobile} {
         width: 110px;
         height: 110px;
-        margin: 20px auto 0;
+        margin: ${({ margin }) => margin || "20px auto 0"};
       }
     `}
   ${({ feat }) =>
@@ -55,4 +60,7 @@ const StyledProfileImage = styled.div`
       height: 36px;
       margin: auto 18px;
     `}
+
+  width: ${({ width }) => width} !important;
+  height: ${({ width }) => width} !important;
 `;

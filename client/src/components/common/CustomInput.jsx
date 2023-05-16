@@ -4,18 +4,32 @@ import ProfileImage from "./ProfileImage.jsx";
 import CustomButton from "./CustomButton.jsx";
 import Editor from "../Admin/Editor.jsx";
 
+/**
+ * admin 수정시 item 속성 필수!
+ *
+ * @param id input tag 기본 속성입니다. (ex. <input type='password' />)
+ * @param text label 혹은 placeholder 표시될 텍스트를 입력합니다.
+ * @param type input tag 기본 속성입니다. (ex. <input type='password' />)
+ * ----- type = 'img' | 'editor' | 'ox' (기본 속성 외 추가 type)
+ * @param feat input style
+ * ----- feat = 'admin' | 'mypage' | 'login'
+ * @param value useInput.js 혹은 useUploadImg.js(이미지 사용시) 의 첫번째 인자(value) 기입
+ * ----- ex. const [value, valueReset] = useInput('');
+ * @param ment user page input 하단 멘트입니다
+ * @param disabled 버튼 비활성화 (ex. 마이페이지 수정 email 부분)
+ *
+ *
+ */
+
 export default function CustomInput({
   id,
-  feat = "login",
   text = "제목",
-  value,
   type = "text",
+  feat = "login",
+  value,
   ment,
   disabled,
 }) {
-  // feat = admin | mypage | login | comment
-  // type = img | editor | ox | (html 기본 type) email | password
-
   // ! custom button과 input file 연결
   const fileInputRef = useRef(null);
   const handleButtonClick = e => {
