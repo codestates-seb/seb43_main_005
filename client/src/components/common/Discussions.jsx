@@ -1,16 +1,23 @@
 import styled from "styled-components";
-import PageContainer from "./PageContainer.jsx";
-export default function Discusstions({
-  title, // 제목
-  createdAt, // 생성일
-  view, // 조회수
-  commentCount, // 댓글수
-}) {
+import { useNavigate } from "react-router-dom";
+export default function Discusstions({ body }) {
+  let title = body.title;
+  let createdAt = body.createdAt;
+  let view = body.view;
+  let commentCount = body.commentCount;
+  let id = body.id;
+  const navigate = useNavigate();
   return (
     <StyledDiscusstions>
       <BodyContainer>
         <Body>
-          <div>{title}</div>
+          <div
+            onClick={() => {
+              navigate(`/discussion/${id}`);
+            }}
+            aria-hidden="true">
+            {title}
+          </div>
           <p>
             {createdAt} | 조회 {view}
           </p>

@@ -26,25 +26,6 @@ export default function Login() {
       (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
     );
     if (email === "" || password === "") return;
-
-    //로그인 처리
-    // axios
-    //   .post(
-    //     '넘겨받은 주소',
-    //     {
-    //       email,
-    //       password,
-    //     }
-    //   )
-    //   .then((res) => {
-    //     localStorage.setItem('access_token', res.headers.authorization);
-    //     localStorage.setItem('refresh_token', res.headers.refresh);
-    //     setLoginFailed('');
-    //     navigate('/home');
-    //   })
-    //   .catch(() => {
-    //     setLoginFailed('login-failed');
-    //   });
   };
   return (
     <PageContainer>

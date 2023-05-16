@@ -5,6 +5,16 @@ import PageContainer from "../components/common/PageContainer.jsx";
 import search from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
 export default function Discussion() {
+  let body = {
+    id: 1,
+    title: "제목",
+    createdAt: "2015.02.05",
+    view: "99",
+    commentCount: "5",
+  };
+  // 게시글 id
+  // let path = result.content.articleId;
+
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -21,30 +31,9 @@ export default function Discussion() {
       </Bar>
       {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
       <DiscussionList>
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
+        <Discussions body={body} />
+        <Discussions body={body} />
+        <Discussions body={body} />
       </DiscussionList>
 
       {/* 어드민만 보이도록 해야된다. */}

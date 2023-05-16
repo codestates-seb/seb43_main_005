@@ -14,16 +14,21 @@ import { useState } from "react";
 //   );
 // }
 
-export default function Comment({ profile, twoline, feat }) {
+export default function Comment({ commentbody, profile, twoline, feat }) {
   const [dropdown, setDropdown] = useState(false);
+  let title = commentbody.title;
+  let content = commentbody.content;
+  let createdAt = commentbody.createdAt;
+  let likeCount = commentbody.likeCount;
+
   return (
     <CommentContainer>
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
       <Profile profile={profile} />
       <Body twoline={twoline}>
-        <div>최상단!!!</div>
-        <div>중단!!!!!</div>
-        <div>2023.07.20</div>
+        <div>{title}</div>
+        <div>{content}</div>
+        <div>{createdAt}</div>
       </Body>
       {feat === "tool" && (
         <Side feat={feat}>
@@ -42,11 +47,11 @@ export default function Comment({ profile, twoline, feat }) {
             </Modal>
           )}
           <div>
-            <img src={Good} alt="good" /> 34
+            <img src={Good} alt="good" /> {likeCount}
           </div>
         </Side>
       )}
-      {feat === "count" && <Count>12</Count>}
+      {feat === "count" && <Count>{likeCount}</Count>}
       {feat === "like" && (
         <Count>
           <img src={Good} alt="good" /> 12
@@ -58,6 +63,7 @@ export default function Comment({ profile, twoline, feat }) {
 
 const CommentContainer = styled.div`
   display: flex;
+  max-width: 100%;
   height: 120px;
   border-bottom: solid 1px ${({ theme }) => theme.color.gray100};
   background-color: ${({ theme }) => theme.color.white};
