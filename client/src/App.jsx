@@ -7,7 +7,8 @@ import Footer from "./components/Footer.jsx";
 import Main from "./pages/Main.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
-import FindPassword from "./pages/FindPassword.jsx";
+import FindPassword1 from "./pages/FindPassword1.jsx";
+import FindPassword2 from "./pages/FindPassword2.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import TeamPage from "./pages/TeamPage.jsx";
@@ -32,7 +33,8 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="user/login" element={<Login />} />
         <Route path="user/signup" element={<Signup />} />
-        <Route path="user/findpw" element={<FindPassword />} />
+        <Route path="user/findpw/1" element={<FindPassword1 />} />
+        <Route path="user/findpw/2" element={<FindPassword2 />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
