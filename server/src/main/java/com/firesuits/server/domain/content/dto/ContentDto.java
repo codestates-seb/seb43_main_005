@@ -18,7 +18,6 @@ public class ContentDto {
     private Long contentId;
     private String title;
     private String contentImg;
-    private BigDecimal progress;
     private MemberDto member;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -29,7 +28,6 @@ public class ContentDto {
                 entity.getContentId(),
                 entity.getTitle(),
                 entity.getContentImg(),
-                entity.getProgress(),
                 MemberDto.from(entity.getMember()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()

@@ -27,13 +27,13 @@ public class ContentService {
     }
 
     @Transactional
-    public void create(String title, String contentImg, BigDecimal progress, String email){
+    public void create(String title, String contentImg, String email){
         Member member = memberOrException(email);
-        contentRepository.save(Content.of(title, contentImg, progress, member));
+        contentRepository.save(Content.of(title, contentImg, member));
     }
 
     @Transactional
-    public ContentDto update(String title, String contentImg, BigDecimal progress, String email, Long contentId){
+    public ContentDto update(String title, String contentImg, String email, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
@@ -42,9 +42,6 @@ public class ContentService {
         }
         if(contentImg != null){
             content.setContentImg(contentImg);
-        }
-        if(progress != null){
-            content.setProgress(progress);
         }
 
         return ContentDto.from(contentRepository.save(content));

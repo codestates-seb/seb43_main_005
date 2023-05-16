@@ -26,9 +26,6 @@ public class Content extends AuditingFields {
 
     private String contentImg;
 
-    @Column(columnDefinition = "Decimal")
-    private BigDecimal progress;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -40,11 +37,10 @@ public class Content extends AuditingFields {
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    public static Content of(String title, String contentImg, BigDecimal progress, Member member){
+    public static Content of(String title, String contentImg, Member member){
         Content content =new Content();
         content.setTitle(title);
         content.setContentImg(contentImg);
-        content.setProgress(progress);
         content.setMember(member);
 
         return content;
