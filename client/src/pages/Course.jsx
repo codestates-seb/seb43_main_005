@@ -5,7 +5,7 @@ import CustomButton from "../components/common/CustomButton.jsx";
 import search from "../assets/images/search.svg";
 import CustomCourse from "../components/common/CustomCourse.jsx";
 
-export default function CourseList() {
+export default function Course() {
   return (
     <PageContainer>
       <h2>Roadmap</h2>

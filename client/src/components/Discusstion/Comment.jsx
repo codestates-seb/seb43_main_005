@@ -14,7 +14,7 @@ import { useState } from "react";
 //   );
 // }
 
-export default function Comment({ profile, twoline }) {
+export default function Comment({ profile, twoline, feat }) {
   const [dropdown, setDropdown] = useState(false);
   return (
     <CommentContainer>
@@ -25,27 +25,33 @@ export default function Comment({ profile, twoline }) {
         <div>중단!!!!!</div>
         <div>2023.07.20</div>
       </Body>
-
-      <Side>
-        {/* img 추가하면 왜 커짐? */}
-        <img
-          src={Tool}
-          alt="CommentTool"
-          aria-hidden="true"
-          onClick={() => {
-            setDropdown(prev => !prev);
-          }}
-        />
-        {dropdown && (
-          <Modal>
-            <li>수정하기</li>
-            <li>삭제하기</li>
-          </Modal>
-        )}
-        <div>
-          <img src={Good} alt="good" /> 34
-        </div>
-      </Side>
+      {feat === "tool" && (
+        <Side feat={feat}>
+          <img
+            src={Tool}
+            alt="CommentTool"
+            aria-hidden="true"
+            onClick={() => {
+              setDropdown(prev => !prev);
+            }}
+          />
+          {dropdown && (
+            <Modal>
+              <li>수정하기</li>
+              <li>삭제하기</li>
+            </Modal>
+          )}
+          <div>
+            <img src={Good} alt="good" /> 34
+          </div>
+        </Side>
+      )}
+      {feat === "count" && <Count>12</Count>}
+      {feat === "like" && (
+        <Count>
+          <img src={Good} alt="good" /> 12
+        </Count>
+      )}
     </CommentContainer>
   );
 }
@@ -96,19 +102,20 @@ const Body = styled.div`
 
 const Side = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
   margin-bottom: 40px;
   img {
     cursor: pointer;
+  }
+
+  div {
+    margin-top: 30px;
   }
 `;
 
 const Modal = styled.ul`
   position: absolute;
   right: 20px;
-  top: 40px;
+  top: 30px;
   background-color: ${({ theme }) => theme.color.white};
   display: flex;
   flex-direction: column;
@@ -121,4 +128,17 @@ const Modal = styled.ul`
   // 상단에 뜨게하기
   z-index: 1;
   /* transform: translate(-50%, -50%); */
+`;
+
+const Count = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: solid 1px ${props => props.theme.color.black};
+  background-color: ${props => props.theme.color.sub};
+
+  margin-top: 20px;
 `;

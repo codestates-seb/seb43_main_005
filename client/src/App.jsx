@@ -17,7 +17,7 @@ import MbtiResult from "./pages/MbtiResult.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
 import DiscussionDetail from "./pages/DiscussionDetail.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
-import CourseList from "./pages/CourseList.jsx";
+import Course from "./pages/Course.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -38,7 +38,7 @@ function App() {
         <Route path="/user/error" element={<ErrorPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
-        <Route path="/courselist" element={<CourseList />} />
+        <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/1" element={<DiscussionDetail />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />

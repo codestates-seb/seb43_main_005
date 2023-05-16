@@ -24,10 +24,12 @@ export default function DiscussionDetail() {
         <button>추천순</button>
       </CommitBar>
       <Comments>
-        <Comment profile="true" />
+        <Comment profile="true" feat="count" />
         <Comment profile="false" />
         <Comment profile="true" twoline="true" />
-        <Comment profile="false" twoline="true" />
+        <Comment profile="false" twoline="true" feat="tool" />
+        <Comment profile="false" twoline="true" feat="count" />
+        <Comment profile="false" twoline="true" feat="like" />
         <CommentInput>
           <textarea
             maxLength="200"
