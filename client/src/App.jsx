@@ -15,8 +15,10 @@ import ErrorPage from "./pages/404page.jsx";
 import MbtiTest from "./pages/MbtiTest.jsx";
 import MbtiResult from "./pages/MbtiResult.jsx";
 import DiscussionList from "./pages/DiscussionList.jsx";
+import DiscussionDetail from "./pages/DiscussionDetail.jsx";
 import AdminWrite from "./pages/AdminWrite.jsx";
 import Admin from "./pages/Admin.jsx";
+import Course from "./pages/Course.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -37,8 +39,8 @@ function App() {
         <Route path="/user/error" element={<ErrorPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
+        <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
-        <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
