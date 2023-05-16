@@ -47,3 +47,10 @@
   --border-light: 1px solid #dee2e6;
   --border-main: 1px solid #39896b;
 }
+
+/* html 에 클래스명을 변경해줘서 document.documentElement.classList.add/remove('클래스명') */
+/* 바꿀 색상 : main, bg, text, textBold? */
+html.oceanLight {
+  --brand-color: #5EC0CB;
+  --bg-color: #FBF2EA;
+}
