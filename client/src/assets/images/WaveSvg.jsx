@@ -16,7 +16,7 @@ export default function WaveSvg({ menu }) {
 }
 
 const SvgWrap = styled.svg`
-  position: fixed;
+  position: absolute;
   top: 0;
   width: 100%;
   height: 42px;

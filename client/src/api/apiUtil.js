@@ -12,6 +12,14 @@ const updateData = (data, url, method = "post") => {
   });
 };
 
+// 출석체크
+const attendance = (url, method = "post") => {
+  return instance({
+    method,
+    url,
+  });
+};
+
 // post formData, and return images url
 const getImagesUrl = data => {
   return instance({
@@ -32,4 +40,4 @@ const deleteData = url => {
   });
 };
 
-export { getData, updateData, getImagesUrl, deleteData };
+export { getData, updateData, attendance, getImagesUrl, deleteData };
