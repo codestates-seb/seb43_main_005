@@ -18,6 +18,7 @@ public class QuizResponse {
     private String content;
     private String example;
     private String commentary;
+    private String correct;
     private ContentResponse contentResponse;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -28,6 +29,7 @@ public class QuizResponse {
                 entity.getDetail(),
                 entity.getExample(),
                 entity.getCommentary(),
+                entity.getCorrect(),
                 ContentResponse.from(entity.getContent()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()

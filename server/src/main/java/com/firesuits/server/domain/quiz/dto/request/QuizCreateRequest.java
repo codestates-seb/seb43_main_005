@@ -10,5 +10,6 @@ public class QuizCreateRequest {
     private String detail;
     private String example;
     private String commentary;
+    private String correct;
 
 }

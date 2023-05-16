@@ -29,14 +29,14 @@ public class QuizService {
     }
 
     @Transactional
-    public void create(Long contentId ,String detail, String example, String commentary, String email){
+    public void create(Long contentId ,String detail, String example, String commentary, String correct, String email){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
-        quizRepository.save(Quiz.of(content, member, detail, example, commentary));
+        quizRepository.save(Quiz.of(content, member, detail, example, commentary, correct));
     }
 
     @Transactional
-    public QuizDto update(Long contentId, String detail, String example, String commentary, String email, Long quizId){
+    public QuizDto update(Long contentId, String detail, String example, String commentary, String correct, String email, Long quizId){
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
         Content content = contentOrException(contentId);
@@ -46,6 +46,7 @@ public class QuizService {
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCommentary(commentary);
+        quiz.setCorrect(correct);
 
         return QuizDto.from(quizRepository.save(quiz));
     }

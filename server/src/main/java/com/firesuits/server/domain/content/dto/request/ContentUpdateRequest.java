@@ -10,5 +10,4 @@ import java.math.BigDecimal;
 public class ContentUpdateRequest {
     private String title;
     private String contentImg;
-    private BigDecimal progress;
 }
