@@ -16,8 +16,8 @@ export default function Level({ userInfo }) {
   console.log(`${userInfo.requiredExperience} - level component`);
   return (
     <LvExpContainer>
-      <LevelContainer>
-        <LvBox>
+      <LevelContainer className="LevelContainer">
+        <LvBox className="LvBox">
           <SVGBox
             fill={props => props.theme.color.main}
             stroke={props => props.theme.color.green900}>
@@ -97,7 +97,6 @@ export default function Level({ userInfo }) {
             <span>exp </span>
             <span>{currentExp}</span>
           </span>
-
           <span>{nextLevelExp}</span>
         </ExpNum>
       </ExpBox>
@@ -110,7 +109,6 @@ export default function Level({ userInfo }) {
 const LvExpContainer = styled.article`
   width: 100%;
   min-width: 250px;
-  max-width: 700px;
   min-height: 130px;
   display: flex;
   flex-direction: column;
@@ -125,7 +123,6 @@ const LvExpContainer = styled.article`
 const LevelContainer = styled(LvExpContainer)`
   background-color: ${props => props.theme.color.white};
   border: ${props => props.theme.color.borderBold};
-  padding: 10px;
   @media ${props => props.theme.mediaQuery.mobile} {
     width: 100%;
     padding: 0;

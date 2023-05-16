@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CustomButton from "../common/CustomButton.jsx";
 import axios from "axios";
 import useModal from "../../hooks/useModal.js";
-import { getData, updateData } from "../../api/apiUtil.js";
+import { attendance } from "../../api/apiUtil.js";
 
 export default function Modal() {
   const [attend, openAttend, closeAttend] = useModal(false);
@@ -29,17 +29,14 @@ export default function Modal() {
   };
   // 출석하기 버튼
   function attendCheck() {
-    try {
-      updateData(config, `${url1}/members/check-in`);
-      const response = axios.post(`${url1}/members/check-in`, config);
-      // let result = response.data.result;
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      const response = axios.get(`${url1}/members/check-in-date`, config);
-      console.log(response);
-    }
+    attendance("/members/check-in", "post")
+      .then(res => console.log(res))
+      .catch(error => console.log(error))
+      .finally(
+        attendance("/members/check-in-date", "get").then(res =>
+          console.log(res)
+        )
+      );
   }
 
   return (
@@ -125,6 +122,7 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.theme.color.blackOp50};
+  z-index: 9999;
 `;
 
 const ModalView = styled.div.attrs(props => ({
