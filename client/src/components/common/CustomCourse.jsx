@@ -66,17 +66,28 @@ const Course = styled.figure`
   }
 `;
 const Thumnail = styled.div`
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%;
+  /* 비율유지 */
   border-radius: 20px;
   border: ${({ theme }) => theme.color.borderBold};
   margin-bottom: 15px;
   overflow: hidden;
   * {
     display: block;
-    width: 100%;
     border-radius: inherit;
   }
   img {
     transition-duration: 0.5s;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 `;
 const Title = styled.figcaption`
@@ -88,6 +99,7 @@ const Title = styled.figcaption`
     font-size: 1em;
     padding: 20px 10px;
     border-radius: 1.25em;
+    line-height: 1.3em;
   }
 `;
 const ProgressWrap = styled.div`
@@ -101,6 +113,7 @@ const ProgressWrap = styled.div`
     font-size: 1em;
   }
   h4 {
+    width: 100%;
     margin-bottom: 0.9em;
   }
   p {
