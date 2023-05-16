@@ -18,9 +18,9 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-    private QuizRepository quizRepository;
-    private ContentRepository contentRepository;
-    private MemberRepository memberRepository;
+    private final QuizRepository quizRepository;
+    private final ContentRepository contentRepository;
+    private final MemberRepository memberRepository;
 
     public QuizService(QuizRepository quizRepository, ContentRepository contentRepository, MemberRepository memberRepository){
         this.quizRepository = quizRepository;

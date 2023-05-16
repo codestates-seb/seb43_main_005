@@ -20,6 +20,7 @@ public enum ExceptionCode {
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류"),
     CONTENT_NOT_FOUND(404,"컨텐츠를 찾을 수 없음"),
     QUIZ_NOT_FOUND(404,"퀴즈를 찾을 수 없음"),
+    QUIZRESULT_NOT_FOUND(404, "퀴즈결과를 찾을 수 없음"),
     LEARN_NOT_FOUND(404, "학습 내용을 찾을 수 없음"),
     TAG_NOT_FOUND(404,"소제목을 찾을 수 없음")
     ;
