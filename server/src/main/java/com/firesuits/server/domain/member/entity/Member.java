@@ -42,6 +42,9 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Attendance> attendances = new ArrayList<>();
 
+    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL)
+    private PasswordReset passwordReset;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Article> articles = new ArrayList<>();
 

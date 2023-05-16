@@ -68,8 +68,19 @@ public class MemberService {
     public MemberDto updateNickName(String email, String nickName){
         Member member = memberOrException(email);
         member.setNickName(nickName);
-        memberRepository.save(member);
-        return MemberDto.from(member);
+        return MemberDto.from(memberRepository.save(member));
+    }
+
+    //프로필 이미지, 닉네임 동시
+    public MemberDto update(String email, Optional<String> nickName, Optional<String> profileImage){
+        Member member = memberOrException(email);
+        if (profileImage.isPresent() && !profileImage.get().isEmpty()) {
+            member.setProfileImage(profileImage.get());
+        }
+        if (nickName.isPresent() && !nickName.get().isEmpty()) {
+            member.setNickName(nickName.get());
+        }
+        return MemberDto.from(memberRepository.save(member));
     }
 
     //Mbti 수정
