@@ -6,17 +6,10 @@ import search from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
-  const [body, setBody] = useState({});
-  // let body = {
-  //   id: 1,
-  //   title: "제목",
-  //   createdAt: "2015.02.05",
-  //   view: "99",
-  //   commentCount: "5",
-  // };
+  const [body, setBody] = useState([]);
 
   useEffect(() => {
-    getData("/article?size=20&page=0")
+    getData("/article")
       .then(data => {
         setBody(data.result.content);
       })
@@ -24,7 +17,6 @@ export default function Discussion() {
         console.error(error);
       });
   }, []);
-  console.log(body);
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -41,8 +33,8 @@ export default function Discussion() {
       </Bar>
       {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
       <DiscussionList>
-        {body.map(body => {
-          return <Discussions body={body} key={body.articleId} />;
+        {body.map(item => {
+          return <Discussions body={item} key={item.articleId} />;
         })}
       </DiscussionList>
 

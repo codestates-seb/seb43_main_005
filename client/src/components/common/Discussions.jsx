@@ -5,7 +5,7 @@ export default function Discusstions({ body }) {
   let createdAt = body.createdAt.slice(0, 10);
   let view = body.view;
   let commentCount = body.commentCount;
-  let id = body.id;
+  let id = body.articleId;
   const navigate = useNavigate();
   return (
     <StyledDiscusstions>

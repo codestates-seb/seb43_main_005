@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
 import Comment from "../components/common/Comment.jsx";
-export default function DiscussionDetail() {
-  const [title, setTitle] = useState("타이틀");
-  const [body, setBody] = useState("바디");
-  let commentbody = {
-    title: "제목",
-    content: "바디",
-    createdAt: "2015.02.05",
-    likeCount: "12",
-  };
+import { getData } from "../api/apiUtil.js";
 
+export default function DiscussionDetail() {
+  const [body, setBody] = useState([]);
+  const [commentBody, setCommentBody] = useState([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    getData(`article/${id}`)
+      .then(data => {
+        setBody(data.result);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+    getData(`article/${id}/articleComments`)
+      .then(data => {
+        setCommentBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+  console.log(commentBody[0]);
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -21,38 +36,28 @@ export default function DiscussionDetail() {
         <CustomButton text="토론글 삭제" feat="round" />
       </Bar>
       <Subject>
-        <div>{title}</div>
-        <div>{body}</div>
+        <div>{body.title}</div>
+        <div>{body.content}</div>
       </Subject>
       {/* 탭으로 만들어야한다. 누르면 색깔 변하게 */}
       <CommitBar>
-        <div>댓글 3</div>
+        <div>댓글 {body.commentCount}</div>
         <button>등록순</button>
         <button>최신순</button>
         <button>추천순</button>
       </CommitBar>
       <Comments>
-        <Comment commentbody={commentbody} profile="true" feat="count" />
-        <Comment commentbody={commentbody} profile="false" />
-        <Comment commentbody={commentbody} profile="true" twoline="true" />
-        <Comment
-          commentbody={commentbody}
-          profile="false"
-          twoline="true"
-          feat="tool"
-        />
-        <Comment
-          commentbody={commentbody}
-          profile="false"
-          twoline="true"
-          feat="count"
-        />
-        <Comment
-          commentbody={commentbody}
-          profile="false"
-          twoline="true"
-          feat="like"
-        />
+        {commentBody.map(item => {
+          return (
+            <Comment
+              commentBody={item}
+              profile="true"
+              feat="tool"
+              key={item.articleCommentId}
+            />
+          );
+        })}
+
         <CommentInput>
           <textarea
             maxLength="200"
