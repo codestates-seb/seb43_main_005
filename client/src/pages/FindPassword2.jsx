@@ -4,23 +4,42 @@ import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
-  const [codeAlert, setCodeAlert] = useState("");
+  const [Alert, setAlert] = useState("");
   const [code, setCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  let data = { code, newPassword };
+  let data = { token: code, newPassword };
+  console.log(data);
+  // 비밀번호 조건 소문자알파벳, 숫자, 4~12자
+  const isPasswordValid = pw => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
+    return passwordRegex.test(pw);
+  };
+  // alert 조건들
+  const AlertCondition = (code, newPassword) => {
+    if (code === "" || newPassword === "") {
+      return "코드 또는 패스워드를 입력해주세요";
+    } else if (isPasswordValid(newPassword) === false) {
+      return "4~12자, 숫자와 소문자 영어를 포함해야합니다.";
+    } else {
+      return "";
+    }
+  };
+  // 핸들러
   const onSubmitHandler = async event => {
     event.preventDefault();
+    console.log(isPasswordValid(newPassword));
 
-    setCodeAlert(code === "" ? "코드를 입력해주세요" : "");
-
-    try {
-      await updateData(data, `/members/password-reset`, "post");
-      // 요청이 성공하면 페이지 이동
-      // window.location.href = "/user/login";
-    } catch (error) {
-      // 요청이 실패한 경우 에러 처리
-      console.error(error);
-      setCodeAlert("코드를 확인해주세요");
+    setAlert(AlertCondition(code, newPassword));
+    if (Alert === "") {
+      try {
+        await updateData(data, `/members/password-reset`, "post");
+        // 요청이 성공하면 페이지 이동
+        window.location.href = "/user/login";
+      } catch (error) {
+        // 요청이 실패한 경우 에러 처리
+        console.error(error);
+        setAlert("코드를 확인해주세요");
+      }
     }
   };
   return (
@@ -32,16 +51,16 @@ export default function FindPassword() {
         </h2>
         <InputBundle onSubmit={onSubmitHandler}>
           <AuthInput
-            type="number"
-            id="number"
-            placeholder="코드"
+            type="text"
+            id="text"
+            placeholder="코드 확인"
             value={setCode}
           />
           <AuthInput
             type="text"
             id="text"
             placeholder="새로운 비밀번호"
-            alertMessage={codeAlert}
+            alertMessage={Alert}
             value={setNewPassword}
           />
           <ButtonGroup>
