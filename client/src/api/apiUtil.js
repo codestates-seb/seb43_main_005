@@ -3,6 +3,14 @@ import instance from "./core";
 // get
 const getData = url => instance({ url });
 
+// 내가 작성한 토론글 목록 get
+const getComment = (data, url) => {
+  return instance({
+    url,
+    data,
+  });
+};
+
 // post, patch
 const updateData = (data, url, method = "post") => {
   return instance({
@@ -40,4 +48,11 @@ const deleteData = url => {
   });
 };
 
-export { getData, updateData, attendance, getImagesUrl, deleteData };
+export {
+  getData,
+  getComment,
+  updateData,
+  attendance,
+  getImagesUrl,
+  deleteData,
+};

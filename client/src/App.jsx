@@ -56,7 +56,7 @@ function App() {
           element={<AdminWrite mode="patch" />}
         />
         <Route
-          path="/admin/write/course/:courseId/:feat/:id"
+          path="/admin/edit/course/:courseId/:feat/:id"
           element={<AdminWrite mode="patch" />}
         />
       </Routes>

@@ -12,8 +12,8 @@ export default function Mypage({ userInfo }) {
   let navigate = useNavigate();
 
   return (
-    <ProfileContainer>
-      <InnerBox>
+    <ProfileContainer className="ProfileContainer">
+      <InnerBox className="InnerBox">
         <ProfileImage profileImg={userInfo.profileImage} feat="mypage" />
         <TextContainer margin="0 10px 0 0" fontSize="0.8rem" pFontSize="1rem">
           <div>Nickname</div>
@@ -27,7 +27,7 @@ export default function Mypage({ userInfo }) {
       </InnerBox>
       <BtnBox>
         <CustomButton
-          rounded="true"
+          feat="round"
           text="프로필 수정"
           onClick={() => navigate("/mypage/edit")}
         />
@@ -37,18 +37,21 @@ export default function Mypage({ userInfo }) {
 }
 
 const ProfileContainer = styled.article`
-  width: 580px;
+  width: 100%;
+  min-width: 400px;
   min-height: 300px;
   background-color: ${props => props.theme.color.white};
   border: ${props => props.theme.color.borderBold};
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: center;
   margin-right: 96px;
   & > button {
     align-self: flex-end;
     margin: 30px;
+  }
+  @media ${props => props.theme.mediaQuery.tablet} {
+    margin-right: 30px;
   }
   @media ${props => props.theme.mediaQuery.mobile} {
     align-items: center;
@@ -65,11 +68,9 @@ const ProfileContainer = styled.article`
 `;
 const InnerBox = styled.div`
   display: flex;
-  margin: 0;
-  /* margin-right: 52px; */
+  width: 100%;
   & > button {
     align-self: center;
-    margin: 0;
   }
   @media ${props => props.theme.mediaQuery.mobile} {
     flex-direction: column;
@@ -85,5 +86,10 @@ const StyledSpan = styled.span`
   }
 `;
 const BtnBox = styled.div`
-  padding: 8px 0;
+  padding-right: 16px;
+  align-self: flex-end;
+  @media ${props => props.theme.mediaQuery.mobile} {
+    align-self: center;
+    padding-right: 0;
+  }
 `;

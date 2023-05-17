@@ -6,11 +6,13 @@ import CustomInput from "../components/common/CustomInput.jsx";
 import useInput from "../hooks/useInput.js";
 import useUploadImg from "../hooks/useUploadImg.js";
 import { getImagesUrl, updateData } from "../api/apiUtil.js";
+import useModal from "../hooks/useModal.js";
+import Dialog from "../components/common/Dialog.jsx";
 
 export default function AdminWrite({ mode = "post" }) {
   const navigate = useNavigate();
   const { feat, courseId, id } = useParams();
-  console.log(feat, courseId, id);
+  const [dialog, openDialog, closeDialog] = useModal();
 
   // ! patch 필수 속성
   const { state } = useLocation();
@@ -32,7 +34,7 @@ export default function AdminWrite({ mode = "post" }) {
           ? `/contents/${courseId}/quizzes`
           : `/contents/${courseId}/quizzes/${id}`,
       fields: [
-        { key: "detail", value: "내용" },
+        { key: "content", value: "내용" },
         { key: "example", value: "예시" },
         { key: "correct", value: "정답" },
         { key: "commentary", value: "해설" },
@@ -64,9 +66,9 @@ export default function AdminWrite({ mode = "post" }) {
   const [title, titleReset] = useInput(item?.title || "");
   const [content, conentReset] = useInput(item?.content || "", "editor");
   // course, content, article
-  const [detail, detailReset] = useInput(item?.detail || "", "editor");
+  // const [detail, detailReset] = useInput(item?.detail || "", "editor");
   const [example, exampleReset] = useInput(item?.example || "", "editor");
-  const [correct, correctReset] = useInput(item?.correct || "O");
+  const [correct, correctReset] = useInput(item?.correct ? "O" : "X");
   const [commentary, comentaryReset] = useInput(
     item?.commentary || "",
     "editor"
@@ -78,7 +80,6 @@ export default function AdminWrite({ mode = "post" }) {
     contentImg,
     title,
     content,
-    detail,
     example,
     commentary,
     result,
@@ -88,8 +89,8 @@ export default function AdminWrite({ mode = "post" }) {
   // ! 썸네일 인터셉터
   const interceptor = () => {
     // 강좌수정시 대표사진 변경안하면 500 -> 요청 전에 /upload로 이미지 요청 보내기 때문
-    // patch 모드일때 img요청 안하고 바로 return
-    if (mode === "patch") return;
+    // edit 모드에서 이미지 payload가 없다면 img요청 안하고 바로 return
+    if (!payload) return;
     return getImagesUrl(payload).then(res => res.result);
   };
   const handleSubmit = async e => {
@@ -103,7 +104,7 @@ export default function AdminWrite({ mode = "post" }) {
           }
         : feat === "quiz"
         ? {
-            detail: detail.value,
+            detail: content.value,
             example: example.value,
             correct: correct.value === "O" ? true : false,
             commentary: commentary.value,
@@ -113,11 +114,14 @@ export default function AdminWrite({ mode = "post" }) {
             title: title.value,
             content: content.value,
           };
+
     updateData(payload, types[feat].path, mode).then(res => {
       console.log(res);
       navigate("/");
     });
+    // console.log(payload);
     // console.log(types[feat].path);
+    // console.log(mode);
   };
 
   return (
@@ -169,9 +173,16 @@ export default function AdminWrite({ mode = "post" }) {
 
         <ButtonWrap>
           <CustomButton onClick={handleSubmit} text="작성" reverse />
-          <CustomButton type="reset" text="취소" />
+          <CustomButton type="reset" text="취소" onClick={openDialog} />
         </ButtonWrap>
       </Content>
+      {dialog && (
+        <Dialog
+          closeDialog={closeDialog}
+          feat="작성취소"
+          text={["작성 중인 게시글이 있습니다.", "취소하시겠습니까?"]}
+        />
+      )}
     </PageContainer>
   );
 }
