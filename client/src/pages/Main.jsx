@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getData } from "../api/apiUtil";
+import { getData, attendance } from "../api/apiUtil";
 import Banner from "../components/Main/Banner.jsx";
 import CustomCourse from "../components/common/CustomCourse.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
@@ -42,9 +42,36 @@ export default function Main() {
       setDashboard(tempo); // tempo
     }
   };
+
+  // 출석 체크
+  const [attended, setAttended] = useState(false);
+  function attendanceCheck() {
+    // 오늘 날짜 형식 변환
+    function dateFormat(date) {
+      let formattedDate = date.toISOString();
+      return formattedDate.slice(0, 10);
+    }
+    let today = dateFormat(new Date());
+    // 오늘 출석 여부 확인
+    attendance("/members/check-in-date", "get").then(res => {
+      let attendedDate = res.result;
+      if (!attendedDate[0] === today) {
+        localStorage.setItem("attendance_date", attendedDate[0]);
+        console.log("출첵 아직");
+      } else if (attendedDate[0] === today) {
+        // 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
+        console.log(res);
+        console.log("이미 출첵완료");
+        setAttended(true);
+      }
+    });
+  }
+
   useEffect(() => {
     sliceData("article");
     sliceData("contents", 3);
+    // 유저 출석여부 확인
+    attendanceCheck();
   }, []);
 
   return (
@@ -131,7 +158,7 @@ export default function Main() {
           {!article?.length && <Empty button="article" />}
         </Content>
       </ContentsArea>
-      <AttendanceModal />
+      <AttendanceModal attended={attended} />
     </MainContainer>
   );
 }

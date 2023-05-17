@@ -18,6 +18,8 @@ export default function EditMypage() {
   const [checkNewPassword, setPasswordConfirm] = useInput("");
   const [edited, setEdited] = useState(false);
   const navigate = useNavigate();
+  // 회원탈퇴 확인 모달
+  const [modal, openModal, closeModal] = useModal(false);
 
   // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기
   function getUserInfo() {
@@ -40,8 +42,6 @@ export default function EditMypage() {
     } = e;
     if (name === "nickName") {
       setNickName(value);
-    } else if (name === "email") {
-      setEmail(value);
     } else if (name === "newPassword") {
       setPassword(value);
     } else if (name === "checkNewPassword") {
@@ -73,16 +73,10 @@ export default function EditMypage() {
     );
   };
 
-  const [modal, openModal, closeModal] = useModal(false);
   // 회원 탈퇴
   const handleSignOffBtnClick = e => {
     e => e.preventDefault();
     openModal(true);
-  };
-  const signOff = () => {
-    deleteData("/members/withdrawal");
-    console.log("탈퇴 완료");
-    () => navigate("/");
   };
 
   return (
@@ -124,8 +118,7 @@ export default function EditMypage() {
                 feat="mypage"
                 disabled="true"
                 bind
-                // value={email}
-                // onChange={onChange}
+                value={email}
               />
             </InputBox>
             <CustomButton
