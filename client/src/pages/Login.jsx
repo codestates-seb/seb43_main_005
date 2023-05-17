@@ -57,7 +57,7 @@ export default function Login() {
           />
           <PasswordFinder
             onClick={() => {
-              navigate("/user/findpw");
+              navigate("/user/findpw/1");
             }}
             // 이거 안넣으면 오류뜸
             aria-hidden="true">
