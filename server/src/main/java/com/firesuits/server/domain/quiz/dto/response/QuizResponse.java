@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 @Getter
 public class QuizResponse {
     private Long quizId;
-    private String content;
+    private String detail;
     private String example;
     private String commentary;
-    private Integer correct;
+    private boolean correct;
     private ContentResponse contentResponse;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -29,7 +29,7 @@ public class QuizResponse {
                 entity.getDetail(),
                 entity.getExample(),
                 entity.getCommentary(),
-                entity.getCorrect(),
+                entity.isCorrect(),
                 ContentResponse.from(entity.getContent()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()

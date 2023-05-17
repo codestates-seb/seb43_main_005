@@ -9,5 +9,5 @@ public class QuizUpdateRequest {
     private String detail;
     private String example;
     private String commentary;
-    private Integer correct;
+    private boolean correct;
 }

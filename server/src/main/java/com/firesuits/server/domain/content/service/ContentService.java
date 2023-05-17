@@ -37,12 +37,9 @@ public class ContentService {
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
-        if(title != null) {
-            content.setTitle(title);
-        }
-        if(contentImg != null){
-            content.setContentImg(contentImg);
-        }
+
+        content.setTitle(title);
+        content.setContentImg(contentImg);
 
         return ContentDto.from(contentRepository.save(content));
     }

@@ -21,7 +21,7 @@ public class Quiz extends AuditingFields {
     private String detail;
     private String example;
     private String commentary;
-    private Integer correct;
+    private boolean correct;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -35,7 +35,7 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "quizResult_id")
     private QuizResult quizResult;
 
-    public static Quiz of(Content content, Member member, String detail, String example, Integer correct, String commentary){
+    public static Quiz of(Content content, Member member, String detail, String example, boolean correct, String commentary){
         Quiz quiz = new Quiz();
         quiz.setContent(content);
         quiz.setMember(member);

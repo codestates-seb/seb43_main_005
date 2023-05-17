@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.dto;
 
+import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,14 +12,16 @@ import lombok.Setter;
 public class QuizResultDto {
 
     private Long quizResultId;
-    private Integer answer;
-    private Boolean result;
+    private boolean answer;
+    private boolean result;
+    private MemberDto member;
 
     public static QuizResultDto from(QuizResult entity){
         return new QuizResultDto(
                 entity.getQuizResultId(),
-                entity.getAnswer(),
-                entity.getResult()
+                entity.isAnswer(),
+                entity.isResult(),
+                MemberDto.from(entity.getMember())
         );
     }
 }

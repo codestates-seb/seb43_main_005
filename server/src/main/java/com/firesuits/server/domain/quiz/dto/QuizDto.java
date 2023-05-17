@@ -19,7 +19,7 @@ public class QuizDto {
     private String detail;
     private String example;
     private String commentary;
-    private Integer correct;
+    private boolean correct;
     private MemberDto member;
     private ContentDto content;
     private LocalDateTime createdAt;
@@ -31,7 +31,7 @@ public class QuizDto {
                 entity.getDetail(),
                 entity.getExample(),
                 entity.getCommentary(),
-                entity.getCorrect(),
+                entity.isCorrect(),
                 MemberDto.from(entity.getMember()),
                 ContentDto.from(entity.getContent()),
                 entity.getCreatedAt(),

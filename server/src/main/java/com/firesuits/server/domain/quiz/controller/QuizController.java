@@ -25,7 +25,7 @@ public class QuizController {
                                  @RequestBody QuizCreateRequest request,
                                  Authentication authentication){
 
-        quizService.create(contentId, request.getDetail(), request.getExample(), request.getCommentary(), request.getCorrect(), authentication.getName());
+        quizService.create(contentId, request.getDetail(), request.getExample(), request.getCommentary(), request.isCorrect(), authentication.getName());
         return Response.success();
     }
 
@@ -34,7 +34,7 @@ public class QuizController {
                                          @PathVariable("quiz-id") Long quizId,
                                          @RequestBody QuizUpdateRequest request, Authentication authentication){
 
-        QuizDto quizDto = quizService.update(contentId, request.getDetail(), request.getExample(), request.getCommentary(), request.getCorrect(), authentication.getName(), quizId);
+        QuizDto quizDto = quizService.update(contentId, request.getDetail(), request.getExample(), request.getCommentary(), request.isCorrect(), authentication.getName(), quizId);
         return Response.success(QuizResponse.from(quizDto));
     }
 
