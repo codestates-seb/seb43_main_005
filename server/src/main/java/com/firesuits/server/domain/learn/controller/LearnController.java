@@ -39,7 +39,7 @@ public class LearnController {
                                           @PathVariable Long learnId,
                                           @RequestBody LearnUpdateRequest request,
                                           Authentication authentication){
-        LearnDto learnDto = learnService.update(request.getTitle(), request.getContent(), authentication.getName(), contentId, learnId);
+        LearnDto learnDto = learnService.update(request.getTitle(), request.getContent(), authentication.getName(), learnId);
         return Response.success(LearnResponse.from(learnDto));
     }
 
