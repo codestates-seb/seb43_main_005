@@ -2,19 +2,20 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
-import ProfileImage from "../components/common/ProfileImage.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
 import { getData, updateData, deleteData } from "../api/apiUtil.js";
 import CustomInput from "../components/common/CustomInput.jsx";
 import Dialog from "../components/common/Dialog.jsx";
+import useModal from "../hooks/useModal.js";
+import useInput from "../hooks/useInput.js";
 
 export default function EditMypage() {
-  const [profileImage, setProfileImage] = useState("default");
-  const [nickName, setNickName] = useState("default");
-  const [email, setEmail] = useState("default@gmail.com");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setPassword] = useState("");
-  const [checkNewPassword, setPasswordConfirm] = useState("");
+  const [profileImage, setProfileImage] = useInput("default");
+  const [nickName, setNickName] = useInput("default");
+  const [email, setEmail] = useInput("default@gmail.com");
+  const [currentPassword, setCurrentPassword] = useInput("");
+  const [newPassword, setPassword] = useInput("");
+  const [checkNewPassword, setPasswordConfirm] = useInput("");
   const [edited, setEdited] = useState(false);
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ export default function EditMypage() {
       setProfileImage(res.result.profileImage);
       setNickName(res.result.nickName);
       setEmail(res.result.email);
-      setPassword(res.result.password);
+      setCurrentPassword(res.result.password);
     });
   }
   useEffect(() => {
@@ -72,9 +73,11 @@ export default function EditMypage() {
     );
   };
 
+  const [modal, openModal, closeModal] = useModal(false);
   // 회원 탈퇴
   const handleSignOffBtnClick = e => {
     e => e.preventDefault();
+    openModal(true);
     return (
       <Dialog
         feat="탈퇴하기"
@@ -117,17 +120,19 @@ export default function EditMypage() {
                 text="닉네임"
                 type="text"
                 feat="mypage"
-                value={nickName}
-                onChange={onChange}
+                bind
+                // value={nickName}
+                // onChange={onChange}
               />
               <CustomInput
                 name="email"
                 text="이메일"
                 type="email"
                 feat="mypage"
-                value={email}
                 disabled="true"
-                onChange={onChange}
+                bind
+                // value={email}
+                // onChange={onChange}
               />
             </InputBox>
             <CustomButton
@@ -143,24 +148,27 @@ export default function EditMypage() {
                 text="현재 비밀번호"
                 type="password"
                 feat="mypage"
-                value={currentPassword}
-                onChange={onChange}
+                bind
+                // value={currentPassword}
+                // onChange={onChange}
               />
               <CustomInput
                 name="newPassword"
                 text="변경할 비밀번호"
                 type="password"
                 feat="mypage"
-                value={newPassword}
-                onChange={onChange}
+                bind
+                // value={newPassword}
+                // onChange={onChange}
               />
               <CustomInput
                 name="checkNewPassword"
                 text="비밀번호 확인"
                 type="password"
                 feat="mypage"
-                value={checkNewPassword}
-                onChange={onChange}
+                bind
+                // value={checkNewPassword}
+                // onChange={onChange}
               />
             </InputBox>
             <CustomButton
