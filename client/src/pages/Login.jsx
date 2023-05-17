@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
@@ -8,13 +8,13 @@ import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
 import { updateData } from "../api/apiUtil.js";
+
 export default function Login() {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
   let data = { email, password };
-  console.log(data);
   // 로그인 버튼 핸들러
   const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
@@ -28,9 +28,13 @@ export default function Login() {
 
     // 성공하면 "/으로이동"
     try {
-      await updateData(data, `/members/login`, "post");
+      await updateData(data, `/members/login`, "post").then(res => {
+        localStorage.setItem("access_token", res.authorization);
+        localStorage.setItem("refresh_token", res.refresh);
+      });
       // 요청이 성공하면 페이지 이동
-      window.location.href = "/";
+
+      navigate("/");
     } catch (error) {
       // 요청이 실패한 경우 에러 처리
       console.error(error);
