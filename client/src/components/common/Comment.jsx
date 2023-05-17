@@ -4,26 +4,25 @@ import Tool from "../../assets/images/Tool.svg";
 import Good from "../../assets/images/good.svg";
 import { useState } from "react";
 
-// 죄측에 프로필 사진이 뜨게하는 유무
-// 상단 중단 하단 글 뜨게하는거 2개 or 3개
-// 하단은 흐리게 하게 해야됨
-// 우측엔 댓글 또는 추천 수 뜨게하거나 수정하기 버튼나오게하거나 굳추천수 나오게하거나
-// function SettingTool() {
-//   return (
-
-//   );
-// }
-
-export default function Comment({ profile, twoline, feat }) {
+// commentBody 데이터
+// profile 프로필 사진
+// twoline : content 보이게 할건지
+// feat : Tool, count, like 있음
+export default function Comment({ commentBody, profile, twoline, feat }) {
   const [dropdown, setDropdown] = useState(false);
+  let nikeName = commentBody.member.nickName;
+  let content = commentBody.content;
+  let createdAt = commentBody.createdAt.slice(0, 10);
+  let likeCount = commentBody.like;
+
   return (
     <CommentContainer>
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
       <Profile profile={profile} />
       <Body twoline={twoline}>
-        <div>최상단!!!</div>
-        <div>중단!!!!!</div>
-        <div>2023.07.20</div>
+        <div>{nikeName}</div>
+        <div>{content}</div>
+        <div>{createdAt}</div>
       </Body>
       {feat === "tool" && (
         <Side feat={feat}>
@@ -42,11 +41,11 @@ export default function Comment({ profile, twoline, feat }) {
             </Modal>
           )}
           <div>
-            <img src={Good} alt="good" /> 34
+            <img src={Good} alt="good" /> {likeCount}
           </div>
         </Side>
       )}
-      {feat === "count" && <Count>12</Count>}
+      {feat === "count" && <Count>{likeCount}</Count>}
       {feat === "like" && (
         <Count>
           <img src={Good} alt="good" /> 12
@@ -58,6 +57,7 @@ export default function Comment({ profile, twoline, feat }) {
 
 const CommentContainer = styled.div`
   display: flex;
+  max-width: 100%;
   height: 120px;
   border-bottom: solid 1px ${({ theme }) => theme.color.gray100};
   background-color: ${({ theme }) => theme.color.white};

@@ -9,7 +9,7 @@ function AuthInput({ type, id, placeholder, alertMessage, value }) {
           type={type}
           id={id}
           placeholder={placeholder}
-          onChange={e => {
+          onInput={e => {
             value(e.target.value);
           }}
         />

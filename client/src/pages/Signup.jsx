@@ -3,58 +3,86 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
-// import axios from "axios";
 import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
+import { updateData } from "../api/apiUtil.js";
 
 export default function Signup() {
   const navigate = useNavigate();
-  let [nickName, setNickName] = useState("");
-  let [email, setEmail] = useState("");
-  let [password, setPassword] = useState("");
-  let [checkPW, setCheckPW] = useState("");
-  let [essentialAlert, setEssentialAlert] = useState("");
-  let [passwordAlert, setPasswordAlert] = useState("");
-  let [passwordMatche, setPasswordMatche] = useState("");
+  const [nickName, setNickName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [checkPW, setCheckPW] = useState("");
+  const [essentialAlert, setEssentialAlert] = useState("");
+  const [passwordAlert, setPasswordAlert] = useState(
+    "4~12자, 숫자와 소문자 영어를 포함해야합니다."
+  );
 
+  let data = {
+    email: email.trim(),
+    password: password.trim(),
+    checkPassword: checkPW.trim(),
+    nickname: nickName.trim(),
+  };
+  // mbti 데이터 있는경우
+  let mbtidata = localStorage.getItem("mbti");
+  if (mbtidata) {
+    data["memberMbti"] = mbtidata;
+  }
+  console.log(data);
   // 비밀번호 조건
   const isPasswordValid = pw => {
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
     return passwordRegex.test(pw);
   };
 
-  const onSubmitHandler = event => {
+  // 비밀번호 에러별 경고문구
+  const pwAlertCondition = (password, checkPW) => {
+    if (password === "" || checkPW === "") {
+      return "비밀번호를 입력해주세요";
+    } else if (isPasswordValid(password) === false) {
+      return "4~12자, 숫자와 소문자 영어를 포함해야합니다.";
+    } else if (password !== checkPW) {
+      return "비밀번호가 일치하지 않습니다.";
+    } else {
+      return "";
+    }
+  };
+
+  const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
-    //닉네임과 이메일
+
+    // alert
     setEssentialAlert(
       nickName === "" || email === "" ? "필수 정보 입니다." : ""
     );
-    // 비밀번호 조건
-    setPasswordAlert(
-      isPasswordValid(password) === false &&
-        "8~16자 영문 대,소문자, 특수문자를 사용하세요"
-    );
-    // 비밀번호 빈값일 때
-    setPasswordAlert(password === "" ? "비밀번호를 입력해주세요" : "");
+    setPasswordAlert(pwAlertCondition(password, checkPW));
 
-    setPasswordMatche(
-      password === checkPW ? "" : "비밀번호가 일치하지 않습니다."
-    );
-    // if (nickName === "" || email === "") return;
+    // 알람이 빈값이면 서버에 post보내기
+    if (essentialAlert === "" && passwordAlert === "") {
+      try {
+        await updateData(data, `/members`, "post");
+
+        navigate("/user/login");
+      } catch (error) {
+        console.error(error);
+        if (passwordAlert === "") {
+          setPasswordAlert("이메일과 비밀번호를 확인해주세요");
+        }
+      }
+    }
   };
 
   return (
     <PageContainer>
-      <LoginWrap onSubmit={onSubmitHandler}>
+      <LoginWrap>
         <h2>Sign up</h2>
         <InputBundle
           onSubmit={onSubmitHandler}
           essentialAlert={essentialAlert}
-          passwordAlert={passwordAlert}
-          passwordMatche={passwordMatche}>
+          passwordAlert={passwordAlert}>
           <AuthInput
             type="text"
             id="nickName"
@@ -72,20 +100,17 @@ export default function Signup() {
             type="password"
             id="password"
             placeholder="비밀번호"
-            alertMessage={passwordAlert}
             value={setPassword}
           />
           <AuthInput
             type="password"
             id="password"
             placeholder="비밀번호 확인"
-            alertMessage={passwordMatche}
+            alertMessage={passwordAlert}
             value={setCheckPW}
           />
           <ButtonGroup type="submit">
             <button>회원가입</button>
-            {/* 로그인 실패시 뜨게할 창 */}
-            {/* <p className={loginFailed}>Login failed</p> */}
           </ButtonGroup>
         </InputBundle>
 
@@ -125,15 +150,9 @@ const InputBundle = styled.form`
       essentialAlert === "" ? "0px" : "40px"};
   }}
 
-
-  & > :nth-child(3) {
+  & > :nth-child(4) {
     margin-bottom: ${({ passwordAlert }) =>
       passwordAlert === "" ? "0px" : "40px"};
-  }}
-
-  & > :nth-child(4) {
-    margin-bottom: ${({ passwordMatche }) =>
-      passwordMatche === "" ? "0px" : "40px"};
   }}
 `;
 
