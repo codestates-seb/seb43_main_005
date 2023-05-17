@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
-// import axios from "axios";
+import axios from "axios";
 import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
+import { updateData } from "../api/apiUtil.js";
 
 export default function Login() {
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
-
-  // 이메일 핸들러
-
+  let data = { email, password };
   // 로그인 버튼 핸들러
-  const onSubmitHandler = event => {
+  const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
 
@@ -27,24 +26,20 @@ export default function Login() {
     );
     if (email === "" || password === "") return;
 
-    //로그인 처리
-    // axios
-    //   .post(
-    //     '넘겨받은 주소',
-    //     {
-    //       email,
-    //       password,
-    //     }
-    //   )
-    //   .then((res) => {
-    //     localStorage.setItem('access_token', res.headers.authorization);
-    //     localStorage.setItem('refresh_token', res.headers.refresh);
-    //     setLoginFailed('');
-    //     navigate('/home');
-    //   })
-    //   .catch(() => {
-    //     setLoginFailed('login-failed');
-    //   });
+    // 성공하면 "/으로이동"
+    try {
+      await updateData(data, `/members/login`, "post").then(res => {
+        localStorage.setItem("access_token", res.authorization);
+        localStorage.setItem("refresh_token", res.refresh);
+      });
+      // 요청이 성공하면 페이지 이동
+
+      navigate("/");
+    } catch (error) {
+      // 요청이 실패한 경우 에러 처리
+      console.error(error);
+      setLoginAlert("아이디와 비밀번호를 확인해주세요");
+    }
   };
   return (
     <PageContainer>
@@ -66,7 +61,7 @@ export default function Login() {
           />
           <PasswordFinder
             onClick={() => {
-              navigate("/user/findpw");
+              navigate("/user/findpw/1");
             }}
             // 이거 안넣으면 오류뜸
             aria-hidden="true">
