@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
-// import axios from "axios";
 import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
@@ -26,6 +25,7 @@ export default function Signup() {
     checkPassword: checkPW.trim(),
     nickname: nickName.trim(),
   };
+  // mbti 데이터 있는경우
   let mbtidata = localStorage.getItem("mbti");
   if (mbtidata) {
     data["memberMbti"] = mbtidata;
@@ -53,25 +53,20 @@ export default function Signup() {
   const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
-    //닉네임과 이메일
+
+    // alert
     setEssentialAlert(
       nickName === "" || email === "" ? "필수 정보 입니다." : ""
     );
     setPasswordAlert(pwAlertCondition(password, checkPW));
+
     // 알람이 빈값이면 서버에 post보내기
     if (essentialAlert === "" && passwordAlert === "") {
       try {
         await updateData(data, `/members`, "post");
-        // 요청이 성공하면 페이지 이동
-        window.location.href = "/user/login";
+
+        navigate("/user/login");
       } catch (error) {
-        //에러별로 다른 메시지 출력?
-        // if (error.response && error.response.status === 500) {
-        //   console.error("서버 오류가 발생했습니다.");
-        //   // 서버 오류 메시지 출력 또는 사용자에게 알리는 방식으로 처리
-        // } else {
-        //   console.error(error);
-        // }
         console.error(error);
         if (passwordAlert === "") {
           setPasswordAlert("이메일과 비밀번호를 확인해주세요");
