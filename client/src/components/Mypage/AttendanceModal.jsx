@@ -1,4 +1,4 @@
-// import { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import CustomButton from "../common/CustomButton.jsx";
 import axios from "axios";
@@ -8,36 +8,50 @@ import { getData, attendance } from "../../api/apiUtil.js";
 export default function Modal() {
   const [attend, openAttend, closeAttend] = useModal(false);
   const handleAttend = () => {
+    getUsername();
     openAttend(true);
   };
   const closeAttendF = () => {
     closeAttend(false);
   };
 
-  // 임시 변수
-  let userName = "test user";
+  // 유저 이름받아오기
+  const [userName, setUserName] = useState("guest");
   function getUsername() {
     getData("/members/info").then(res => {
       console.log(res.result.nickName);
+      setUserName(res.result.nickName);
     });
   }
+
+  // 로그인 상태일 때 메인페이지에서 출석여부 받아오기
+  // 출석날짜 조회 후 오늘 date 와 일치 여부 체크
+  // 출석 시도시 => 409 에러로 중복 출석 여부 체크 가능
+  // function attendanceCheck() {
+  //   attendance("/members/check-in-date", "get").then(res => {
+  //     console.log(res.result);
+  //     // 출석 했는데 또 출석누르면 409 에러 반환.
+  //     // 로컬스토리지에 출석 날짜 저장해두고, 로그인 시 오늘 date 와 비교해서 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
+  //     localStorage.setItem("attendance_date", res.result);
+  //   });
+  // }
 
   // 출석하기 버튼
   function attendCheck() {
     attendance("/members/check-in", "post")
-      .then(res => console.log(res))
-      .catch(error => console.log(error))
-      .finally(
-        getData("/members/info")
-          .then(res => {
-            console.log(res.result.nickName);
-          })
-          .then(
-            attendance("/members/check-in-date", "get").then(res =>
-              console.log(res)
-            )
-          )
-      );
+      .then(res => {
+        console.log(res);
+        // 출석 완료 및 경험치 얻음 모달 띄우기
+      })
+      .catch(error => console.log(error));
+    // .finally(
+    //   attendance("/members/check-in-date", "get").then(res => {
+    //     console.log(res.result);
+    //     // 출석 했는데 또 출석누르면 409 에러 반환.
+    //     // 로컬스토리지에 출석 날짜 저장해두고, 로그인 시 오늘 date 와 비교해서 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
+    //     localStorage.setItem("attendance_date", res.result);
+    //   })
+    // );
   }
 
   return (

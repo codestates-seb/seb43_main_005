@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { useEffect, useState } from "react";
+import getData from "../../hooks/useInput";
 
 export default function ProfileImage({
   onClick,
@@ -10,8 +12,17 @@ export default function ProfileImage({
   margin,
 }) {
   // feat = 'header' | 'mypage' | 'mycomment'
+  const [profileImage, setProfileImage] = useState("default");
   const navigate = useNavigate();
   const handlePath = () => path && navigate(path);
+
+  // 유저 프로필 이미지 받아오기
+  const data = getData("/members/info");
+
+  useEffect(() => {
+    setProfileImage(data?.result?.profileImage);
+    console.log(data);
+  }, [data]);
 
   return (
     <StyledProfileImage
@@ -19,7 +30,8 @@ export default function ProfileImage({
       feat={feat}
       profileImg={profileImg}
       width={width}
-      margin={margin}></StyledProfileImage>
+      margin={margin}
+    />
   );
 }
 

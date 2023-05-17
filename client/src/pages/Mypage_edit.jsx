@@ -78,13 +78,6 @@ export default function EditMypage() {
   const handleSignOffBtnClick = e => {
     e => e.preventDefault();
     openModal(true);
-    return (
-      <Dialog
-        feat="탈퇴하기"
-        text={["정말로 탈퇴하시겠습니까?"]}
-        closeDialog={signOff}
-      />
-    );
   };
   const signOff = () => {
     deleteData("/members/withdrawal");
@@ -184,6 +177,13 @@ export default function EditMypage() {
             feat="underline"
             onClick={e => handleSignOffBtnClick(e)}
           />
+          {modal && (
+            <Dialog
+              feat="탈퇴하기"
+              text={["정말로 탈퇴하시겠습니까?"]}
+              closeDialog={closeModal}
+            />
+          )}
         </BtnBox>
         <CancelBtnBox>
           <CustomButton text="취소" onClick={() => navigate("/")} />
