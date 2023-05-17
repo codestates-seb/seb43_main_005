@@ -1,16 +1,31 @@
 import styled from "styled-components";
 import { AiOutlineClose } from "react-icons/ai";
 import CustomButton from "./CustomButton.jsx";
+import { useNavigate } from "react-router-dom";
+import { deleteData } from "../../api/apiUtil.js";
 
-export default function Dialog({ feat, text, closeDialog }) {
+export default function Dialog({ feat, path, text, closeDialog }) {
+  const navigate = useNavigate();
   const clickBack = e => e.target.classList.contains("close") && closeDialog();
   const handleDialog = () => {
     /*
     feat === '로그아웃' && 로그아웃
     feat === '탈퇴하기' && 탈퇴
     feat === '삭제하기' && 게시글 삭제
+    
   */
+    if (feat === "삭제하기") {
+      deleteItem();
+    }
+    if (feat === "작성취소") navigate(-1);
     closeDialog();
+  };
+
+  // ! delete
+  const deleteItem = async () => {
+    // console.log(path);
+    await deleteData(path);
+    navigate("/");
   };
 
   return (

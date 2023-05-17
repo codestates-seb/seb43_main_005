@@ -1,13 +1,26 @@
 import styled from "styled-components";
 import ProfileImage from "../common/ProfileImage.jsx";
+import { getComment } from "../../api/apiUtil.js";
+import useEffect from "react";
 
 export default function MyComment() {
+  // 내가 작성한 토론글 목록 get
+  // function myCommentCheck() {
+  //   getComment({ page: 1, size: 10, sort: "default" }, "/members/my-comment")
+  //     .then(res => console.log(res))
+  //     .catch(error => console.log(error));
+  // }
+  // useEffect(() => {
+  //   myCommentCheck();
+  // }, []);
+
   // 임시 랜덤이미지
   let userProfileImage = "https://source.unsplash.com/random/300x300/?animal";
   // DebateTitle 클릭 시 해당 토론글로 이동하기
   return (
     <>
-      <DebateContainer>
+      <DebateContainer className="DebateContainer">
+        {/* <button onClick={myCommentCheck}>불러오기</button> */}
         <CommentContainer>
           <ProfileImage profileImg={userProfileImage} feat="mycomment" />
           <CommentBox>

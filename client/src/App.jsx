@@ -23,7 +23,9 @@ import Course from "./pages/Course.jsx";
 
 function App() {
   const { pathname } = useLocation();
-  const hideHeaderFooter = pathname.startsWith("/user");
+  const hideHeaderFooter =
+    pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
+  // path가 '/user'로 시작하거나, '/course/문자혹은숫자' 로 시작하면 common header 숨김
 
   return (
     <ThemeProvider theme={theme}>
@@ -44,6 +46,7 @@ function App() {
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
@@ -54,7 +57,7 @@ function App() {
           element={<AdminWrite mode="patch" />}
         />
         <Route
-          path="/admin/write/course/:courseId/:feat/:id"
+          path="/admin/edit/course/:courseId/:feat/:id"
           element={<AdminWrite mode="patch" />}
         />
       </Routes>
