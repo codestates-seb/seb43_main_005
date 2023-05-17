@@ -1,57 +1,44 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import { getData, updateData, deleteData } from "../api/apiUtil.js";
+import { updateData, deleteData, getImagesUrl } from "../api/apiUtil.js";
 import CustomInput from "../components/common/CustomInput.jsx";
 import Dialog from "../components/common/Dialog.jsx";
 import useModal from "../hooks/useModal.js";
 import useInput from "../hooks/useInput.js";
+import useUploadImg from "../hooks/useUploadImg.js";
 
 export default function EditMypage() {
-  const [profileImage, setProfileImage] = useInput("default");
-  const [nickName, setNickName] = useInput("default");
-  const [email, setEmail] = useInput("default@gmail.com");
-  const [currentPassword, setCurrentPassword] = useInput("");
-  const [newPassword, setPassword] = useInput("");
-  const [checkNewPassword, setPasswordConfirm] = useInput("");
+  // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기 => item 으로 받아오기
+  const { state } = useLocation();
+  const item = state?.item;
+  const [userProfile, payload] = useUploadImg(item?.profileImage);
+
+  // 프로필 이미지 수정
+  // 이미지 수정을 눌렀을 때 payload 를 보내기
+  const submitImg = e => {
+    e.preventDefault();
+    getImagesUrl(payload).then(res =>
+      updateData(res.result, "/members/profile-image", "patch").then(res =>
+        console.log(res)
+      )
+    );
+    // 이미지 선택 안하고 이미지 수정 버튼 클릭시 500 에러 => 에러 처리 추가하기!
+  };
+
+  const [nickName] = useInput(item.nickName);
+  const [email] = useInput(item.email);
+  const [currentPassword] = useInput("");
+  const [newPassword] = useInput("");
+  const [checkNewPassword] = useInput("");
   const [edited, setEdited] = useState(false);
   const navigate = useNavigate();
   // 회원탈퇴 확인 모달
   const [modal, openModal, closeModal] = useModal(false);
 
-  // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기
-  function getUserInfo() {
-    getData("/members/info").then(res => {
-      console.log(res.result);
-      setProfileImage(res.result.profileImage);
-      setNickName(res.result.nickName);
-      setEmail(res.result.email);
-      setCurrentPassword(res.result.password);
-    });
-  }
-  useEffect(() => {
-    getUserInfo();
-  }, [edited]); // 최초 렌더링 + 수정 완료 시 불러오기
-
-  // 입력 값 받아오기
-  const onChange = e => {
-    const {
-      target: { name, value },
-    } = e;
-    if (name === "nickName") {
-      setNickName(value);
-    } else if (name === "newPassword") {
-      setPassword(value);
-    } else if (name === "checkNewPassword") {
-      setPasswordConfirm(value);
-    }
-  };
-
   // * 수정 버튼 클릭 시 유저 데이터 수정
-
-  // 프로필 이미지 수정
 
   // 닉네임 수정
   const submitNickname = e => {
@@ -85,17 +72,15 @@ export default function EditMypage() {
         <InfoBox className="ImgContainer">
           <form>
             <CustomInput
-              name="profileImage"
               text="프로필 사진"
               type="img"
               feat="mypage"
-              value={profileImage}
-              onChange={onChange}
+              value={userProfile}
             />
             <CustomButton
               text="이미지 수정"
               reverse="true"
-              // onClick={submitImg}
+              onClick={submitImg}
             />
           </form>
         </InfoBox>
@@ -103,21 +88,16 @@ export default function EditMypage() {
           <form>
             <InputBox className="InputBox">
               <CustomInput
-                name="nickName"
                 text="닉네임"
                 type="text"
                 feat="mypage"
-                bind
-                // value={nickName}
-                // onChange={onChange}
+                value={nickName}
               />
               <CustomInput
-                name="email"
                 text="이메일"
                 type="email"
                 feat="mypage"
-                disabled="true"
-                bind
+                disabled
                 value={email}
               />
             </InputBox>
@@ -130,31 +110,22 @@ export default function EditMypage() {
           <form>
             <InputBox>
               <CustomInput
-                name="currentPassword"
                 text="현재 비밀번호"
                 type="password"
                 feat="mypage"
-                bind
-                // value={currentPassword}
-                // onChange={onChange}
+                value={currentPassword}
               />
               <CustomInput
-                name="newPassword"
                 text="변경할 비밀번호"
                 type="password"
                 feat="mypage"
-                bind
-                // value={newPassword}
-                // onChange={onChange}
+                value={newPassword}
               />
               <CustomInput
-                name="checkNewPassword"
                 text="비밀번호 확인"
                 type="password"
                 feat="mypage"
-                bind
-                // value={checkNewPassword}
-                // onChange={onChange}
+                value={checkNewPassword}
               />
             </InputBox>
             <CustomButton

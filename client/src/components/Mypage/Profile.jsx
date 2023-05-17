@@ -15,7 +15,6 @@ export default function Mypage({ userInfo }) {
     <ProfileContainer className="ProfileContainer">
       <InnerBox className="InnerBox">
         <ProfileImage profileImg={userInfo.profileImage} feat="mypage" />
-        {/* <ProfileImage feat="mypage" /> */}
         <TextContainer margin="0 10px 0 0" fontSize="0.8rem" pFontSize="1rem">
           <div>Nickname</div>
           <StyledSpan>
@@ -30,7 +29,8 @@ export default function Mypage({ userInfo }) {
         <CustomButton
           feat="round"
           text="프로필 수정"
-          onClick={() => navigate("/mypage/edit")}
+          path="/mypage/edit"
+          item={userInfo}
         />
       </BtnBox>
     </ProfileContainer>

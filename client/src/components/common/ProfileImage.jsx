@@ -16,14 +16,6 @@ export default function ProfileImage({
   const navigate = useNavigate();
   const handlePath = () => path && navigate(path);
 
-  // 유저 프로필 이미지 받아오기
-  const data = getData("/members/info");
-
-  useEffect(() => {
-    setProfileImage(data?.result?.profileImage);
-    console.log(data);
-  }, [data]);
-
   return (
     <StyledProfileImage
       onClick={onClick || handlePath}
