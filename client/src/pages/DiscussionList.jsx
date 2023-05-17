@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
 import search from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
+import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
+  const [body, setBody] = useState([]);
+
+  useEffect(() => {
+    getData("/article")
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -21,30 +33,9 @@ export default function Discussion() {
       </Bar>
       {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
       <DiscussionList>
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
-        <Discussions
-          title="123123123131231231231312231123123131223123131231231231312312312313123123123131231231231312s12313"
-          createdAt="2023.05.11"
-          view="25"
-          commentCount="10"
-        />
+        {body.map(item => {
+          return <Discussions body={item} key={item.articleId} />;
+        })}
       </DiscussionList>
 
       {/* 어드민만 보이도록 해야된다. */}
