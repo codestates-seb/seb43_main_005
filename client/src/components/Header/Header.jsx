@@ -85,7 +85,8 @@ const shakeText = keyframes`
 const HeaderWrap = styled.header`
   width: 100%;
   padding: ${({ course }) => (course ? "10px 0" : "70px 0 0 0")};
-  background-color: ${({ course, theme }) => course && theme.color.white};
+  background-color: ${({ course, theme }) =>
+    course ? theme.color.white : theme.color.bg};
   border-bottom: ${({ course, theme }) =>
     course && `2px solid ${theme.color.main}`};
   position: fixed;
@@ -120,7 +121,6 @@ const HeaderWrap = styled.header`
     css`
       padding-top: 30px;
       height: 100vh;
-      background-color: ${({ theme }) => theme.color.bg};
       .burger {
         animation-name: ${spinMenu2};
         animation-duration: 0.3s;
