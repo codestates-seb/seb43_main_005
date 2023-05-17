@@ -5,7 +5,7 @@ import HeaderUser from "./HeaderUser.jsx";
 import WaveSvg from "../../assets/images/WaveSvg.jsx";
 import ship from "../../assets/images/imgShip.png";
 
-export default function Header() {
+export default function Header({ course, setLnb }) {
   const login = true; // 임시변수
   const [menu, openMenu, closeMenu] = useModal(false);
   const navigate = useNavigate();
@@ -14,13 +14,19 @@ export default function Header() {
     closeMenu();
   };
 
+  const handleNav = () => {
+    if (course) {
+      setLnb(prev => !prev);
+    } else {
+      menu ? closeMenu() : openMenu();
+    }
+  };
+
   return (
-    <HeaderWrap menu={menu}>
-      <WaveSvg menu={menu} />
+    <HeaderWrap course={course} menu={menu}>
+      <WaveSvg course={course} menu={menu} />
       <Wrap>
-        <BurgerBtn
-          className="burgerBtn"
-          onClick={() => (menu ? closeMenu() : openMenu())}>
+        <BurgerBtn className="burgerBtn" onClick={handleNav}>
           <Burger className="burger" />
         </BurgerBtn>
         <Logo className="logo">
@@ -30,19 +36,21 @@ export default function Header() {
           <HeaderUser login={login} />
         </UserWrap>
       </Wrap>
-      <Nav className="nav">
-        <ul>
-          <li onClick={() => handleLink("/")} role="none">
-            학습하기
-          </li>
-          <li onClick={() => handleLink("/")} role="none">
-            토론하기
-          </li>
-        </ul>
-        <button onClick={() => handleLink("/teampage")} className="author">
-          만든사람들
-        </button>
-      </Nav>
+      {!course && (
+        <Nav className="nav">
+          <ul>
+            <li onClick={() => handleLink("/course")} role="none">
+              학습하기
+            </li>
+            <li onClick={() => handleLink("/discussion")} role="none">
+              토론하기
+            </li>
+          </ul>
+          <button onClick={() => handleLink("/teampage")} className="author">
+            만든사람들
+          </button>
+        </Nav>
+      )}
     </HeaderWrap>
   );
 }
@@ -76,7 +84,11 @@ const shakeText = keyframes`
 // animation
 const HeaderWrap = styled.header`
   width: 100%;
-  padding-top: 70px;
+  padding: ${({ course }) => (course ? "10px 0" : "70px 0 0 0")};
+  background-color: ${({ course, theme }) =>
+    course ? theme.color.white : theme.color.bg};
+  border-bottom: ${({ course, theme }) =>
+    course && `2px solid ${theme.color.main}`};
   position: fixed;
   left: 0;
   top: 0;
@@ -84,8 +96,9 @@ const HeaderWrap = styled.header`
   height: unset;
   transition-duration: 0.5s;
   transition-delay: 0.4s;
-  ${props =>
-    !props.menu &&
+  ${({ menu, course }) =>
+    !menu &&
+    !course &&
     css`
       .burgerBtn:hover .burger {
         &::after,
@@ -102,12 +115,12 @@ const HeaderWrap = styled.header`
     `}
 
   /* open menu */
-  ${props =>
-    props.menu &&
+  ${({ menu, course }) =>
+    menu &&
+    !course &&
     css`
       padding-top: 30px;
       height: 100vh;
-      background-color: ${props => props.theme.color.bg};
       .burger {
         animation-name: ${spinMenu2};
         animation-duration: 0.3s;
@@ -116,14 +129,14 @@ const HeaderWrap = styled.header`
         &::after,
         &::before {
           top: 0;
-          background-color: ${props => props.theme.color.white};
+          background-color: ${({ theme }) => theme.color.white};
         }
         &::before {
           transform: rotate(90deg);
         }
       }
       .logo {
-        color: ${props => props.theme.color.white};
+        color: ${({ theme }) => theme.color.white};
       }
       .nav {
         height: calc(90vh - 90px);
@@ -137,16 +150,16 @@ const HeaderWrap = styled.header`
       }
     `}
 
-  @media ${props => props.theme.mediaQuery.tablet} {
-    padding-top: 60px;
+  @media ${({ theme }) => theme.mediaQuery.tablet} {
+    padding-top: ${({ course }) => course || "60px"};
     ${props =>
       props.menu &&
       css`
         padding-top: 30px;
       `}
   }
-  @media ${props => props.theme.mediaQuery.mobile} {
-    padding-top: 50px;
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
+    padding-top: ${({ course }) => course || "50px"};
     ${props =>
       props.menu &&
       css`
@@ -157,14 +170,14 @@ const HeaderWrap = styled.header`
 const Wrap = styled.div`
   position: relative;
 
-  @media ${props => props.theme.mediaQuery.desktop} {
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
     padding: 0 40px;
   }
-  @media ${props => props.theme.mediaQuery.tablet} {
+  @media ${({ theme }) => theme.mediaQuery.tablet} {
     width: 90%;
     margin: 0 auto;
   }
-  @media ${props => props.theme.mediaQuery.mobile} {
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
     width: 90%;
     margin: 0 auto;
   }
@@ -175,7 +188,7 @@ const Logo = styled.h1`
   font-family: "Shrikhand", cursive;
   text-align: center;
   a {
-    color: ${props => props.theme.color.main};
+    color: ${({ theme }) => theme.color.main};
   }
 
   @media ${props => props.theme.mediaQuery.mobile} {
@@ -213,7 +226,7 @@ const Burger = styled.span`
     display: block;
     width: 100%;
     height: 4px;
-    background-color: ${props => props.theme.color.main};
+    background-color: ${({ theme }) => theme.color.main};
     border-radius: 2px;
     transition-duration: 0.3s;
   }
@@ -233,7 +246,7 @@ const UserWrap = styled.div`
   top: 0;
   right: 0;
 
-  @media ${props => props.theme.mediaQuery.desktop} {
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
     right: 40px;
   }
 `;
@@ -267,9 +280,9 @@ const Nav = styled.nav`
       font-family: "GmarketSansBold";
       color: ${props => props.theme.color.white};
       cursor: pointer;
-      -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
+      -webkit-text-stroke: 1px ${({ theme }) => theme.color.textBold}; // chrome, safari
       &:hover {
-        text-shadow: 5px 5px 0px ${props => props.theme.color.textBold};
+        text-shadow: 5px 5px 0px ${({ theme }) => theme.color.textBold};
       }
     }
   }
@@ -278,14 +291,14 @@ const Nav = styled.nav`
     font-family: "GmarketSansLight";
     position: absolute;
     bottom: -25px;
-    color: ${props => props.theme.color.white};
+    color: ${({ theme }) => theme.color.white};
     font-size: 1em;
   }
   .author:hover {
     animation: ${shakeText} 0.2s 0s alternate linear infinite;
   }
 
-  @media ${props => props.theme.mediaQuery.desktop} {
+  @media ${({ theme }) => theme.mediaQuery.desktop} {
     &:after {
       right: 15%;
     }
@@ -293,7 +306,7 @@ const Nav = styled.nav`
       right: calc(15% + 90px);
     }
   }
-  @media ${props => props.theme.mediaQuery.tablet} {
+  @media ${({ theme }) => theme.mediaQuery.tablet} {
     &:after {
       right: 10%;
     }
@@ -301,7 +314,7 @@ const Nav = styled.nav`
       right: calc(10% + 90px);
     }
   }
-  @media ${props => props.theme.mediaQuery.mobile} {
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
     ul {
       gap: 2rem;
     }

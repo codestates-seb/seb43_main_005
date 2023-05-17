@@ -31,7 +31,6 @@ export default function CustomButton({
 
   return (
     <StyledButton
-      className="test"
       onClick={onClick || handlePath}
       feat={feat}
       reverse={reverse}
@@ -104,6 +103,9 @@ const StyledButton = styled.button`
       color: ${({ theme }) => theme.color.text};
       position: relative;
       text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       .icon-finger {
         top: 11px;
         right: 15px;

@@ -9,6 +9,7 @@ import AttendanceModal from "../components/Mypage/AttendanceModal.jsx";
 import Level from "../components/Mypage/Level.jsx";
 import earth from "../assets/images/imgEarth.png";
 import ProfileImage from "../components/common/ProfileImage.jsx";
+import Empty from "../components/common/Empty.jsx";
 
 export default function Main() {
   const login = true;
@@ -77,15 +78,21 @@ export default function Main() {
           </Myinfo>
 
           <Dashboard>
-            <Title>
-              <p>아직 완료하지 못한 강의가 있어요!</p>
-              <a href="/" className="h3">
-                Go to Dashboard
-              </a>
-            </Title>
-            <Content className="dashboard">
-              <CustomCourse feat="progress" item={dashboard} />
-            </Content>
+            {dashboard ? (
+              <>
+                <Title>
+                  <p>아직 완료하지 못한 강의가 있어요!</p>
+                  <a href="/" className="h3">
+                    Go to Dashboard
+                  </a>
+                </Title>
+                <Content className="dashboard">
+                  <CustomCourse feat="progress" item={dashboard} />
+                </Content>
+              </>
+            ) : (
+              <Empty text="아직 수강중인 강의가 없어요" />
+            )}
           </Dashboard>
         </LoginArea>
       )}
@@ -97,11 +104,11 @@ export default function Main() {
           </h3>
           <p>이제 막 개발을 시작한 Code Traveler들을 위한 개발자 안내서!</p>
         </Title>
-        <Content className="course">
+        <Content empty={!course?.length} className="course">
           {course?.map(el => (
             <CustomCourse key={el.contentId} item={el} />
           ))}
-          {!course?.length && <span>데이터가 없습니다</span>}
+          {!course?.length && <Empty button="course" />}
         </Content>
       </ContentsArea>
       <ContentsArea>
@@ -111,7 +118,7 @@ export default function Main() {
           </h3>
           <p>뜨거운 논쟁을 즐기는 열정적인 Code Traveler 위한 토론방</p>
         </Title>
-        <Content className="article">
+        <Content empty={!article?.length} className="article">
           {article?.map(el => (
             <CustomButton
               key={el.articleId}
@@ -121,7 +128,7 @@ export default function Main() {
               item={el}
             />
           ))}
-          {!article?.length && <span>데이터가 없습니다</span>}
+          {!article?.length && <Empty button="article" />}
         </Content>
       </ContentsArea>
       <AttendanceModal />
@@ -182,6 +189,7 @@ const VisualArea = styled.section`
 const ContentsArea = styled.section`
   width: 90%;
   margin: 0 auto;
+
   @media ${props => props.theme.mediaQuery.desktop} {
     max-width: 1375px;
     padding-top: 150px;
@@ -233,6 +241,7 @@ const Content = styled.div`
   &.article {
     grid-template-columns: 1fr 1fr;
   }
+  grid-template-columns: ${({ empty }) => empty && "unset !important"};
 
   @media ${props => props.theme.mediaQuery.desktop} {
     gap: 20px;
@@ -313,6 +322,8 @@ const WelcomeMent = styled.div`
   }
 `;
 const Dashboard = styled.article`
+  display: grid;
+  align-items: center;
   width: 100%;
   padding: 60px;
   box-sizing: border-box;
