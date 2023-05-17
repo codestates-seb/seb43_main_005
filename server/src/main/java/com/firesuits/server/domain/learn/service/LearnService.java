@@ -3,7 +3,6 @@ package com.firesuits.server.domain.learn.service;
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.learn.dto.LearnDto;
-import com.firesuits.server.domain.learn.dto.response.LearnResponse;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.learn.repository.LearnRepository;
 import com.firesuits.server.domain.member.entity.Member;
@@ -47,7 +46,7 @@ public class LearnService {
         learn.setContent(content);
         return LearnDto.from(learnRepository.save(learn));
     }
-    @Transactional
+
     public void delete(String email, Long contentId, Long learnId){
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
