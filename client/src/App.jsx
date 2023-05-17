@@ -46,7 +46,7 @@ function App() {
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
-        <Route path="/user/coursedetail" element={<CouresDetail />} />
+        <Route path="/course/:id" element={<CouresDetail />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
           element={<AdminWrite />}

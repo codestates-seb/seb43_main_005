@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CustomSideBar from "../components/common/CustomSideBar.jsx";
+import Header from "../components/Header/Header.jsx";
 
 function CouresDetail(props) {
+  const [lnb, setLnb] = useState(false);
   return (
-    <>
-      <CustomSideBar></CustomSideBar>
-    </>
+    <Container>
+      <Header course setLnb={setLnb} />
+      <Body>
+        {lnb && <CustomSideBar>사이드바 컴포넌트</CustomSideBar>}
+        <article>학습내용 컴포넌트</article>
+      </Body>
+    </Container>
   );
 }
+const Container = styled.div`
+  background-color: ${({ theme }) => theme.color.white};
+  min-height: 100vh;
+`;
+const Body = styled.section`
+  display: flex;
+  padding-top: 60px;
+`;
 
 export default CouresDetail;
