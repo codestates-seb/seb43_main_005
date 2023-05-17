@@ -4,199 +4,223 @@ import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
 import ProfileImage from "../components/common/ProfileImage.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import axios from "axios";
+import { getData, updateData, deleteData } from "../api/apiUtil.js";
+import CustomInput from "../components/common/CustomInput.jsx";
+import Dialog from "../components/common/Dialog.jsx";
 
 export default function EditMypage() {
+  const [profileImage, setProfileImage] = useState("default");
   const [nickName, setNickName] = useState("default");
   const [email, setEmail] = useState("default@gmail.com");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setPassword] = useState("");
+  const [checkNewPassword, setPasswordConfirm] = useState("");
   const [edited, setEdited] = useState(false);
   const navigate = useNavigate();
 
-  // // 임시 변수
-  // let url = url;
-  // let memberId = "1";
-  // let token = "token";
+  // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기
+  function getUserInfo() {
+    getData("/members/info").then(res => {
+      console.log(res.result);
+      setProfileImage(res.result.profileImage);
+      setNickName(res.result.nickName);
+      setEmail(res.result.email);
+      setPassword(res.result.password);
+    });
+  }
+  useEffect(() => {
+    getUserInfo();
+  }, [edited]); // 최초 렌더링 + 수정 완료 시 불러오기
 
-  // // 서버에 보낼 데이터
-  // const patchUserInfo = {
-  //   memberId: memberId,
-  //   nickName: nickName,
-  //   email: email,
-  //   password: password,
-  //   passwordConfirm: passwordConfirm,
-  //   // 프로필 이미지 추가해야 됨
-  //   profileImage: profileImage,
-  // };
-
-  // // 유저 정보 불러오기
-  // useEffect(() => {
-  //   axios({
-  //     url: url,
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then(res => {
-  //       console.log(res);
-  //       // 유저 정보 불러오기
-  //       setNickName(res.data.nickName);
-  //       setEmail(res.data.email);
-  //       setPassword(res.data.password);
-  //     })
-  //     .catch(console.log(Error));
-  // }, [edited]); // 최초 렌더링 + 수정 완료 시 불러오기
-
-  // // 입력 값 받아오기
-  // const onChange = e => {
-  //   const {
-  //     target: { name, value },
-  //   } = e;
-  //   if (name === "nickName") {
-  //     setNickName(value);
-  //   } else if (name === "email") {
-  //     setEmail(value);
-  //   } else if (name === "password") {
-  //     setPassword(value);
-  //   } else if (name === "passwordConfirm") {
-  //     setPasswordConfirm(value);
-  //   }
-  // };
-
-  // // 수정 버튼 클릭 시 데이터 수정
-  // const submitData = async e => {
-  //   e.preventDefault();
-
-  //   await axios({
-  //     url: url,
-  //     method: "PATCH",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Accept: "application/json",
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: JSON.stringify(patchUserInfo),
-  //   })
-  //     .then(res => {
-  //       console.log(res.data);
-  //       // 응답을 받은 경우
-  //       setEdited(!edited);
-  //       alert("수정이 완료되었습니다.");
-  //       window.location.reload(); //넣을까 말까...
-  //     })
-  //     .catch(console.log(Error));
-  // };
-
-  const editCancel = () => {
-    navigate(`/mypage`);
+  // 입력 값 받아오기
+  const onChange = e => {
+    const {
+      target: { name, value },
+    } = e;
+    if (name === "nickName") {
+      setNickName(value);
+    } else if (name === "email") {
+      setEmail(value);
+    } else if (name === "newPassword") {
+      setPassword(value);
+    } else if (name === "checkNewPassword") {
+      setPasswordConfirm(value);
+    }
   };
 
-  const imgInput = useRef();
-  const postImg = () => {
-    imgInput.current.click();
+  // * 수정 버튼 클릭 시 유저 데이터 수정
+
+  // 프로필 이미지 수정
+
+  // 닉네임 수정
+  const submitNickname = e => {
+    e.preventDefault();
+    updateData(nickName, "/members/change-nickname", "patch").then(res =>
+      console.log(res)
+    );
+  };
+  // 비밀번호 수정
+  const passwordPayload = {
+    currentPassword,
+    newPassword,
+    checkNewPassword,
+  };
+  const submitPW = e => {
+    e.preventDefault();
+    updateData(passwordPayload, "/members/change-password", "patch").then(res =>
+      console.log(res)
+    );
+  };
+
+  // 회원 탈퇴
+  const handleSignOffBtnClick = e => {
+    e => e.preventDefault();
+    return (
+      <Dialog
+        feat="탈퇴하기"
+        text={["정말로 탈퇴하시겠습니까?"]}
+        closeDialog={signOff}
+      />
+    );
+  };
+  const signOff = () => {
+    deleteData("/members/withdrawal");
+    console.log("탈퇴 완료");
+    () => navigate("/");
   };
 
   return (
     <PageContainer>
       <MyContainer>
-        <ImgContainer>
-          <div>프로필 사진</div>
-          <ProfileImage
-            src="https://source.unsplash.com/random/300x300/?animal"
-            alt="profile img"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            ref={imgInput}
-            style={{ display: "none" }}
-          />
-          <CustomButton text="이미지 선택" rounded="true" onClick={postImg} />
-          <button href="/">기본이미지</button>
-        </ImgContainer>
-        <InfoBox>
-          <form
-            // action={url}
-            method="patch">
-            <InputBox>
-              <div>닉네임</div>
-              <input
-                name="nickName"
-                type="text"
-                value={nickName}
-                // onChange={onChange}
-                maxLength={30}></input>
-            </InputBox>
-            <InputBox>
-              <div>이메일</div>
-              <input
-                name="email"
-                type="email"
-                value={email}
-                // onChange={onChange}
-                maxLength={30}></input>
-            </InputBox>
-            <InputBox>
-              <div>비밀번호</div>
-              <input
-                name="password"
-                type="password"
-                value={password}
-                // onChange={onChange}
-                maxLength={30}></input>
-            </InputBox>
-            <InputBox>
-              <div>비밀번호 확인</div>
-              <input
-                name="passwordConfirm"
-                type="password"
-                value={passwordConfirm}
-                // onChange={onChange}
-                maxLength={30}></input>
-            </InputBox>
+        <InfoBox className="ImgContainer">
+          <form>
+            <CustomInput
+              name="profileImage"
+              text="프로필 사진"
+              type="img"
+              feat="mypage"
+              value={profileImage}
+              onChange={onChange}
+            />
+            <CustomButton
+              text="이미지 수정"
+              reverse="true"
+              // onClick={submitImg}
+            />
           </form>
         </InfoBox>
-        <button>회원탈퇴</button>
-        <div>
+        <InfoBox className="InfoBox">
+          <form>
+            <InputBox className="InputBox">
+              <CustomInput
+                name="nickName"
+                text="닉네임"
+                type="text"
+                feat="mypage"
+                value={nickName}
+                onChange={onChange}
+              />
+              <CustomInput
+                name="email"
+                text="이메일"
+                type="email"
+                feat="mypage"
+                value={email}
+                disabled="true"
+                onChange={onChange}
+              />
+            </InputBox>
+            <CustomButton
+              text="닉네임 수정"
+              reverse="true"
+              onClick={submitNickname}
+            />
+          </form>
+          <form>
+            <InputBox>
+              <CustomInput
+                name="currentPassword"
+                text="현재 비밀번호"
+                type="password"
+                feat="mypage"
+                value={currentPassword}
+                onChange={onChange}
+              />
+              <CustomInput
+                name="newPassword"
+                text="변경할 비밀번호"
+                type="password"
+                feat="mypage"
+                value={newPassword}
+                onChange={onChange}
+              />
+              <CustomInput
+                name="checkNewPassword"
+                text="비밀번호 확인"
+                type="password"
+                feat="mypage"
+                value={checkNewPassword}
+                onChange={onChange}
+              />
+            </InputBox>
+            <CustomButton
+              text="비밀번호 수정"
+              reverse="true"
+              onClick={submitPW}
+            />
+          </form>
+        </InfoBox>
+        <BtnBox className="delete">
           <CustomButton
-            text="수정"
-            reverse="true"
-            // onClick={submitData}
+            text="회원탈퇴"
+            feat="underline"
+            onClick={e => handleSignOffBtnClick(e)}
           />
-          <CustomButton text="취소" onClick={editCancel} />
-        </div>
+        </BtnBox>
+        <CancelBtnBox>
+          <CustomButton text="취소" onClick={() => navigate("/")} />
+        </CancelBtnBox>
       </MyContainer>
     </PageContainer>
   );
 }
 
 const MyContainer = styled.article`
-  background-color: aliceblue;
+  background-color: ${props => props.theme.color.white};
   padding: 50px;
-  display: grid;
-  grid-template-rows: 1fr 1fr;
   @media ${props => props.theme.mediaQuery.mobile} {
     display: flex;
     flex-direction: column;
   }
 `;
 
-const ImgContainer = styled.section`
-  display: flex;
-  background-color: lemonchiffon;
-`;
 const InfoBox = styled.div`
-  background-color: rosybrown;
   & > form {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    @media ${props => props.theme.mediaQuery.mobile} {
+      display: flex;
+      flex-direction: column;
+      padding-bottom: 30px;
+      & > button {
+        align-self: center;
+      }
+    }
+  }
+  & > form > div {
+    display: grid;
+    grid-template-rows: repeat(auto 1fr);
+    grid-row-gap: 30px;
   }
 `;
 const InputBox = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 100%;
+  padding-bottom: 30px;
+`;
+const BtnBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+const CancelBtnBox = styled(BtnBox)`
+  justify-content: center;
 `;

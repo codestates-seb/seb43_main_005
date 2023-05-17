@@ -12,23 +12,38 @@ export default function Themes() {
       </ThemeBox>
       <ThemeBox className="ThemeBox">
         <div>Lv.2</div>
-        <Theme />
+        <Theme>
+          <ThemeImg></ThemeImg>
+          <ThemeImg></ThemeImg>
+        </Theme>
       </ThemeBox>
       <ThemeBox className="ThemeBox">
         <div>Lv.3</div>
-        <Theme />
+        <Theme>
+          <ThemeImg></ThemeImg>
+          <ThemeImg></ThemeImg>
+        </Theme>
       </ThemeBox>
       <ThemeBox className="ThemeBox">
         <div>Lv.4</div>
-        <Theme />
+        <Theme>
+          <ThemeImg></ThemeImg>
+          <ThemeImg></ThemeImg>
+        </Theme>
       </ThemeBox>
       <ThemeBox className="ThemeBox">
         <div>Lv.5</div>
-        <Theme />
+        <Theme>
+          <ThemeImg></ThemeImg>
+          <ThemeImg></ThemeImg>
+        </Theme>
       </ThemeBox>
       <ThemeBox className="ThemeBox">
         <div>Lv.6</div>
-        <Theme />
+        <Theme>
+          <ThemeImg></ThemeImg>
+          <ThemeImg></ThemeImg>
+        </Theme>
       </ThemeBox>
     </>
   );
@@ -48,7 +63,8 @@ const Theme = styled.div`
 const ThemeImg = styled.div`
   width: 124px;
   height: 124px;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.color.bg};
+  background-image: url();
   border: 1px solid ${props => props.theme.color.main};
   border-radius: 50%;
   margin: 34px;
