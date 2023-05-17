@@ -5,21 +5,23 @@ import "react-quill/dist/quill.snow.css";
 import useUploadImg from "../../hooks/useUploadImg";
 
 export default function Editor({ value }) {
+  // ! image parsing
   const quillRef = useRef();
   const parsingImg = data => {
-    console.log("parsingImg");
+    // console.log("parsingImg");
     const editor = quillRef.current.getEditor(); // 에디터 객체 가져오기
     const range = editor.getSelection(); // 현재 커서 위치 가져옴
     editor.insertEmbed(range.index, "image", data); // parsing
   };
+  // ! hook -> parsingImg
   const handleFileChange = useUploadImg("", "editor", parsingImg);
-
+  // ! image parsing
   const imageHandler = () => {
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.click();
     input.addEventListener("change", handleFileChange);
-    console.log("imageHandler");
+    // console.log("imageHandler");
   };
 
   // ! 렌더링 될때마다 modules생성되는 현상 방지
