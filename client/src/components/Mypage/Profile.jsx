@@ -37,7 +37,8 @@ export default function Mypage({ userInfo }) {
 }
 
 const ProfileContainer = styled.article`
-  width: 580px;
+  width: 100%;
+  min-width: 400px;
   min-height: 300px;
   background-color: ${props => props.theme.color.white};
   border: ${props => props.theme.color.borderBold};

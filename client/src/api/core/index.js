@@ -19,7 +19,7 @@ instance.interceptors.request.use(
     if (!tokenLess) {
       // 로그인 POST, 회원가입 POST, (마이페이지 관련 제외한) 모든 get 요청 token 불필요
       const token =
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQyMDY3NTUsImV4cCI6MTY4NDI0OTk1NX0.kgIo_P2XALxLEVpnLIjWd4JLQTmYmNgzouOoxtepnX8";
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIkFETUlOIiwiQURNSU4iLCJVU0VSIiwiVVNFUiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQyOTExNDMsImV4cCI6MTY4NDMzNDM0M30.gt3JNCnZSSeZ1z5jm_wtV2MDv_MPnJE84lviN_no5fo";
       config.headers.authorization = token;
       config.headers.withCredentials = true;
     }

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import CustomButton from "../common/CustomButton.jsx";
 import axios from "axios";
 import useModal from "../../hooks/useModal.js";
-import { attendance } from "../../api/apiUtil.js";
+import { getData, attendance } from "../../api/apiUtil.js";
 
 export default function Modal() {
   const [attend, openAttend, closeAttend] = useModal(false);
@@ -16,26 +16,27 @@ export default function Modal() {
 
   // 임시 변수
   let userName = "test user";
-  // 테스트 서버 url
-  let url1 = `http://13.124.42.111:8080`;
-  let url2 = `http://15.163.46.132:8080`;
-  // AcessToken 임시
-  let accessToken =
-    "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQxNTY3NzAsImV4cCI6MTY4NDE5OTk3MH0.nO1KcNROZcSW5ekVolrsh9bTPEy3Lg5q3F237LMbjng";
-  let config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
+  function getUsername() {
+    getData("/members/info").then(res => {
+      console.log(res.result.nickName);
+    });
+  }
+
   // 출석하기 버튼
   function attendCheck() {
     attendance("/members/check-in", "post")
       .then(res => console.log(res))
       .catch(error => console.log(error))
       .finally(
-        attendance("/members/check-in-date", "get").then(res =>
-          console.log(res)
-        )
+        getData("/members/info")
+          .then(res => {
+            console.log(res.result.nickName);
+          })
+          .then(
+            attendance("/members/check-in-date", "get").then(res =>
+              console.log(res)
+            )
+          )
       );
   }
 

@@ -5,15 +5,11 @@ import CustomProgressBar from "../common/CustomProgressBar.jsx";
 
 export default function Level({ userInfo }) {
   let navigate = useNavigate();
-  // 임시 데이터
   let myType = userInfo.memberMbti;
   let myLevel = userInfo.level;
   let currentExp = userInfo.experience;
-  // 다음 레벨 경험치는 하드로 불러오기?
-  // requiredExperience 로는 남은 경험치를 주셨네...
   let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
 
-  console.log(`${userInfo.requiredExperience} - level component`);
   return (
     <LvExpContainer>
       <LevelContainer className="LevelContainer">
