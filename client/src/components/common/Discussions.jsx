@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 export default function Discusstions({ body }) {
   let title = body.title;
-  let createdAt = body.createdAt;
+  let createdAt = body.createdAt.slice(0, 10);
   let view = body.view;
   let commentCount = body.commentCount;
   let id = body.id;
