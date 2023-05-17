@@ -14,21 +14,12 @@ public class LearnResponse {
     private Long learnId;
     private String title;
     private String content;
-    private boolean completed;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private MemberResponse member;
-    private ContentResponse contentBoard;
+
     public static LearnResponse from(LearnDto dto){
         return new LearnResponse(
                 dto.getLearnId(),
                 dto.getTitle(),
-                dto.getContent(),
-                dto.isCompleted(),
-                dto.getCreateAt(),
-                dto.getModifiedAt(),
-                MemberResponse.from(dto.getMember()),
-                ContentResponse.from(dto.getContentBoard())
+                dto.getContent()
         );
     }
 }
