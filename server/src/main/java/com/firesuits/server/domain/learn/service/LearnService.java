@@ -29,19 +29,17 @@ public class LearnService {
     }
 
     @Transactional
-    public void create(String title, String content, String email, Long contentId ){
+    public void create(String title, String content, String email, Long contentId){
         Member member = memberOrException(email);
         Content contentBoard = contentOrException(contentId);
         learnRepository.save(Learn.of(title, content, member, contentBoard));
     }
 
     @Transactional
-    public LearnDto update(String title, String content, String email, Long contentId, Long learnId){
+    public LearnDto update(String title, String content, String email, Long learnId){
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
-        Content contentBoard = contentOrException(contentId);
         checkLearnMember(learn, member,email,learnId);
-        checkLearnContent(learn,contentBoard,contentId,learnId);
         learn.setTitle(title);
         learn.setContent(content);
         return LearnDto.from(learnRepository.save(learn));
@@ -50,9 +48,7 @@ public class LearnService {
     public void delete(String email, Long contentId, Long learnId){
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
-        Content contentBoard = contentOrException(contentId);
         checkLearnMember(learn, member,email,learnId);
-        checkLearnContent(learn,contentBoard,contentId,learnId);
         learnRepository.delete(learn);
     }
     @Transactional(readOnly = true) //transaction 읽기만 가능하게 하여 성능 향상
@@ -64,7 +60,8 @@ public class LearnService {
     @Transactional(readOnly = true)
     public Page<LearnDto> list(Long contentId, Pageable pageable){
         Content contentBoard = contentOrException(contentId);
-        return learnRepository.findAll(pageable).map(LearnDto::from);
+        checkLearnContent(contentId);
+        return learnRepository.findAllByContent(contentBoard.getContentId(), pageable).map(LearnDto::from);
     }
 
     //회원 존재 여부
@@ -88,12 +85,10 @@ public class LearnService {
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s 는 %s 학습에 대한 권한을 가지고 있지 않습니다.", email, learnId));
         }
     }
-
-    private void checkLearnContent(Learn learn, Content content, Long contentId, Long learnId) {
-        if (!Objects.equals(learn.getContentBoard().getContentId(), content.getContentId())){
-            throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s 번의 학습에 대한 %s 번의 요청이 잘못 됐습니다.", contentId, learnId));
+    //해당 콘텐츠랑에 맞는 learn이 없다면 없다고 나와야 한다.
+    private void checkLearnContent(Long contentId) {
+        if (learnRepository.findAll().stream().noneMatch(learn -> Objects.equals(learn.getContentBoard().getContentId(), contentId))) {
+            throw new BusinessLogicException(ExceptionCode.LEARN_NOT_FOUND, String.format("%s 번의 학습 내용이 존재하지 않습니다.", contentId));
         }
     }
-
-
 }
