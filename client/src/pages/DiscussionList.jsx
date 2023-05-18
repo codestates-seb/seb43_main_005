@@ -7,38 +7,42 @@ import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
   const [body, setBody] = useState([]);
+  const [sort, setSort] = useState("");
+  const [reverse, setReverse] = useState(true);
 
   useEffect(() => {
-    getData("/article?sort=default")
+    getData(`/article?${sort}`)
       .then(data => {
         setBody(data.result.content);
       })
       .catch(error => {
         console.error(error);
       });
-  }, []);
-
-  // const sortButton = sort => {
-  //   let sortInput = "";
-  //   if (sort === "최신순") {
-  //     sortInput = "view";
-  //   }
-  //   getData(`/article?${sortInput}`)
-  //     .then(data => {
-  //       setBody(data.result.content);
-  //     })
-  //     .catch(error => {
-  //       console.error(error);
-  //     });
-  // };
+  }, [sort]);
 
   return (
     <PageContainer>
       <h2>Discussion</h2>
       <Bar>
         <SortButtons>
-          <CustomButton text="조회순" feat="round" reverse="true" />
-          <CustomButton text="댓글순" feat="round" />
+          <CustomButton
+            text="조회순"
+            feat="round"
+            reverse={reverse}
+            onClick={() => {
+              setSort("");
+              setReverse(true);
+            }}
+          />
+          <CustomButton
+            text="댓글순"
+            feat="round"
+            reverse={!reverse}
+            onClick={() => {
+              setSort("sort=comment");
+              setReverse(false);
+            }}
+          />
         </SortButtons>
         {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}
         <Search>
