@@ -21,4 +21,5 @@ public interface LearnRepository extends JpaRepository<Learn, Long> {
 
     @Query("SELECT COUNT(c) FROM Learn c WHERE c.content.id = :contentId")
     Integer countByContentId(Long contentId);
+
 }

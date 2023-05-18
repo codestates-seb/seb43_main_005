@@ -2,7 +2,12 @@ package com.firesuits.server.domain.content.service;
 
 import com.firesuits.server.domain.content.dto.ContentDto;
 import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.entity.ContentProgress;
+import com.firesuits.server.domain.content.repository.ContentProgressRepository;
 import com.firesuits.server.domain.content.repository.ContentRepository;
+import com.firesuits.server.domain.learn.entity.Learn;
+import com.firesuits.server.domain.learn.repository.LearnRepository;
+import com.firesuits.server.domain.learn.service.LearnCheckService;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
@@ -12,7 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
-import java.math.BigDecimal;
+
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -20,10 +26,16 @@ import java.util.Optional;
 public class ContentService {
     private final ContentRepository contentRepository;
     private final MemberRepository memberRepository;
+    private final LearnRepository learnRepository;
+    private final LearnCheckService learnCheckService;
+    private final ContentProgressRepository contentProgressRepository;
 
-    public ContentService(ContentRepository contentRepository, MemberRepository memberRepository){
+    public ContentService(ContentRepository contentRepository, MemberRepository memberRepository, LearnRepository learnRepository, LearnCheckService learnCheckService, ContentProgressRepository contentProgressRepository) {
         this.contentRepository = contentRepository;
         this.memberRepository = memberRepository;
+        this.learnRepository = learnRepository;
+        this.learnCheckService = learnCheckService;
+        this.contentProgressRepository = contentProgressRepository;
     }
 
     @Transactional
@@ -53,6 +65,35 @@ public class ContentService {
     public ContentDto findById(Long contentId){
         Content content = contentOrException(contentId);
         return ContentDto.from(content);
+    }
+
+    public Content accessContent(Long contentId, String email){
+        Member member = memberOrException(email);
+        Content content = contentOrException(contentId);
+
+        //컨텐츠에 속한 모든 학습 항목
+        List<Learn> learns = learnRepository.findByContentId(contentId);
+
+        //각 학습 항목에 대해 Learn 항목 존재 여부 체크, null이면 체크
+        for(Learn learn : learns){
+            Long learnId = learn.getLearnId();
+            Long memberId = member.getMemberId();
+            boolean isExist = learnCheckService.existsByLearnIdAndMemberId(learnId, memberId);
+            if(!isExist){
+                learnCheckService.createLearnCheck(learnId, email);
+            }
+        }
+        Optional<ContentProgress> optionalContentProgress =
+                contentProgressRepository.findByMemberAndContent_ContentId(member, contentId);
+        if (optionalContentProgress.isEmpty()){
+            ContentProgress contentProgress = new ContentProgress();
+            contentProgress.setMember(member);
+            contentProgress.setContent(content);
+            contentProgress.setProgress(0.0);
+            contentProgressRepository.save(contentProgress);
+        }
+
+        return content;
     }
 
     @Transactional(readOnly = true)
