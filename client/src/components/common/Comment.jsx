@@ -20,9 +20,9 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
       <Profile profile={profile} />
       <Body twoline={twoline}>
-        <div>{nikeName}</div>
-        <div>{content}</div>
-        <div>{createdAt}</div>
+        <div dangerouslySetInnerHTML={{ __html: nikeName }} />
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+        <div dangerouslySetInnerHTML={{ __html: createdAt }} />
       </Body>
       {feat === "tool" && (
         <Side feat={feat}>

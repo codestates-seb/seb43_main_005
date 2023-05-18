@@ -9,7 +9,7 @@ export default function Discussion() {
   const [body, setBody] = useState([]);
 
   useEffect(() => {
-    getData("/article")
+    getData("/article?sort=default")
       .then(data => {
         setBody(data.result.content);
       })
@@ -17,12 +17,27 @@ export default function Discussion() {
         console.error(error);
       });
   }, []);
+
+  // const sortButton = sort => {
+  //   let sortInput = "";
+  //   if (sort === "최신순") {
+  //     sortInput = "view";
+  //   }
+  //   getData(`/article?${sortInput}`)
+  //     .then(data => {
+  //       setBody(data.result.content);
+  //     })
+  //     .catch(error => {
+  //       console.error(error);
+  //     });
+  // };
+
   return (
     <PageContainer>
       <h2>Discussion</h2>
       <Bar>
         <SortButtons>
-          <CustomButton text="최신순" feat="round" reverse="true" />
+          <CustomButton text="조회순" feat="round" reverse="true" />
           <CustomButton text="댓글순" feat="round" />
         </SortButtons>
         {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}

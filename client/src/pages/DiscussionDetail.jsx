@@ -36,8 +36,8 @@ export default function DiscussionDetail() {
         <CustomButton text="토론글 삭제" feat="round" />
       </Bar>
       <Subject>
-        <div>{body.title}</div>
-        <div>{body.content}</div>
+        <span dangerouslySetInnerHTML={{ __html: body.title }} />
+        <span dangerouslySetInnerHTML={{ __html: body.content }} />
       </Subject>
       {/* 탭으로 만들어야한다. 누르면 색깔 변하게 */}
       <CommitBar>
