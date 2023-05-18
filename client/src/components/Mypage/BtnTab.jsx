@@ -5,17 +5,9 @@ import Dashbord from "./Dashbord.jsx";
 import MyDebate from "./MyComment.jsx";
 import Setting from "./Setting.jsx";
 
-export default function BtnTab() {
-  const [currentTab, setCurrentTab] = useState(0);
-  const menuArr = [
-    { name: "대시보드", content: <Dashbord /> },
-    { name: "내가 쓴 토론 글", content: <MyDebate /> },
-    { name: "설정", content: <Setting /> },
-  ];
-
+export default function BtnTab({ menuArr, selected, setSelected }) {
   const selectMenuHandler = index => {
-    setCurrentTab(index);
-    console.log(index);
+    setSelected(index);
   };
 
   return (
@@ -25,7 +17,7 @@ export default function BtnTab() {
           return (
             <CustomButton
               feat="tag"
-              reverse={currentTab === index ? true : false}
+              reverse={selected === index ? true : false}
               key={index}
               onClick={() => selectMenuHandler(index)}
               text={ele.name}
@@ -33,9 +25,7 @@ export default function BtnTab() {
           );
         })}
       </BtnTabBox>
-      <div>
-        <div>{menuArr[currentTab].content}</div>
-      </div>
+      <div>{menuArr[selected].content}</div>
     </>
   );
 }

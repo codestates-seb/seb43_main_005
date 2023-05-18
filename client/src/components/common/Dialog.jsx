@@ -17,6 +17,9 @@ export default function Dialog({ feat, path, text, closeDialog }) {
     if (feat === "삭제하기") {
       deleteItem();
     }
+    if (feat === "탈퇴하기") {
+      deleteUser();
+    }
     if (feat === "작성취소") navigate(-1);
     closeDialog();
   };
@@ -28,6 +31,11 @@ export default function Dialog({ feat, path, text, closeDialog }) {
     navigate("/");
   };
 
+  // 회원 탈퇴
+  const deleteUser = () => {
+    deleteData("/members/withdrawal");
+    navigate("/");
+  };
   return (
     <DialogBack onClick={clickBack} className="close">
       <DialogContainer>

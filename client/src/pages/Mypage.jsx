@@ -12,7 +12,7 @@ export default function Mypage() {
   // 마이페이지 최초 진입 시 유저 정보(userInfo) 전체 받아오기
   function getUserInfo() {
     getData("/members/info").then(res => {
-      console.log(res.result);
+      // console.log(res.result);
       setUserInfo({
         memberId: res.result.memberId,
         email: res.result.email,

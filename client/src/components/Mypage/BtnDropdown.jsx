@@ -1,40 +1,24 @@
 import styled from "styled-components";
-import { useState } from "react";
-import Dashbord from "./Dashbord.jsx";
-import MyDebate from "./MyComment.jsx";
-import Setting from "./Setting.jsx";
 import Check from "../../assets/images/check_circle_green.png";
 
-export default function BtnDropdown() {
-  const [selected, setSelected] = useState("마이 페이지");
-  const menuArr = [
-    { name: "대시보드", content: <Dashbord /> },
-    { name: "내가 쓴 토론 글", content: <MyDebate /> },
-    { name: "설정", content: <Setting /> },
-  ];
-
+export default function BtnDropdown({ menuArr, selected, setSelected }) {
   const selectMenuHandler = e => {
-    setSelected(e.target.value);
+    setSelected(e.target.selectedIndex);
   };
-
   return (
     <>
       <BtnBox>
-        <BtnDropBox onChange={selectMenuHandler}>
+        <BtnDropBox value={selected} onChange={selectMenuHandler}>
           {menuArr.map((ele, index) => {
             return (
-              <>
-                <StyledOption key={index} value={ele.name}>
-                  {ele.name}
-                </StyledOption>
-              </>
+              <StyledOption key={index} value={index}>
+                {ele.name}
+              </StyledOption>
             );
           })}
         </BtnDropBox>
       </BtnBox>
-      {selected === "대시보드" && <Dashbord />}
-      {selected === "내가 쓴 토론 글" && <MyDebate />}
-      {selected === "설정" && <Setting />}
+      <div>{menuArr[selected].content}</div>
     </>
   );
 }
