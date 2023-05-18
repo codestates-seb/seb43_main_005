@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.service;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -17,9 +18,9 @@ import java.util.Objects;
 
 @Service
 public class QuizService {
-    private QuizRepository quizRepository;
-    private ContentRepository contentRepository;
-    private MemberRepository memberRepository;
+    private final QuizRepository quizRepository;
+    private final ContentRepository contentRepository;
+    private final MemberRepository memberRepository;
 
     public QuizService(QuizRepository quizRepository, ContentRepository contentRepository, MemberRepository memberRepository){
         this.quizRepository = quizRepository;
@@ -28,31 +29,25 @@ public class QuizService {
     }
 
     @Transactional
-    public void create(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email){
+    public void create(Long contentId ,String detail, String example, String commentary, boolean correct, String email){
         Member member = memberOrException(email);
-        quizRepository.save(Quiz.of(detail, example, correct, commentary, result, experience, member));
+        Content content = contentOrException(contentId);
+        quizRepository.save(Quiz.of(content, member, detail, example, correct, commentary));
     }
 
     @Transactional
-    public QuizDto update(String detail, String example, Boolean correct, String commentary, String result, Integer experience, String email, Long quizId){
+    public QuizDto update(Long contentId, String detail, String example, String commentary, boolean correct, String email, Long quizId){
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
+        Content content = contentOrException(contentId);
         checkQuizMember(quiz, member, email, quizId);
 
-        if(detail != null){quiz.setDetail(detail);}
-        if(example != null){quiz.setExample(example);}
-        if(correct != null){quiz.setCorrect(correct);}
-        if(commentary != null){quiz.setCommentary(commentary);}
-        if(result != null){quiz.setResult(result);}
-        if(experience != null){quiz.setExperience(experience);}
-        /*  수정 방식에 대해서 문의 할 것
+        quiz.setContent(content);
         quiz.setDetail(detail);
         quiz.setExample(example);
-        quiz.setCorrect(correct);
         quiz.setCommentary(commentary);
-        quiz.setResult(result);
-        quiz.setExperience(experience);
-*/
+        quiz.setCorrect(correct);
+
         return QuizDto.from(quizRepository.save(quiz));
     }
 
@@ -82,6 +77,11 @@ public class QuizService {
     private Quiz quizOrException(Long quizId){
         return quizRepository.findById(quizId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.QUIZ_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", quizId)));
+    }
+
+    private Content contentOrException(Long contentId){
+        return contentRepository.findById(contentId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND,String.format("%s 번의 컨텐츠가 존재하지 않습니다.",contentId)));
     }
 
     private void checkQuizMember(Quiz quiz, Member member, String email, Long quizId){

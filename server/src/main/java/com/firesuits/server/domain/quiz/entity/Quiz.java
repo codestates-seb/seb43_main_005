@@ -20,10 +20,8 @@ public class Quiz extends AuditingFields {
     private Long quizId;
     private String detail;
     private String example;
-    private Boolean correct;
     private String commentary;
-    private String result;
-    private Integer experience;
+    private boolean correct;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
@@ -33,15 +31,19 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "content_id")
     private Content content;
 
-    public static Quiz of(String detail, String example, Boolean correct, String commentary, String result, Integer experience, Member member){
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "quizResult_id")
+    private QuizResult quizResult;
+
+    public static Quiz of(Content content, Member member, String detail, String example, boolean correct, String commentary){
         Quiz quiz = new Quiz();
+        quiz.setContent(content);
+        quiz.setMember(member);
         quiz.setDetail(detail);
         quiz.setExample(example);
-        quiz.setCorrect(correct);
         quiz.setCommentary(commentary);
-        quiz.setResult(result);
-        quiz.setExperience(experience);
-        quiz.setMember(member);
+        quiz.setCorrect(correct);
+        quiz.setContent(content);
 
         return quiz;
     }
