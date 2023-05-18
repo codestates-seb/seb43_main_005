@@ -29,12 +29,15 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.userRole = null;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(fetchUserInfo.fulfilled, (state, action) => {
       state.userInfo = action.payload.userInfo;
       state.userRole = action.payload.userRole;
-      state.loading = false;
+      // state.loading = false;
     });
     builder.addCase(fetchUserInfo.pending, (state, action) => {
       state.loading = true;
@@ -46,5 +49,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, clearUserInfo } = userSlice.actions;
+export const { setUserInfo, clearUserInfo, setLoading } = userSlice.actions;
 export default userSlice.reducer;

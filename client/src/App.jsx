@@ -4,6 +4,7 @@ import { ThemeProvider } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchUserInfo } from "./redux/features/user/userSlice.js";
 import { decodeToken } from "./hooks/decodeToken.js";
+import useScrollTop from "./hooks/useScroll.js";
 import theme from "./assets/styels/theme.jsx";
 import GlobalStyle from "./assets/styels/GlobalStyle.jsx";
 import Header from "./components/Header/Header.jsx";
@@ -43,6 +44,7 @@ function App() {
     if (!pathsToExclude.some(path => pathname.startsWith(path))) {
       if (isValid) {
         dispatch(fetchUserInfo());
+        useScrollTop(10);
       } else if (pathname !== "/") {
         openAlert();
       }
@@ -57,7 +59,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       {alert && <Alert closeAlert={closeAlert} />}
-      {loading && <Loading />}
+      {/* {loading && <Loading />} */}
       {!hideHeaderFooter && <Header userInfo={userInfo} />}
       <Routes>
         <Route path="/" element={<Main userInfo={userInfo} />} />
