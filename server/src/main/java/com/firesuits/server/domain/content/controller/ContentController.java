@@ -35,7 +35,7 @@ public class ContentController {
 
     @PatchMapping("/{content-id}")
     public Response<ContentResponse> update(@PathVariable("content-id") Long contentId,
-                                       @RequestBody ContentUpdateRequest request, Authentication authentication){
+                                            @RequestBody ContentUpdateRequest request, Authentication authentication){
         ContentDto contentDto = contentService.update(request.getTitle(), request.getContentImg(), authentication.getName(), contentId);
         return Response.success(ContentResponse.from(contentDto));
     }

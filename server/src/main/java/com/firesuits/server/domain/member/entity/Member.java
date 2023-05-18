@@ -4,6 +4,7 @@ import com.firesuits.server.domain.article.entity.Article;
 import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.entity.CommentLike;
 import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.global.audit.AuditingFields;
@@ -64,6 +65,9 @@ public class Member extends AuditingFields {
     // quiz 테이블 생성을 위해서 임의로 작성
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ContentProgress> contentProgresses = new ArrayList<>();
 
     public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti) {
         Member entity = new Member();
