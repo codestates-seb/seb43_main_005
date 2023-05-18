@@ -45,8 +45,10 @@ public class QuizResultService {
 
     // 퀴즈 결과 조회
     @Transactional
-    public QuizResultDto findQuizResult(Long quizResultId){
+    public QuizResultDto findQuizResult(Long quizResultId, Long quizId){
+        quizOrException(quizId);
         QuizResult quizResult = quizResultIdOrException(quizResultId);
+
         return QuizResultDto.from(quizResult);
     }
 

@@ -35,7 +35,7 @@ public class QuizResultController {
     public Response<QuizResultResponse> get(@PathVariable("content-id") Long contentId,
                                             @PathVariable("quiz-id") Long quizId,
                                             @PathVariable("quizresult-id") Long quizResultId){
-        QuizResultDto quizResultDto = quizResultService.findQuizResult(quizResultId);
+        QuizResultDto quizResultDto = quizResultService.findQuizResult(quizResultId , quizId);
         return Response.success(QuizResultResponse.from(quizResultDto));
     }
 
