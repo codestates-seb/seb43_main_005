@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/quizzes/{quiz-id}/quizresults")
+@RequestMapping("/contents/{content-id}/quizzes/{quiz-id}/quizresults")
 public class QuizResultController {
 
     private QuizResultService quizResultService;
@@ -17,7 +17,8 @@ public class QuizResultController {
     }
 
     @PostMapping
-    public Response<Void> create(@PathVariable("quiz-id") Long quizId,
+    public Response<Void> create(@PathVariable("content-id") Long contentId,
+                                 @PathVariable("quiz-id") Long quizId,
                                 @RequestBody QuizResultRequest request,
                                 Authentication authentication){
         quizResultService.checkAnswer(quizId, request.isAnswer(), request.isResult(), authentication.getName());

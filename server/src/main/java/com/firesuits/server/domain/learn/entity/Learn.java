@@ -2,7 +2,7 @@ package com.firesuits.server.domain.learn.entity;
 
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.member.entity.Member;
-import com.firesuits.server.domain.progress.entity.Progress;
+
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +33,7 @@ public class Learn extends AuditingFields {
     @JoinColumn(name = "content_Id")
     private Content contentBoard;
 
-    @OneToMany(mappedBy = "learn", cascade = CascadeType.ALL)
-    private List<Progress> progresses = new ArrayList<>();
+
 
     public static Learn of(String title, String content, Member member, Content contentBoard){
         Learn learn = new Learn();

@@ -31,8 +31,7 @@ public class Quiz extends AuditingFields {
     @JoinColumn(name = "content_id")
     private Content content;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "quizResult_id")
+    @OneToOne(mappedBy = "quiz")
     private QuizResult quizResult;
 
     public static Quiz of(Content content, Member member, String detail, String example, boolean correct, String commentary){

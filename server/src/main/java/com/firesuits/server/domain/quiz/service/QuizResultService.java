@@ -9,6 +9,8 @@ import com.firesuits.server.domain.quiz.repository.QuizRepository;
 import com.firesuits.server.domain.quiz.repository.QuizResultRepository;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +27,11 @@ public class QuizResultService {
     }
 
     @Transactional
-    public void checkAnswer(Long quizId, boolean answer, boolean result, String email){
+    public void checkAnswer(Long quizId, boolean answer,  boolean result, String email){
     // 멤버의 존재 여부를 체크
         Member member = memberOrException(email);
     // 퀴즈가 존재하는지 체크
         Quiz quiz = quizOrException(quizId);
-
 
     // 정답 체크하는 로직 필요
         if(answer == quiz.isCorrect()){
@@ -47,6 +48,11 @@ public class QuizResultService {
     public QuizResultDto findQuizResult(Long quizResultId){
         QuizResult quizResult = quizResultIdOrException(quizResultId);
         return QuizResultDto.from(quizResult);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<QuizResultDto> list(Pageable pageable){
+        return quizResultRepository.findAll(pageable).map(QuizResultDto::from);
     }
 
     // 퀴즈 결과의 존재 확인

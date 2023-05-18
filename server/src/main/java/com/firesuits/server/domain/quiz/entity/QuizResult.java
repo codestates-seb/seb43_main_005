@@ -22,7 +22,8 @@ public class QuizResult {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne(mappedBy = "quizResult")
+    @OneToOne
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
 
     public static QuizResult of(Quiz quiz, Member member, boolean answer, boolean result){
