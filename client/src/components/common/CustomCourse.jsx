@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomButton from "./CustomButton.jsx";
 import CustomProgressBar from "./CustomProgressBar.jsx";
 
@@ -12,9 +13,8 @@ import CustomProgressBar from "./CustomProgressBar.jsx";
  */
 
 export default function CustomCourse({ feat = "default", item }) {
-  const admin = true;
-  // 임시변수
-
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
   const id = item?.contentId;
   const thumnail = item?.contentImg;
   const title = item?.title;
