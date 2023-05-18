@@ -56,7 +56,8 @@ export default function Main() {
     attendance("/members/check-in-date", "get").then(res => {
       let attendedDate = res.result;
       if (!attendedDate[0] === today) {
-        localStorage.setItem("attendance_date", attendedDate[0]);
+        localStorage.removeitem("attendance_date");
+        localStorage.setItem("attendance_date", today);
         console.log("출첵 아직");
       } else if (attendedDate[0] === today) {
         // 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
@@ -73,6 +74,10 @@ export default function Main() {
     // 유저 출석여부 확인
     attendanceCheck();
   }, []);
+  useEffect(() => {
+    // 유저 출석여부 확인
+    attendanceCheck();
+  }, [attended]);
 
   return (
     <MainContainer>
@@ -158,7 +163,7 @@ export default function Main() {
           {!article?.length && <Empty button="article" />}
         </Content>
       </ContentsArea>
-      <AttendanceModal attended={attended} />
+      {login && <AttendanceModal attended={attended} />}
     </MainContainer>
   );
 }

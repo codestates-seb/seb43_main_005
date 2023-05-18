@@ -13,6 +13,7 @@ export default function AttendanceModal({ attended }) {
   };
   const closeModalF = () => {
     closeModal(false);
+    closeAttend(false);
   };
 
   // 유저 이름받아오기
@@ -43,7 +44,8 @@ export default function AttendanceModal({ attended }) {
         <ModalBtn
           className="ModalBtn"
           onClick={handleAttend}
-          attended={attended}>
+          attended={attended}
+          disabled={attended ? "true" : ""}>
           <svg
             width="33"
             height="33"
@@ -132,8 +134,10 @@ const ModalBtn = styled.button`
   position: fixed;
   right: 50px;
   bottom: 50px;
+  cursor: ${props => (props.attended ? "default" : "pointer")};
+
   &:hover {
-    transform: scale(1.1);
+    transform: ${props => (props.attended ? "" : "scale(1.1)")};
   }
   & > svg > path {
     fill: ${props =>
