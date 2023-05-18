@@ -2,14 +2,25 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import search from "../assets/images/search.svg";
+import searchImg from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
   const [body, setBody] = useState([]);
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
+  const [search, setSearch] = useState("");
+  console.log(search);
 
+  function SearchInput() {
+    getData(`/article/search?keyword=${search}`)
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
   useEffect(() => {
     getData(`/article?${sort}`)
       .then(data => {
@@ -46,8 +57,20 @@ export default function Discussion() {
         </SortButtons>
         {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}
         <Search>
-          <input></input>
-          <img src={search} alt="reading glasses" height="30px" />
+          <input
+            onInput={e => {
+              setSearch(e.target.value);
+            }}
+            onKeyDown={e => {
+              e.key === "Enter" && SearchInput();
+            }}></input>
+          <img
+            src={searchImg}
+            alt="reading glasses"
+            height="30px"
+            onClick={SearchInput}
+            aria-hidden="true"
+          />
         </Search>
       </Bar>
       {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
