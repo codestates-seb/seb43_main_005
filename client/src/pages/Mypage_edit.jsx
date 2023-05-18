@@ -1,92 +1,125 @@
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
-import ProfileImage from "../components/common/ProfileImage.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import { getData, updateData, deleteData } from "../api/apiUtil.js";
+import { updateData, deleteData, getImagesUrl } from "../api/apiUtil.js";
 import CustomInput from "../components/common/CustomInput.jsx";
 import Dialog from "../components/common/Dialog.jsx";
+import useModal from "../hooks/useModal.js";
+import useInput from "../hooks/useInput.js";
+import useUploadImg from "../hooks/useUploadImg.js";
 
 export default function EditMypage() {
-  const [profileImage, setProfileImage] = useState("default");
-  const [nickName, setNickName] = useState("default");
-  const [email, setEmail] = useState("default@gmail.com");
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setPassword] = useState("");
-  const [checkNewPassword, setPasswordConfirm] = useState("");
+  // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기 => item 으로 받아오기
+  const { state } = useLocation();
+  const item = state?.item;
+  const [userProfile, payload] = useUploadImg(item?.profileImage);
+
+  const [nickName] = useInput(item.nickName);
+  const [email] = useInput(item.email);
+  const [currentPassword] = useInput("");
+  const [newPassword] = useInput("");
+  const [checkNewPassword] = useInput("");
   const [edited, setEdited] = useState(false);
+  const [successAlert, setSuccessAlert] = useState("");
   const navigate = useNavigate();
 
-  // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기
-  function getUserInfo() {
-    getData("/members/info").then(res => {
-      console.log(res.result);
-      setProfileImage(res.result.profileImage);
-      setNickName(res.result.nickName);
-      setEmail(res.result.email);
-      setPassword(res.result.password);
-    });
-  }
-  useEffect(() => {
-    getUserInfo();
-  }, [edited]); // 최초 렌더링 + 수정 완료 시 불러오기
-
-  // 입력 값 받아오기
-  const onChange = e => {
-    const {
-      target: { name, value },
-    } = e;
-    if (name === "nickName") {
-      setNickName(value);
-    } else if (name === "email") {
-      setEmail(value);
-    } else if (name === "newPassword") {
-      setPassword(value);
-    } else if (name === "checkNewPassword") {
-      setPasswordConfirm(value);
-    }
-  };
+  // 회원탈퇴 확인 모달
+  const [modal, openModal, closeModal] = useModal(false);
+  // 비밀번호 유효성 검사
+  const [failAlert, setFailAlert] = useState("");
 
   // * 수정 버튼 클릭 시 유저 데이터 수정
 
   // 프로필 이미지 수정
+  // 이미지 수정을 눌렀을 때 payload 를 보내기
+  const submitImg = e => {
+    e.preventDefault();
+    if (!payload) {
+      setFailAlert("이미지를 추가해 주세요.");
+    } else {
+      getImagesUrl(payload).then(res =>
+        updateData(res.result, "/members/profile-image", "patch")
+          .then(res => {
+            // console.log(res);
+            setSuccessAlert("프로필 이미지 수정이 완료되었습니다.");
+          })
+          .catch(err => console.log(err))
+      );
+    }
+  };
 
   // 닉네임 수정
   const submitNickname = e => {
     e.preventDefault();
-    updateData(nickName, "/members/change-nickname", "patch").then(res =>
-      console.log(res)
+    // console.log(nickName);
+    updateData(nickName.value, "/members/change-nickname", "patch").then(
+      res => {
+        // console.log(res);
+        setSuccessAlert("닉네임 수정이 완료되었습니다.");
+      }
     );
   };
+
   // 비밀번호 수정
   const passwordPayload = {
-    currentPassword,
-    newPassword,
-    checkNewPassword,
+    currentPassword: currentPassword.value,
+    newPassword: newPassword.value,
+    checkNewPassword: checkNewPassword.value,
   };
-  const submitPW = e => {
+  const submitPW = async e => {
     e.preventDefault();
-    updateData(passwordPayload, "/members/change-password", "patch").then(res =>
-      console.log(res)
-    );
+    // console.log(`passwordPayload ${passwordPayload}`);
+    // 세 값이 다 들어가 있지 않으면 값을 입력해주세요 뜨기
+    if (
+      !(currentPassword.value && newPassword.value && checkNewPassword.value)
+    ) {
+      setFailAlert("값을 입력해주세요.");
+      // console.log("값 다 안 들어감");
+    } else {
+      // console.log("값 다 들어감");
+      // 변경할 비밀번호 일치 여부 확인하기
+      setFailAlert(pwAlertCondition(newPassword.value, checkNewPassword.value));
+      // console.log(`failAlert : ${failAlert}`);
+
+      if (failAlert === "") {
+        // console.log("비밀번호 수정 요청 전송");
+        setSuccessAlert("");
+        await updateData(passwordPayload, "/members/change-password", "patch")
+          .then(res => {
+            // console.log(res);
+            setSuccessAlert("비밀번호가 성공적으로 변경되었습니다.");
+          })
+          .catch(error => {
+            // console.log(error.response.data.status);
+            setFailAlert("현재 비밀번호를 재확인 해주세요.");
+          });
+      }
+    }
+  };
+
+  // 비밀번호 조건
+  const isPasswordValid = pw => {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
+    return passwordRegex.test(pw);
+  };
+
+  // 새 비밀번호 유효성검사 => 에러별 경고문구
+  const pwAlertCondition = (newPassword, checkNewPassword) => {
+    if (newPassword && isPasswordValid(newPassword) === false) {
+      return "비밀번호는 4~12자, 숫자와 소문자 영어를 포함해야합니다.";
+    } else if (newPassword !== checkNewPassword) {
+      return "비밀번호가 일치하지 않습니다.";
+    } else {
+      return "";
+    }
   };
 
   // 회원 탈퇴
   const handleSignOffBtnClick = e => {
     e => e.preventDefault();
-    return (
-      <Dialog
-        feat="탈퇴하기"
-        text={["정말로 탈퇴하시겠습니까?"]}
-        closeDialog={signOff}
-      />
-    );
-  };
-  const signOff = () => {
-    deleteData("/members/withdrawal");
-    console.log("탈퇴 완료");
-    () => navigate("/");
+    openModal(true);
   };
 
   return (
@@ -95,17 +128,15 @@ export default function EditMypage() {
         <InfoBox className="ImgContainer">
           <form>
             <CustomInput
-              name="profileImage"
               text="프로필 사진"
               type="img"
               feat="mypage"
-              value={profileImage}
-              onChange={onChange}
+              value={userProfile}
             />
             <CustomButton
               text="이미지 수정"
               reverse="true"
-              // onClick={submitImg}
+              onClick={submitImg}
             />
           </form>
         </InfoBox>
@@ -113,21 +144,17 @@ export default function EditMypage() {
           <form>
             <InputBox className="InputBox">
               <CustomInput
-                name="nickName"
                 text="닉네임"
                 type="text"
                 feat="mypage"
                 value={nickName}
-                onChange={onChange}
               />
               <CustomInput
-                name="email"
                 text="이메일"
                 type="email"
                 feat="mypage"
+                disabled
                 value={email}
-                disabled="true"
-                onChange={onChange}
               />
             </InputBox>
             <CustomButton
@@ -139,28 +166,22 @@ export default function EditMypage() {
           <form>
             <InputBox>
               <CustomInput
-                name="currentPassword"
                 text="현재 비밀번호"
                 type="password"
                 feat="mypage"
                 value={currentPassword}
-                onChange={onChange}
               />
               <CustomInput
-                name="newPassword"
                 text="변경할 비밀번호"
                 type="password"
                 feat="mypage"
                 value={newPassword}
-                onChange={onChange}
               />
               <CustomInput
-                name="checkNewPassword"
                 text="비밀번호 확인"
                 type="password"
                 feat="mypage"
                 value={checkNewPassword}
-                onChange={onChange}
               />
             </InputBox>
             <CustomButton
@@ -168,6 +189,8 @@ export default function EditMypage() {
               reverse="true"
               onClick={submitPW}
             />
+            {successAlert && <SuccessMsg>{successAlert}</SuccessMsg>}
+            {failAlert && <AlertMsg>{failAlert}</AlertMsg>}
           </form>
         </InfoBox>
         <BtnBox className="delete">
@@ -176,6 +199,13 @@ export default function EditMypage() {
             feat="underline"
             onClick={e => handleSignOffBtnClick(e)}
           />
+          {modal && (
+            <Dialog
+              feat="탈퇴하기"
+              text={["정말로 탈퇴하시겠습니까?"]}
+              closeDialog={closeModal}
+            />
+          )}
         </BtnBox>
         <CancelBtnBox>
           <CustomButton text="취소" onClick={() => navigate("/")} />
@@ -223,4 +253,10 @@ const BtnBox = styled.div`
 `;
 const CancelBtnBox = styled(BtnBox)`
   justify-content: center;
+`;
+const AlertMsg = styled.p`
+  color: ${props => props.theme.color.red};
+`;
+const SuccessMsg = styled(AlertMsg)`
+  color: ${props => props.theme.color.main};
 `;

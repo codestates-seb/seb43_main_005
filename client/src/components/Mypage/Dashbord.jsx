@@ -20,4 +20,7 @@ const CourseBox = styled.article`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px 30px;
+  @media ${props => props.theme.mediaQuery.mobile} {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;

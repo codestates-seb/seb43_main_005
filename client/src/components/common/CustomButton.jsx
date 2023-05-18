@@ -25,6 +25,7 @@ export default function CustomButton({
   item = undefined,
   feat = "square",
   reverse = false,
+  disabled = false,
 }) {
   const navigate = useNavigate();
   const handlePath = () => path && navigate(path, { state: { item } });
@@ -34,7 +35,8 @@ export default function CustomButton({
       onClick={onClick || handlePath}
       feat={feat}
       reverse={reverse}
-      type={type}>
+      type={type}
+      disabled={disabled}>
       <span>{text}</span>
       {(feat === "course" || feat === "article") && (
         <TbHandFinger className="icon-finger" />

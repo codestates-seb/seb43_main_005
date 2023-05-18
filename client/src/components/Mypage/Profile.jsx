@@ -29,7 +29,8 @@ export default function Mypage({ userInfo }) {
         <CustomButton
           feat="round"
           text="프로필 수정"
-          onClick={() => navigate("/mypage/edit")}
+          path="/mypage/edit"
+          item={userInfo}
         />
       </BtnBox>
     </ProfileContainer>
