@@ -76,14 +76,22 @@ export default function Login() {
           <div>
             <button
               onClick={() => {
-                navigate(
-                  "http://localhost:8080/oauth2/authorization/google%22%3EGoogle%EB%A1%9C"
-                );
+                navigate("http://localhost:8080/oauth2/authorization/google");
               }}>
               <img src={google} alt="googleLogo" />
             </button>
-            <img src={kakao} alt="kakaoLogo" />
-            <img src={naver} alt="naverLogo" />
+            <button
+              onClick={() => {
+                navigate("http://localhost:8080/oauth2/authorization/kakao");
+              }}>
+              <img src={kakao} alt="kakaoLogo" />
+            </button>
+            <button
+              onClick={() => {
+                navigate("http://localhost:8080/oauth2/authorization/naver");
+              }}>
+              <img src={naver} alt="naverLogo" />
+            </button>
           </div>
           <div>
             아직 회원이 아니신가요?
