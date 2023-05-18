@@ -7,4 +7,5 @@ import lombok.Getter;
 @Getter
 public class QuizResultRequest {
     private boolean answer;
+    private boolean result;
 }

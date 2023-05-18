@@ -18,14 +18,12 @@ public class QuizResult {
     private boolean answer;
     private boolean result;
 
-    @OneToOne(mappedBy = "quizResult")
-    private Quiz quiz;
-
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-
+    @OneToOne(mappedBy = "quizResult")
+    private Quiz quiz;
 
     public static QuizResult of(Quiz quiz, Member member, boolean answer, boolean result){
         QuizResult quizResult = new QuizResult();

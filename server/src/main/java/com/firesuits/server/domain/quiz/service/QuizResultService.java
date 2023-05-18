@@ -25,21 +25,21 @@ public class QuizResultService {
     }
 
     @Transactional
-    public void checkAnswer(Long quizId, boolean answer, String email){
+    public void checkAnswer(Long quizId, boolean answer, boolean result, String email){
     // 멤버의 존재 여부를 체크
         Member member = memberOrException(email);
     // 퀴즈가 존재하는지 체크
         Quiz quiz = quizOrException(quizId);
 
-        boolean quizResult;
+
     // 정답 체크하는 로직 필요
         if(answer == quiz.isCorrect()){
-            quizResult = true;
+            result = true;
         }
         else{
-            quizResult = false;
+            result = false;
         }
-        quizResultRepository.save(QuizResult.of(quiz, member, answer, quizResult));
+        quizResultRepository.save(QuizResult.of(quiz, member, answer, result));
     }
 
     // 퀴즈 결과 조회

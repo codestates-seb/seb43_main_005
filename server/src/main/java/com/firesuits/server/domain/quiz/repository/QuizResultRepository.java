@@ -8,5 +8,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
-    Page<QuizResult> findAllByQuiz(Quiz quiz, Pageable pageable);
+
 }
