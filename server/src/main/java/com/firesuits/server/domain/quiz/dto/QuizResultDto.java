@@ -14,6 +14,7 @@ public class QuizResultDto {
     private Long quizResultId;
     private boolean answer;
     private boolean result;
+    private QuizDto quiz;
     private MemberDto member;
 
     public static QuizResultDto from(QuizResult entity){
@@ -21,6 +22,7 @@ public class QuizResultDto {
                 entity.getQuizResultId(),
                 entity.isAnswer(),
                 entity.isResult(),
+                QuizDto.from(entity.getQuiz()),
                 MemberDto.from(entity.getMember())
         );
     }
