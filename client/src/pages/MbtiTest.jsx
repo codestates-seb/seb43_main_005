@@ -45,7 +45,7 @@ function MbtiTest() {
         (acc, cur) => acc + (cur.score >= 2 ? cur.id[0] : cur.id[1]),
         ""
       );
-      if (!isLogin) {
+      if (isLogin) {
         const url = `http://13.124.42.111:8080/members/mbti`; // replace {{host}} with your actual host
         const token =
           "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQxNDk3NTcsImV4cCI6MTY4NDE5Mjk1N30.nwVoEbMCQo0Od5Qspy_QiuZszv25UoTvecU9jzr6AYE";
