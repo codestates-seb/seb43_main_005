@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CustomButton from "../common/CustomButton.jsx";
 import useModal from "../../hooks/useModal.js";
 import { getData, attendance } from "../../api/apiUtil.js";
+import today from "../common/Date.jsx";
 
 export default function AttendanceModal({ attended }) {
   const [attendModal, openModal, closeModal] = useModal(false);
@@ -20,7 +21,6 @@ export default function AttendanceModal({ attended }) {
   const [userName, setUserName] = useState("guest");
   function getUsername() {
     getData("/members/info").then(res => {
-      console.log(res.result.nickName);
       setUserName(res.result.nickName);
     });
   }
@@ -34,6 +34,9 @@ export default function AttendanceModal({ attended }) {
         closeModal(false);
         // 출석 완료 및 경험치 얻음 모달 띄우기
         openAttend(true);
+        // 로컬 스토리지에 출석한 날짜 저장하기
+        // localStorage.removeitem("attendance_date");
+        localStorage.setItem("attendance_date", today);
       })
       .catch(error => console.log(error));
   }
