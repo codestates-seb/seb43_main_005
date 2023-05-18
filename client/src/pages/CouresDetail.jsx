@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CustomSideBar from "../components/common/CustomSideBar.jsx";
 import Header from "../components/Header/Header.jsx";
 import ContentArticle from "../components/ContentArticle.jsx";
+
 function CouresDetail(props) {
   const [lnb, setLnb] = useState(false);
   return (

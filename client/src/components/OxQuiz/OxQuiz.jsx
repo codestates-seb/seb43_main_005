@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import CustomProgressBar from "../common/CustomProgressBar.jsx";
+import O from "../../assets/images/O.png";
+import X from "../../assets/images/X.png";
 
 function OxQuiz(props) {
   return (
@@ -11,8 +13,12 @@ function OxQuiz(props) {
       <CustomProgressBar progress={80} feat={"simple"} />
       <Quiz>자바스크립트는 객체 지향 언어이다.</Quiz>
       <AnswerContainer>
-        <Answer></Answer>
-        <Answer></Answer>
+        <Answer>
+          <StyledImage src={O} alt="O"></StyledImage>
+        </Answer>
+        <Answer>
+          <StyledImage src={X} alt="X"></StyledImage>
+        </Answer>
       </AnswerContainer>
     </QuizContainer>
   );
@@ -54,4 +60,12 @@ const Answer = styled.div`
   width: 500px;
   height: 222px;
   border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledImage = styled.img`
+  width: 200px;
+  height: 200px;
 `;
