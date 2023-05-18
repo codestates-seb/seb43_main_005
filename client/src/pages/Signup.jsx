@@ -148,12 +148,12 @@ const InputBundle = styled.form`
   & > :nth-child(2) {
     margin-bottom: ${({ essentialAlert }) =>
       essentialAlert === "" ? "0px" : "40px"};
-  }}
+  }
 
   & > :nth-child(4) {
     margin-bottom: ${({ passwordAlert }) =>
       passwordAlert === "" ? "0px" : "40px"};
-  }}
+  }
 `;
 
 const ButtonGroup = styled.div`

@@ -12,13 +12,13 @@ const instance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   config => {
+    const token = localStorage.getItem("access_token");
     const tokenLess =
       config.url === "/members/login" ||
       config.url === "/members" ||
       (config.method === "get" && !config.url.startsWith("/members"));
     if (!tokenLess) {
       // 로그인 POST, 회원가입 POST, (마이페이지 관련 제외한) 모든 get 요청 token 불필요
-      const token = process.env.REACT_APP_BASE_URL;
       config.headers.authorization = token;
       config.headers.withCredentials = true;
     }

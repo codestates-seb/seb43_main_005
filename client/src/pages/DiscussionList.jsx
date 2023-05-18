@@ -40,7 +40,7 @@ export default function Discussion() {
 
       {/* 어드민만 보이도록 해야된다. */}
       <DiscussionCreat>
-        <CustomButton text="토론글 작성" feat="round" />
+        <CustomButton text="토론글 등록" path="/admin/write/article" />
       </DiscussionCreat>
     </PageContainer>
   );
