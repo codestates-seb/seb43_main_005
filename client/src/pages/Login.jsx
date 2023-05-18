@@ -74,7 +74,12 @@ export default function Login() {
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
           <div>
-            <button /* onClick={oAuthHandler} aria-hidden="true" */>
+            <button
+              onClick={() => {
+                navigate(
+                  "http://localhost:8080/oauth2/authorization/google%22%3EGoogle%EB%A1%9C"
+                );
+              }}>
               <img src={google} alt="googleLogo" />
             </button>
             <img src={kakao} alt="kakaoLogo" />
