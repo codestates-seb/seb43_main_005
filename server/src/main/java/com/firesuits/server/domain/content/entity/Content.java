@@ -1,6 +1,7 @@
 package com.firesuits.server.domain.content.entity;
 
 import com.firesuits.server.domain.learn.entity.Learn;
+import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.global.audit.AuditingFields;
@@ -30,12 +31,16 @@ public class Content extends AuditingFields {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // learn 테이블 생성을 위해서 임의로 작성
+    // learn 테이블 매핑을 위해서 임의로 작성
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Learn> learns = new ArrayList<>();
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
+
+    // contentProgress 테이블 매핑을 위해서 임의로 작성
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
+    private  List<ContentProgress> contentProgresses = new ArrayList<>();
 
     public static Content of(String title, String contentImg, Member member){
         Content content =new Content();

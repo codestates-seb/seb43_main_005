@@ -4,7 +4,9 @@ import com.firesuits.server.domain.article.entity.Article;
 import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.entity.CommentLike;
 import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.learn.entity.Learn;
+import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.global.audit.AuditingFields;
@@ -58,7 +60,7 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Content> contents = new ArrayList<>();
 
-    // learn 테이블 생성을 위해서 임의로 작성
+    // learn 매핑 위해서 임의로 작성
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Learn> learns = new ArrayList<>();
 
@@ -68,6 +70,12 @@ public class Member extends AuditingFields {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<QuizResult> quizResults = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<LearnCheck> learnChecks  = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ContentProgress> contentProgresses = new ArrayList<>();
 
     public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti) {
         Member entity = new Member();
