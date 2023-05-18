@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { getData, attendance } from "../api/apiUtil";
 import Banner from "../components/Main/Banner.jsx";
 import CustomCourse from "../components/common/CustomCourse.jsx";
@@ -12,25 +12,12 @@ import ProfileImage from "../components/common/ProfileImage.jsx";
 import Empty from "../components/common/Empty.jsx";
 import today from "../components/common/Date.jsx";
 
-export default function Main() {
-  const login = true;
-  //임시 유저 데이터
-  let userInfo = {
-    memberId: 1,
-    email: "test@gmail.com",
-    nickName: "Tester",
-    profileImage: `https://source.unsplash.com/random/300x300/?animal`,
-    memberMbti: "INTP",
-    level: 2,
-    experience: 50,
-    requiredExperience: 50,
-    createAt: "",
-  };
-
+export default function Main({ userInfo }) {
   const [course, setCourse] = useState(null);
   const [article, setArticle] = useState(null);
   const [dashboard, setDashboard] = useState(null);
 
+  // ! Get main data
   const sliceData = async (path, slice = 2) => {
     const { result } = await getData(`/${path}?size=${slice}&page=0`);
     const { content } = result;
@@ -67,12 +54,12 @@ export default function Main() {
   useEffect(() => {
     sliceData("article");
     sliceData("contents", 3);
-    attendanceCheck();
+    userInfo && attendanceCheck();
   }, []);
   // useEffect(() => {
   //   // 유저 출석여부 확인
   //   // console.log(attended);
-  // attendanceCheck();
+  //   attendanceCheck();
   // }, [attended]);
 
   return (
@@ -84,7 +71,7 @@ export default function Main() {
         <img src={earth} alt="icon" />
       </VisualArea>
       <Banner />
-      {login && (
+      {userInfo && (
         <LoginArea>
           <Myinfo>
             <ProfileWrap>
@@ -159,7 +146,7 @@ export default function Main() {
           {!article?.length && <Empty button="article" />}
         </Content>
       </ContentsArea>
-      {login && <AttendanceModal attended={attended} />}
+      {userInfo && <AttendanceModal attended={attended} />}
     </MainContainer>
   );
 }
