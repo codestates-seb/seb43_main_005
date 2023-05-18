@@ -45,24 +45,24 @@ export default function Main() {
 
   // 출석 체크
   const [attended, setAttended] = useState(false);
+  // 오늘 날짜 형식 변환
+  function dateFormat(date) {
+    let formattedDate = date.toISOString();
+    return formattedDate.slice(0, 10);
+  }
+  let today = dateFormat(new Date());
   function attendanceCheck() {
-    // 오늘 날짜 형식 변환
-    function dateFormat(date) {
-      let formattedDate = date.toISOString();
-      return formattedDate.slice(0, 10);
-    }
-    let today = dateFormat(new Date());
     // 오늘 출석 여부 확인
     attendance("/members/check-in-date", "get").then(res => {
       let attendedDate = res.result;
       if (!attendedDate[0] === today) {
         localStorage.removeitem("attendance_date");
         localStorage.setItem("attendance_date", today);
-        console.log("출첵 아직");
+        // console.log("출첵 아직");
       } else if (attendedDate[0] === today) {
         // 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
-        console.log(res);
-        console.log("이미 출첵완료");
+        // console.log(res);
+        // console.log("이미 출첵완료");
         setAttended(true);
       }
     });
@@ -71,12 +71,11 @@ export default function Main() {
   useEffect(() => {
     sliceData("article");
     sliceData("contents", 3);
-    // 유저 출석여부 확인
-    attendanceCheck();
   }, []);
   useEffect(() => {
     // 유저 출석여부 확인
     attendanceCheck();
+    // console.log(attended);
   }, [attended]);
 
   return (

@@ -42,7 +42,7 @@ export default function EditMypage() {
       getImagesUrl(payload).then(res =>
         updateData(res.result, "/members/profile-image", "patch")
           .then(res => {
-            console.log(res);
+            // console.log(res);
             setSuccessAlert("프로필 이미지 수정이 완료되었습니다.");
           })
           .catch(err => console.log(err))
@@ -53,10 +53,10 @@ export default function EditMypage() {
   // 닉네임 수정
   const submitNickname = e => {
     e.preventDefault();
-    console.log(nickName);
+    // console.log(nickName);
     updateData(nickName.value, "/members/change-nickname", "patch").then(
       res => {
-        console.log(res);
+        // console.log(res);
         setSuccessAlert("닉네임 수정이 완료되었습니다.");
       }
     );
