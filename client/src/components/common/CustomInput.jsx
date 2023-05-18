@@ -4,6 +4,10 @@ import ProfileImage from "./ProfileImage.jsx";
 import CustomButton from "./CustomButton.jsx";
 import Editor from "../Admin/Editor.jsx";
 
+import { updateData, getImagesUrl } from "../../api/apiUtil.js";
+
+import useUploadImg from "../../hooks/useUploadImg.js";
+
 /**
  * admin 수정시 item 속성 필수!
  *
@@ -40,6 +44,18 @@ export default function CustomInput({
   // ! form 태그 내에서 enter 눌렀을 때 input file 실행 막음
   const handleKeyDowm = e => e.key === "Enter" && e.preventDefault();
 
+  // 프로필 이미지 수정 - 기본 이미지 클릭 시 기본 이미지 url 보내기
+  const defaulImg =
+    "https://s3.console.aws.amazon.com/s3/object/gonue-bucket?region=ap-northeast-2&prefix=dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png";
+  const handlePost = e => {
+    e.preventDefault();
+    updateData(defaulImg, "/members/profile-image", "patch")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <StyledInput feat={feat}>
       <Label
@@ -72,7 +88,7 @@ export default function CustomInput({
             <CustomButton
               text="기본이미지"
               feat="underline"
-              onClick={e => e.preventDefault()}
+              onClick={e => handlePost(e)}
             />
           )}
           <input
