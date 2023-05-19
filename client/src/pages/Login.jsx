@@ -76,19 +76,19 @@ export default function Login() {
           <div>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/google");
+                navigate("/oauth2/authorization/google");
               }}>
               <img src={google} alt="googleLogo" />
             </button>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/kakao");
+                navigate("/oauth2/authorization/kakao");
               }}>
               <img src={kakao} alt="kakaoLogo" />
             </button>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/naver");
+                navigate("/oauth2/authorization/naver");
               }}>
               <img src={naver} alt="naverLogo" />
             </button>
