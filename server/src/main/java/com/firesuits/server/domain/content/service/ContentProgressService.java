@@ -11,6 +11,8 @@ import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,6 +54,12 @@ public class ContentProgressService {
         ContentProgress contentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND));
         return ContentProgressDto.from(contentProgress);
+    }
+
+    public Page<ContentProgressDto> listContentProgress(String email, Pageable pageable){
+        Member member = memberOrException(email);
+
+        return contentProgressRepository.findAllByContentProgress(member.getMemberId(),pageable).map(ContentProgressDto::from);
     }
 
     private Member memberOrException(String email) {
