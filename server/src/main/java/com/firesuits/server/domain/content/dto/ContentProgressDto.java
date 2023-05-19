@@ -1,6 +1,6 @@
 package com.firesuits.server.domain.content.dto;
 
-import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,23 +11,20 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ContentDto {
-
-    // 콘텐츠 등록
-    private Long contentId;
-    private String title;
-    private String contentImg;
+public class ContentProgressDto {
+    private Long contentProgressId;
     private MemberDto member;
+    private ContentDto content;
+    private Double progress;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    // 정적 팩토리 메소드 사용하여 생성
-    public static ContentDto from(Content entity){
-        return new ContentDto(
-                entity.getContentId(),
-                entity.getTitle(),
-                entity.getContentImg(),
+    public static ContentProgressDto from(ContentProgress entity){
+        return new ContentProgressDto(
+                entity.getContentProgressId(),
                 MemberDto.from(entity.getMember()),
+                ContentDto.from(entity.getContent()),
+                entity.getProgress(),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

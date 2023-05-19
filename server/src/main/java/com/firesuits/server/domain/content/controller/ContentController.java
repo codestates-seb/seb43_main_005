@@ -1,9 +1,13 @@
 package com.firesuits.server.domain.content.controller;
 
 import com.firesuits.server.domain.content.dto.ContentDto;
+import com.firesuits.server.domain.content.dto.ContentProgressDto;
 import com.firesuits.server.domain.content.dto.request.ContentCreateRequest;
 import com.firesuits.server.domain.content.dto.request.ContentUpdateRequest;
+import com.firesuits.server.domain.content.dto.response.ContentProgressResponse;
 import com.firesuits.server.domain.content.dto.response.ContentResponse;
+import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.service.ContentProgressService;
 import com.firesuits.server.domain.content.service.ContentService;
 import com.firesuits.server.global.error.response.Response;
 import org.springframework.data.domain.Page;
@@ -16,9 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/contents")
 public class ContentController {
     private final ContentService contentService;
+    private final ContentProgressService contentProgressService;
 
-    public ContentController(ContentService contentService){
+    public ContentController(ContentService contentService, ContentProgressService contentProgressService) {
         this.contentService = contentService;
+        this.contentProgressService = contentProgressService;
     }
 
     @PostMapping
@@ -50,6 +56,17 @@ public class ContentController {
     public Response<Page<ContentResponse>> list(Pageable pageable){
         return Response.success(contentService.list(pageable).map(ContentResponse::from));
     }
-
+    //조회 버튼을 선택하여 LearnCheck 와 contentProgress 생성
+    @GetMapping("/{contentId}/access")
+    public Response<Void> accessContent(@PathVariable Long contentId, Authentication authentication){
+        Content content = contentService.accessContent(contentId, authentication.getName());
+        return Response.success();
+    }
+    //진짜 contentProgress 조회
+    @GetMapping("/{contentId}/progress")
+    public Response<ContentProgressResponse> getProgress(@PathVariable Long contentId, Authentication authentication){
+        ContentProgressDto contentProgressDto = contentProgressService.getContentProgress(contentId, authentication.getName());
+        return Response.success(ContentProgressResponse.from(contentProgressDto));
+    }
 
 }
