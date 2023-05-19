@@ -76,6 +76,14 @@ public class MemberController {
         return Response.success(MemberResponse.from(memberDto));
     }
 
+    //테마 수정
+    @PatchMapping("/theme")
+    public Response<Void> updateTheme(@RequestBody MemberThemeUpdateRequest request,
+                                      Authentication authentication){
+        memberService.updateMemberTheme(authentication.getName(), request.getMemberTheme());
+        return Response.success();
+    }
+
     //비밀번호 수정
     @PatchMapping("/change-password")
     public Response<Void> updatePassword(@RequestBody MemberPasswordUpdateRequest request,

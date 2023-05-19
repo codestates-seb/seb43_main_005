@@ -39,6 +39,10 @@ public class Member extends AuditingFields {
     @Column(nullable = false)
     private MemberMbti memberMbti;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberTheme memberTheme;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -77,12 +81,13 @@ public class Member extends AuditingFields {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ContentProgress> contentProgresses = new ArrayList<>();
 
-    public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti) {
+    public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti, MemberTheme memberTheme) {
         Member entity = new Member();
         entity.setEmail(email);
         entity.setNickName(nickName);
         entity.setPassword(encodedPwd);
         entity.setMemberMbti(memberMbti);
+        entity.setMemberTheme(memberTheme);
         entity.setLevel(0);
         entity.updateRequiredExperience();
         return entity;
