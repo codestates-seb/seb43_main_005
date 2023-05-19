@@ -1,12 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import CustomProgressBar from "../common/CustomProgressBar.jsx";
 import O from "../../assets/images/O.png";
 import X from "../../assets/images/X.png";
 import resultImg from "../../assets/images/resultImg.png";
+import axios from "axios";
 
 function OxQuiz(props) {
   const [isFinished, setisFinished] = useState(false); // 초기 상태를 체크된 상태로 설정
+  const [QuizData, setQuizData] = useState(null);
+  const [QuizCount, setQuizCount] = useState(0); //퀴즈가 몇번 째 문제인지
+
+  const handleQuizClick = () => {
+    if (QuizCount < QuizData.length - 1) {
+      setQuizCount(QuizCount + 1);
+    } else {
+      console.log("다풀었네요");
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://13.124.42.111:8080/contents/1/quizzes"
+        );
+        setQuizData(response.data.result.content);
+      } catch (error) {
+        console.error("Quiz Data 오류입니다.", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log(QuizData); // After state update, log the data
+  }, [QuizData]);
+
+  if (!QuizData) {
+    return <div>Loading...</div>; // Render a loading div if data is not loaded yet
+  }
+
   return (
     <QuizContainer>
       {isFinished ? (
@@ -17,28 +52,32 @@ function OxQuiz(props) {
         </>
       ) : (
         <>
-          <CustomProgressBar progress={80} feat={"simple"} />
+          <CustomProgressBar
+            progress={((QuizCount + 1) / QuizData.length) * 100}
+            feat={"simple"}
+          />
           <h2>OX퀴즈</h2>
 
-          <Quiz>자바스크립트는 클래스 기반 객체 지향 언어이다.</Quiz>
+          <Quiz>{QuizData[1].content}</Quiz>
 
           <AnswerContainer>
-            <Answer highlighted={true}>
+            <Answer
+              onClick={handleQuizClick}
+              highlighted={QuizData[1].correct ? true : false}>
               <StyledImage src={O} alt="O"></StyledImage>
             </Answer>
-            <Answer highlighted={false}>
+            <Answer
+              onClick={handleQuizClick}
+              highlighted={QuizData[1].correct ? false : true}>
               <StyledImage src={X} alt="X"></StyledImage>
             </Answer>
           </AnswerContainer>
           <QuizSolution>
-            <p>정답 : O</p>
+            <p>정답 : {QuizData[1].correct ? "O" : "X"}</p>
             <br />
             <br />
             <br />
-            <p>
-              풀이 : 자바스크립트는 프로토타입 기반 객체 지향 프로그래밍
-              언어입니다.
-            </p>
+            {QuizData[1].commentary}
           </QuizSolution>
         </>
       )}
@@ -88,6 +127,11 @@ const Answer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: box-shadow 0.3s ease; /* optional for smooth transition */
+
+  :hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* adjust as needed */
+  }
 `;
 
 const StyledImage = styled.img`
