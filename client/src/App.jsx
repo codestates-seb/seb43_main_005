@@ -30,7 +30,6 @@ import CourseOXquiz from "./pages/CourseOXquiz.jsx";
 import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
-import ThemeTester from "./pages/ThemeTester.jsx";
 
 function App() {
   const { pathname } = useLocation();
