@@ -23,13 +23,13 @@ const color = {
   blackOp50: `var(--black-op50)`,
   white: `var(--white)`,
   whiteOp50: `var(--white-op50)`,
-  blue: `blue`,
-  red: `red`,
+  blue: `var(--blue)`,
+  red: `var(--red)`,
   borderBold: `var(--border-bold)`,
   borderLight: `var(--border-light)`,
   borderMain: `var(--border-main)`,
   green900: "#343A40", //mypage 레벨도형 외곽선
-  disabeld: "#f1f3f5", //mypage disabled input bg
+  disabeld: "#f1f3f5", //mypage disabled input bg, blockquote
 };
 
 const commonTheme = {
