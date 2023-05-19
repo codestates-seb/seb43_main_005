@@ -63,21 +63,21 @@ function OxQuiz(props) {
           <AnswerContainer>
             <Answer
               onClick={handleQuizClick}
-              highlighted={QuizData[1].correct ? true : false}>
+              highlighted={QuizData[QuizCount].correct ? true : false}>
               <StyledImage src={O} alt="O"></StyledImage>
             </Answer>
             <Answer
               onClick={handleQuizClick}
-              highlighted={QuizData[1].correct ? false : true}>
+              highlighted={QuizData[QuizCount].correct ? false : true}>
               <StyledImage src={X} alt="X"></StyledImage>
             </Answer>
           </AnswerContainer>
           <QuizSolution>
-            <p>정답 : {QuizData[1].correct ? "O" : "X"}</p>
+            <p>정답 : {QuizData[QuizCount].correct ? "O" : "X"}</p>
             <br />
             <br />
             <br />
-            {QuizData[1].commentary}
+            {QuizData[QuizCount].commentary}
           </QuizSolution>
         </>
       )}
