@@ -69,8 +69,8 @@ const CommentContainer = styled.div`
   display: flex;
   max-width: 100%;
   height: 120px;
-  border-bottom: solid 1px ${({ theme }) => theme.color.gray100};
-  background-color: ${({ theme }) => theme.color.white};
+  border-bottom: solid 1px ${({ theme }) => theme.gray100};
+  background-color: ${({ theme }) => theme.white};
   margin: 30px;
 `;
 
@@ -78,8 +78,8 @@ const Profile = styled.img`
   width: 55px;
   height: 55px;
   margin-right: 15px;
-  border-radius: 100%;
-  background-color: ${({ theme }) => theme.color.black};
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.black};
   /* 나중에 이미지가 내려온다면 프로필 뜨게하는걸로 바꾸자. */
   ${({ profile }) =>
     profile === "false" &&
@@ -97,7 +97,7 @@ const Body = styled.div`
   margin-bottom: 40px;
 
   & > :nth-last-child(1) {
-    color: ${({ theme }) => theme.color.gray100};
+    color: ${({ theme }) => theme.gray100};
   }
 
   ${({ twoline }) =>
@@ -126,17 +126,16 @@ const Modal = styled.ul`
   position: absolute;
   right: 20px;
   top: 30px;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.white};
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   width: 90px;
   height: 45px;
   border-radius: 10px;
-  border: 0.5px solid ${({ theme }) => theme.color.gray100};
-  box-shadow: 0 1px 12px 0 rgb(0 0 0 / 6%);
-  padding: 10px;
-  text-align: center;
+  border: solid 1px ${({ theme }) => theme.gray100};
+  padding: 10px 0px 10px 30px;
+  // 상단에 뜨게하기
   z-index: 1;
 
   & > :nth-child(1),
@@ -158,7 +157,8 @@ const Count = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  border: solid 1px ${props => props.theme.color.black};
-  background-color: ${props => props.theme.color.sub};
+  border: solid 1px ${props => props.theme.black};
+  background-color: ${props => props.theme.sub};
+
   margin-top: 20px;
 `;

@@ -73,7 +73,7 @@ const Thumnail = styled.div`
   padding-top: 56.25%;
   /* 비율유지 */
   border-radius: 20px;
-  border: ${({ theme }) => theme.color.borderBold};
+  border: ${({ theme }) => theme.borderBold};
   margin-bottom: 15px;
   overflow: hidden;
   * {
@@ -94,8 +94,8 @@ const Title = styled.figcaption`
   display: grid;
   gap: 1rem;
   .normalTitle {
-    border: ${({ theme }) => theme.color.borderBold};
-    background-color: ${({ theme }) => theme.color.white};
+    border: ${({ theme }) => theme.borderBold};
+    background-color: ${({ theme }) => theme.white};
     font-size: 1em;
     padding: 20px 10px;
     border-radius: 1.25em;
@@ -105,8 +105,8 @@ const Title = styled.figcaption`
 const ProgressWrap = styled.div`
   font-size: 14px;
   padding: 1.25em;
-  border: ${({ theme }) => theme.color.borderBold};
-  background-color: ${({ theme }) => theme.color.white};
+  border: ${({ theme }) => theme.borderBold};
+  background-color: ${({ theme }) => theme.white};
   border-radius: 1.25em;
   h4,
   p {

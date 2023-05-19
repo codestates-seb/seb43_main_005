@@ -80,7 +80,7 @@ const ContentWrap = styled.div`
     line-height: 1.5em;
   }
   a {
-    color: ${({ theme }) => theme.color.blue};
+    color: ${({ theme }) => theme.blue};
     text-decoration: underline;
   }
   img {

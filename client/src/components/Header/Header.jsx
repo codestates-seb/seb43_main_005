@@ -84,10 +84,8 @@ const shakeText = keyframes`
 const HeaderWrap = styled.header`
   width: 100%;
   padding: ${({ course }) => (course ? "10px 0" : "70px 0 0 0")};
-  background-color: ${({ course, theme }) =>
-    course ? theme.color.white : theme.color.bg};
-  border-bottom: ${({ course, theme }) =>
-    course && `2px solid ${theme.color.main}`};
+  background-color: ${({ course, theme }) => (course ? theme.white : theme.bg)};
+  border-bottom: ${({ course, theme }) => course && `2px solid ${theme.main}`};
   position: fixed;
   left: 0;
   top: 0;
@@ -128,14 +126,14 @@ const HeaderWrap = styled.header`
         &::after,
         &::before {
           top: 0;
-          background-color: ${({ theme }) => theme.color.white};
+          background-color: ${({ theme }) => theme.white};
         }
         &::before {
           transform: rotate(90deg);
         }
       }
       .logo {
-        color: ${({ theme }) => theme.color.white};
+        color: ${({ theme }) => theme.white};
       }
       .nav {
         height: calc(90vh - 90px);
@@ -187,7 +185,7 @@ const Logo = styled.h1`
   font-family: "Shrikhand", cursive;
   text-align: center;
   a {
-    color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.main};
   }
 
   @media ${props => props.theme.mediaQuery.mobile} {
@@ -225,7 +223,7 @@ const Burger = styled.span`
     display: block;
     width: 100%;
     height: 4px;
-    background-color: ${({ theme }) => theme.color.main};
+    background-color: ${({ theme }) => theme.main};
     border-radius: 2px;
     transition-duration: 0.3s;
   }
@@ -277,11 +275,11 @@ const Nav = styled.nav`
     li {
       font-size: 3em;
       font-family: "GmarketSansBold";
-      color: ${props => props.theme.color.white};
+      color: ${props => props.theme.white};
       cursor: pointer;
-      -webkit-text-stroke: 1px ${({ theme }) => theme.color.textBold}; // chrome, safari
+      -webkit-text-stroke: 1px ${({ theme }) => theme.textBold}; // chrome, safari
       &:hover {
-        text-shadow: 5px 5px 0px ${({ theme }) => theme.color.textBold};
+        text-shadow: 5px 5px 0px ${({ theme }) => theme.textBold};
       }
     }
   }
@@ -290,7 +288,7 @@ const Nav = styled.nav`
     font-family: "GmarketSansLight";
     position: absolute;
     bottom: -25px;
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.white};
     font-size: 1em;
   }
   .author:hover {

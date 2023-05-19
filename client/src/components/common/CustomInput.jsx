@@ -175,14 +175,14 @@ const Input = styled.input`
   padding: 0 1em;
   font-size: 1em;
   box-sizing: border-box;
-  border: ${({ theme }) => theme.color.borderBold};
+  border: ${({ theme }) => theme.borderBold};
   border-radius: 0.625em;
   outline: none;
 
   &:disabled {
-    background-color: ${({ theme }) => theme.color.disabeld};
-    border: 1px solid ${({ theme }) => theme.color.gray100};
-    color: ${({ theme }) => theme.color.gray200};
+    background-color: ${({ theme }) => theme.disabeld};
+    border: 1px solid ${({ theme }) => theme.gray100};
+    color: ${({ theme }) => theme.gray200};
   }
 `;
 
@@ -205,9 +205,9 @@ const Thumnail = styled.label`
   justify-content: center;
   width: 350px;
   height: 200px;
-  border: ${({ theme }) => theme.color.borderBold};
+  border: ${({ theme }) => theme.borderBold};
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.color.whiteOp50};
+  background-color: ${({ theme }) => theme.whiteOp50};
   cursor: pointer;
   img {
     width: 100%;
@@ -227,17 +227,17 @@ const Quiz = styled.div`
     display: none;
   }
   label {
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.white};
     border-radius: 10px;
-    border: ${({ theme }) => theme.color.borderLight};
+    border: ${({ theme }) => theme.borderLight};
     flex-grow: 1;
     padding: 20px 15px;
     cursor: pointer;
   }
   input:checked + label {
-    color: ${({ theme }) => theme.color.white};
-    border-color: ${({ theme }) => theme.color.main};
-    background-color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.white};
+    border-color: ${({ theme }) => theme.main};
+    background-color: ${({ theme }) => theme.main};
     box-sizing: border-box;
   }
 `;
@@ -246,6 +246,6 @@ const QuizField = styled.div``;
 const Ment = styled.p`
   font-size: 0.77em;
   margin-top: 10px;
-  color: ${({ theme }) => theme.color.red};
+  color: ${({ theme }) => theme.red};
 `;
 // ~ ment

@@ -25,8 +25,8 @@ const BannerContainer = styled.ul`
   display: flex;
   padding: 20px 0;
   overflow: hidden;
-  border-top: ${props => props.theme.color.borderBold};
-  border-bottom: ${props => props.theme.color.borderBold};
+  border-top: ${props => props.theme.borderBold};
+  border-bottom: ${props => props.theme.borderBold};
   white-space: nowrap;
   @media ${props => props.theme.mediaQuery.mobile} {
     padding: 15px 0;

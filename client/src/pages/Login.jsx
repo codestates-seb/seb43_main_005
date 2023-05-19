@@ -119,7 +119,7 @@ const LoginWrap = styled.div`
 const PasswordFinder = styled.div`
   text-align: right;
   text-decoration: underline;
-  color: ${({ theme }) => theme.color.gray100};
+  color: ${({ theme }) => theme.gray100};
   font-size: 0.875em;
   margin: 10px 0px;
   cursor: pointer;
@@ -131,8 +131,8 @@ const ButtonGroup = styled.div`
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 9px;
-    background-color: ${({ theme }) => theme.color.whiteOp50};
-    color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.whiteOp50};
+    color: ${({ theme }) => theme.black};
     border: 1px solid black;
     cursor: pointer;
     margin-bottom: 50px;
@@ -146,14 +146,14 @@ const AuthButton = styled.div`
     align-items: center;
     font-size: 0.875em;
     margin: 8px 0px;
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.black};
     margin-bottom: 30px;
   }
   .line::before {
     content: "";
     flex-grow: 1;
     margin: 0px 16px;
-    background: ${props => props.theme.color.black};
+    background: ${props => props.theme.black};
     height: 1px;
     font-size: 0px;
     line-height: 0px;
@@ -162,7 +162,7 @@ const AuthButton = styled.div`
     content: "";
     flex-grow: 1;
     margin: 0px 16px;
-    background: ${props => props.theme.color.black};
+    background: ${props => props.theme.black};
     height: 1px;
     font-size: 0px;
     line-height: 0px;
@@ -183,12 +183,12 @@ const AuthButton = styled.div`
     white-space: normal;
     font-size: 0.875em;
     text-align: center;
-    color: ${({ theme }) => theme.color.gray100};
+    color: ${({ theme }) => theme.gray100};
   }
 
   span {
     text-decoration: underline;
-    color: ${({ theme }) => theme.color.black};
+    color: ${({ theme }) => theme.black};
     cursor: pointer;
     margin-left: 8px;
   }

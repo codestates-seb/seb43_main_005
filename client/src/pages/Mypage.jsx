@@ -4,8 +4,6 @@ import PageContainer from "../components/common/PageContainer.jsx";
 import Profile from "../components/Mypage/Profile.jsx";
 import Level from "../components/Mypage/Level.jsx";
 import BtnTabContainer from "../components/Mypage/BtnTabContainer.jsx";
-import { useEffect, useState } from "react";
-import { getData } from "../api/apiUtil.js";
 
 export default function Mypage() {
   const { userInfo } = useSelector(state => state.user);
