@@ -14,8 +14,6 @@ public class QuizResultDto {
     private Long quizResultId;
     private boolean answer;
     private boolean result;
-    private Integer trueAnswer;
-    private Integer falseAnswer;
     private QuizDto quiz;
     private MemberDto member;
 
@@ -24,8 +22,6 @@ public class QuizResultDto {
                 entity.getQuizResultId(),
                 entity.isAnswer(),
                 entity.isResult(),
-                entity.getTrueAnswer(),
-                entity.getFalseAnswer(),
                 QuizDto.from(entity.getQuiz()),
                 MemberDto.from(entity.getMember())
         );

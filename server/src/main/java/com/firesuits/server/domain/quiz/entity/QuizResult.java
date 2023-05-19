@@ -31,8 +31,6 @@ public class QuizResult {
 
     private boolean answer;
     private boolean result;
-    private Integer trueAnswer;
-    private Integer falseAnswer;
 
     public static QuizResult of(Quiz quiz, Member member, boolean answer, boolean result){
         QuizResult quizResult = new QuizResult();
@@ -43,5 +41,6 @@ public class QuizResult {
 
         return quizResult;
     }
+
 }
 

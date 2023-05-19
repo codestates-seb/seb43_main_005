@@ -51,47 +51,20 @@ public class QuizResultService {
         }
     }
 
-    // 퀴즈 결과 조회
+    // 퀴즈 결과 단건 조회
     @Transactional
-    public QuizResultDto findQuizResult(Long quizResultId, Long quizId){
+    public QuizResultDto findQuizResult(Long quizResultId, Long quizId, String email){
+        memberOrException(email);
         quizOrException(quizId);
         QuizResult quizResult = quizResultIdOrException(quizResultId);
 
         return QuizResultDto.from(quizResult);
     }
 
-    // 멤버가 푼 컨텐츠 퀴즈 조회
-    @Transactional
-    public QuizResultDto findQuizResultMember(Long contentId, Long quizResultId, String email){
-        QuizResult quizResult = quizResultIdOrException(quizResultId);
-
-        quizResult.setTrueAnswer(trueAnswer(contentId, email));
-        return QuizResultDto.from(quizResult);
-    }
-
-
-
-    // 전체 조회지만 필요없을듯
     @Transactional(readOnly = true)
     public Page<QuizResultDto> list(Pageable pageable){
         return quizResultRepository.findAll(pageable).map(QuizResultDto::from);
     }
-
-    //퀴즈 결과 false 조회
-    public Integer trueAnswer(Long contentId, String email){
-        Long memberId = memberOrException(email).getMemberId();
-        // 컨텐츠에 속한 모든 퀴즈 항목
-        List<QuizResult> quizResults = quizResultRepository.findAllByContentContentIdAndMemberMemberId(contentId, memberId);
-        Integer trueAnswer = 0;
-        //각 결과 값에 대해 false면
-        for(QuizResult quizResult : quizResults) {
-            if (quizResult.isResult() == true) {
-                trueAnswer++;
-            }
-        }
-        return trueAnswer;
-    }
-    // 퀴즈 결과 true 조회
 
     // 퀴즈 결과의 존재 확인
     private QuizResult quizResultIdOrException(Long quizResultId){
@@ -110,8 +83,6 @@ public class QuizResultService {
         return memberRepository.findByEmail(email).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND,String.format("%s 를 찾을 수 없습니다.", email)));
     }
-
-    // 퀴즈 Id와 멤버 Id가 같을 경우 이미 제출한 답안으로 확인
 
 }
 

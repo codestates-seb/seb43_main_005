@@ -35,8 +35,9 @@ public class QuizResultController {
     @GetMapping("/{quizresult-id}")
     public Response<QuizResultResponse> get(@PathVariable("content-id") Long contentId,
                                             @PathVariable("quiz-id") Long quizId,
-                                            @PathVariable("quizresult-id") Long quizResultId){
-        QuizResultDto quizResultDto = quizResultService.findQuizResult(quizResultId , quizId);
+                                            @PathVariable("quizresult-id") Long quizResultId,
+                                            Authentication authentication){
+        QuizResultDto quizResultDto = quizResultService.findQuizResult(quizResultId , quizId, authentication.getName());
         return Response.success(QuizResultResponse.from(quizResultDto));
     }
 
@@ -44,4 +45,13 @@ public class QuizResultController {
     public Response<Page<QuizResultResponse>> list(Pageable pageable){
         return Response.success(quizResultService.list(pageable).map(QuizResultResponse::from));
     }
+
+//    @GetMapping
+//    public Response<QuizResultTotalResponse> getQuizResult(@PathVariable("content-id") Long contentId,
+//                                                      @PathVariable("quiz-id") Long quizId,
+//                                                      @PathVariable("quizResult-id") Long quizResultId,
+//                                                      Authentication authentication){
+//        QuizResultDto quizResultDto = quizResultService.findQuizResultMember(contentId, quizResultId, authentication.getName());
+//        return Response.success(QuizResultTotalResponse.from(quizResultDto));
+//    }
 }
