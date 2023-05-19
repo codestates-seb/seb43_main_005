@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
@@ -24,12 +24,13 @@ export default function FindPassword() {
       return "";
     }
   };
+  useEffect(() => {
+    setAlert(AlertCondition(code, newPassword));
+  }, [code, newPassword]);
   // 핸들러
   const onSubmitHandler = async event => {
     event.preventDefault();
-    console.log(isPasswordValid(newPassword));
 
-    setAlert(AlertCondition(code, newPassword));
     if (Alert === "") {
       try {
         await updateData(data, `/members/password-reset`, "post");

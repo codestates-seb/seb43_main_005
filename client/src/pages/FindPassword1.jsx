@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
@@ -7,9 +7,11 @@ export default function FindPassword() {
   const [emailAlert, setEmailAlert] = useState("");
   const [email, setEmail] = useState("");
   let data = { email };
+  useEffect(() => {
+    setEmailAlert(email === "" ? "이메일을 입력해주세요" : "");
+  }, [email]);
   const onSubmitHandler = async event => {
     event.preventDefault();
-    setEmailAlert(email === "" ? "이메일을 입력해주세요" : "");
 
     try {
       await updateData(data, `/members/password-reset-request`, "post");
