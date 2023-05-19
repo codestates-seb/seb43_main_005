@@ -27,8 +27,12 @@ export default function DiscussionDetail() {
         console.error(err);
       });
   }
-  function DeleteComment() {
-    updateData(data, `/article/${id}/articleComments`, "Delete")
+  function DeleteComment(articleCommentId) {
+    updateData(
+      data,
+      `/article/${id}/articleComments/${articleCommentId}`,
+      "Delete"
+    )
       .then(res => {
         console.log(res);
         setComment("");
@@ -96,6 +100,7 @@ export default function DiscussionDetail() {
               profile="true"
               feat="tool"
               key={item.articleCommentId}
+              DeleteComment={DeleteComment}
             />
           );
         })}

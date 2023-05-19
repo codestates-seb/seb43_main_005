@@ -10,7 +10,7 @@ export default function Discussion() {
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");
-
+  console.log(body);
   function SearchInput() {
     getData(`/article/search?keyword=${search}`)
       .then(data => {
@@ -23,7 +23,6 @@ export default function Discussion() {
   useEffect(() => {
     getData(`/article?${sort}&size=20`)
       .then(data => {
-        console.log(data.result.pageable.paged);
         setBody(data.result.content);
       })
       .catch(error => {
