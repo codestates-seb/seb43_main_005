@@ -26,6 +26,9 @@ public class Article extends AuditingFields {
     @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
 
+    private int commentCount;
+    private int viewCount;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -42,5 +45,19 @@ public class Article extends AuditingFields {
         article.setContent(content);
         article.setMember(member);
         return article;
+    }
+
+    public void addComment(ArticleComment articleComment){
+        this.articleComments.add(articleComment);
+        this.commentCount = this.articleComments.size();
+    }
+
+    public void removeComment(ArticleComment articleComment){
+        this.articleComments.remove(articleComment);
+        this.commentCount = this.articleComments.size();
+    }
+
+    public void incrementViewCount(){
+        this.viewCount++;
     }
 }
