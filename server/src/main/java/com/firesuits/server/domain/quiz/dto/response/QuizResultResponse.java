@@ -1,7 +1,5 @@
 package com.firesuits.server.domain.quiz.dto.response;
 
-import com.firesuits.server.domain.content.dto.response.ContentResponse;
-import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

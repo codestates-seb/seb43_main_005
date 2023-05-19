@@ -1,7 +1,6 @@
 package com.firesuits.server.domain.quiz.repository;
 
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
-import com.firesuits.server.domain.quiz.dto.response.QuizResultResponse;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,22 +14,23 @@ import java.util.List;
 @Repository
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 
-    // 컨텐츠 내의 멤버가 푼 퀴즈 결과 조회
-    List<QuizResult> findAllByContentContentIdAndMemberMemberId(Long contentId, Long memberId);
 
     // 멤버가 이미 푼 퀴즈 결과 확인
     Boolean existsByQuizQuizIdAndMemberMemberId(Long quizId, Long memberId);
 
-    // 컨텐츠 내의 멤버가 푼 퀴즈 카운트 -> quiz로 이동예정
-//    @Query(value = "SELECT COUNT (*) FROM QuizResult entity WHERE entity.content.id = :content_id AND entity.member.id = :member_id")
-//    int findByContentContentIdAndMemberMemberId(@Param("content_id") Long contentId, @Param("member_id") Long memberId);
-
-//    @Query(value = "SELECT (*) FROM QuizResult entity WHERE entity.id = :content_id AND entity.member.id = :member_id")
-
+    // 퀴즈 결과 응답 갯수
     int countByQuizQuizIdIsNotNullAndContentContentId(Long content_id);
+
+    // 퀴즈 정답 갯수
     int countByResultIsTrueAndContentContentIdAndMemberMemberId(Long content_id, Long member_id);
+
+    // 퀴즈 오답 갯수
     int countByResultIsFalseAndContentContentIdAndMemberMemberId(Long content_id, Long member_id);
+
+    /* 특정 컨텐츠와 멤버에서 조회 구현을 위해 임시 저장
 
     @Query(value = "SELECT c FROM QuizResult c WHERE c.content.id = contentId AND c.member.id = memberId")
     Page<QuizResultDto> findAllByContentIdAndMemberId(@Param("contentId") Long contentId, @Param("memberId") Long memberId, Pageable pageable);
+
+     */
 }

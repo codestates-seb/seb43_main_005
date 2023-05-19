@@ -5,7 +5,6 @@ import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
-import com.firesuits.server.domain.quiz.dto.response.QuizResultResponse;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.domain.quiz.repository.QuizRepository;
@@ -16,8 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.ResultSet;
 
 @Service
 public class QuizResultService {
