@@ -24,8 +24,8 @@ public enum ExceptionCode {
     QUIZRESULT_NOT_FOUND(404, "퀴즈 결과를 찾을 수 없음"),
     QUIZRESULT_EXISTS(409, "퀴즈 결과가 이미 존재함"),
     LEARN_NOT_FOUND(404, "학습 내용을 찾을 수 없음"),
-    ALREADY_LEARN_COMPLETED(409, "이미 완료한 학습입니다."),
-    TAG_NOT_FOUND(404,"소제목을 찾을 수 없음")
+    CHECK_NOT_FOUND(404, "학습내용 현황을 찾을 수 없음"),
+    CHECK_PROGRESS_NOT_FOUND(404, "진행률을 찾을 수 없음")
     ;
     private int status;
     private String message;

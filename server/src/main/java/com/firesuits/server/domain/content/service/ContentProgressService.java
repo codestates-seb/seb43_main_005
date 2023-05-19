@@ -22,7 +22,8 @@ public class ContentProgressService {
     private final ContentProgressRepository contentProgressRepository;
     private final LearnCheckRepository learnCheckRepository;
     private final MemberRepository memberRepository;
-    private final ContentRepository contentRepository;
+    private ContentRepository contentRepository;
+
 
     public ContentProgressService(ContentProgressRepository contentProgressRepository, LearnCheckRepository learnCheckRepository, MemberRepository memberRepository, ContentRepository contentRepository) {
         this.contentProgressRepository = contentProgressRepository;
@@ -32,16 +33,17 @@ public class ContentProgressService {
     }
 
     @Transactional
-    public void updateContentProgress(String email, Long contentId) {
+
+    public void updateContentProgress(String email, Long contentId){
         Member member = memberOrException(email);
-        Content content = contentRepository.findById(contentId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND));
+        Content content = contentOrException(contentId);
         ContentProgress contentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId)
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.WRONG_CODE, String.format("Progress 오류", content)));
 
-        List<LearnCheck> learnCheckList = learnCheckRepository.findAllByMemberAndLearn_ContentBoard_ContentId(member, contentId);
-        double completedCount = learnCheckList.stream().filter(LearnCheck::isCompleted).count();
-        double progress = completedCount / learnCheckList.size() * 100;
+        //learnCheck true 개수로 progress 계산
+        List<LearnCheck> learnCheckslist = learnCheckRepository.findAllByMemberAndLearn_ContentBoard_ContentId(member, contentId);
+        double completedCount = learnCheckslist.stream().filter(LearnCheck::isCompleted).count();
+        double progress = completedCount / learnCheckslist.size() * 100;
 
         contentProgress.setProgress(progress);
     }
@@ -51,17 +53,17 @@ public class ContentProgressService {
         Content content = contentOrException(contentId);
 
         ContentProgress contentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND));
         return ContentProgressDto.from(contentProgress);
-    }
-
-    private Content contentOrException(Long contentId){
-        return contentRepository.findById(contentId).orElseThrow(()->
-                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 컨텐츠가 존재 하지 않습니다.", contentId)));
     }
 
     private Member memberOrException(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
+    }
+
+    private Content contentOrException(Long contentId){
+        return contentRepository.findById(contentId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 컨텐츠가 존재 하지 않습니다.", contentId)));
     }
 }

@@ -6,6 +6,7 @@ import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.content.repository.ContentProgressRepository;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.learn.entity.Learn;
+import com.firesuits.server.domain.learn.repository.LearnCheckRepository;
 import com.firesuits.server.domain.learn.repository.LearnRepository;
 import com.firesuits.server.domain.learn.service.LearnCheckService;
 import com.firesuits.server.domain.member.entity.Member;
@@ -17,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,15 +27,18 @@ public class ContentService {
     private final ContentRepository contentRepository;
     private final MemberRepository memberRepository;
     private final LearnRepository learnRepository;
-    private final LearnCheckService learnCheckService;
     private final ContentProgressRepository contentProgressRepository;
+    private final LearnCheckRepository learnCheckRepository;
+    private final LearnCheckService learnCheckService;
 
-    public ContentService(ContentRepository contentRepository, MemberRepository memberRepository, LearnRepository learnRepository, LearnCheckService learnCheckService, ContentProgressRepository contentProgressRepository) {
+    public ContentService(ContentRepository contentRepository, MemberRepository memberRepository, LearnRepository learnRepository, ContentProgressRepository contentProgressRepository, LearnCheckRepository learnCheckRepository, LearnCheckService learnCheckService) {
         this.contentRepository = contentRepository;
         this.memberRepository = memberRepository;
         this.learnRepository = learnRepository;
-        this.learnCheckService = learnCheckService;
         this.contentProgressRepository = contentProgressRepository;
+        this.learnCheckRepository = learnCheckRepository;
+        this.learnCheckService = learnCheckService;
+
     }
 
     @Transactional
@@ -49,8 +52,10 @@ public class ContentService {
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
+
         content.setTitle(title);
         content.setContentImg(contentImg);
+
         return ContentDto.from(contentRepository.save(content));
     }
 
@@ -78,21 +83,17 @@ public class ContentService {
         for(Learn learn : learns){
             Long learnId = learn.getLearnId();
             Long memberId = member.getMemberId();
-            boolean isExist = learnCheckService.existsByLearnIdAndMemberId(learnId, memberId);
+            boolean isExist = learnCheckRepository.existsByLearnLearnIdAndMemberMemberId(learnId,memberId);
+            //선택시 DB에 없을 경우 learnCheck 생성
             if(!isExist){
                 learnCheckService.createLearnCheck(learnId, email);
             }
         }
-        Optional<ContentProgress> optionalContentProgress =
-                contentProgressRepository.findByMemberAndContent_ContentId(member, contentId);
-        if (optionalContentProgress.isEmpty()){
-            ContentProgress contentProgress = new ContentProgress();
-            contentProgress.setMember(member);
-            contentProgress.setContent(content);
-            contentProgress.setProgress(0.0);
-            contentProgressRepository.save(contentProgress);
+        //contentProgress 해당되는 memberId랑 contentProgress의 contentId를 찾아서 없으면 생성
+        Optional<ContentProgress> optionalContentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId);
+        if(optionalContentProgress.isEmpty()){
+            contentProgressRepository.save(ContentProgress.of(member, content));
         }
-
         return content;
     }
 

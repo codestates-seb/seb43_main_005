@@ -14,12 +14,14 @@ public class LearnResponse {
     private Long learnId;
     private String title;
     private String content;
+    private Long contentId;
 
     public static LearnResponse from(LearnDto dto){
         return new LearnResponse(
                 dto.getLearnId(),
                 dto.getTitle(),
-                dto.getContent()
+                dto.getContent(),
+                dto.getContentBoard().getContentId()
         );
     }
 }

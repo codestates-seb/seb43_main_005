@@ -13,12 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ContentProgressDto {
 
-
     private Long contentProgressId;
     private MemberDto member;
     private ContentDto content;
     private Double progress;
     private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
 
     public static ContentProgressDto from(ContentProgress entity){
         return new ContentProgressDto(
@@ -26,7 +26,9 @@ public class ContentProgressDto {
                 MemberDto.from(entity.getMember()),
                 ContentDto.from(entity.getContent()),
                 entity.getProgress(),
-                entity.getCreatedAt()
+                entity.getCreatedAt(),
+                entity.getModifiedAt()
         );
     }
+
 }

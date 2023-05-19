@@ -29,13 +29,15 @@ public class ContentController {
 
     @PostMapping
     public Response<Void> create(@RequestBody ContentCreateRequest request, Authentication authentication){
-        contentService.create(request.getTitle(), request.getContentImg(), authentication.getName());
+        contentService.create(request.getTitle(), request.getContentImg(),authentication.getName());
+
         return Response.success();
     }
 
     @PatchMapping("/{content-id}")
     public Response<ContentResponse> update(@PathVariable("content-id") Long contentId,
                                             @RequestBody ContentUpdateRequest request, Authentication authentication){
+
         ContentDto contentDto = contentService.update(request.getTitle(), request.getContentImg(), authentication.getName(), contentId);
         return Response.success(ContentResponse.from(contentDto));
     }
@@ -57,15 +59,18 @@ public class ContentController {
         return Response.success(contentService.list(pageable).map(ContentResponse::from));
     }
 
+    //조회 버튼을 선택하여 LearnCheck 와 contentProgress 생성
+    @GetMapping("/{contentId}/access")
+    public Response<Void> accessContent(@PathVariable Long contentId, Authentication authentication){
+        Content content = contentService.accessContent(contentId, authentication.getName());
+        return Response.success();
+    }
+    //진짜 contentProgress 조회
+
     @GetMapping("/{contentId}/progress")
     public Response<ContentProgressResponse> getProgress(@PathVariable Long contentId, Authentication authentication){
         ContentProgressDto contentProgressDto = contentProgressService.getContentProgress(contentId, authentication.getName());
         return Response.success(ContentProgressResponse.from(contentProgressDto));
     }
 
-    @GetMapping("/{contentId}/access")
-    public Response<Void> accessContent(@PathVariable Long contentId, Authentication authentication){
-        Content content = contentService.accessContent(contentId, authentication.getName());
-        return Response.success();
-    }
 }

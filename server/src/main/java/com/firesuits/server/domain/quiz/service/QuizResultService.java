@@ -93,7 +93,6 @@ public class QuizResultService {
     }
     // 퀴즈 결과 true 조회
 
-
     // 퀴즈 결과의 존재 확인
     private QuizResult quizResultIdOrException(Long quizResultId){
         return quizResultRepository.findById(quizResultId).orElseThrow(()->
@@ -106,8 +105,6 @@ public class QuizResultService {
                 new BusinessLogicException(ExceptionCode.QUIZ_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", quizId)));
     }
 
-
-
     // 멤버의 존재 확인
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow(()->
@@ -117,3 +114,4 @@ public class QuizResultService {
     // 퀴즈 Id와 멤버 Id가 같을 경우 이미 제출한 답안으로 확인
 
 }
+

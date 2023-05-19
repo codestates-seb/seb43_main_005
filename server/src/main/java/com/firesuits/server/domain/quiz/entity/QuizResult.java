@@ -44,3 +44,4 @@ public class QuizResult {
         return quizResult;
     }
 }
+

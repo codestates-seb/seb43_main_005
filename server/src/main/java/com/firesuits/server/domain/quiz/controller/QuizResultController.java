@@ -25,8 +25,9 @@ public class QuizResultController {
     @PostMapping
     public Response<Void> create(@PathVariable("content-id") Long contentId,
                                  @PathVariable("quiz-id") Long quizId,
-                                 @RequestBody QuizResultRequest request,
-                                 Authentication authentication){
+                                @RequestBody QuizResultRequest request,
+                                Authentication authentication){
+
         quizResultService.checkAnswer(quizId, request.isAnswer(), request.isResult(), authentication.getName());
         return Response.success();
     }
@@ -43,6 +44,4 @@ public class QuizResultController {
     public Response<Page<QuizResultResponse>> list(Pageable pageable){
         return Response.success(quizResultService.list(pageable).map(QuizResultResponse::from));
     }
-
-
 }

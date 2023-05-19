@@ -1,6 +1,5 @@
 package com.firesuits.server.domain.content.repository;
 
-import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;

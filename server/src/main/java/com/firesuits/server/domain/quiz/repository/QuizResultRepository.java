@@ -1,6 +1,5 @@
 package com.firesuits.server.domain.quiz.repository;
 
-import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

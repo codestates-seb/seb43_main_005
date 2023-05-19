@@ -12,28 +12,31 @@ import com.firesuits.server.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 public class LearnCheckService {
-
-    private final LearnCheckRepository learnCheckRepository;
     private final MemberRepository memberRepository;
-    private final ContentProgressService contentProgressService;
+    private final LearnCheckRepository learnCheckRepository;
     private final LearnRepository learnRepository;
+    private final ContentProgressService contentProgressService;
 
-
-    public LearnCheckService(LearnCheckRepository learnCheckRepository, MemberRepository memberRepository, ContentProgressService contentProgressService, LearnRepository learnRepository) {
-        this.learnCheckRepository = learnCheckRepository;
+    public LearnCheckService(MemberRepository memberRepository, LearnCheckRepository learnCheckRepository, LearnRepository learnRepository, ContentProgressService contentProgressService) {
         this.memberRepository = memberRepository;
-        this.contentProgressService = contentProgressService;
+        this.learnCheckRepository = learnCheckRepository;
         this.learnRepository = learnRepository;
+        this.contentProgressService = contentProgressService;
     }
 
     @Transactional
-    public void updateLearnCheck(Long learnCheckId, String email, boolean completed){
+    public void createLearnCheck(Long learnId, String email) {
         Member member = memberOrException(email);
-        LearnCheck learnCheck = learnCheckRepository.findById(learnCheckId)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND));
+        Learn learn = learnOrException(learnId);
+        learnCheckRepository.save(LearnCheck.of(learn,member));
+    }
+
+    @Transactional
+    public void updateLearnCheck(boolean completed,  String email, Long learnCheckId){
+        Member member = memberOrException(email);
+        LearnCheck learnCheck = learnCheckOrException(learnCheckId);
 
         if (!learnCheck.getMember().equals(member)){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION);
@@ -45,24 +48,17 @@ public class LearnCheckService {
         contentProgressService.updateContentProgress(email, contentId);
     }
 
-    public boolean existsByLearnIdAndMemberId(Long learnId, Long memberId){
-        return learnCheckRepository.existsByLearnLearnIdAndMemberMemberId(learnId, memberId);
-    }
-
-    @Transactional
-    public void createLearnCheck(Long learnId, String email){
-        LearnCheck learnCheck = new LearnCheck();
-        Learn learn = learnRepository.findById(learnId).orElseThrow( () ->
-                new BusinessLogicException(ExceptionCode.INVALID_REQUEST));
-        Member member = memberOrException(email);
-        learnCheck.setLearn(learn);
-        learnCheck.setMember(member);
-        learnCheck.setCompleted(false);
-        learnCheckRepository.save(learnCheck);
-    }
-
     private Member memberOrException(String email){
-        return memberRepository.findByEmail(email).orElseThrow(() ->
+        return memberRepository.findByEmail(email).orElseThrow( () ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
+    }
+    private Learn learnOrException(Long learnId){
+        return learnRepository.findById(learnId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.INVALID_REQUEST, String.format("%s 번의 요청이 잘못되었습니다.", learnId)));
+    }
+
+    private LearnCheck learnCheckOrException(Long learnCheckId){
+        return learnCheckRepository.findById(learnCheckId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CHECK_NOT_FOUND, String.format("%s 번의 학습 결과가 존재 하지 않습니다.", learnCheckId)));
     }
 }

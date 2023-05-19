@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Entity
@@ -29,6 +31,9 @@ public class Learn extends AuditingFields {
     @ManyToOne
     @JoinColumn(name = "content_Id")
     private Content contentBoard;
+
+    @OneToMany(mappedBy = "learn", cascade = CascadeType.ALL)
+    private List<LearnCheck> learnChecks = new ArrayList<>();
 
 
     public static Learn of(String title, String content, Member member, Content contentBoard){

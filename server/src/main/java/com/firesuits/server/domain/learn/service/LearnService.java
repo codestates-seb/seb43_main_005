@@ -60,7 +60,6 @@ public class LearnService {
     @Transactional(readOnly = true)
     public Page<LearnDto> list(Long contentId, Pageable pageable){
         Content contentBoard = contentOrException(contentId);
-        checkLearnContent(contentId);
         return learnRepository.findAllByContent(contentBoard.getContentId(), pageable).map(LearnDto::from);
     }
 
@@ -83,12 +82,6 @@ public class LearnService {
     private void checkLearnMember(Learn learn, Member member, String email, Long learnId) {
         if (!Objects.equals(learn.getMember().getMemberId(), member.getMemberId())){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s 는 %s 학습에 대한 권한을 가지고 있지 않습니다.", email, learnId));
-        }
-    }
-    //해당 콘텐츠랑에 맞는 learn이 없다면 없다고 나와야 한다.
-    private void checkLearnContent(Long contentId) {
-        if (learnRepository.findAll().stream().noneMatch(learn -> Objects.equals(learn.getContentBoard().getContentId(), contentId))) {
-            throw new BusinessLogicException(ExceptionCode.LEARN_NOT_FOUND, String.format("%s 번의 학습 내용이 존재하지 않습니다.", contentId));
         }
     }
 }

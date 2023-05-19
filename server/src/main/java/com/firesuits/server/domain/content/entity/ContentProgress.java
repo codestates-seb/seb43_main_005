@@ -35,8 +35,4 @@ public class ContentProgress extends AuditingFields {
         contentProgress.setProgress(0.0);
         return contentProgress;
     }
-
-    public void updateProgress(double progress){
-        this.progress = progress;
-    }
 }
