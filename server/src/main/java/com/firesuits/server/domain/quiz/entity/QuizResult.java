@@ -15,16 +15,17 @@ public class QuizResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long quizResultId;
-    private boolean answer;
-    private boolean result;
 
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "quiz_id")
     private Quiz quiz;
+
+    private boolean answer;
+    private boolean result;
 
     public static QuizResult of(Quiz quiz, Member member, boolean answer, boolean result){
         QuizResult quizResult = new QuizResult();

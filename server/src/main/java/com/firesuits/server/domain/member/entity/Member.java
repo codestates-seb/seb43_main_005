@@ -7,6 +7,7 @@ import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.quiz.entity.Quiz;
+import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -68,6 +69,9 @@ public class Member extends AuditingFields {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<ContentProgress> contentProgresses = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<QuizResult> quizResults = new ArrayList<>();
 
     public static Member of(String email, String nickName, String encodedPwd, MemberMbti memberMbti) {
         Member entity = new Member();

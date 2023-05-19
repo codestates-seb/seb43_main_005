@@ -1,12 +1,18 @@
 package com.firesuits.server.domain.quiz.repository;
 
 import com.firesuits.server.domain.member.entity.Member;
-import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 
+    // 컨텐츠 내의 멤버가 푼 퀴즈 결과 조회
+//    List<QuizResult> findAllByMemberMemberIdAndQuizResultQuizResultId(Member member, Long quizResultId);
+
+    // 멤버가 이미 푼 퀴즈 결과 확인
+    boolean existsByQuizQuizIdAndMemberMemberId(Long quizId, Long memberId);
 }

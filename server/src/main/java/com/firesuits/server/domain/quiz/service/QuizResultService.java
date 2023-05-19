@@ -27,20 +27,25 @@ public class QuizResultService {
     }
 
     @Transactional
-    public void checkAnswer(Long quizId, boolean answer,  boolean result, String email){
-        // 멤버의 존재 여부를 체크
+    public void checkAnswer(Long quizId, boolean answer, boolean result, String email){
+
         Member member = memberOrException(email);
-        // 퀴즈가 존재하는지 체크
         Quiz quiz = quizOrException(quizId);
 
-        // 정답 체크하는 로직 필요
-        if(answer == quiz.isCorrect()){
-            result = true;
+        // quizId와 memberId가 같은 경우는 하나이기 때문에 true 인경우 exist exception 호출
+        boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
+        if(isExist){
+            throw new BusinessLogicException(ExceptionCode.QUIZRESULT_EXISTS, String.format("%s의 결과가 이미 존재합니다.", quizId));
         }
         else{
-            result = false;
+            if(answer == quiz.isCorrect()){
+                result = true;
+            }
+            else{
+                result = false;
+            }
+            quizResultRepository.save(QuizResult.of(quiz, member, answer, result));
         }
-        quizResultRepository.save(QuizResult.of(quiz, member, answer, result));
     }
 
     // 퀴즈 결과 조회
@@ -52,10 +57,18 @@ public class QuizResultService {
         return QuizResultDto.from(quizResult);
     }
 
+
+
+    // 전체 조회지만 필요없을듯
     @Transactional(readOnly = true)
     public Page<QuizResultDto> list(Pageable pageable){
         return quizResultRepository.findAll(pageable).map(QuizResultDto::from);
     }
+
+    //퀴즈 결과 false 조회
+
+    // 퀴즈 결과 true 조회
+
 
     // 퀴즈 결과의 존재 확인
     private QuizResult quizResultIdOrException(Long quizResultId){
@@ -69,9 +82,14 @@ public class QuizResultService {
                 new BusinessLogicException(ExceptionCode.QUIZ_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", quizId)));
     }
 
+
+
     // 멤버의 존재 확인
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND,String.format("%s 를 찾을 수 없습니다.", email)));
     }
+
+    // 퀴즈 Id와 멤버 Id가 같을 경우 이미 제출한 답안으로 확인
+
 }
