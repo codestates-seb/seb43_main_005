@@ -5,8 +5,7 @@ import HeaderUser from "./HeaderUser.jsx";
 import WaveSvg from "../../assets/images/WaveSvg.jsx";
 import ship from "../../assets/images/imgShip.png";
 
-export default function Header({ course, setLnb }) {
-  const login = true; // 임시변수
+export default function Header({ userInfo, course, setLnb }) {
   const [menu, openMenu, closeMenu] = useModal(false);
   const navigate = useNavigate();
   const handleLink = path => {
@@ -33,7 +32,7 @@ export default function Header({ course, setLnb }) {
           <Link to="/">CODE TRAVELER</Link>
         </Logo>
         <UserWrap className="user">
-          <HeaderUser login={login} />
+          <HeaderUser profileImage={userInfo?.profileImage} />
         </UserWrap>
       </Wrap>
       {!course && (
