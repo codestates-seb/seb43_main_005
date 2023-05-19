@@ -28,19 +28,21 @@ public class QuizResult {
     @ManyToOne
     @JoinColumn(name = "content_id")
     private Content content;
-
-    private boolean answer;
-    private boolean result;
-
-    public static QuizResult of(Quiz quiz, Member member, boolean answer, boolean result){
+    private Boolean answer;
+    private Boolean result;
+    private Long totalCount;
+    private int correctCount;
+    private Long wrongCount;
+    public static QuizResult of(Quiz quiz, Member member, Content content, Boolean answer, Boolean result, int correctCount){
         QuizResult quizResult = new QuizResult();
+        quizResult.setContent(content);
         quizResult.setQuiz(quiz);
         quizResult.setMember(member);
         quizResult.setAnswer(answer);
         quizResult.setResult(result);
+        quizResult.setCorrectCount(correctCount);
 
         return quizResult;
     }
-
 }
 

@@ -1,9 +1,11 @@
 package com.firesuits.server.domain.quiz.service;
 
 import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
+import com.firesuits.server.domain.quiz.dto.QuizTotalResultDto;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.domain.quiz.repository.QuizRepository;
@@ -22,32 +24,39 @@ public class QuizResultService {
     private final QuizRepository quizRepository;
     private final QuizResultRepository quizResultRepository;
     private final MemberRepository memberRepository;
+    private final ContentRepository contentRepository;
 
-    public QuizResultService(QuizRepository quizRepository, QuizResultRepository quizResultRepository, MemberRepository memberRepository){
+    public QuizResultService(QuizRepository quizRepository, QuizResultRepository quizResultRepository, MemberRepository memberRepository, ContentRepository contentRepository){
         this.quizRepository = quizRepository;
         this.quizResultRepository = quizResultRepository;
         this.memberRepository = memberRepository;
+        this.contentRepository = contentRepository;
     }
 
     @Transactional
-    public void checkAnswer(Long quizId, boolean answer, boolean result, String email){
+    public void checkAnswer(Long quizId, Long contentId, boolean answer, boolean result, String email){
 
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
+        Content content = contentOrException(contentId);
 
         // quizId와 memberId가 같은 경우는 하나이기 때문에 true 인경우 exist exception 호출
-        boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
+        Boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
         if(isExist){
             throw new BusinessLogicException(ExceptionCode.QUIZRESULT_EXISTS, String.format("%s의 결과가 이미 존재합니다.", quizId));
         }
         else{
+
             if(answer == quiz.isCorrect()){
                 result = true;
+
             }
             else{
                 result = false;
             }
-            quizResultRepository.save(QuizResult.of(quiz, member, answer, result));
+            int correctCount = quizResultRepository.countByResultIsTrueAndContentContentIdEqualsAndMemberMemberIdEquals(contentId, member.getMemberId());
+            quizResultRepository.save(QuizResult.of(quiz, member, content, answer, result, correctCount));
+
         }
     }
 
@@ -60,6 +69,7 @@ public class QuizResultService {
 
         return QuizResultDto.from(quizResult);
     }
+
 
     @Transactional(readOnly = true)
     public Page<QuizResultDto> list(Pageable pageable){
@@ -76,6 +86,12 @@ public class QuizResultService {
     private Quiz quizOrException(Long quizId){
         return quizRepository.findById(quizId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.QUIZ_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", quizId)));
+    }
+
+    // 컨텐츠 존재 확인
+    private Content contentOrException(Long contentId){
+        return contentRepository.findById(contentId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 퀴즈가 존재 하지 않습니다.", contentId)));
     }
 
     // 멤버의 존재 확인

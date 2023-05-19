@@ -10,25 +10,25 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class QuizResultDto {
+public class QuizTotalResultDto {
 
-    private Long quizResultId;
-    private Boolean answer;
-    private Boolean result;
+
+    private Long totalCount;
+    private int correctCount;
+    private Long wrongCount;
     private ContentDto content;
     private QuizDto quiz;
     private MemberDto member;
-    private int correctCount;
 
-    public static QuizResultDto from(QuizResult entity){
-        return new QuizResultDto(
-                entity.getQuizResultId(),
-                entity.getAnswer(),
-                entity.getResult(),
+    public static QuizTotalResultDto from(QuizResult entity){
+        return new QuizTotalResultDto(
+
+                entity.getTotalCount(),
+                entity.getCorrectCount(),
+                entity.getWrongCount(),
                 ContentDto.from(entity.getContent()),
                 QuizDto.from(entity.getQuiz()),
-                MemberDto.from(entity.getMember()),
-                entity.getCorrectCount()
+                MemberDto.from(entity.getMember())
         );
     }
 }

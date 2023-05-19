@@ -28,7 +28,7 @@ public class QuizResultController {
                                 @RequestBody QuizResultRequest request,
                                 Authentication authentication){
 
-        quizResultService.checkAnswer(quizId, request.isAnswer(), request.isResult(), authentication.getName());
+        quizResultService.checkAnswer(quizId, contentId, request.isAnswer(), request.isResult(), authentication.getName());
         return Response.success();
     }
 
