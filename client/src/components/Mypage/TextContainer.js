@@ -19,7 +19,7 @@ const TextContainer = styled.div`
     padding: 0;
   }
   & > div {
-    color: ${props => props.theme.color.gray100};
+    color: ${props => props.theme.gray100};
     margin-top: ${props => props.divMargin || "32px"};
     @media ${props => props.theme.mediaQuery.mobile} {
       margin-top: 16px;

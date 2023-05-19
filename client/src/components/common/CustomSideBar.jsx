@@ -87,7 +87,7 @@ const SideBarContainer = styled.div`
 const InnerContainer = styled.div`
   padding: 30px;
   height: calc(100% - 60px); // 100px을 빼줌으로써 상하에 각각 50px의 공백 생성
-  border-right: 2px solid ${props => props.theme.color.main};
+  border-right: 2px solid ${props => props.theme.main};
   overflow-y: scroll;
   > h2 {
     display: flex;
