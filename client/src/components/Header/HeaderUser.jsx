@@ -6,17 +6,14 @@ import Dialog from "../common/Dialog.jsx";
 import CustomButton from "../common/CustomButton.jsx";
 import ProfileImage from "../common/ProfileImage.jsx";
 
-const img =
-  "https://images.unsplash.com/photo-1574158622682-e40e69881006?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1180&q=80";
-// dummy img
-
-export default function HeaderUser({ login }) {
+export default function HeaderUser({ profileImage }) {
   const [drop, setDrop] = useState(false);
   const [profileClick, setProfileClick] = useState(false);
   const dropRef = useRef();
   const navigate = useNavigate();
   const [logout, openLogout, closeLogout] = useModal(false);
 
+  // ! 영역밖 클릭 시 DropBox close
   useEffect(() => {
     const handleClickOutside = e => {
       if (dropRef.current && !dropRef.current.contains(e.target)) {
@@ -29,24 +26,27 @@ export default function HeaderUser({ login }) {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dropRef]);
-  // 영역밖 클릭 시 DropBox close
 
-  const handleNav = path => {
-    path ? navigate(path) : openLogout();
-    setDrop(false);
-  };
-  // redirect 후 DropBox close
-
+  // ! Profile 클릭시 토글
   const handleDrop = () => {
     setProfileClick(prev => !prev);
     profileClick ? setDrop(true) : setDrop(false);
   };
-  // Profile 클릭시 토글
+
+  // ! redirect 후 DropBox close
+  const handleNav = path => {
+    path ? navigate(path) : openLogout();
+    setDrop(false);
+  };
 
   return (
     <>
-      {login ? (
-        <ProfileImage feat="header" profileImg={img} onClick={handleDrop} />
+      {profileImage ? (
+        <ProfileImage
+          feat="header"
+          profileImg={profileImage}
+          onClick={handleDrop}
+        />
       ) : (
         <CustomButton text="login" feat="round" path="/user/login" />
       )}

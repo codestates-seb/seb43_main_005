@@ -1,32 +1,44 @@
-import styled from "styled-components";
-import { AiOutlineClose } from "react-icons/ai";
-import CustomButton from "./CustomButton.jsx";
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { deleteData } from "../../api/apiUtil.js";
+import CustomButton from "./CustomButton.jsx";
+import { AiOutlineClose } from "react-icons/ai";
+import { clearUserInfo } from "../../redux/features/user/userSlice.js";
 
 export default function Dialog({ feat, path, text, closeDialog }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const clickBack = e => e.target.classList.contains("close") && closeDialog();
+
   const handleDialog = () => {
-    /*
-    feat === '로그아웃' && 로그아웃
-    feat === '탈퇴하기' && 탈퇴
-    feat === '삭제하기' && 게시글 삭제
-    
-  */
-    if (feat === "삭제하기") {
-      deleteItem();
+    switch (feat) {
+      case "로그아웃":
+        logout();
+        break;
+      case "삭제하기":
+        deleteItem();
+        break;
+      case "탈퇴하기":
+        deleteUser();
+        break;
+      case "작성취소":
+        navigate(-1);
+        break;
     }
-    if (feat === "탈퇴하기") {
-      deleteUser();
-    }
-    if (feat === "작성취소") navigate(-1);
     closeDialog();
+  };
+
+  // ! logout
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    dispatch(clearUserInfo());
+    navigate("/");
   };
 
   // ! delete
   const deleteItem = async () => {
-    // console.log(path);
     await deleteData(path);
     navigate("/");
   };
@@ -65,6 +77,14 @@ const DialogBack = styled.div`
   height: 100vh;
   background-color: ${props => props.theme.color.blackOp50};
 `;
+const show = keyframes`
+  from{
+    transform: scale(0);
+  }
+  to{
+    transform: scale(1);
+  }
+`;
 const DialogContainer = styled.div`
   width: 90%;
   max-width: 500px;
@@ -72,6 +92,7 @@ const DialogContainer = styled.div`
   box-sizing: border-box;
   border-radius: 10px;
   background-color: ${props => props.theme.color.white};
+  animation: ${show} 0.2s 0s alternate linear 1;
 `;
 const DialogClose = styled.button`
   display: block;

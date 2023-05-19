@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
@@ -9,6 +10,8 @@ import useModal from "../hooks/useModal.js";
 import Dialog from "../components/common/Dialog.jsx";
 
 export default function DiscussionDetail() {
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
   const [body, setBody] = useState([]);
   const [commentBody, setCommentBody] = useState([]);
   const [comment, setComment] = useState("");
@@ -62,25 +65,29 @@ export default function DiscussionDetail() {
   return (
     <PageContainer>
       <h2>Discussion</h2>
-      <Bar>
-        <CustomButton
-          text="토론글 수정"
-          feat="round"
-          reverse="true"
-          path={`/admin/edit/article/${id}`}
-          item={body}
-        />
-        <CustomButton text="토론글 삭제" feat="round" onClick={openDialog} />
-        {dialog && (
-          <Dialog
-            feat="삭제하기"
-            path={`/article/${id}`}
-            // path={quizDeletePath}
-            text={["토론글을 삭제하시겠습니까?"]}
-            closeDialog={closeDialog}
+
+      {admin && (
+        <Bar>
+          <CustomButton
+            text="토론글 수정"
+            feat="round"
+            reverse="true"
+            path={`/admin/edit/article/${id}`}
+            item={body}
           />
-        )}
-      </Bar>
+          <CustomButton text="토론글 삭제" feat="round" onClick={openDialog} />
+          {dialog && (
+            <Dialog
+              feat="삭제하기"
+              path={`/article/${id}`}
+              // path={quizDeletePath}
+              text={["토론글을 삭제하시겠습니까?"]}
+              closeDialog={closeDialog}
+            />
+          )}
+        </Bar>
+      )}
+
       <Subject>
         <span dangerouslySetInnerHTML={{ __html: body.title }} />
         <span dangerouslySetInnerHTML={{ __html: body.content }} />

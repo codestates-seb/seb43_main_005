@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
 import searchImg from "../assets/images/search.svg";
@@ -7,6 +8,9 @@ import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
   const [body, setBody] = useState([]);
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
+
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");
@@ -80,9 +84,11 @@ export default function Discussion() {
       </DiscussionList>
       <PageNation>123</PageNation>
       {/* 어드민만 보이도록 해야된다. */}
-      <DiscussionCreat>
-        <CustomButton text="토론글 등록" path="/admin/write/article" />
-      </DiscussionCreat>
+      {admin && (
+        <DiscussionCreat>
+          <CustomButton text="토론글 등록" path="/admin/write/article" />
+        </DiscussionCreat>
+      )}
     </PageContainer>
   );
 }

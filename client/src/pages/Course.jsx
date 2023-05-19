@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
+import { useSelector } from "react-redux";
 import { getData } from "../api/apiUtil.js";
 import useInput from "../hooks/useInput.js";
 import PageContainer from "../components/common/PageContainer.jsx";
@@ -9,8 +10,8 @@ import SearchBar from "../components/common/SearchBar.jsx";
 import Empty from "../components/common/Empty.jsx";
 
 export default function Course() {
-  const admin = true;
-  // 임시변수
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
   const [searchValue, searchReset] = useInput("");
   const [courses, setCourses] = useState(null);
   const [page, setPage] = useState(0);
