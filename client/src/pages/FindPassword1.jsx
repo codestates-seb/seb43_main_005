@@ -16,7 +16,7 @@ export default function FindPassword() {
     try {
       await updateData(data, `/members/password-reset-request`, "post");
       // 요청이 성공하면 페이지 이동
-      // window.location.href = "/user/login";
+      window.location.href = "/user/findfw/2";
     } catch (error) {
       // 요청이 실패한 경우 에러 처리
       console.error(error);
