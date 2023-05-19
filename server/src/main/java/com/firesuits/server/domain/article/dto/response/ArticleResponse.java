@@ -14,7 +14,7 @@ public class ArticleResponse {
     private Long articleId;
     private String title;
     private String content;
-    private Integer view;
+    private Integer viewCount;
     private Integer commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -25,7 +25,7 @@ public class ArticleResponse {
                 dto.getArticleId(),
                 dto.getTitle(),
                 dto.getContent(),
-                dto.getView(),
+                dto.getViewCount(),
                 dto.getCommentCount(),
                 dto.getCreateAt(),
                 dto.getModifiedAt(),
