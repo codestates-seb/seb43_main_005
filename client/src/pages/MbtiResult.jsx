@@ -18,10 +18,8 @@ function MbtiResult(props) {
 
   useEffect(() => {
     const mbtiResultObj = mbtiResultData.find(el => el.mbti === mbti);
-    console.log(mbtiResultObj);
     setResultData(mbtiResultObj);
   }, [mbti]);
-
   return (
     <PageContainer>
       <Container>
@@ -30,19 +28,17 @@ function MbtiResult(props) {
         <MbtiHeading>{resultData.mbti}</MbtiHeading>
         <MbtiSubText>{resultData.mbtiSubText}</MbtiSubText>
         <WhiteBox>
-          추천 컨텐츠: <BoldText>{resultData.recommendedContent}</BoldText>
+          추천 컨텐츠 : <BoldText>{resultData.recommendedContent}</BoldText>
         </WhiteBox>
         <RecommendedStudyMethod>
           <BoldText>공부법</BoldText>
-          {/* {resultData.studyMethods.map((studyMethod, i) => (
-            <p key={i}>{studyMethod}</p>
-          ))} */}
           {resultData?.studyMethods?.map((studyMethod, i) => (
             <p key={i}>{studyMethod}</p>
           ))}
         </RecommendedStudyMethod>
 
         <KakaoStyleBtn />
+        <KakaoShateBtn resultData={resultData} />
         {/* <img src={kakaoIcon} alt="카카오 아이콘" /> */}
       </Container>
     </PageContainer>
