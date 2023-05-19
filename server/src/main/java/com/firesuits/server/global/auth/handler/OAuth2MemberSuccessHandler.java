@@ -1,6 +1,7 @@
 package com.firesuits.server.global.auth.handler;
 
 import com.firesuits.server.domain.member.entity.MemberMbti;
+import com.firesuits.server.domain.member.entity.MemberTheme;
 import com.firesuits.server.domain.member.service.MemberService;
 import com.firesuits.server.global.auth.jwt.JwtTokenizer;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
@@ -61,8 +62,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         }
 
         MemberMbti memberMbti = MemberMbti.테스트전;
+        MemberTheme memberTheme = MemberTheme.defaultLight;
         List<String> authorities = authorityUtils.createRoles(email);
-        memberService.oauthJoin(email, name, memberMbti);
+        memberService.oauthJoin(email, name, memberMbti, memberTheme);
         redirect(request, response, email, authorities);
     }
 
