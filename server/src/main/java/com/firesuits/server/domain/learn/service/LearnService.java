@@ -52,13 +52,15 @@ public class LearnService {
         learnRepository.delete(learn);
     }
     @Transactional(readOnly = true) //transaction 읽기만 가능하게 하여 성능 향상
-    public LearnDto findById(Long contentId, Long learnId){
+    public LearnDto findById(Long contentId, Long learnId, String email){
+        Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
         Content contentBoard = contentOrException(contentId);
         return LearnDto.from(learn);
     }
     @Transactional(readOnly = true)
-    public Page<LearnDto> list(Long contentId, Pageable pageable){
+    public Page<LearnDto> list(Long contentId, String email, Pageable pageable){
+        Member member = memberOrException(email);
         Content contentBoard = contentOrException(contentId);
         return learnRepository.findAllByContent(contentBoard.getContentId(), pageable).map(LearnDto::from);
     }
