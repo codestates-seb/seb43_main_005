@@ -84,4 +84,5 @@ const StyledInput = styled.input`
 
 const StyledP = styled.p`
   margin-left: 0.5rem;
+  width: calc(100% - 24px);
 `;
