@@ -176,7 +176,7 @@ const AuthButton = styled.div`
     white-space: normal;
     font-size: 0.875em;
     text-align: center;
-    color: ${({ theme }) => theme.color.gray100};
+    color: ${({ theme }) => theme.gray100};
     margin-bottom: 30px;
   }
   & > :nth-child(3) {

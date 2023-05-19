@@ -78,7 +78,7 @@ const Profile = styled.img`
   width: 55px;
   height: 55px;
   margin-right: 15px;
-  border-radius: 50%;
+  border-radius: 100%;
   background-color: ${({ theme }) => theme.black};
   /* 나중에 이미지가 내려온다면 프로필 뜨게하는걸로 바꾸자. */
   ${({ profile }) =>
@@ -133,9 +133,10 @@ const Modal = styled.ul`
   width: 90px;
   height: 45px;
   border-radius: 10px;
-  border: solid 1px ${({ theme }) => theme.gray100};
-  padding: 10px 0px 10px 30px;
-  // 상단에 뜨게하기
+  border: 0.5px solid ${({ theme }) => theme.gray100};
+  box-shadow: 0 1px 12px 0 rgb(0 0 0 / 6%);
+  padding: 10px;
+  text-align: center;
   z-index: 1;
 
   & > :nth-child(1),
@@ -144,7 +145,7 @@ const Modal = styled.ul`
     list-style: none;
 
     :hover {
-      background-color: ${({ theme }) => theme.color.gray50};
+      background-color: ${({ theme }) => theme.gray50};
       text-decoration: underline;
     }
   }
@@ -159,6 +160,5 @@ const Count = styled.div`
   border-radius: 100%;
   border: solid 1px ${props => props.theme.black};
   background-color: ${props => props.theme.sub};
-
   margin-top: 20px;
 `;
