@@ -51,8 +51,9 @@ public class QuizService {
         return QuizDto.from(quizRepository.save(quiz));
     }
 
-    public void delete(String email, Long quizId){
+    public void delete(String email, Long quizId, Long contentId){
         Member member = memberOrException(email);
+        Content content = contentOrException(contentId);
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
         quizRepository.delete(quiz);

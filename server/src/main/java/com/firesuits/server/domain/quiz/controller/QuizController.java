@@ -42,7 +42,7 @@ public class QuizController {
     public Response<Void> delete(@PathVariable("content-id") Long contentId,
                                  @PathVariable("quiz-id") Long quizId,
                                  Authentication authentication){
-        quizService.delete(authentication.getName(), quizId);
+        quizService.delete(authentication.getName(), quizId ,contentId);
         return Response.success();
     }
 
