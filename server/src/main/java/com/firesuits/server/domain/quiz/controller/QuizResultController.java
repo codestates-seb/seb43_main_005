@@ -43,4 +43,6 @@ public class QuizResultController {
     public Response<Page<QuizResultResponse>> list(Pageable pageable){
         return Response.success(quizResultService.list(pageable).map(QuizResultResponse::from));
     }
+
+
 }

@@ -3,6 +3,7 @@ package com.firesuits.server.domain.content.entity;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.quiz.entity.Quiz;
+import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +36,9 @@ public class Content extends AuditingFields {
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
+    private List<QuizResult> quizResults = new ArrayList<>();
 
     public static Content of(String title, String contentImg, Member member){
         Content content =new Content();

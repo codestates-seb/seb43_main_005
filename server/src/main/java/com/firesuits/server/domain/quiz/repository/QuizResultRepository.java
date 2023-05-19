@@ -11,7 +11,7 @@ import java.util.List;
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 
     // 컨텐츠 내의 멤버가 푼 퀴즈 결과 조회
-//    List<QuizResult> findAllByMemberMemberIdAndQuizResultQuizResultId(Member member, Long quizResultId);
+    List<QuizResult> findAllByContentContentIdAndMemberMemberId(Long contentId, Long memberId);
 
     // 멤버가 이미 푼 퀴즈 결과 확인
     boolean existsByQuizQuizIdAndMemberMemberId(Long quizId, Long memberId);

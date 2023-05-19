@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.service;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class QuizResultService {
@@ -57,6 +60,15 @@ public class QuizResultService {
         return QuizResultDto.from(quizResult);
     }
 
+    // 멤버가 푼 컨텐츠 퀴즈 조회
+    @Transactional
+    public QuizResultDto findQuizResultMember(Long contentId, Long quizResultId, String email){
+        QuizResult quizResult = quizResultIdOrException(quizResultId);
+
+        quizResult.setTrueAnswer(trueAnswer(contentId, email));
+        return QuizResultDto.from(quizResult);
+    }
+
 
 
     // 전체 조회지만 필요없을듯
@@ -66,7 +78,19 @@ public class QuizResultService {
     }
 
     //퀴즈 결과 false 조회
-
+    public Integer trueAnswer(Long contentId, String email){
+        Long memberId = memberOrException(email).getMemberId();
+        // 컨텐츠에 속한 모든 퀴즈 항목
+        List<QuizResult> quizResults = quizResultRepository.findAllByContentContentIdAndMemberMemberId(contentId, memberId);
+        Integer trueAnswer = 0;
+        //각 결과 값에 대해 false면
+        for(QuizResult quizResult : quizResults) {
+            if (quizResult.isResult() == true) {
+                trueAnswer++;
+            }
+        }
+        return trueAnswer;
+    }
     // 퀴즈 결과 true 조회
 
 

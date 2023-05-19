@@ -11,6 +11,8 @@ public class QuizResultResponse {
     private Long quizResultId;
     private boolean answer;
     private boolean result;
+    private Integer trueAnswer;
+    private Integer falseAnswer;
     private QuizResponse quizResponse;
     private MemberResponse memberResponse;
 
@@ -20,6 +22,8 @@ public class QuizResultResponse {
                 entity.getQuizResultId(),
                 entity.isAnswer(),
                 entity.isResult(),
+                entity.getTrueAnswer(),
+                entity.getFalseAnswer(),
                 QuizResponse.from(entity.getQuiz()),
                 MemberResponse.from(entity.getMember())
         );
