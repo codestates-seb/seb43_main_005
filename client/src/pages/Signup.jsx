@@ -28,7 +28,6 @@ export default function Signup() {
   if (mbtidata) {
     data["memberMbti"] = mbtidata;
   }
-  console.log(data);
   // 비밀번호 조건
   const isPasswordValid = pw => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;

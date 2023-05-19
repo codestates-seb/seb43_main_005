@@ -10,7 +10,6 @@ export default function Discussion() {
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");
-  console.log(search);
 
   function SearchInput() {
     getData(`/article/search?keyword=${search}`)
@@ -22,8 +21,9 @@ export default function Discussion() {
       });
   }
   useEffect(() => {
-    getData(`/article?${sort}`)
+    getData(`/article?${sort}&size=20`)
       .then(data => {
+        console.log(data.result.pageable.paged);
         setBody(data.result.content);
       })
       .catch(error => {
@@ -79,7 +79,7 @@ export default function Discussion() {
           return <Discussions body={item} key={item.articleId} />;
         })}
       </DiscussionList>
-
+      <PageNation>123</PageNation>
       {/* 어드민만 보이도록 해야된다. */}
       <DiscussionCreat>
         <CustomButton text="토론글 등록" path="/admin/write/article" />
@@ -129,4 +129,8 @@ const DiscussionList = styled.div`
 
 const DiscussionCreat = styled.div`
   float: right;
+`;
+
+const PageNation = styled.div`
+  text-align: center;
 `;
