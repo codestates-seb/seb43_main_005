@@ -18,7 +18,9 @@ public class QuizResultDto {
     private ContentDto content;
     private QuizDto quiz;
     private MemberDto member;
+    private int totalCount;
     private int correctCount;
+    private int wrongCount;
 
     public static QuizResultDto from(QuizResult entity){
         return new QuizResultDto(
@@ -28,7 +30,9 @@ public class QuizResultDto {
                 ContentDto.from(entity.getContent()),
                 QuizDto.from(entity.getQuiz()),
                 MemberDto.from(entity.getMember()),
-                entity.getCorrectCount()
+                entity.getTotalCount(),
+                entity.getCorrectCount(),
+                entity.getWrongCount()
         );
     }
 }

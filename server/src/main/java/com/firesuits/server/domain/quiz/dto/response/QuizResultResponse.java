@@ -10,23 +10,29 @@ import lombok.Getter;
 @Getter
 public class QuizResultResponse {
     private Long quizResultId;
+    private Long contentId;
+    private Long quizId;
+    private Long memberId;
     private Boolean answer;
     private Boolean result;
-    private ContentResponse contentResponse;
-    private QuizResponse quizResponse;
-    private MemberResponse memberResponse;
+    private String commentary;
+    private int totalCount;
     private int correctCount;
+    private int wrongCount;
 
 
     public static QuizResultResponse from(QuizResultDto entity){
         return new QuizResultResponse(
                 entity.getQuizResultId(),
+                entity.getContent().getContentId(),
+                entity.getMember().getMemberId(),
+                entity.getQuiz().getQuizId(),
                 entity.getAnswer(),
                 entity.getResult(),
-                ContentResponse.from(entity.getContent()),
-                QuizResponse.from(entity.getQuiz()),
-                MemberResponse.from(entity.getMember()),
-                entity.getCorrectCount()
+                entity.getQuiz().getCommentary(),
+                entity.getTotalCount(),
+                entity.getCorrectCount(),
+                entity.getWrongCount()
         );
     }
 }

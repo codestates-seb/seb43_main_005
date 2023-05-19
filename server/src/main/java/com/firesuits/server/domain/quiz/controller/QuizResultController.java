@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.quiz.controller;
 
+import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
 import com.firesuits.server.domain.quiz.dto.request.QuizResultRequest;
 import com.firesuits.server.domain.quiz.dto.response.QuizResultResponse;
@@ -43,15 +44,16 @@ public class QuizResultController {
 
     @GetMapping
     public Response<Page<QuizResultResponse>> list(Pageable pageable){
+
         return Response.success(quizResultService.list(pageable).map(QuizResultResponse::from));
     }
 
-//    @GetMapping
-//    public Response<QuizResultTotalResponse> getQuizResult(@PathVariable("content-id") Long contentId,
-//                                                      @PathVariable("quiz-id") Long quizId,
-//                                                      @PathVariable("quizResult-id") Long quizResultId,
-//                                                      Authentication authentication){
-//        QuizResultDto quizResultDto = quizResultService.findQuizResultMember(contentId, quizResultId, authentication.getName());
-//        return Response.success(QuizResultTotalResponse.from(quizResultDto));
-//    }
+/* 현재 동작하지 않음.
+    @GetMapping
+    public Response<Page<QuizResultResponse>> list(@PathVariable("content-id") Long contentId,
+                                                    Authentication authentication,
+                                                    Pageable pageable){
+        return Response.success(quizResultService.finQuizTotalResult(contentId, authentication.getName(), pageable));
+    }
+    */
 }

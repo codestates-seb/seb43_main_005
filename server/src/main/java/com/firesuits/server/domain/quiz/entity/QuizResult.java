@@ -30,17 +30,19 @@ public class QuizResult {
     private Content content;
     private Boolean answer;
     private Boolean result;
-    private Long totalCount;
+    private int totalCount;
     private int correctCount;
-    private Long wrongCount;
-    public static QuizResult of(Quiz quiz, Member member, Content content, Boolean answer, Boolean result, int correctCount){
+    private int wrongCount;
+    public static QuizResult of(Quiz quiz, Member member, Content content, Boolean answer, Boolean result, int totalCount, int correctCount, int wrongCount){
         QuizResult quizResult = new QuizResult();
         quizResult.setContent(content);
         quizResult.setQuiz(quiz);
         quizResult.setMember(member);
         quizResult.setAnswer(answer);
         quizResult.setResult(result);
+        quizResult.setTotalCount(totalCount);
         quizResult.setCorrectCount(correctCount);
+        quizResult.setWrongCount(wrongCount);
 
         return quizResult;
     }

@@ -1,7 +1,6 @@
 package com.firesuits.server.domain.quiz.dto.response;
 
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
-import com.firesuits.server.domain.quiz.dto.QuizTotalResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,16 +8,16 @@ import lombok.Getter;
 @Getter
 public class QuizTotalResultResponse {
     // 퀴즈 합계만을 위한 Response
-    private Long contentId;
-    private Long memberId;
+    private String contentTitle;
     private Long quizId;
-    private Long totalCount;
+    private Long memberId;
+    private int totalCount;
     private int correctCount;
-    private Long wrongCount;
+    private int wrongCount;
 
-    public static QuizTotalResultResponse from(QuizTotalResultDto entity){
+    public static QuizTotalResultResponse from(QuizResultDto entity){
         return new QuizTotalResultResponse(
-                entity.getContent().getContentId(),
+                entity.getContent().getTitle(),
                 entity.getQuiz().getQuizId(),
                 entity.getMember().getMemberId(),
                 entity.getTotalCount(),

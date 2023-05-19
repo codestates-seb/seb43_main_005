@@ -5,7 +5,7 @@ import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.domain.quiz.dto.QuizResultDto;
-import com.firesuits.server.domain.quiz.dto.QuizTotalResultDto;
+import com.firesuits.server.domain.quiz.dto.response.QuizResultResponse;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
 import com.firesuits.server.domain.quiz.repository.QuizRepository;
@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.sql.ResultSet;
 
 @Service
 public class QuizResultService {
@@ -40,6 +40,11 @@ public class QuizResultService {
         Quiz quiz = quizOrException(quizId);
         Content content = contentOrException(contentId);
 
+        int totalCount = quizResultRepository.countByQuizQuizIdIsNotNullAndContentContentId(contentId) + 1;
+        int correctCount = quizResultRepository.countByResultIsTrueAndContentContentIdAndMemberMemberId(contentId, member.getMemberId());
+        int wrongCount = quizResultRepository.countByResultIsFalseAndContentContentIdAndMemberMemberId(contentId, member.getMemberId());
+
+
         // quizId와 memberId가 같은 경우는 하나이기 때문에 true 인경우 exist exception 호출
         Boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
         if(isExist){
@@ -49,13 +54,17 @@ public class QuizResultService {
 
             if(answer == quiz.isCorrect()){
                 result = true;
-
+                correctCount += 1;
             }
             else{
                 result = false;
+                wrongCount += 1;
             }
-            int correctCount = quizResultRepository.countByResultIsTrueAndContentContentIdEqualsAndMemberMemberIdEquals(contentId, member.getMemberId());
-            quizResultRepository.save(QuizResult.of(quiz, member, content, answer, result, correctCount));
+
+
+
+        quizResultRepository.save(QuizResult.of(quiz, member, content, answer, result, totalCount, correctCount, wrongCount));
+
 
         }
     }
@@ -69,6 +78,15 @@ public class QuizResultService {
 
         return QuizResultDto.from(quizResult);
     }
+
+    /*
+    @Transactional
+    public Page<QuizResultResponse> finQuizTotalResult(Long contentId, String email, Pageable pageable){
+        Member member = memberOrException(email);
+        return quizResultRepository.findAllByContentIdAndMemberId(contentId, member.getMemberId(),pageable);
+
+    }
+    */
 
 
     @Transactional(readOnly = true)

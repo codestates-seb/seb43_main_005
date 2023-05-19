@@ -1,6 +1,10 @@
 package com.firesuits.server.domain.quiz.repository;
 
+import com.firesuits.server.domain.quiz.dto.QuizResultDto;
+import com.firesuits.server.domain.quiz.dto.response.QuizResultResponse;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +26,11 @@ public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 //    int findByContentContentIdAndMemberMemberId(@Param("content_id") Long contentId, @Param("member_id") Long memberId);
 
 //    @Query(value = "SELECT (*) FROM QuizResult entity WHERE entity.id = :content_id AND entity.member.id = :member_id")
-    int countByResultIsTrueAndContentContentIdEqualsAndMemberMemberIdEquals(Long content_id, Long member_id);
+
+    int countByQuizQuizIdIsNotNullAndContentContentId(Long content_id);
+    int countByResultIsTrueAndContentContentIdAndMemberMemberId(Long content_id, Long member_id);
+    int countByResultIsFalseAndContentContentIdAndMemberMemberId(Long content_id, Long member_id);
+
+    @Query(value = "SELECT c FROM QuizResult c WHERE c.content.id = contentId AND c.member.id = memberId")
+    Page<QuizResultDto> findAllByContentIdAndMemberId(@Param("contentId") Long contentId, @Param("memberId") Long memberId, Pageable pageable);
 }
