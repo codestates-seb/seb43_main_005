@@ -14,7 +14,7 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
   let content = commentBody.content;
   let createdAt = commentBody.createdAt.slice(0, 10);
   let likeCount = commentBody.like;
-
+  let commentId = commentBody.articleCommentId;
   return (
     <CommentContainer>
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
@@ -36,8 +36,8 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
           />
           {dropdown && (
             <Modal>
-              <li>수정하기</li>
               <li>삭제하기</li>
+              <li>수정하기</li>
             </Modal>
           )}
           <div>
@@ -123,11 +123,21 @@ const Modal = styled.ul`
   width: 90px;
   height: 45px;
   border-radius: 10px;
-  border: solid 1px ${({ theme }) => theme.color.gray100};
-  padding: 10px 0px 10px 30px;
-  // 상단에 뜨게하기
+  border: 1px solid ${({ theme }) => theme.color.gray100};
+  padding: 10px;
+  text-align: center;
   z-index: 1;
-  /* transform: translate(-50%, -50%); */
+
+  & > :nth-child(1),
+  & > :nth-child(2) {
+    cursor: pointer;
+    list-style: none;
+
+    :hover {
+      background-color: ${({ theme }) => theme.color.gray50};
+      text-decoration: underline;
+    }
+  }
 `;
 
 const Count = styled.div`
