@@ -19,6 +19,7 @@ public class QuizResultResponse {
     private int totalCount;
     private int correctCount;
     private int wrongCount;
+    private Boolean checkPoint;
 
 
     public static QuizResultResponse from(QuizResultDto entity){
@@ -32,7 +33,8 @@ public class QuizResultResponse {
                 entity.getQuiz().getCommentary(),
                 entity.getTotalCount(),
                 entity.getCorrectCount(),
-                entity.getWrongCount()
+                entity.getWrongCount(),
+                entity.getCheckPoint()
         );
     }
 }

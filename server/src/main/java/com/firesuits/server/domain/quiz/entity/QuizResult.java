@@ -33,7 +33,8 @@ public class QuizResult {
     private int totalCount;
     private int correctCount;
     private int wrongCount;
-    public static QuizResult of(Quiz quiz, Member member, Content content, Boolean answer, Boolean result, int totalCount, int correctCount, int wrongCount){
+    private Boolean checkPoint;
+    public static QuizResult of(Quiz quiz, Member member, Content content, Boolean answer, Boolean result, int totalCount, int correctCount, int wrongCount, Boolean checkPoint){
         QuizResult quizResult = new QuizResult();
         quizResult.setContent(content);
         quizResult.setQuiz(quiz);
@@ -43,6 +44,7 @@ public class QuizResult {
         quizResult.setTotalCount(totalCount);
         quizResult.setCorrectCount(correctCount);
         quizResult.setWrongCount(wrongCount);
+        quizResult.setCheckPoint(checkPoint);
 
         return quizResult;
     }

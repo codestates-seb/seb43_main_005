@@ -43,7 +43,7 @@ public class QuizResultService {
         int totalCount = quizResultRepository.countByQuizQuizIdIsNotNullAndContentContentId(contentId) + 1;
         int correctCount = quizResultRepository.countByResultIsTrueAndContentContentIdAndMemberMemberId(contentId, member.getMemberId());
         int wrongCount = quizResultRepository.countByResultIsFalseAndContentContentIdAndMemberMemberId(contentId, member.getMemberId());
-
+        Boolean checkPoint;
 
         // quizId와 memberId가 같은 경우는 하나이기 때문에 true 인경우 exist exception 호출
         Boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
@@ -51,7 +51,6 @@ public class QuizResultService {
             throw new BusinessLogicException(ExceptionCode.QUIZRESULT_EXISTS, String.format("%s의 결과가 이미 존재합니다.", quizId));
         }
         else{
-
             if(answer == quiz.isCorrect()){
                 result = true;
                 correctCount += 1;
@@ -60,10 +59,9 @@ public class QuizResultService {
                 result = false;
                 wrongCount += 1;
             }
+        checkPoint = true;
 
-
-
-        quizResultRepository.save(QuizResult.of(quiz, member, content, answer, result, totalCount, correctCount, wrongCount));
+        quizResultRepository.save(QuizResult.of(quiz, member, content, answer, result, totalCount, correctCount, wrongCount, checkPoint));
 
 
         }

@@ -21,6 +21,7 @@ public class QuizResultDto {
     private int totalCount;
     private int correctCount;
     private int wrongCount;
+    private Boolean checkPoint;
 
     public static QuizResultDto from(QuizResult entity){
         return new QuizResultDto(
@@ -32,7 +33,8 @@ public class QuizResultDto {
                 MemberDto.from(entity.getMember()),
                 entity.getTotalCount(),
                 entity.getCorrectCount(),
-                entity.getWrongCount()
+                entity.getWrongCount(),
+                entity.getCheckPoint()
         );
     }
 }
