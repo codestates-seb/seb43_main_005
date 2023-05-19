@@ -31,9 +31,83 @@ const color = {
   green900: "#343A40", //mypage 레벨도형 외곽선
   disabeld: "#f1f3f5", //mypage disabled input bg
 };
+
+const oceanLight = {
+  main: `#5EC0CB`,
+  mainHover: `var(--brand-color-hover)`,
+  mainHoverLight: `var(--brand-color-hover-light)`,
+  sub: `var(--sub-color)`,
+  bg: `#FBF2EA`,
+  text: `var(--text-color)`,
+  textBold: `var(--text-bold)`,
+  gray200: `var(--gray-200)`,
+  gray100: `var(--gray-100)`,
+  gray50: `var(--gray-50)`,
+  black: `var(--black)`,
+  blackOp50: `var(--black-op50)`,
+  white: `var(--white)`,
+  whiteOp50: `var(--white-op50)`,
+  blue: `var(--blue)`,
+  red: `var(--red)`,
+  borderBold: `var(--border-bold)`,
+  borderLight: `var(--border-light)`,
+  borderMain: `var(--border-main)`,
+  green900: "#343A40", //mypage 레벨도형 외곽선
+  disabeld: "#f1f3f5", //mypage disabled input bg
+};
+
 const theme = {
-  mediaQuery,
-  color,
+  mediaQuery: {
+    mobile: `screen and (max-width: ${size.mobile})`,
+    tablet: `screen and (min-width: ${size.tablet[0]}) and (max-width: ${size.tablet[1]})`,
+    desktop: `screen and (min-width: ${size.desktop})`,
+  },
+  color: {
+    main: `var(--brand-color)`,
+    mainHover: `var(--brand-color-hover)`,
+    mainHoverLight: `var(--brand-color-hover-light)`,
+    sub: `var(--sub-color)`,
+    bg: `var(--bg-color)`,
+    text: `var(--text-color)`,
+    textBold: `var(--text-bold)`,
+    gray200: `var(--gray-200)`,
+    gray100: `var(--gray-100)`,
+    gray50: `var(--gray-50)`,
+    black: `var(--black)`,
+    blackOp50: `var(--black-op50)`,
+    white: `var(--white)`,
+    whiteOp50: `var(--white-op50)`,
+    blue: `var(--blue)`,
+    red: `var(--red)`,
+    borderBold: `var(--border-bold)`,
+    borderLight: `var(--border-light)`,
+    borderMain: `var(--border-main)`,
+    green900: "#343A40", //mypage 레벨도형 외곽선
+    disabeld: "#f1f3f5", //mypage disabled input bg
+  },
+  oceanLight: {
+    main: `#5EC0CB`,
+    mainHover: `var(--brand-color-hover)`,
+    mainHoverLight: `var(--brand-color-hover-light)`,
+    sub: `var(--sub-color)`,
+    bg: `#FBF2EA`,
+    text: `var(--text-color)`,
+    textBold: `var(--text-bold)`,
+    gray200: `var(--gray-200)`,
+    gray100: `var(--gray-100)`,
+    gray50: `var(--gray-50)`,
+    black: `var(--black)`,
+    blackOp50: `var(--black-op50)`,
+    white: `var(--white)`,
+    whiteOp50: `var(--white-op50)`,
+    blue: `var(--blue)`,
+    red: `var(--red)`,
+    borderBold: `var(--border-bold)`,
+    borderLight: `var(--border-light)`,
+    borderMain: `var(--border-main)`,
+    green900: "#343A40", //mypage 레벨도형 외곽선
+    disabeld: "#f1f3f5", //mypage disabled input bg
+  },
 };
 
 export default theme;

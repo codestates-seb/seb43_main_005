@@ -1,8 +1,15 @@
 import styled from "styled-components";
 import Frames from "./Frames.jsx";
 import Themes from "./Themes.jsx";
+import { useState } from "react";
 
 export default function Setting() {
+  const [theme, setTheme] = useState("color"); // 기본 테마는 theme1로 설정
+  console.log(theme);
+  const handleThemeChange = selectedTheme => {
+    console.log(selectedTheme);
+    setTheme(selectedTheme);
+  };
   return (
     <>
       <FrameContainer>
@@ -15,6 +22,7 @@ export default function Setting() {
       <FrameContainer className="ThemeContainer">
         <StyledP>배경테마</StyledP>
         <Line />
+        {/* <ThemeSelector themes={theme} onChange={handleThemeChange} /> */}
         <ThemeWrapper>
           <Themes />
         </ThemeWrapper>

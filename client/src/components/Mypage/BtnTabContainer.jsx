@@ -34,7 +34,7 @@ export default function BtnTabContainer() {
     { name: "내가 쓴 토론 글", content: <MyDebate /> },
     { name: "설정", content: <Setting /> },
   ];
-  console.log(`컨테이너 selected : ${selected}`);
+  // console.log(`컨테이너 selected : ${selected}`);
   return (
     <>
       <BtnBox>
