@@ -52,8 +52,8 @@ export default function Themes() {
 const ThemeBox = styled.div``;
 const Theme = styled.div`
   height: 280px;
-  background-color: ${props => props.theme.color.white};
-  border: ${props => props.theme.color.borderBold};
+  background-color: ${props => props.theme.white};
+  border: ${props => props.theme.borderBold};
   border-radius: 20px;
   margin: 10px 20px 20px 0;
   display: flex;
@@ -63,9 +63,9 @@ const Theme = styled.div`
 const ThemeImg = styled.div`
   width: 124px;
   height: 124px;
-  background-color: ${props => props.theme.color.bg};
+  background-color: ${props => props.theme.bg};
   background-image: url();
-  border: 1px solid ${props => props.theme.color.main};
+  border: 1px solid ${props => props.theme.main};
   border-radius: 50%;
   margin: 34px;
   & :hover {

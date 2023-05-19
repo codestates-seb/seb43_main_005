@@ -17,7 +17,7 @@ function CouresDetail(props) {
   );
 }
 const Container = styled.div`
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.white};
   min-height: 100vh;
 `;
 const Body = styled.section`

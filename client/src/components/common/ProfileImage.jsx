@@ -33,7 +33,7 @@ const StyledProfileImage = styled.div`
   background-image: url(${props => props.profileImg});
   background-repeat: no-repeat;
   background-size: cover;
-  border: 1px solid ${props => props.theme.color.main};
+  border: 1px solid ${props => props.theme.main};
   border-radius: 50%;
 
   ${({ feat }) =>

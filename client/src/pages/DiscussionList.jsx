@@ -81,7 +81,7 @@ const Search = styled.div`
     :focus {
       outline: none;
     }
-    background-color: ${({ theme }) => theme.color.bg};
+    background-color: ${({ theme }) => theme.bg};
   }
 `;
 

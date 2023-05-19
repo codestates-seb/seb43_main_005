@@ -69,9 +69,9 @@ const ResultMbtiImg = styled.img`
 const MbtiHeading = styled.div`
   /* 폰트 설정 */
   font-family: "Shrikhand", cursive;
-  color: ${props => props.theme.color.gray100};
-  -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
-  text-shadow: 2.5px 2.5px 0 ${props => props.theme.color.textBold};
+  color: ${props => props.theme.gray100};
+  -webkit-text-stroke: 1px ${props => props.theme.textBold}; // chrome, safari
+  text-shadow: 2.5px 2.5px 0 ${props => props.theme.textBold};
   font-size: 3em;
   font-weight: 700;
   margin-bottom: 15px;
@@ -85,8 +85,8 @@ const MbtiSubText = styled.div`
 const WhiteBox = styled.div`
   width: 100%;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.black};
-  background-color: ${props => props.theme.color.white};
+  border: 1px solid ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
   margin-bottom: 15px;
   box-sizing: border-box;
   padding: 35px;

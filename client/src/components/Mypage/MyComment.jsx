@@ -68,8 +68,8 @@ const DebateContainer = styled.section`
 const CommentContainer = styled.div`
   display: flex;
   height: 100px;
-  background-color: ${props => props.theme.color.white};
-  border: ${props => props.theme.color.borderBold};
+  background-color: ${props => props.theme.white};
+  border: ${props => props.theme.borderBold};
   border-radius: 10px;
   margin-bottom: 20px;
 `;
@@ -89,5 +89,5 @@ const MyComments = styled.div`
 `;
 const CommentDate = styled.div`
   font-size: 0.7rem;
-  color: ${props => props.theme.color.gray200};
+  color: ${props => props.theme.gray200};
 `;

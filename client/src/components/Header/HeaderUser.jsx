@@ -77,14 +77,14 @@ const DropBox = styled.div`
   right: 0;
   top: 50px;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.main};
-  background-color: ${props => props.theme.color.white};
+  border: 1px solid ${props => props.theme.main};
+  background-color: ${props => props.theme.white};
 `;
 const Drop = styled.button`
   font-size: 0.875em;
   padding: 4px 0;
 
   &:hover {
-    color: ${props => props.theme.color.main};
+    color: ${props => props.theme.main};
   }
 `;

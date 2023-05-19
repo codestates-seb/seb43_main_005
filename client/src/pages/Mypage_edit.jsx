@@ -216,7 +216,7 @@ export default function EditMypage() {
 }
 
 const MyContainer = styled.article`
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   padding: 50px;
   @media ${props => props.theme.mediaQuery.mobile} {
     display: flex;
@@ -255,8 +255,8 @@ const CancelBtnBox = styled(BtnBox)`
   justify-content: center;
 `;
 const AlertMsg = styled.p`
-  color: ${props => props.theme.color.red};
+  color: ${props => props.theme.red};
 `;
 const SuccessMsg = styled(AlertMsg)`
-  color: ${props => props.theme.color.main};
+  color: ${props => props.theme.main};
 `;

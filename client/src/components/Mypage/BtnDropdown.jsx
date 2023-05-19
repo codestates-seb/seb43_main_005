@@ -27,8 +27,8 @@ const BtnBox = styled.div`
 `;
 const BtnDropBox = styled.select`
   width: 100%;
-  border: 1px solid ${props => props.theme.color.main};
-  color: ${({ theme }) => theme.color.mainHover};
+  border: 1px solid ${props => props.theme.main};
+  color: ${({ theme }) => theme.mainHover};
   font-size: 1rem;
   line-height: 1.5;
   box-sizing: border-box;
@@ -53,5 +53,5 @@ const StyledOption = styled.option`
   height: 50px;
   background-color: transparent;
   border-radius: 2px;
-  color: ${({ theme }) => theme.color.mainHover};
+  color: ${({ theme }) => theme.mainHover};
 `;

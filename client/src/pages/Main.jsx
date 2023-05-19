@@ -162,9 +162,9 @@ const VisualArea = styled.section`
   h2 {
     margin-bottom: 50px;
     font-family: "Shrikhand", cursive;
-    color: ${props => props.theme.color.white};
-    -webkit-text-stroke: 2px ${props => props.theme.color.textBold}; // chrome, safari
-    text-shadow: 3.5px 3.5px 0 ${props => props.theme.color.textBold};
+    color: ${props => props.theme.white};
+    -webkit-text-stroke: 2px ${props => props.theme.textBold}; // chrome, safari
+    text-shadow: 3.5px 3.5px 0 ${props => props.theme.textBold};
     line-height: 1.2em;
     font-weight: normal;
   }
@@ -223,16 +223,16 @@ const Title = styled.div`
   }
   h3,
   .h3 {
-    color: ${props => props.theme.color.textBold};
+    color: ${props => props.theme.textBold};
     font-family: "Shrikhand", cursive;
     font-size: 1.875em;
     font-weight: normal;
     a {
-      color: ${props => props.theme.color.textBold};
+      color: ${props => props.theme.textBold};
     }
   }
   .h3:hover {
-    color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.main};
   }
   .h3:after {
     content: "→";
@@ -327,7 +327,7 @@ const WelcomeMent = styled.div`
     font-size: 1.25em;
     line-height: 1.5em;
     strong {
-      color: ${({ theme }) => theme.color.textBold};
+      color: ${({ theme }) => theme.textBold};
     }
   }
   @media ${({ theme }) => theme.mediaQuery.mobile} {
@@ -343,7 +343,7 @@ const Dashboard = styled.article`
   padding: 60px;
   box-sizing: border-box;
   border-radius: 20px;
-  background-color: ${({ theme }) => theme.color.whiteOp50};
+  background-color: ${({ theme }) => theme.whiteOp50};
   .dashboard {
     display: flex;
     flex-direction: column;

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchUserInfo } from "./redux/features/user/userSlice.js";
 import { decodeToken } from "./hooks/decodeToken.js";
 import useScrollTop from "./hooks/useScroll.js";
-import theme from "./assets/styels/theme.jsx";
+import themes from "./assets/styels/theme.jsx";
 import GlobalStyle from "./assets/styels/GlobalStyle.jsx";
 import Header from "./components/Header/Header.jsx";
 import Footer from "./components/Footer.jsx";
@@ -30,12 +30,14 @@ import CourseOXquiz from "./pages/CourseOXquiz.jsx";
 import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
+import ThemeTester from "./pages/ThemeTester.jsx";
 
 function App() {
   const { pathname } = useLocation();
   const { loading, userInfo } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [alert, openAlert, closeAlert] = useModal();
+  const [selectedTheme, setSelectedTheme] = useState("defaultLight");
 
   // ! Get userInfo
   const pathsToExclude = ["/user", "/mbti", "/mbtiresult", "/teampage"];
@@ -49,14 +51,24 @@ function App() {
         openAlert();
       }
     }
+    getTheme();
   }, [pathname, dispatch]);
 
   // ! hide Header and Footer
   const hideHeaderFooter =
     pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
 
+  // 로컬스토리지(임시) theme 가져오기 => 추후 redux 로 변경 예정
+  const getTheme = () => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme !== null) {
+      setSelectedTheme(savedTheme);
+      console.log(savedTheme);
+    }
+  };
+
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themes[selectedTheme]}>
       <GlobalStyle />
       {alert && <Alert closeAlert={closeAlert} />}
       {/* {loading && <Loading />} */}
@@ -67,7 +79,10 @@ function App() {
         <Route path="/user/signup" element={<Signup />} />
         <Route path="/user/findpw/1" element={<FindPassword1 />} />
         <Route path="/user/findpw/2" element={<FindPassword2 />} />
-        <Route path="/mypage" element={<Mypage />} />
+        <Route
+          path="/mypage"
+          element={<Mypage setSelectedTheme={setSelectedTheme} />}
+        />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
         <Route path="/user/error" element={<ErrorPage />} />
