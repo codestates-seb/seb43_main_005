@@ -28,7 +28,7 @@ function MbtiResult(props) {
         <MbtiHeading>{resultData.mbti}</MbtiHeading>
         <MbtiSubText>{resultData.mbtiSubText}</MbtiSubText>
         <WhiteBox>
-          추천 컨텐츠: <BoldText>{resultData.recommendedContent}</BoldText>
+          추천 컨텐츠 : <BoldText>{resultData.recommendedContent}</BoldText>
         </WhiteBox>
         <RecommendedStudyMethod>
           <BoldText>공부법</BoldText>
