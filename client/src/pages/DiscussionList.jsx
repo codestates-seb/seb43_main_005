@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useSelector } from "react-redux";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import search from "../assets/images/search.svg";
+import searchImg from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
 export default function Discussion() {
@@ -11,27 +11,69 @@ export default function Discussion() {
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
 
-  useEffect(() => {
-    getData("/article")
+  const [sort, setSort] = useState("");
+  const [reverse, setReverse] = useState(true);
+  const [search, setSearch] = useState("");
+  console.log(body);
+  function SearchInput() {
+    getData(`/article/search?keyword=${search}`)
       .then(data => {
         setBody(data.result.content);
       })
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  }
+  useEffect(() => {
+    getData(`/article?${sort}&size=20`)
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [sort]);
+
   return (
     <PageContainer>
       <h2>Discussion</h2>
       <Bar>
         <SortButtons>
-          <CustomButton text="최신순" feat="round" reverse="true" />
-          <CustomButton text="댓글순" feat="round" />
+          <CustomButton
+            text="조회순"
+            feat="round"
+            reverse={reverse}
+            onClick={() => {
+              setSort("");
+              setReverse(true);
+            }}
+          />
+          <CustomButton
+            text="댓글순"
+            feat="round"
+            reverse={!reverse}
+            onClick={() => {
+              setSort("sort=comment");
+              setReverse(false);
+            }}
+          />
         </SortButtons>
         {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}
         <Search>
-          <input></input>
-          <img src={search} alt="reading glasses" height="30px" />
+          <input
+            onInput={e => {
+              setSearch(e.target.value);
+            }}
+            onKeyDown={e => {
+              e.key === "Enter" && SearchInput();
+            }}></input>
+          <img
+            src={searchImg}
+            alt="reading glasses"
+            height="30px"
+            onClick={SearchInput}
+            aria-hidden="true"
+          />
         </Search>
       </Bar>
       {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
@@ -40,6 +82,7 @@ export default function Discussion() {
           return <Discussions body={item} key={item.articleId} />;
         })}
       </DiscussionList>
+      <PageNation>123</PageNation>
       {/* 어드민만 보이도록 해야된다. */}
       {admin && (
         <DiscussionCreat>
@@ -91,4 +134,8 @@ const DiscussionList = styled.div`
 
 const DiscussionCreat = styled.div`
   float: right;
+`;
+
+const PageNation = styled.div`
+  text-align: center;
 `;

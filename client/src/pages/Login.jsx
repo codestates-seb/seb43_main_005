@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
-import axios from "axios";
 import google from "../assets/images/icon_sns_google.svg";
 import kakao from "../assets/images/icon_sns_kakao.svg";
 import naver from "../assets/images/icon_sns_naver.svg";
@@ -15,17 +14,15 @@ export default function Login() {
   let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
   let data = { email, password };
+
   // 로그인 버튼 핸들러
   const onSubmitHandler = async event => {
     // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
-
-    //빈값일 경우 에러창뜨게하기
     setLoginAlert(
       (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
     );
     if (email === "" || password === "") return;
-
     // 성공하면 "/으로이동"
     try {
       await updateData(data, `/members/login`, "post").then(res => {
@@ -41,6 +38,7 @@ export default function Login() {
       setLoginAlert("아이디와 비밀번호를 확인해주세요");
     }
   };
+
   return (
     <PageContainer>
       <LoginWrap>
@@ -75,11 +73,26 @@ export default function Login() {
         </form>
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
-          <form>
-            <img src={google} alt="googleLogo" />
-            <img src={kakao} alt="kakaoLogo" />
-            <img src={naver} alt="naverLogo" />
-          </form>
+          <div>
+            <button
+              onClick={() => {
+                navigate("http://localhost:8080/oauth2/authorization/google");
+              }}>
+              <img src={google} alt="googleLogo" />
+            </button>
+            <button
+              onClick={() => {
+                navigate("http://localhost:8080/oauth2/authorization/kakao");
+              }}>
+              <img src={kakao} alt="kakaoLogo" />
+            </button>
+            <button
+              onClick={() => {
+                navigate("http://localhost:8080/oauth2/authorization/naver");
+              }}>
+              <img src={naver} alt="naverLogo" />
+            </button>
+          </div>
           <div>
             아직 회원이 아니신가요?
             <span
@@ -131,7 +144,7 @@ const AuthButton = styled.div`
     display: flex;
     flex-basis: 100%;
     align-items: center;
-    font-size: 0.875rem;
+    font-size: 0.875em;
     margin: 8px 0px;
     color: ${({ theme }) => theme.color.black};
     margin-bottom: 30px;
@@ -154,18 +167,19 @@ const AuthButton = styled.div`
     font-size: 0px;
     line-height: 0px;
   }
-  form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 50px;
-  }
 
   img {
     padding: 0px 20px;
   }
 
-  div {
+  & > :nth-child(2) {
+    white-space: normal;
+    font-size: 0.875em;
+    text-align: center;
+    color: ${({ theme }) => theme.color.gray100};
+    margin-bottom: 30px;
+  }
+  & > :nth-child(3) {
     white-space: normal;
     font-size: 0.875em;
     text-align: center;
@@ -176,5 +190,6 @@ const AuthButton = styled.div`
     text-decoration: underline;
     color: ${({ theme }) => theme.color.black};
     cursor: pointer;
+    margin-left: 8px;
   }
 `;

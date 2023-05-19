@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
@@ -15,9 +15,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [checkPW, setCheckPW] = useState("");
   const [essentialAlert, setEssentialAlert] = useState("");
-  const [passwordAlert, setPasswordAlert] = useState(
-    "4~12자, 숫자와 소문자 영어를 포함해야합니다."
-  );
+  const [passwordAlert, setPasswordAlert] = useState("");
 
   let data = {
     email: email.trim(),
@@ -30,7 +28,6 @@ export default function Signup() {
   if (mbtidata) {
     data["memberMbti"] = mbtidata;
   }
-  console.log(data);
   // 비밀번호 조건
   const isPasswordValid = pw => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
@@ -59,18 +56,16 @@ export default function Signup() {
       nickName === "" || email === "" ? "필수 정보 입니다." : ""
     );
     setPasswordAlert(pwAlertCondition(password, checkPW));
-
     // 알람이 빈값이면 서버에 post보내기
-    if (essentialAlert === "" && passwordAlert === "") {
-      try {
-        await updateData(data, `/members`, "post");
 
-        navigate("/user/login");
-      } catch (error) {
-        console.error(error);
-        if (passwordAlert === "") {
-          setPasswordAlert("이메일과 비밀번호를 확인해주세요");
-        }
+    try {
+      await updateData(data, `/members`, "post");
+
+      navigate("/user/login");
+    } catch (error) {
+      console.error(error);
+      if (passwordAlert === "") {
+        setPasswordAlert("이메일과 비밀번호를 확인해주세요");
       }
     }
   };
@@ -115,14 +110,16 @@ export default function Signup() {
         </InputBundle>
 
         <AuthButton>
-          <div className="line">SNS 계정으로 회원가입</div>
-          <form>
-            <img src={google} alt="googleLogo" />
+          <div className="line">SNS 계정으로 로그인</div>
+          <div>
+            <button /* onClick={oAuthHandler} aria-hidden="true" */>
+              <img src={google} alt="googleLogo" />
+            </button>
             <img src={kakao} alt="kakaoLogo" />
             <img src={naver} alt="naverLogo" />
-          </form>
+          </div>
           <div>
-            이미 계정이 있으세요?{" "}
+            이미 계정이 있으신가요?
             <span
               onClick={() => {
                 navigate("/user/login");
@@ -175,7 +172,7 @@ const AuthButton = styled.div`
     display: flex;
     flex-basis: 100%;
     align-items: center;
-    font-size: 0.875rem;
+    font-size: 0.875em;
     margin: 8px 0px;
     color: ${({ theme }) => theme.color.black};
     margin-bottom: 30px;
@@ -198,18 +195,19 @@ const AuthButton = styled.div`
     font-size: 0px;
     line-height: 0px;
   }
-  form {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-bottom: 50px;
-  }
 
   img {
     padding: 0px 20px;
   }
 
-  div {
+  & > :nth-child(2) {
+    white-space: normal;
+    font-size: 0.875em;
+    text-align: center;
+    color: ${({ theme }) => theme.color.gray100};
+    margin-bottom: 30px;
+  }
+  & > :nth-child(3) {
     white-space: normal;
     font-size: 0.875em;
     text-align: center;
@@ -220,5 +218,6 @@ const AuthButton = styled.div`
     text-decoration: underline;
     color: ${({ theme }) => theme.color.black};
     cursor: pointer;
+    margin-left: 8px;
   }
 `;

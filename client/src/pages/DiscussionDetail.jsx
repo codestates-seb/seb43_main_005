@@ -5,7 +5,7 @@ import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
 import Comment from "../components/common/Comment.jsx";
-import { getData } from "../api/apiUtil.js";
+import { getData, updateData } from "../api/apiUtil.js";
 import useModal from "../hooks/useModal.js";
 import Dialog from "../components/common/Dialog.jsx";
 
@@ -14,9 +14,37 @@ export default function DiscussionDetail() {
   const admin = userRole === "ADMIN";
   const [body, setBody] = useState([]);
   const [commentBody, setCommentBody] = useState([]);
+  const [comment, setComment] = useState("");
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
 
+  let data = { content: `<p>${comment}</p>` };
+  function CreactComment() {
+    updateData(data, `/article/${id}/articleComments`, "post")
+      .then(res => {
+        console.log(res);
+        setComment("");
+        window.location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+  function DeleteComment(articleCommentId) {
+    updateData(
+      data,
+      `/article/${id}/articleComments/${articleCommentId}`,
+      "Delete"
+    )
+      .then(res => {
+        console.log(res);
+        setComment("");
+        window.location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
   useEffect(() => {
     getData(`article/${id}`)
       .then(data => {
@@ -33,7 +61,7 @@ export default function DiscussionDetail() {
         console.error(error);
       });
   }, []);
-  console.log(commentBody[0]);
+
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -61,8 +89,8 @@ export default function DiscussionDetail() {
       )}
 
       <Subject>
-        <div>{body.title}</div>
-        <div>{body.content}</div>
+        <span dangerouslySetInnerHTML={{ __html: body.title }} />
+        <span dangerouslySetInnerHTML={{ __html: body.content }} />
       </Subject>
       {/* 탭으로 만들어야한다. 누르면 색깔 변하게 */}
       <CommitBar>
@@ -79,6 +107,7 @@ export default function DiscussionDetail() {
               profile="true"
               feat="tool"
               key={item.articleCommentId}
+              DeleteComment={DeleteComment}
             />
           );
         })}
@@ -87,8 +116,11 @@ export default function DiscussionDetail() {
           <textarea
             maxLength="200"
             placeholder="댓글을 입력하세요."
-            type="text"></textarea>
-          <div>댓글등록</div>
+            type="text"
+            onInput={e => {
+              setComment(e.target.value);
+            }}></textarea>
+          <button onClick={CreactComment}>댓글등록</button>
         </CommentInput>
       </Comments>
       <MoveList>
@@ -97,7 +129,6 @@ export default function DiscussionDetail() {
     </PageContainer>
   );
 }
-
 const Bar = styled.div`
   display: flex;
   & > :nth-child(1) {
@@ -163,21 +194,21 @@ const Comments = styled.div`
 const CommentInput = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  min-height: 50px;
+  min-height: 30px;
   margin: 30px;
   padding: 20px;
   border: solid 1px ${({ theme }) => theme.color.gray100};
   border-radius: 10px;
   textarea {
-    flex-grow: 1;
+    width: 100%;
     border: none;
-    // input 눌렀을 떄 테두리 제거
+    resize: none;
+    overflow: hidden;
     :focus {
       outline: none;
     }
   }
-  div {
+  button {
     color: ${({ theme }) => theme.color.mainHover};
     text-align: right;
   }
