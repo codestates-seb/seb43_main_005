@@ -48,13 +48,14 @@ public class QuizController {
 
     @GetMapping("/quizzes/{quiz-id}")
     public Response<QuizResponse> get(@PathVariable("quiz-id") Long quizId,
-                                      @PathVariable("content-id") Long contentId){
-        QuizDto quizDto = quizService.findById(quizId);
+                                      @PathVariable("content-id") Long contentId,
+                                      Authentication authentication){
+        QuizDto quizDto = quizService.findById(quizId , authentication.getName());
         return Response.success(QuizResponse.from(quizDto));
     }
 
     @GetMapping("/quizzes")
-    public Response<Page<QuizResponse>> list(Pageable pageable){
-        return Response.success(quizService.list(pageable).map(QuizResponse::from));
+    public Response<Page<QuizResponse>> list(Pageable pageable, Authentication authentication){
+        return Response.success(quizService.list(pageable, authentication.getName()).map(QuizResponse::from));
     }
 }

@@ -43,9 +43,9 @@ public class QuizResultController {
     }
 
     @GetMapping
-    public Response<Page<QuizResultResponse>> list(Pageable pageable){
+    public Response<Page<QuizResultResponse>> list(Pageable pageable, Authentication authentication){
 
-        return Response.success(quizResultService.list(pageable).map(QuizResultResponse::from));
+        return Response.success(quizResultService.list(pageable, authentication.getName()).map(QuizResultResponse::from));
     }
 
 /* 현재 동작하지 않음.

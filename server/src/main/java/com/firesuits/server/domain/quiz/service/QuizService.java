@@ -60,13 +60,15 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizDto findById(Long quizId){
+    public QuizDto findById(Long quizId, String email){
+        Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
         return QuizDto.from(quiz);
     }
 
     @Transactional(readOnly = true)
-    public Page<QuizDto> list(Pageable pageable){
+    public Page<QuizDto> list(Pageable pageable, String email){
+        Member member = memberOrException(email);
         return quizRepository.findAll(pageable).map(QuizDto::from);
     }
     private Member memberOrException(String email){

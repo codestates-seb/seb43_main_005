@@ -85,7 +85,8 @@ public class QuizResultService {
 
 
     @Transactional(readOnly = true)
-    public Page<QuizResultDto> list(Pageable pageable){
+    public Page<QuizResultDto> list(Pageable pageable, String email){
+        Member member = memberOrException(email);
         return quizResultRepository.findAll(pageable).map(QuizResultDto::from);
     }
 
