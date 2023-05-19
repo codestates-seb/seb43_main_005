@@ -139,10 +139,10 @@ const Bar = styled.div`
 const Subject = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.white};
   margin: 30px 0px;
   border-radius: 10px;
-  border: solid 1px ${({ theme }) => theme.color.black};
+  border: solid 1px ${({ theme }) => theme.black};
 
   & > :nth-child(1) {
     padding: 30px;
@@ -150,7 +150,7 @@ const Subject = styled.div`
   }
 
   & > :nth-child(2) {
-    border-top: solid 1px ${({ theme }) => theme.color.black};
+    border-top: solid 1px ${({ theme }) => theme.black};
     padding: 30px;
     min-height: 150px;
     word-break: break-all;
@@ -170,7 +170,7 @@ const CommitBar = styled.div`
       width: 10px;
       height: 8px;
       margin-right: 10px;
-      border-right: 1px solid ${props => props.theme.color.gray100};
+      border-right: 1px solid ${props => props.theme.gray100};
     }
     ::after {
       content: "";
@@ -178,7 +178,7 @@ const CommitBar = styled.div`
       width: 10px;
       height: 8px;
       margin-right: 10px;
-      border-right: 1px solid ${props => props.theme.color.gray100};
+      border-right: 1px solid ${props => props.theme.gray100};
     }
   }
 `;
@@ -187,8 +187,8 @@ const Comments = styled.div`
   margin-top: 15px;
   margin-bottom: 50px;
   border-radius: 10px;
-  border: solid 1px ${({ theme }) => theme.color.gray100};
-  background-color: ${({ theme }) => theme.color.white};
+  border: solid 1px ${({ theme }) => theme.gray100};
+  background-color: ${({ theme }) => theme.white};
 `;
 
 const CommentInput = styled.div`
@@ -197,7 +197,7 @@ const CommentInput = styled.div`
   min-height: 30px;
   margin: 30px;
   padding: 20px;
-  border: solid 1px ${({ theme }) => theme.color.gray100};
+  border: solid 1px ${({ theme }) => theme.gray100};
   border-radius: 10px;
   textarea {
     width: 100%;
@@ -208,8 +208,8 @@ const CommentInput = styled.div`
       outline: none;
     }
   }
-  button {
-    color: ${({ theme }) => theme.color.mainHover};
+  div {
+    color: ${({ theme }) => theme.mainHover};
     text-align: right;
   }
 `;

@@ -6,7 +6,7 @@ import Dashbord from "./Dashbord.jsx";
 import MyDebate from "./MyComment.jsx";
 import Setting from "./Setting.jsx";
 
-export default function BtnTabContainer() {
+export default function BtnTabContainer(setSelectedTheme) {
   // 창 크기에 따라 버튼 탭(PC)/드롭다운(모바일) 변경하기
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -34,10 +34,10 @@ export default function BtnTabContainer() {
     { name: "내가 쓴 토론 글", content: <MyDebate /> },
     { name: "설정", content: <Setting /> },
   ];
-  console.log(`컨테이너 selected : ${selected}`);
+  // console.log(`컨테이너 selected : ${selected}`);
   return (
     <>
-      <BtnBox>
+      <BtnBox setSelectedTheme={setSelectedTheme}>
         {windowSize.width < 767 ? (
           <BtnDropdown
             menuArr={menuArr}
@@ -49,6 +49,7 @@ export default function BtnTabContainer() {
             menuArr={menuArr}
             selected={selected}
             setSelected={setSelected}
+            setSelectedTheme={setSelectedTheme}
           />
         )}
       </BtnBox>

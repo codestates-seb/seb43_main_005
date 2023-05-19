@@ -132,8 +132,8 @@ const Quiz = styled.div`
   margin-bottom: 40px;
   //테두리와 배경색
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.black};
-  background-color: ${props => props.theme.color.white};
+  border: 1px solid ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
 `;
 
 const AnswerBtnContainer = styled.div`
@@ -145,10 +145,10 @@ const AnswerBtnContainer = styled.div`
 const AnswerBtn = styled.button`
   //가로 세로
   font-size: 1em;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   width: 100%;
   height: 73px;
-  border: 1px solid ${props => props.theme.color.black};
+  border: 1px solid ${props => props.theme.black};
   border-radius: 5px;
   margin-bottom: 20px;
 `;

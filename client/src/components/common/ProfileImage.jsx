@@ -15,12 +15,14 @@ export default function ProfileImage({
   const [profileImage, setProfileImage] = useState("default");
   const navigate = useNavigate();
   const handlePath = () => path && navigate(path);
+  const defaulImg =
+    "https://s3.console.aws.amazon.com/s3/object/gonue-bucket?region=ap-northeast-2&prefix=dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png";
 
   return (
     <StyledProfileImage
       onClick={onClick || handlePath}
       feat={feat}
-      profileImg={profileImg}
+      profileImg={profileImg || defaulImg}
       width={width}
       margin={margin}
     />
@@ -31,7 +33,7 @@ const StyledProfileImage = styled.div`
   background-image: url(${props => props.profileImg});
   background-repeat: no-repeat;
   background-size: cover;
-  border: 1px solid ${props => props.theme.color.main};
+  border: 1px solid ${props => props.theme.main};
   border-radius: 50%;
 
   ${({ feat }) =>

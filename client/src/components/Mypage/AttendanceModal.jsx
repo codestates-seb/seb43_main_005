@@ -126,10 +126,10 @@ const ModalBtn = styled.button`
   width: 70px;
   height: 70px;
   border: 8px solid
-    ${props => (props.attended ? props.theme.color.bg : props.theme.color.main)};
+    ${props => (props.attended ? props.theme.bg : props.theme.main)};
   border-radius: 50%;
   background-color: ${props =>
-    props.attended ? props.theme.color.main : props.theme.color.bg};
+    props.attended ? props.theme.main : props.theme.bg};
   filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
   display: flex;
   align-items: center;
@@ -143,8 +143,7 @@ const ModalBtn = styled.button`
     transform: ${props => (props.attended ? "" : "scale(1.1)")};
   }
   & > svg > path {
-    fill: ${props =>
-      props.attended ? props.theme.color.bg : props.theme.color.main};
+    fill: ${props => (props.attended ? props.theme.bg : props.theme.main)};
   }
 `;
 
@@ -158,7 +157,7 @@ const ModalContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.color.blackOp50};
+  background-color: ${props => props.theme.blackOp50};
   z-index: 9999;
 `;
 
@@ -211,9 +210,9 @@ const ModalView = styled.div.attrs(props => ({
 const AttendanceImgBox = styled.div`
   width: 140px;
   height: 140px;
-  border: 16px solid ${props => props.theme.color.main};
+  border: 16px solid ${props => props.theme.main};
   border-radius: 50%;
-  background-color: ${props => props.theme.color.bg};
+  background-color: ${props => props.theme.bg};
   display: flex;
   justify-content: center;
   align-items: center;

@@ -73,8 +73,8 @@ const EditorWrap = styled.div`
   width: 100%;
   .ql-snow {
     font-size: 1em;
-    border: ${({ theme }) => theme.color.borderBold};
-    background-color: ${({ theme }) => theme.color.white};
+    border: ${({ theme }) => theme.borderBold};
+    background-color: ${({ theme }) => theme.white};
   }
   .ql-toolbar {
     border-radius: 0.625em 0.625em 0 0;

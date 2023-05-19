@@ -5,9 +5,9 @@ const PageContainer = styled.section`
 
   h2 {
     font-family: "Shrikhand", cursive;
-    color: ${props => props.theme.color.white};
-    -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
-    text-shadow: 2.5px 2.5px 0 ${props => props.theme.color.textBold};
+    color: ${props => props.theme.white};
+    -webkit-text-stroke: 1px ${props => props.theme.textBold}; // chrome, safari
+    text-shadow: 2.5px 2.5px 0 ${props => props.theme.textBold};
     text-transform: capitalize;
   }
 

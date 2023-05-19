@@ -41,8 +41,8 @@ const ProfileContainer = styled.article`
   width: 100%;
   min-width: 400px;
   min-height: 300px;
-  background-color: ${props => props.theme.color.white};
-  border: ${props => props.theme.color.borderBold};
+  background-color: ${props => props.theme.white};
+  border: ${props => props.theme.borderBold};
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;

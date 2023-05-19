@@ -64,8 +64,8 @@ export default function Card({ teammateInfo }) {
   );
 }
 const CardBox = styled.div`
-  background-color: ${props => props.theme.color.white};
-  border: ${props => props.theme.color.borderBold};
+  background-color: ${props => props.theme.white};
+  border: ${props => props.theme.borderBold};
   clip-path: polygon(100% 10%, 100% 90%, 90% 100%, 0 100%, 0 0, 90% 0);
   display: flex;
 `;
@@ -73,7 +73,7 @@ const ImgContainer = styled.div`
   width: 150px;
   height: 200px;
   border-radius: 10px;
-  border: ${props => props.theme.color.borderBold};
+  border: ${props => props.theme.borderBold};
   background-color: antiquewhite;
   display: flex;
   justify-content: center;

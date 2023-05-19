@@ -33,7 +33,7 @@ const AlertBack = styled.div`
   z-index: 9999;
   width: 100%;
   height: 100vh;
-  background-color: ${props => props.theme.color.blackOp50};
+  background-color: ${props => props.theme.blackOp50};
 `;
 
 const shakeText = keyframes`
@@ -51,12 +51,12 @@ const AlertContainer = styled.div`
   padding: 20px 0;
   text-align: center;
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.color.red};
+  background-color: ${({ theme }) => theme.red};
   animation: ${shakeText} 0.2s 0.05s alternate linear infinite;
 
   p {
     line-height: 1.5em;
-    color: ${({ theme }) => theme.color.white};
+    color: ${({ theme }) => theme.white};
   }
   .ment:after {
     content: "｡°(°.◜ᯅ◝°)°｡";

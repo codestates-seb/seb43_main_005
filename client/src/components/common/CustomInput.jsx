@@ -4,6 +4,10 @@ import ProfileImage from "./ProfileImage.jsx";
 import CustomButton from "./CustomButton.jsx";
 import Editor from "../Admin/Editor.jsx";
 
+import { updateData, getImagesUrl } from "../../api/apiUtil.js";
+
+import useUploadImg from "../../hooks/useUploadImg.js";
+
 /**
  * admin 수정시 item 속성 필수!
  *
@@ -40,6 +44,18 @@ export default function CustomInput({
   // ! form 태그 내에서 enter 눌렀을 때 input file 실행 막음
   const handleKeyDowm = e => e.key === "Enter" && e.preventDefault();
 
+  // 프로필 이미지 수정 - 기본 이미지 클릭 시 기본 이미지 url 보내기
+  const defaulImg =
+    "https://s3.console.aws.amazon.com/s3/object/gonue-bucket?region=ap-northeast-2&prefix=dbcef092-2952-4b4e-b449-1a312ff668da_basic_profile.png";
+  const handlePost = e => {
+    e.preventDefault();
+    updateData(defaulImg, "/members/profile-image", "patch")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  };
+
   return (
     <StyledInput feat={feat}>
       <Label
@@ -72,7 +88,7 @@ export default function CustomInput({
             <CustomButton
               text="기본이미지"
               feat="underline"
-              onClick={e => e.preventDefault()}
+              onClick={e => handlePost(e)}
             />
           )}
           <input
@@ -159,14 +175,14 @@ const Input = styled.input`
   padding: 0 1em;
   font-size: 1em;
   box-sizing: border-box;
-  border: ${({ theme }) => theme.color.borderBold};
+  border: ${({ theme }) => theme.borderBold};
   border-radius: 0.625em;
   outline: none;
 
   &:disabled {
-    background-color: ${({ theme }) => theme.color.disabeld};
-    border: 1px solid ${({ theme }) => theme.color.gray100};
-    color: ${({ theme }) => theme.color.gray200};
+    background-color: ${({ theme }) => theme.disabeld};
+    border: 1px solid ${({ theme }) => theme.gray100};
+    color: ${({ theme }) => theme.gray200};
   }
 `;
 
@@ -189,9 +205,9 @@ const Thumnail = styled.label`
   justify-content: center;
   width: 350px;
   height: 200px;
-  border: ${({ theme }) => theme.color.borderBold};
+  border: ${({ theme }) => theme.borderBold};
   border-radius: 10px;
-  background-color: ${({ theme }) => theme.color.whiteOp50};
+  background-color: ${({ theme }) => theme.whiteOp50};
   cursor: pointer;
   img {
     width: 100%;
@@ -211,17 +227,17 @@ const Quiz = styled.div`
     display: none;
   }
   label {
-    background-color: ${({ theme }) => theme.color.white};
+    background-color: ${({ theme }) => theme.white};
     border-radius: 10px;
-    border: ${({ theme }) => theme.color.borderLight};
+    border: ${({ theme }) => theme.borderLight};
     flex-grow: 1;
     padding: 20px 15px;
     cursor: pointer;
   }
   input:checked + label {
-    color: ${({ theme }) => theme.color.white};
-    border-color: ${({ theme }) => theme.color.main};
-    background-color: ${({ theme }) => theme.color.main};
+    color: ${({ theme }) => theme.white};
+    border-color: ${({ theme }) => theme.main};
+    background-color: ${({ theme }) => theme.main};
     box-sizing: border-box;
   }
 `;
@@ -230,6 +246,6 @@ const QuizField = styled.div``;
 const Ment = styled.p`
   font-size: 0.77em;
   margin-top: 10px;
-  color: ${({ theme }) => theme.color.red};
+  color: ${({ theme }) => theme.red};
 `;
 // ~ ment

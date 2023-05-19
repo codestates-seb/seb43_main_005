@@ -15,8 +15,8 @@ export default function Level({ userInfo }) {
       <LevelContainer className="LevelContainer">
         <LvBox className="LvBox">
           <SVGBox
-            fill={props => props.theme.color.main}
-            stroke={props => props.theme.color.green900}>
+            fill={props => props.theme.main}
+            stroke={props => props.theme.green900}>
             <svg
               width="60"
               height="60"
@@ -35,7 +35,7 @@ export default function Level({ userInfo }) {
           </SVGBox>
           <TextContainer
             divMargin="0"
-            color={props => props.theme.color.black}
+            color={props => props.theme.black}
             fontSize="0.8rem"
             pFontSize="1.25rem">
             <div>내 학습유형</div>
@@ -117,8 +117,8 @@ const LvExpContainer = styled.article`
   }
 `;
 const LevelContainer = styled(LvExpContainer)`
-  background-color: ${props => props.theme.color.white};
-  border: ${props => props.theme.color.borderBold};
+  background-color: ${props => props.theme.white};
+  border: ${props => props.theme.borderBold};
   @media ${props => props.theme.mediaQuery.mobile} {
     width: 100%;
     padding: 0;
@@ -146,7 +146,7 @@ const SVGBox = styled.div`
     stroke: ${props => props.stroke};
   }
   & svg > text {
-    fill: ${props => props.theme.color.white};
+    fill: ${props => props.theme.white};
     stroke: none;
   }
 `;
@@ -161,7 +161,7 @@ const ExpNum = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   & > span:first-child {
-    color: ${props => props.theme.color.main};
+    color: ${props => props.theme.main};
     font-size: 0.6rem;
   }
   & > span > span:nth-child(2) {
@@ -173,7 +173,7 @@ const Link = styled.span`
   justify-content: flex-end;
   margin: 8px 0;
   & > a {
-    color: ${props => props.theme.color.gray200};
+    color: ${props => props.theme.gray200};
   }
   & :hover {
     text-decoration: underline;
