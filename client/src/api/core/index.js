@@ -16,9 +16,9 @@ instance.interceptors.request.use(
     const tokenLessURLs = ["/members/login", "/members"];
     const isGetMethod =
       config.method === "get" && !config.url.startsWith("/members");
-    const tokenLess = tokenLessURLs.includes(config.url) || isGetMethod;
+    const tokenLess = tokenLessURLs.includes(config.url);
 
-    if (!tokenLess) {
+    if (token && !tokenLess) {
       // 로그인 POST, 회원가입 POST, (마이페이지 관련 제외한) 모든 get 요청 token 불필요
       config.headers.authorization = token;
       config.headers.withCredentials = true;
