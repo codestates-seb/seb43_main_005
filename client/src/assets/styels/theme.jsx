@@ -29,7 +29,7 @@ const color = {
   borderLight: `var(--border-light)`,
   borderMain: `var(--border-main)`,
   green900: "#343A40", //mypage 레벨도형 외곽선
-  disabeld: "#f1f3f5", //mypage disabled input bg
+  disabeld: "#f1f3f5", //mypage disabled input bg, blockquote
 };
 
 const commonTheme = {
