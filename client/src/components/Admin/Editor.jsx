@@ -71,6 +71,13 @@ export default function Editor({ value }) {
 
 const EditorWrap = styled.div`
   width: 100%;
+  h2 {
+    font-family: "GmarketSansMedium", cursive;
+    color: ${props => props.theme.text};
+    -webkit-text-stroke: unset; // chrome, safari
+    text-shadow: unset;
+    text-transform: unset;
+  }
   .ql-snow {
     font-size: 1em;
     border: ${({ theme }) => theme.borderBold};
