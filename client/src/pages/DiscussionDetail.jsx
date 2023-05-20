@@ -17,7 +17,6 @@ export default function DiscussionDetail() {
   const [comment, setComment] = useState("");
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
-  console.log(commentBody);
   let data = { content: `<p>${comment}</p>` };
   function CreactComment() {
     updateData(data, `/article/${id}/articleComments`, "post")
@@ -145,7 +144,7 @@ const Subject = styled.div`
 
   & > :nth-child(1) {
     padding: 30px;
-    height: 100px;
+    word-break: break-all;
   }
 
   & > :nth-child(2) {
