@@ -92,7 +92,7 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
       {feat === "count" && <Count>{likeCount}</Count>}
       {feat === "like" && (
         <Count>
-          <img src={Like} alt="good" /> 11
+          <img src={Like} alt="good" /> 10
         </Count>
       )}
     </CommentContainer>
