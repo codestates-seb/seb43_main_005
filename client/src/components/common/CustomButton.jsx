@@ -46,7 +46,7 @@ export default function CustomButton({
 }
 
 const StyledButton = styled.button`
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   box-sizing: border-box;
   font-size: 0.875em;
   border: ${({ feat, theme }) =>
@@ -141,6 +141,8 @@ const StyledButton = styled.button`
       color: ${({ theme }) => theme.text};
       background-color: ${({ theme }) => theme.whiteOp50};
       text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
       display: flex;
       align-items: center;
       span {
