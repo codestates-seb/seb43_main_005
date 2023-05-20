@@ -23,7 +23,6 @@ export default function Signup() {
     checkPassword: checkPW.trim(),
     nickname: nickName.trim(),
   };
-  console.log(data);
   // mbti 데이터 있는경우
   let mbtidata = localStorage.getItem("mbti");
   if (mbtidata) {
@@ -49,28 +48,31 @@ export default function Signup() {
   };
 
   const onSubmitHandler = event => {
-    // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
-    // alert
-    setEssentialAlert(
-      nickName === "" || email === "" ? "필수 정보 입니다." : ""
-    );
-    setPasswordAlert(pwAlertCondition(password, checkPW));
+    const passwordAlertMessage = pwAlertCondition(password, checkPW);
+    setPasswordAlert(passwordAlertMessage);
+    const isEssentialInfoValid =
+      nickName === "" || email === "" ? "필수 정보 입니다." : "";
+    setEssentialAlert(isEssentialInfoValid);
+
     // 경고창과 비번조건 만족하면 post요청
-    if (
-      essentialAlert === "" &&
-      passwordAlert === "" &&
-      isPasswordValid(password)
-    ) {
-      updateData(data, `/members`, "post")
-        .then(res => {
-          console.log(res);
-          navigate("/user/login");
-        })
-        .catch(error => {
-          console.error(error);
-          setPasswordAlert("이메일과 비밀번호를 확인해주세요");
-        });
+    if (isEssentialInfoValid === "" && passwordAlertMessage === "") {
+      if (isPasswordValid(password)) {
+        updateData(data, `/members`, "post")
+          .then(res => {
+            console.log(res);
+            navigate("/user/login");
+          })
+          .catch(error => {
+            console.error(error);
+            const errorMessage = error.response.data.message;
+            if (errorMessage) {
+              setPasswordAlert(`${errorMessage}합니다.`);
+            } else setPasswordAlert("이메일과 비밀번호를 확인해주세요");
+          });
+      } else {
+        setPasswordAlert("비밀번호가 유효하지 않습니다.");
+      }
     }
   };
 
