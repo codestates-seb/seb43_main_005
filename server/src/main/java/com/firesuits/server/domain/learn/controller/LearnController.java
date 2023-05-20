@@ -53,14 +53,14 @@ public class LearnController {
 
     @GetMapping("/{contentId}/learns/{learnId}")
     public Response<LearnResponse> get(@PathVariable Long contentId,
-                                       @PathVariable Long learnId){
-        LearnDto learnDto = learnService.findById(contentId, learnId);
+                                       @PathVariable Long learnId, Authentication authentication){
+        LearnDto learnDto = learnService.findById(contentId, learnId, authentication.getName());
         return Response.success(LearnResponse.from(learnDto));
     }
 
     @GetMapping("/{contentId}/learns")
-    public Response<Page<LearnResponse>> list(@PathVariable Long contentId, Pageable pageable){
-        return Response.success(learnService.list(contentId, pageable).map(LearnResponse::from));
+    public Response<Page<LearnResponse>> list(@PathVariable Long contentId, Authentication authentication, Pageable pageable){
+        return Response.success(learnService.list(contentId, authentication.getName(), pageable).map(LearnResponse::from));
     }
 
 }

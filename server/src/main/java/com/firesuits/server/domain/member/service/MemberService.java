@@ -6,6 +6,7 @@ import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.entity.Attendance;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.entity.MemberMbti;
+import com.firesuits.server.domain.member.entity.MemberTheme;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
@@ -51,7 +52,8 @@ public class MemberService {
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }
-        Member savedMember = saveMember(email, name, password, memberMbti);
+        MemberTheme memberTheme = MemberTheme.defaultLight;
+        Member savedMember = saveMember(email, name, password, memberMbti, memberTheme);
         defaultImageSet(savedMember);
         setRoles(savedMember, email);
         return MemberDto.from(savedMember);
@@ -92,6 +94,14 @@ public class MemberService {
         member.setMemberMbti(memberMbti);
         memberRepository.save(member);
         return MemberDto.from(memberRepository.save(member));
+    }
+
+    //테마 수정
+    public void updateMemberTheme(String email, MemberTheme memberTheme){
+        Member member = memberOrException(email);
+        member.setMemberTheme(memberTheme);
+        memberRepository.save(member);
+        MemberDto.from(memberRepository.save(member));
     }
 
     //비밀번호 수정
@@ -169,14 +179,14 @@ public class MemberService {
     }
 
     //Oauth2 유저 회원가입
-    public MemberDto oauthJoin(String email, String name, MemberMbti memberMbti){
+    public MemberDto oauthJoin(String email, String name, MemberMbti memberMbti, MemberTheme memberTheme){
         Optional<Member> existingMemberOptional = memberRepository.findByEmail(email);
         Member savedMember;
         if (existingMemberOptional.isPresent()) {
             savedMember = existingMemberOptional.get();
         } else {
             String password = UUID.randomUUID().toString();
-            savedMember = saveMember(email, name, password, memberMbti);
+            savedMember = saveMember(email, name, password, memberMbti, memberTheme);
         }
         defaultImageSet(savedMember);
         setRoles(savedMember, email);
@@ -188,8 +198,8 @@ public class MemberService {
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
     }
 
-    private Member saveMember(String email, String name, String password, MemberMbti memberMbti){
-        Member member = Member.of(email, name, passwordEncoder.encode(password), memberMbti);
+    private Member saveMember(String email, String name, String password, MemberMbti memberMbti, MemberTheme memberTheme){
+        Member member = Member.of(email, name, passwordEncoder.encode(password), memberMbti, memberTheme);
         if (!member.getMemberMbti().equals(MemberMbti.테스트전)){
             member.addExperience(100);
         }

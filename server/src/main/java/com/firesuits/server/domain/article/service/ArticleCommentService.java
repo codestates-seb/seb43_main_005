@@ -36,7 +36,9 @@ public class ArticleCommentService {
     public void create(Long articleId, String email, String content) {
         Article article = articleOrException(articleId);
         Member member = memberOrException(email);
-        articleCommentRepository.save(ArticleComment.of(member, article, content));
+        ArticleComment comment = ArticleComment.of(member, article, content);
+        articleCommentRepository.save(comment);
+        article.addComment(comment);
     }
 
     //수정
@@ -60,6 +62,7 @@ public class ArticleCommentService {
         checkCommentMember(articleComment, member, email, articleCommentId);
         checkCommentArticle(articleComment, article, articleId, articleCommentId);
         articleCommentRepository.delete(articleComment);
+        article.removeComment(articleComment);
     }
 
     //전체조회

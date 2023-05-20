@@ -2,7 +2,9 @@ package com.firesuits.server.domain.article.service;
 
 import com.firesuits.server.domain.article.dto.ArticleDto;
 import com.firesuits.server.domain.article.entity.Article;
+import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.entity.View;
+import com.firesuits.server.domain.article.repository.ArticleCommentRepository;
 import com.firesuits.server.domain.article.repository.ArticleRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -60,13 +62,7 @@ public class ArticleService {
     @Transactional
     public ArticleDto findById(Long articleId) {
         Article article = articleOrException(articleId);
-        List<View> views = article.getViews();
-        if (views.isEmpty()) {
-            views.add(new View(article, 1));
-        } else {
-            View lastView = views.get(views.size() - 1);
-            lastView.setViewCount(lastView.getViewCount() + 1);
-        }
+        article.incrementViewCount();
         return ArticleDto.from(article);
     }
 
@@ -75,9 +71,9 @@ public class ArticleService {
     public Page<ArticleDto> list(Pageable pageable, String sort) {
         if (sort != null) {
             if (sort.equals("view")) {
-                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("views").descending().and(Sort.by("createdAt").descending()));
+                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("viewCount").descending().and(Sort.by("createdAt").descending()));
             } else if (sort.equals("comment")) {
-                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("articleComments").descending().and(Sort.by("createdAt").descending()));
+                pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("commentCount").descending().and(Sort.by("createdAt").descending()).and(Sort.by("articleId").descending()));
             }
         } else {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").descending());

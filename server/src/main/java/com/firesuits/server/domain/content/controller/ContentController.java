@@ -65,6 +65,12 @@ public class ContentController {
         Content content = contentService.accessContent(contentId, authentication.getName());
         return Response.success();
     }
+    //진짜 contentProgress 전체 조회
+    @GetMapping("/progress")
+    public Response<Page<ContentProgressResponse>> listProgress(Authentication authentication, Pageable pageable){
+        return Response.success(contentProgressService.listContentProgress(authentication.getName(),pageable).map(ContentProgressResponse::from));
+    }
+
     //진짜 contentProgress 조회
 
     @GetMapping("/{contentId}/progress")
@@ -72,5 +78,5 @@ public class ContentController {
         ContentProgressDto contentProgressDto = contentProgressService.getContentProgress(contentId, authentication.getName());
         return Response.success(ContentProgressResponse.from(contentProgressDto));
     }
-
 }
+
