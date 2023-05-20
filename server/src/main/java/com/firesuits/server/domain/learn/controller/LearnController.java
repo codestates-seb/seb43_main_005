@@ -1,7 +1,6 @@
 package com.firesuits.server.domain.learn.controller;
 
 import com.firesuits.server.domain.learn.dto.LearnDto;
-import com.firesuits.server.domain.learn.dto.request.LearnCheckRequest;
 import com.firesuits.server.domain.learn.dto.request.LearnRequest;
 import com.firesuits.server.domain.learn.dto.response.LearnResponse;
 import com.firesuits.server.domain.learn.service.LearnService;

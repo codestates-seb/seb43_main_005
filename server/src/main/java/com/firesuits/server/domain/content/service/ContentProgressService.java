@@ -60,7 +60,7 @@ public class ContentProgressService {
         Member member = memberOrException(email);
 
         ContentProgress contentProgress = contentProgressRepository.findByMember(member);
-        if(contentProgress == null){
+        if(contentProgress == null || contentProgress.getMember().getMemberId() != member.getMemberId()){
             throw new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND);
         }
 
