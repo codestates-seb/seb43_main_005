@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
+  const navigate = useNavigate();
   const [Alert, setAlert] = useState("");
   const [code, setCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
   let data = { token: code, newPassword };
-  console.log(data);
-  // 비밀번호 조건 소문자알파벳, 숫자, 4~12자
   const isPasswordValid = pw => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
     return passwordRegex.test(pw);
   };
-  // alert 조건들
-  const AlertCondition = (code, newPassword) => {
+  const pwAlertCondition = (code, newPassword) => {
     if (code === "" || newPassword === "") {
       return "코드 또는 패스워드를 입력해주세요";
     } else if (isPasswordValid(newPassword) === false) {
@@ -24,23 +23,25 @@ export default function FindPassword() {
       return "";
     }
   };
-  useEffect(() => {
-    setAlert(AlertCondition(code, newPassword));
-  }, [code, newPassword]);
+
   // 핸들러
-  const onSubmitHandler = async event => {
+  const onSubmitHandler = event => {
     event.preventDefault();
 
-    if (Alert === "") {
-      try {
-        await updateData(data, `/members/password-reset`, "post");
-        // 요청이 성공하면 페이지 이동
-        window.location.href = "/user/login";
-      } catch (error) {
-        // 요청이 실패한 경우 에러 처리
-        console.error(error);
-        setAlert("코드를 확인해주세요");
-      }
+    const passwordAlertMessage = pwAlertCondition(code, newPassword);
+    setAlert(passwordAlertMessage);
+
+    if (passwordAlertMessage === "") {
+      updateData(data, `/members/password-reset`, "post")
+        .then(res => {
+          console.log(res);
+          navigate("/");
+        })
+        .catch(error => {
+          // 요청이 실패한 경우 에러 처리
+          console.error(error);
+          setAlert("코드를 확인해주세요");
+        });
     }
   };
   return (

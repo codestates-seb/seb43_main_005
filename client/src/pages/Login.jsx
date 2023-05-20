@@ -16,14 +16,14 @@ export default function Login() {
   let data = { email, password };
   // 로그인 버튼 핸들러
   const onSubmitHandler = event => {
-    // 버튼만 누르면 리로드 되는것을 막아줌
     event.preventDefault();
-
-    setLoginAlert(
-      (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
-    );
+    const newLoginAlert =
+      email === "" || password === ""
+        ? "아이디 또는 비밀번호를 입력해주세요"
+        : "";
+    setLoginAlert(newLoginAlert);
     // 성공하면 "/으로이동"
-    if (loginAlert === "") {
+    if (newLoginAlert === "") {
       updateData(data, "/members/login", "post")
         .then(res => {
           localStorage.removeItem("access_token");
