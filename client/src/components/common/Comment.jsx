@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Tool from "../../assets/images/Tool.svg";
 import Like from "../../assets/images/Like.svg";
 import noneLike from "../../assets/images/noneLike.svg";
-import { updateData } from "../../api/apiUtil.js";
+import { updateData, deleteData } from "../../api/apiUtil.js";
 // commentBody 데이터
 // profile 프로필 사진
 // twoline : content 보이게 할건지
@@ -13,22 +13,17 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
   const { id } = useParams();
   const [dropdown, setDropdown] = useState(false);
   const [like, setLike] = useState(noneLike);
+  const [likeCount, setLikeCount] = useState(commentBody.like);
   let nikeName = commentBody.member.nickName;
   let content = commentBody.content;
   let createdAt =
     commentBody.createdAt.slice(0, 10) +
     " " +
     commentBody.createdAt.slice(11, 16);
-  let likeCount = commentBody.like;
   let commentId = commentBody.articleCommentId;
   let profileImg = commentBody.member.profileImage;
-
   function DeleteComment(articleCommentId) {
-    updateData(
-      {},
-      `/article/${id}/articleComments/${articleCommentId}`,
-      "delete"
-    )
+    deleteData(`/article/${id}/articleComments/${articleCommentId}`, "delete")
       .then(res => {
         console.log(res);
         window.location.reload();
@@ -38,6 +33,15 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
       });
   }
 
+  function CommentLike(articleCommentId) {
+    updateData({}, `articleComment/${articleCommentId}/likes`, "post")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
   return (
     <CommentContainer>
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
@@ -70,7 +74,14 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
               src={like}
               alt="good"
               onClick={() => {
-                like === noneLike ? setLike(Like) : setLike(noneLike);
+                if (like === noneLike) {
+                  setLike(Like);
+                  CommentLike(commentId);
+                  setLikeCount(prevCount => prevCount + 1);
+                } else {
+                  setLike(noneLike);
+                  setLikeCount(prevCount => prevCount - 1);
+                }
               }}
               aria-hidden="true"
             />
