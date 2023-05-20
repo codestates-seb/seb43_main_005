@@ -1,55 +1,55 @@
 import styled from "styled-components";
+import ThemeCircle from "./ThemeCircle.jsx";
 
 export default function Themes() {
+  const handleThemeChange = value => {
+    // 유저가 바꾼 테마를 서버로 보내서 저장하기 => 임시로 로컬 스토리지에 저장
+    localStorage.setItem("theme", value);
+    console.log(`저장 : ${value}`);
+    // 다시 가져와서 상태 업데이트하기
+    // const savedTheme = localStorage.getItem("theme");
+    // setSelectedTheme(savedTheme);
+  };
+  const themeList = ["default", "ocean", "desert", "forest", "space", "pet"];
+
   return (
     <>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.1</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.2</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.3</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.4</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.5</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
-      <ThemeBox className="ThemeBox">
-        <div>Lv.6</div>
-        <Theme>
-          <ThemeImg></ThemeImg>
-          <ThemeImg></ThemeImg>
-        </Theme>
-      </ThemeBox>
+      {themeList.map((el, idx) => {
+        return (
+          <ThemeBox className="ThemeBox" key={idx}>
+            <span>Lv.{idx}</span>
+            <span> {el}</span>
+            <Theme className="Theme">
+              <ThemeCircle
+                value={`${el}Light`}
+                onClick={() => handleThemeChange(`${el}Light`)}
+                role="none"
+                eachTheme={`${el}Light`}>
+                {`${el}Light`}
+              </ThemeCircle>
+              <ThemeCircle
+                value={`${el}Dark`}
+                onClick={() => handleThemeChange(`${el}Dark`)}
+                role="none"
+                eachTheme={`${el}Dark`}>
+                {`${el}Dark`}
+              </ThemeCircle>
+            </Theme>
+          </ThemeBox>
+        );
+      })}
     </>
   );
 }
 
-const ThemeBox = styled.div``;
+const ThemeBox = styled.div`
+  & > span {
+    text-transform: uppercase;
+  }
+  & > :nth-child(2n) {
+    font-weight: bold;
+  }
+`;
 const Theme = styled.div`
   height: 280px;
   background-color: ${props => props.theme.white};
@@ -59,17 +59,4 @@ const Theme = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-const ThemeImg = styled.div`
-  width: 124px;
-  height: 124px;
-  background-color: ${props => props.theme.bg};
-  background-image: url();
-  border: 1px solid ${props => props.theme.main};
-  border-radius: 50%;
-  margin: 34px;
-  & :hover {
-    transform: scale(1.1);
-    transition-duration: 0.5s;
-  }
 `;

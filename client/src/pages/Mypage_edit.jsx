@@ -208,7 +208,7 @@ export default function EditMypage() {
           )}
         </BtnBox>
         <CancelBtnBox>
-          <CustomButton text="취소" onClick={() => navigate("/")} />
+          <CustomButton text="완료" onClick={() => navigate("/")} />
         </CancelBtnBox>
       </MyContainer>
     </PageContainer>
