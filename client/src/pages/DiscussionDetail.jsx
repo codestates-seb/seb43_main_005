@@ -247,7 +247,7 @@ const CommentInput = styled.div`
       outline: none;
     }
   }
-  div {
+  button {
     color: ${({ theme }) => theme.mainHover};
     text-align: right;
   }

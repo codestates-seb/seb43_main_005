@@ -149,7 +149,7 @@ const Body = styled.div`
 
 const Side = styled.div`
   position: relative;
-  min-width: 40px;
+  min-width: 50px;
   margin-left: 20px;
   img {
     cursor: pointer;
