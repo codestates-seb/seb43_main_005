@@ -143,6 +143,9 @@ const StyledButton = styled.button`
       text-align: left;
       display: flex;
       align-items: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       span {
         display: block;
         position: relative;
