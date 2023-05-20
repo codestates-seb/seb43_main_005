@@ -113,8 +113,7 @@ const Profile = styled.img`
   height: 55px;
   margin-right: 15px;
   border-radius: 100%;
-  background-color: ${({ theme }) => theme.color.black};
-  /* 나중에 이미지가 내려온다면 프로필 뜨게하는걸로 바꾸자. */
+  border: solid 1px ${({ theme }) => theme.color.gray50};
   ${({ profile }) =>
     profile === "false" &&
     css`
