@@ -92,7 +92,7 @@ function App() {
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/admin/write/:feat" element={<AdminWrite />} />
-        <Route path="/course/:id" element={<CouresDetail />} />
+        <Route path="/course/:id/learn/:learnId" element={<CouresDetail />} />
         <Route path="/course/:id/quiz" element={<CourseOXquiz />} />
         <Route
           path="/admin/write/course/:courseId/:feat"
