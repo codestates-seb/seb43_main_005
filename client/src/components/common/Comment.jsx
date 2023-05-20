@@ -9,7 +9,13 @@ import { updateData, deleteData } from "../../api/apiUtil.js";
 // profile 프로필 사진
 // twoline : content 보이게 할건지
 // feat : Tool, count, like 있음
-export default function Comment({ commentBody, profile, twoline, feat }) {
+export default function Comment({
+  commentBody,
+  profile,
+  twoline,
+  feat,
+  setPatchCommentCount,
+}) {
   const { id } = useParams();
   const [dropdown, setDropdown] = useState(false);
   const [like, setLike] = useState(noneLike);
@@ -66,7 +72,13 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
               <li onClick={() => DeleteComment(commentId)} aria-hidden="true">
                 삭제하기
               </li>
-              <li>수정하기</li>
+              <li
+                onClick={() => {
+                  setPatchCommentCount(commentId);
+                }}
+                aria-hidden="true">
+                수정하기
+              </li>
             </Modal>
           )}
           <ToolLike>
@@ -151,6 +163,7 @@ const Side = styled.div`
   position: relative;
   min-width: 50px;
   margin-left: 20px;
+
   img {
     cursor: pointer;
   }

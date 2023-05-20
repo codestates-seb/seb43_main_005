@@ -16,9 +16,12 @@ export default function DiscussionDetail() {
   const [commentBody, setCommentBody] = useState([]);
   const [comment, setComment] = useState("");
   const [sortTool, setSortTool] = useState(1);
+  const [patchCommentCount, setPatchCommentCount] = useState(0);
+  const [patchComment, setPatchComment] = useState("");
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
   let data = { content: `<p>${comment}</p>` };
+  let patchData = { content: `<p>${patchComment}</p>` };
   useEffect(() => {
     getData(`article/${id}`)
       .then(data => {
@@ -40,7 +43,25 @@ export default function DiscussionDetail() {
       updateData(data, `/article/${id}/articleComments`, "post")
         .then(res => {
           console.log(res);
-          setComment("");
+          setPatchComment("");
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+  function PatchCommentInput() {
+    if (patchComment !== "") {
+      updateData(
+        patchData,
+        `/article/${id}/articleComments/${patchCommentCount}`,
+        "patch"
+      )
+        .then(res => {
+          console.log(res);
+          setPatchComment("");
+          setPatchCommentCount(0);
           window.location.reload();
         })
         .catch(err => {
@@ -57,7 +78,9 @@ export default function DiscussionDetail() {
         console.error(error);
       });
   }
-
+  function removeTags(str) {
+    return str.replace(/<\/?[^>]+(>|$)/g, "");
+  }
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -76,7 +99,6 @@ export default function DiscussionDetail() {
             <Dialog
               feat="삭제하기"
               path={`/article/${id}`}
-              // path={quizDeletePath}
               text={["토론글을 삭제하시겠습니까?"]}
               closeDialog={closeDialog}
             />
@@ -113,14 +135,37 @@ export default function DiscussionDetail() {
         </button>
       </CommitBar>
       <Comments>
-        {commentBody.map(item => {
-          return (
+        {commentBody?.map(item => {
+          return item.articleCommentId !== patchCommentCount ? (
             <Comment
               commentBody={item}
               profile="true"
               feat="tool"
+              setPatchCommentCount={setPatchCommentCount}
               key={item.articleCommentId}
             />
+          ) : (
+            <ContainerCommentPatch key={item.articleCommentId}>
+              <CommentPatch>
+                <textarea
+                  maxLength="200"
+                  placeholder="댓글을 입력하세요."
+                  type="text"
+                  defaultValue={removeTags(item.content)}
+                  onInput={e => {
+                    setPatchComment(e.target.value);
+                  }}></textarea>
+                <form>
+                  <button
+                    onClick={() => {
+                      setPatchCommentCount(0);
+                    }}>
+                    취소하기
+                  </button>
+                  <button onClick={PatchCommentInput}>수정하기</button>
+                </form>
+              </CommentPatch>
+            </ContainerCommentPatch>
           );
         })}
         <CommentInput>
@@ -249,6 +294,37 @@ const CommentInput = styled.div`
   }
   button {
     color: ${({ theme }) => theme.mainHover};
+    text-align: right;
+  }
+`;
+
+const ContainerCommentPatch = styled.div`
+  margin-bottom: 40px;
+  border-bottom: solid 1px ${({ theme }) => theme.gray100};
+`;
+
+const CommentPatch = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 30px;
+  margin: 30px;
+  padding: 20px;
+  border: solid 1px ${({ theme }) => theme.gray100};
+  border-radius: 10px;
+  textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    :focus {
+      outline: none;
+    }
+  }
+  form {
+    button {
+      color: ${({ theme }) => theme.mainHover};
+      margin-left: 10px;
+    }
     text-align: right;
   }
 `;
