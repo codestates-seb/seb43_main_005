@@ -68,9 +68,9 @@ public class QuizService {
     }
 
     @Transactional(readOnly = true)
-    public Page<QuizDto> list(Pageable pageable, String email){
-        Member member = memberOrException(email);
-        return quizRepository.findAll(pageable).map(QuizDto::from);
+    public Page<QuizDto> list(Long contentId, Pageable pageable){
+        Content content = contentOrException(contentId);
+        return quizRepository.findAllByContent(content, pageable).map(QuizDto::from);
     }
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow(()->

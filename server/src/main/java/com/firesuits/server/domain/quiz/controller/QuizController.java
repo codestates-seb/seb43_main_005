@@ -55,7 +55,9 @@ public class QuizController {
     }
 
     @GetMapping("/quizzes")
-    public Response<Page<QuizResponse>> list(Pageable pageable, Authentication authentication){
-        return Response.success(quizService.list(pageable, authentication.getName()).map(QuizResponse::from));
+    public Response<Page<QuizResponse>> list(
+            Pageable pageable,
+            @PathVariable("content-id") Long contentId){
+        return Response.success(quizService.list(contentId, pageable).map(QuizResponse::from));
     }
 }
