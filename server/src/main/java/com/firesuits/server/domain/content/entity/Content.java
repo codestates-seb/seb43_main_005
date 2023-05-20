@@ -40,14 +40,13 @@ public class Content extends AuditingFields {
 
     // contentProgress 테이블 매핑을 위해서 임의로 작성
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
-    private  List<ContentProgress> contentProgresses = new ArrayList<>();
+    private List<ContentProgress> contentProgresses = new ArrayList<>();
 
     public static Content of(String title, String contentImg, Member member){
         Content content =new Content();
         content.setTitle(title);
         content.setContentImg(contentImg);
         content.setMember(member);
-
         return content;
     }
 }

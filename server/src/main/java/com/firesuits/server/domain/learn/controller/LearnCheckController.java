@@ -1,6 +1,8 @@
 package com.firesuits.server.domain.learn.controller;
 
+import com.firesuits.server.domain.learn.dto.LearnCheckDto;
 import com.firesuits.server.domain.learn.dto.request.LearnCheckRequest;
+import com.firesuits.server.domain.learn.dto.response.LearnCheckResponse;
 import com.firesuits.server.domain.learn.service.LearnCheckService;
 import com.firesuits.server.global.error.response.Response;
 import lombok.extern.slf4j.Slf4j;
@@ -24,5 +26,11 @@ public class LearnCheckController {
                                  @RequestBody LearnCheckRequest request, Authentication authentication){
         learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(), learnCheckId);
         return Response.success();
+    }
+
+    @GetMapping("/{learnCheckId}")
+    public Response<LearnCheckResponse> get(@PathVariable Long learnCheckId, Authentication authentication){
+        LearnCheckDto learnCheckDto = learnCheckService.findById(learnCheckId,authentication.getName());
+        return Response.success(LearnCheckResponse.from(learnCheckDto));
     }
 }

@@ -1,6 +1,5 @@
 package com.firesuits.server.domain.learn.repository;
 
-import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.learn.entity.Learn;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

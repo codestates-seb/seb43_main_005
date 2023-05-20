@@ -1,6 +1,10 @@
 package com.firesuits.server.domain.learn.service;
 
+import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.content.entity.ContentProgress;
+import com.firesuits.server.domain.content.repository.ContentProgressRepository;
 import com.firesuits.server.domain.content.service.ContentProgressService;
+import com.firesuits.server.domain.learn.dto.LearnCheckDto;
 import com.firesuits.server.domain.learn.entity.Learn;
 import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.learn.repository.LearnCheckRepository;
@@ -18,19 +22,27 @@ public class LearnCheckService {
     private final LearnCheckRepository learnCheckRepository;
     private final LearnRepository learnRepository;
     private final ContentProgressService contentProgressService;
+    private final ContentProgressRepository contentProgressRepository;
 
-    public LearnCheckService(MemberRepository memberRepository, LearnCheckRepository learnCheckRepository, LearnRepository learnRepository, ContentProgressService contentProgressService) {
+    public LearnCheckService(MemberRepository memberRepository, LearnCheckRepository learnCheckRepository, LearnRepository learnRepository, ContentProgressService contentProgressService, ContentProgressRepository contentProgressRepository) {
         this.memberRepository = memberRepository;
         this.learnCheckRepository = learnCheckRepository;
         this.learnRepository = learnRepository;
         this.contentProgressService = contentProgressService;
+        this.contentProgressRepository = contentProgressRepository;
     }
 
     @Transactional
     public void createLearnCheck(Long learnId, String email) {
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
-        learnCheckRepository.save(LearnCheck.of(learn,member));
+
+        ContentProgress contentProgress = contentProgressRepository.findByMemberAndContent(member,learn.getContentBoard());
+        if(contentProgress == null){
+            ContentProgress newContentProgress = new ContentProgress();
+            learnCheckRepository.save(LearnCheck.of(learn,member,newContentProgress));
+        }
+        learnCheckRepository.save(LearnCheck.of(learn,member,contentProgress));
     }
 
     @Transactional
@@ -47,6 +59,14 @@ public class LearnCheckService {
         Long contentId = learnCheck.getLearn().getContentBoard().getContentId();
         contentProgressService.updateContentProgress(email, contentId);
     }
+
+    @Transactional(readOnly = true)
+    public LearnCheckDto findById(Long learnCheckId, String email){
+        Member member = memberOrException(email);
+        LearnCheck learnCheck = learnCheckOrException(learnCheckId);
+        return LearnCheckDto.from(learnCheck);
+    }
+
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow( () ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));

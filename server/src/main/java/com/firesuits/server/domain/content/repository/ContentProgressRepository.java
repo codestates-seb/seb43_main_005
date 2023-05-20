@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.content.repository;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.member.entity.Member;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,11 @@ import java.util.Optional;
 @Repository
 public interface ContentProgressRepository extends JpaRepository<ContentProgress, Long> {
     Optional<ContentProgress> findByMemberAndContent_ContentId(Member member, Long contentId);
+
+    ContentProgress findByMemberAndContent(Member member, Content content);
+
+    ContentProgress findByMember(Member member);
+
     @Query("SELECT c FROM ContentProgress c WHERE c.member.id = :memberId")
     Page<ContentProgress> findAllByContentProgress(@Param("memberId")Long memberId, Pageable pageable);
 }

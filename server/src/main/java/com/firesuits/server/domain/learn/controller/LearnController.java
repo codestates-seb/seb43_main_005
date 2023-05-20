@@ -1,9 +1,8 @@
 package com.firesuits.server.domain.learn.controller;
 
-import com.firesuits.server.domain.content.dto.response.ContentResponse;
 import com.firesuits.server.domain.learn.dto.LearnDto;
-import com.firesuits.server.domain.learn.dto.request.LearnCreateRequest;
-import com.firesuits.server.domain.learn.dto.request.LearnUpdateRequest;
+import com.firesuits.server.domain.learn.dto.request.LearnCheckRequest;
+import com.firesuits.server.domain.learn.dto.request.LearnRequest;
 import com.firesuits.server.domain.learn.dto.response.LearnResponse;
 import com.firesuits.server.domain.learn.service.LearnService;
 
@@ -29,7 +28,7 @@ public class LearnController {
 
     @PostMapping("/{contentId}/learns")
     public Response<Void> create(@PathVariable Long contentId,
-                                 @RequestBody LearnCreateRequest request, Authentication authentication){
+                                 @RequestBody LearnRequest request, Authentication authentication){
         learnService.create(request.getTitle(), request.getContent(), authentication.getName(), contentId);
         return Response.success();
     }
@@ -37,7 +36,7 @@ public class LearnController {
     @PatchMapping("/{contentId}/learns/{learnId}")
     public Response<LearnResponse> update(@PathVariable Long contentId,
                                           @PathVariable Long learnId,
-                                          @RequestBody LearnUpdateRequest request,
+                                          @RequestBody LearnRequest request,
                                           Authentication authentication){
         LearnDto learnDto = learnService.update(request.getTitle(), request.getContent(), authentication.getName(), learnId);
         return Response.success(LearnResponse.from(learnDto));
