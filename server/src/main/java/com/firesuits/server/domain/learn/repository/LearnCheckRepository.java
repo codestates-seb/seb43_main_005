@@ -10,12 +10,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LearnCheckRepository extends JpaRepository<LearnCheck, Long> {
     List<LearnCheck> findAllByMemberAndLearn_ContentBoard_ContentId(Member member, Long contentId);
 
-    LearnCheck findByMember(Member member);
+    @Query("SELECT DISTINCT c FROM LearnCheck c WHERE c.member.id = :memberId")
+    List<LearnCheck> findAllByLearnCheck(@Param("memberId")Long memberId);
 
     @Query("SELECT c FROM LearnCheck c WHERE c.member.id = :memberId")
     Page<LearnCheck> findAllByLearnCheck(@Param("memberId")Long memberId, Pageable pageable);

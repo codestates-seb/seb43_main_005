@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -75,10 +76,11 @@ public class LearnCheckService {
     public Page<LearnCheckDto> list(String email, Pageable pageable) {
         Member member = memberOrException(email);
 
-        LearnCheck learnCheck = learnCheckRepository.findByMember(member);
-        if (learnCheck == null || learnCheck.getMember().getMemberId() != member.getMemberId()) {
-            throw new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND);
+        List<LearnCheck> learnChecks = learnCheckRepository.findAllByLearnCheck(member.getMemberId());
+        if(learnChecks.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.CHECK_NOT_FOUND);
         }
+
         return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), pageable).map(LearnCheckDto::from);
     }
 

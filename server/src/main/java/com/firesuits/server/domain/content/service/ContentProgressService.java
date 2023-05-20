@@ -59,11 +59,10 @@ public class ContentProgressService {
     public Page<ContentProgressDto> listContentProgress(String email, Pageable pageable){
         Member member = memberOrException(email);
 
-        ContentProgress contentProgress = contentProgressRepository.findByMember(member);
-        if(contentProgress == null || contentProgress.getMember().getMemberId() != member.getMemberId()){
+        List<ContentProgress> contentProgresses = contentProgressRepository.findByAllContentProgress(member.getMemberId());
+        if(contentProgresses.isEmpty()){
             throw new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND);
         }
-
         return contentProgressRepository.findAllByContentProgress(member.getMemberId(),pageable).map(ContentProgressDto::from);
     }
 
