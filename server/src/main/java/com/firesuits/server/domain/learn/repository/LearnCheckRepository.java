@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface LearnCheckRepository extends JpaRepository<LearnCheck, Long> {
+
     List<LearnCheck> findAllByMemberAndLearn_ContentBoard_ContentId(Member member, Long contentId);
 
     boolean existsByLearnLearnIdAndMemberMemberId(Long learnId, Long memberId);

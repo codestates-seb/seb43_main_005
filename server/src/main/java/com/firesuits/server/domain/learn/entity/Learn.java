@@ -2,7 +2,6 @@ package com.firesuits.server.domain.learn.entity;
 
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.member.entity.Member;
-
 import com.firesuits.server.global.audit.AuditingFields;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +22,7 @@ public class Learn extends AuditingFields {
     private String title;
     @Column(columnDefinition = "TEXT", length = 20000)
     private String content;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
@@ -34,6 +34,7 @@ public class Learn extends AuditingFields {
 
     @OneToMany(mappedBy = "learn", cascade = CascadeType.ALL)
     private List<LearnCheck> learnChecks = new ArrayList<>();
+
 
     public static Learn of(String title, String content, Member member, Content contentBoard){
         Learn learn = new Learn();

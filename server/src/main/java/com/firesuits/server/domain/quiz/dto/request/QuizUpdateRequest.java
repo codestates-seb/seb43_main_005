@@ -10,4 +10,6 @@ public class QuizUpdateRequest {
     private String example;
     private String commentary;
     private boolean correct;
+
 }
+

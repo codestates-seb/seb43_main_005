@@ -51,8 +51,9 @@ public class QuizService {
         return QuizDto.from(quizRepository.save(quiz));
     }
 
-    public void delete(String email, Long quizId){
+    public void delete(String email, Long quizId, Long contentId){
         Member member = memberOrException(email);
+        Content content = contentOrException(contentId);
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
         quizRepository.delete(quiz);
@@ -60,13 +61,15 @@ public class QuizService {
     }
 
     @Transactional
-    public QuizDto findById(Long quizId){
+    public QuizDto findById(Long quizId, String email){
+        Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
         return QuizDto.from(quiz);
     }
 
     @Transactional(readOnly = true)
-    public Page<QuizDto> list(Pageable pageable){
+    public Page<QuizDto> list(Pageable pageable, String email){
+        Member member = memberOrException(email);
         return quizRepository.findAll(pageable).map(QuizDto::from);
     }
     private Member memberOrException(String email){

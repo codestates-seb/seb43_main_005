@@ -47,6 +47,7 @@ public class LearnCheckService {
         Long contentId = learnCheck.getLearn().getContentBoard().getContentId();
         contentProgressService.updateContentProgress(email, contentId);
     }
+
     private Member memberOrException(String email){
         return memberRepository.findByEmail(email).orElseThrow( () ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));

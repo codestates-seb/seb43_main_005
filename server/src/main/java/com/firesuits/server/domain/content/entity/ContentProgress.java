@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class ContentProgress extends AuditingFields {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contentProgressId;
@@ -34,6 +35,4 @@ public class ContentProgress extends AuditingFields {
         contentProgress.setProgress(0.0);
         return contentProgress;
     }
-
-
 }

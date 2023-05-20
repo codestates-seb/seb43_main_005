@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ContentProgressResponse {
+
     private String title;
     private Double progress;
 

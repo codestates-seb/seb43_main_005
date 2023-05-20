@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface ContentProgressRepository extends JpaRepository<ContentProgress, Long> {
+
     Optional<ContentProgress> findByMemberAndContent_ContentId(Member member, Long contentId);
     @Query("SELECT c FROM ContentProgress c WHERE c.member.id = :memberId")
     Page<ContentProgress> findAllByContentProgress(@Param("memberId")Long memberId, Pageable pageable);
