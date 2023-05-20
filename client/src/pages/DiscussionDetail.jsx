@@ -17,7 +17,7 @@ export default function DiscussionDetail() {
   const [comment, setComment] = useState("");
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
-
+  console.log(commentBody);
   let data = { content: `<p>${comment}</p>` };
   function CreactComment() {
     updateData(data, `/article/${id}/articleComments`, "post")
@@ -34,11 +34,10 @@ export default function DiscussionDetail() {
     updateData(
       data,
       `/article/${id}/articleComments/${articleCommentId}`,
-      "Delete"
+      "delete"
     )
       .then(res => {
         console.log(res);
-        setComment("");
         window.location.reload();
       })
       .catch(err => {
