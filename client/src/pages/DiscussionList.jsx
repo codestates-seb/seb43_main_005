@@ -12,7 +12,6 @@ export default function Discussion() {
   const [body, setBody] = useState([]);
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
-
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");

@@ -23,7 +23,7 @@ export default function Discusstions({ body }) {
           </p>
         </Body>
       </BodyContainer>
-      <Comment>{commentCount}</Comment>
+      <Comment>댓글{commentCount}</Comment>
     </StyledDiscusstions>
   );
 }
@@ -63,7 +63,6 @@ const Body = styled.div`
 `;
 
 const Comment = styled.div`
-  flex-shrink: 0;
   width: 50px;
   height: 50px;
   border-radius: 100%;
@@ -72,4 +71,5 @@ const Comment = styled.div`
   justify-content: center;
   align-items: center;
   margin: 25px;
+  font-size: 0.75em;
 `;
