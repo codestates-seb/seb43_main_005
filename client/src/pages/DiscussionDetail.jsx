@@ -48,20 +48,6 @@ export default function DiscussionDetail() {
         });
     }
   }
-  function DeleteComment(articleCommentId) {
-    updateData(
-      data,
-      `/article/${id}/articleComments/${articleCommentId}`,
-      "delete"
-    )
-      .then(res => {
-        console.log(res);
-        window.location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
   function SortButton(sort) {
     getData(`article/${id}/articleComments?${sort}`)
       .then(data => {
@@ -102,7 +88,6 @@ export default function DiscussionDetail() {
         <span dangerouslySetInnerHTML={{ __html: body.title }} />
         <span dangerouslySetInnerHTML={{ __html: body.content }} />
       </Subject>
-      {/* 탭으로 만들어야한다. 누르면 색깔 변하게 */}
       <CommitBar sortTool={sortTool}>
         <div>댓글 {body.commentCount}</div>
         <button
@@ -135,7 +120,6 @@ export default function DiscussionDetail() {
               profile="true"
               feat="tool"
               key={item.articleCommentId}
-              DeleteComment={DeleteComment}
             />
           );
         })}
