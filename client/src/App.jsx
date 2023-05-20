@@ -30,6 +30,7 @@ import CourseOXquiz from "./pages/CourseOXquiz.jsx";
 import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
+import ChatBot from "./components/ChatBot/ChatBot.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -107,6 +108,7 @@ function App() {
           element={<AdminWrite mode="patch" />}
         />
       </Routes>
+      <ChatBot></ChatBot>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
   );
