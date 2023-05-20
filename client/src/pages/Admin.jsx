@@ -137,23 +137,23 @@ const ContentsWrap = styled.article`
   }
 `;
 const Contents = styled.ul`
-  background-color: ${({ theme }) => theme.color.white};
-  border: ${({ theme }) => theme.color.borderBold};
+  background-color: ${({ theme }) => theme.white};
+  border: ${({ theme }) => theme.borderBold};
   border-radius: 20px;
   li {
     display: block;
     padding: 15px;
     font-size: 0.875em;
     a {
-      color: ${({ theme }) => theme.color.text};
+      color: ${({ theme }) => theme.text};
       &:hover {
-        color: ${({ theme }) => theme.color.main};
+        color: ${({ theme }) => theme.main};
         text-decoration: underline;
       }
     }
   }
   li:not(:last-of-type) {
-    border-bottom: ${({ theme }) => theme.color.borderLight};
+    border-bottom: ${({ theme }) => theme.borderLight};
   }
   &.empty {
     display: flex;

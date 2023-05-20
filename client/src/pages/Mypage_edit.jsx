@@ -12,6 +12,7 @@ import useUploadImg from "../hooks/useUploadImg.js";
 
 export default function EditMypage() {
   // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기 => item 으로 받아오기
+  // => 기본이미지로 변경되어도 프리뷰에 보이게 하려면?
   const { state } = useLocation();
   const item = state?.item;
   const [userProfile, payload] = useUploadImg(item?.profileImage);
@@ -21,7 +22,6 @@ export default function EditMypage() {
   const [currentPassword] = useInput("");
   const [newPassword] = useInput("");
   const [checkNewPassword] = useInput("");
-  const [edited, setEdited] = useState(false);
   const [successAlert, setSuccessAlert] = useState("");
   const navigate = useNavigate();
 
@@ -216,7 +216,7 @@ export default function EditMypage() {
 }
 
 const MyContainer = styled.article`
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   padding: 50px;
   @media ${props => props.theme.mediaQuery.mobile} {
     display: flex;
@@ -255,8 +255,8 @@ const CancelBtnBox = styled(BtnBox)`
   justify-content: center;
 `;
 const AlertMsg = styled.p`
-  color: ${props => props.theme.color.red};
+  color: ${props => props.theme.red};
 `;
 const SuccessMsg = styled(AlertMsg)`
-  color: ${props => props.theme.color.main};
+  color: ${props => props.theme.main};
 `;

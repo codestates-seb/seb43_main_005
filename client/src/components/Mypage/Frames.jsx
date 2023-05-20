@@ -16,7 +16,7 @@ export default function Frames() {
 const Frame = styled.div`
   width: 124px;
   height: 124px;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   border: 2px solid black;
   border-radius: 100px;
   margin: 35px auto;

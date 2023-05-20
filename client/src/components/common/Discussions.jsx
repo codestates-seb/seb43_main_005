@@ -31,8 +31,8 @@ const StyledDiscusstions = styled.div`
   justify-content: space-between;
   height: 100px;
   margin: 10px 0px;
-  background-color: ${props => props.theme.color.white};
-  border: 1px solid ${props => props.theme.color.black};
+  background-color: ${props => props.theme.white};
+  border: 1px solid ${props => props.theme.black};
 `;
 
 const Body = styled.div`
@@ -51,7 +51,7 @@ const Body = styled.div`
   }
 
   p {
-    color: ${props => props.theme.color.gray200};
+    color: ${props => props.theme.gray200};
   }
 `;
 
@@ -59,7 +59,7 @@ const Comment = styled.div`
   min-width: 50px;
   height: 50px;
   border-radius: 100%;
-  background-color: ${props => props.theme.color.sub};
+  background-color: ${props => props.theme.sub};
   display: flex;
   justify-content: center;
   align-items: center;

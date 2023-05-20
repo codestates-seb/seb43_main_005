@@ -26,9 +26,9 @@ function CustomProgressBar({ progress, marginBottom, feat }) {
 const ProgressBarContainer = styled.div`
   position: relative;
   width: 100%;
-  background-color: ${props => props.theme.color.gray50};
+  background-color: ${props => props.theme.gray50};
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.black};
+  border: 1px solid ${props => props.theme.black};
   box-sizing: border-box;
   margin-bottom: ${props => props.marginBottom || "50px"};
 `;
@@ -36,7 +36,7 @@ const ProgressBarContainer = styled.div`
 const Bar = styled.div`
   height: ${({ feat }) => (feat === "simple" && "1.25em") || "24px"};
   border-radius: 5px;
-  background-color: ${props => props.theme.color.main};
+  background-color: ${props => props.theme.main};
   width: ${({ progress }) => progress}%;
 `;
 

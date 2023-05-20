@@ -19,7 +19,7 @@ const SvgWrap = styled.svg`
   height: 16px;
   & g {
     transform: translate(0, 16px) scale(0.1, -0.1);
-    fill: ${props => props.theme.color.textBold};
+    fill: ${props => props.theme.textBold};
     stroke: none;
   }
 `;

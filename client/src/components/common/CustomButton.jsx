@@ -51,13 +51,13 @@ const StyledButton = styled.button`
   font-size: 0.875em;
   border: ${({ feat, theme }) =>
     feat === "course" || feat === "login" || feat === "article"
-      ? theme.color.borderBold
-      : theme.color.borderMain};
+      ? theme.borderBold
+      : theme.borderMain};
   .icon-finger {
     position: absolute;
     transform: rotate(90deg);
     font-size: 1.25em;
-    color: ${({ theme }) => theme.color.text};
+    color: ${({ theme }) => theme.text};
   }
   /* --- common --- */
 
@@ -67,8 +67,8 @@ const StyledButton = styled.button`
       width: 110px;
       height: 40px;
       border-radius: 29px;
-      color: ${({ theme }) => theme.color.main};
-      background-color: ${({ theme }) => theme.color.white};
+      color: ${({ theme }) => theme.main};
+      background-color: ${({ theme }) => theme.white};
       @media ${({ theme }) => theme.mediaQuery.mobile} {
         width: unset;
         height: unset;
@@ -82,7 +82,7 @@ const StyledButton = styled.button`
     css`
       width: 150px;
       height: 50px;
-      color: ${({ theme }) => theme.color.main};
+      color: ${({ theme }) => theme.main};
     `}
   // square
 
@@ -91,7 +91,7 @@ const StyledButton = styled.button`
     css`
       padding: 12px 15px;
       border-radius: 2px;
-      color: ${({ theme }) => theme.color.main};
+      color: ${({ theme }) => theme.main};
     `}
   // tag
 
@@ -102,7 +102,7 @@ const StyledButton = styled.button`
       padding: 12px 15px;
       line-height: 1rem;
       border-radius: 29px;
-      color: ${({ theme }) => theme.color.text};
+      color: ${({ theme }) => theme.text};
       position: relative;
       text-align: left;
       overflow: hidden;
@@ -121,12 +121,12 @@ const StyledButton = styled.button`
       width: 100%;
       height: 50px;
       border-radius: 10px;
-      color: ${({ theme }) => theme.color.text};
-      background-color: ${({ theme }) => theme.color.whiteOp50};
+      color: ${({ theme }) => theme.text};
+      background-color: ${({ theme }) => theme.whiteOp50};
       &:hover {
-        border: ${({ theme }) => theme.color.borderMain};
-        color: ${({ theme }) => theme.color.white};
-        background-color: ${({ theme }) => theme.color.main};
+        border: ${({ theme }) => theme.borderMain};
+        color: ${({ theme }) => theme.white};
+        background-color: ${({ theme }) => theme.main};
       }
     `}
   // login
@@ -138,8 +138,8 @@ const StyledButton = styled.button`
       padding: 60px 20px;
       position: relative;
       border-radius: 20px;
-      color: ${({ theme }) => theme.color.text};
-      background-color: ${({ theme }) => theme.color.whiteOp50};
+      color: ${({ theme }) => theme.text};
+      background-color: ${({ theme }) => theme.whiteOp50};
       text-align: left;
       display: flex;
       align-items: center;
@@ -175,7 +175,7 @@ const StyledButton = styled.button`
   ${({ feat }) =>
     feat === "underline" &&
     css`
-      color: ${({ theme }) => theme.color.main};
+      color: ${({ theme }) => theme.main};
       border-width: 0 0 1px 0;
     `}
   // underline
@@ -183,10 +183,10 @@ const StyledButton = styled.button`
   ${({ reverse }) =>
     reverse &&
     css`
-      color: ${({ theme }) => theme.color.white};
-      background-color: ${({ theme }) => theme.color.main};
+      color: ${({ theme }) => theme.white};
+      background-color: ${({ theme }) => theme.main};
       &:hover {
-        background-color: ${({ theme }) => theme.color.mainHover} !important;
+        background-color: ${({ theme }) => theme.mainHover} !important;
       }
     `}
   // reverse
@@ -195,7 +195,7 @@ const StyledButton = styled.button`
   &:hover {
     background-color: ${({ feat, theme }) =>
       (feat === "round" || feat === "square" || feat === "tag") &&
-      theme.color.mainHoverLight};
+      theme.mainHoverLight};
   }
   /* --- hover --- */
 
@@ -235,7 +235,7 @@ const StyledButton = styled.button`
           transition-duration: 0.5s;
         }
         &:hover {
-          background-color: ${({ theme }) => theme.color.white};
+          background-color: ${({ theme }) => theme.white};
           .icon-finger {
             right: 30px;
           }

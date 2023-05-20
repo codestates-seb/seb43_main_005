@@ -6,8 +6,8 @@ export default function ErrorPage() {
     <PageContainer>
       <ErrorContainer>
         <SVGBox
-          fill={props => props.theme.color.main}
-          stroke={props => props.theme.color.green900}>
+          fill={props => props.theme.main}
+          stroke={props => props.theme.green900}>
           <svg viewBox="0 0 1130 1080" fill="none">
             <g clipPath="url(#clip0_84_822)">
               <path

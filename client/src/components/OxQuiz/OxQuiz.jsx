@@ -99,7 +99,7 @@ const QuizContainer = styled.div`
 `;
 
 const Quiz = styled.div`
-  border: ${({ theme }) => theme.color.borderLight};
+  border: ${({ theme }) => theme.borderLight};
   border-radius: 8px;
   width: 100%;
   height: 126px;
@@ -121,7 +121,7 @@ const Answer = styled.div`
   width: 500px;
   height: 222px;
   border: ${({ highlighted, theme }) =>
-    highlighted ? `1px solid ${theme.color.blue}` : theme.color.borderLight};
+    highlighted ? `1px solid ${theme.blue}` : theme.borderLight};
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
@@ -142,7 +142,7 @@ const StyledImage = styled.img`
 const QuizSolution = styled.div`
   width: 100%;
   height: 222px;
-  border: ${({ theme }) => theme.color.borderLight};
+  border: ${({ theme }) => theme.borderLight};
   border-radius: 8px;
   display: flex;
   justify-content: center;

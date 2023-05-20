@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 //페이지 이동
 import { createSearchParams, useNavigate } from "react-router-dom";
@@ -11,9 +12,10 @@ import styled from "styled-components";
 import { mbtiQuestionData } from "../assets/data/mbtiQuestionData.js";
 
 function MbtiTest() {
+  //토큰
+  const token = localStorage.getItem("access_token");
   //로그인 여부
   const isLogin = false;
-
   //문제의 총 길이
   const QUESTIONS_LENGTH = mbtiQuestionData.length;
   //현재 질문 번호
@@ -45,10 +47,8 @@ function MbtiTest() {
         (acc, cur) => acc + (cur.score >= 2 ? cur.id[0] : cur.id[1]),
         ""
       );
-      if (isLogin) {
+      if (token) {
         const url = `http://13.124.42.111:8080/members/mbti`; // replace {{host}} with your actual host
-        const token =
-          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlVTRVIiXSwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20iLCJzdWIiOiJhZG1pbkBnbWFpbC5jb20iLCJpYXQiOjE2ODQxNDk3NTcsImV4cCI6MTY4NDE5Mjk1N30.nwVoEbMCQo0Od5Qspy_QiuZszv25UoTvecU9jzr6AYE";
 
         axios
           .patch(
@@ -127,13 +127,13 @@ const Quiz = styled.div`
   font-size: 1.25em;
   //가로 세로
   width: 100%;
-  height: 371px;
+  height: 280px;
   box-sizing: border-box;
   margin-bottom: 40px;
   //테두리와 배경색
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.black};
-  background-color: ${props => props.theme.color.white};
+  border: 1px solid ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
 `;
 
 const AnswerBtnContainer = styled.div`
@@ -145,10 +145,10 @@ const AnswerBtnContainer = styled.div`
 const AnswerBtn = styled.button`
   //가로 세로
   font-size: 1em;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   width: 100%;
   height: 73px;
-  border: 1px solid ${props => props.theme.color.black};
+  border: 1px solid ${props => props.theme.black};
   border-radius: 5px;
   margin-bottom: 20px;
 `;

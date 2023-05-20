@@ -57,9 +57,9 @@ const SvgWrap = styled.div`
   }
 `;
 const FooterContainer = styled.div`
-  background-color: ${props => props.theme.color.main};
+  background-color: ${props => props.theme.main};
   text-align: center;
-  color: ${props => props.theme.color.white};
+  color: ${props => props.theme.white};
   font-family: "GmarketSansLight";
 `;
 const FooterContent = styled.div`
@@ -87,7 +87,7 @@ const LinkBox = styled.div`
   justify-content: center;
   gap: 1rem;
   a {
-    color: ${props => props.theme.color.white};
+    color: ${props => props.theme.white};
     display: flex;
     & * {
       margin-right: 0.3rem;

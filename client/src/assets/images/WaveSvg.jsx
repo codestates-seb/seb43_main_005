@@ -26,7 +26,7 @@ const SvgWrap = styled.svg`
   & g {
     transition-duration: 0.35s;
     stroke: none;
-    fill: ${props => props.theme.color.main};
+    fill: ${props => props.theme.main};
   }
 
   /* open menu */
@@ -36,7 +36,7 @@ const SvgWrap = styled.svg`
       height: 90vh;
       bottom: 0;
       overflow: visible;
-      background-color: ${props => props.theme.color.main};
+      background-color: ${props => props.theme.main};
       transition-duration: 0.5s;
       & g {
         transition-duration: 0.5s;

@@ -64,7 +64,7 @@ const Information = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   margin-bottom: 30px;
-  background-color: ${({ theme }) => theme.color.white};
+  background-color: ${({ theme }) => theme.white};
   display: flex;
   align-items: center;
   line-height: 2em;
@@ -76,8 +76,8 @@ const ButtonGroup = styled.div`
     padding: 10px;
     border-radius: 10px;
     margin: 10px 0px;
-    background-color: ${({ theme }) => theme.color.whiteOp50};
-    color: ${({ theme }) => theme.color.black};
+    background-color: ${({ theme }) => theme.whiteOp50};
+    color: ${({ theme }) => theme.black};
     border: 1px solid black;
     margin-bottom: 50px;
   }

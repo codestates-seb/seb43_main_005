@@ -19,7 +19,7 @@ const Search = styled.div`
   align-items: center;
   justify-content: space-between;
   padding-bottom: 5px;
-  border-bottom: ${({ theme }) => theme.color.borderBold};
+  border-bottom: ${({ theme }) => theme.borderBold};
   input {
     font-size: 1em;
     flex-grow: 1;

@@ -75,7 +75,7 @@ const DialogBack = styled.div`
   z-index: 9999;
   width: 100%;
   height: 100vh;
-  background-color: ${props => props.theme.color.blackOp50};
+  background-color: ${props => props.theme.blackOp50};
 `;
 const show = keyframes`
   from{
@@ -91,7 +91,7 @@ const DialogContainer = styled.div`
   padding: 15px;
   box-sizing: border-box;
   border-radius: 10px;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${props => props.theme.white};
   animation: ${show} 0.2s 0s alternate linear 1;
 `;
 const DialogClose = styled.button`
@@ -101,13 +101,13 @@ const DialogClose = styled.button`
   margin: 0 0 0 auto;
   & * {
     font-size: 2em;
-    color: ${props => props.theme.color.text};
+    color: ${props => props.theme.text};
   }
 `;
 const DialogText = styled.div`
   padding: 20px 0 40px 0;
   text-align: center;
-  color: ${props => props.theme.color.text};
+  color: ${props => props.theme.text};
   p:not(:last-of-type) {
     margin-bottom: 10px;
   }

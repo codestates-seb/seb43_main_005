@@ -18,10 +18,8 @@ function MbtiResult(props) {
 
   useEffect(() => {
     const mbtiResultObj = mbtiResultData.find(el => el.mbti === mbti);
-    console.log(mbtiResultObj);
     setResultData(mbtiResultObj);
   }, [mbti]);
-
   return (
     <PageContainer>
       <Container>
@@ -30,19 +28,17 @@ function MbtiResult(props) {
         <MbtiHeading>{resultData.mbti}</MbtiHeading>
         <MbtiSubText>{resultData.mbtiSubText}</MbtiSubText>
         <WhiteBox>
-          추천 컨텐츠: <BoldText>{resultData.recommendedContent}</BoldText>
+          추천 컨텐츠 : <BoldText>{resultData.recommendedContent}</BoldText>
         </WhiteBox>
         <RecommendedStudyMethod>
           <BoldText>공부법</BoldText>
-          {/* {resultData.studyMethods.map((studyMethod, i) => (
-            <p key={i}>{studyMethod}</p>
-          ))} */}
           {resultData?.studyMethods?.map((studyMethod, i) => (
             <p key={i}>{studyMethod}</p>
           ))}
         </RecommendedStudyMethod>
 
         <KakaoStyleBtn />
+        <KakaoShateBtn resultData={resultData} />
         {/* <img src={kakaoIcon} alt="카카오 아이콘" /> */}
       </Container>
     </PageContainer>
@@ -69,9 +65,9 @@ const ResultMbtiImg = styled.img`
 const MbtiHeading = styled.div`
   /* 폰트 설정 */
   font-family: "Shrikhand", cursive;
-  color: ${props => props.theme.color.gray100};
-  -webkit-text-stroke: 1px ${props => props.theme.color.textBold}; // chrome, safari
-  text-shadow: 2.5px 2.5px 0 ${props => props.theme.color.textBold};
+  color: ${props => props.theme.gray100};
+  -webkit-text-stroke: 1px ${props => props.theme.textBold}; // chrome, safari
+  text-shadow: 2.5px 2.5px 0 ${props => props.theme.textBold};
   font-size: 3em;
   font-weight: 700;
   margin-bottom: 15px;
@@ -85,8 +81,8 @@ const MbtiSubText = styled.div`
 const WhiteBox = styled.div`
   width: 100%;
   border-radius: 5px;
-  border: 1px solid ${props => props.theme.color.black};
-  background-color: ${props => props.theme.color.white};
+  border: 1px solid ${props => props.theme.black};
+  background-color: ${props => props.theme.white};
   margin-bottom: 15px;
   box-sizing: border-box;
   padding: 35px;
