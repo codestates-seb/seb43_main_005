@@ -9,20 +9,18 @@ export default function Discusstions({ body }) {
   const navigate = useNavigate();
   return (
     <StyledDiscusstions>
-      <BodyContainer>
-        <Body>
-          <div
-            onClick={() => {
-              navigate(`/discussion/${id}`);
-            }}
-            aria-hidden="true">
-            {title}
-          </div>
-          <p>
-            {createdAt} | 조회 {view}
-          </p>
-        </Body>
-      </BodyContainer>
+      <Body>
+        <div
+          onClick={() => {
+            navigate(`/discussion/${id}`);
+          }}
+          aria-hidden="true">
+          {title}
+        </div>
+        <p>
+          {createdAt} | 조회 {view}
+        </p>
+      </Body>
       <Comment>댓글{commentCount}</Comment>
     </StyledDiscusstions>
   );
@@ -37,19 +35,14 @@ const StyledDiscusstions = styled.div`
   border: 1px solid ${props => props.theme.black};
 `;
 
-const BodyContainer = styled.div`
+const Body = styled.div`
+  padding: 20px;
   flex-grow: 1;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-`;
-
-const Body = styled.div`
-  padding: 20px;
-
   div {
-    width: 100%;
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
@@ -63,7 +56,7 @@ const Body = styled.div`
 `;
 
 const Comment = styled.div`
-  width: 50px;
+  min-width: 50px;
   height: 50px;
   border-radius: 100%;
   background-color: ${props => props.theme.sub};
