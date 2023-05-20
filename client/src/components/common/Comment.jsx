@@ -1,19 +1,18 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import styled, { css } from "styled-components";
 import Tool from "../../assets/images/Tool.svg";
-import Good from "../../assets/images/good.svg";
-import { useState } from "react";
+import Like from "../../assets/images/Like.svg";
+import noneLike from "../../assets/images/noneLike.svg";
+import { updateData } from "../../api/apiUtil.js";
 // commentBody 데이터
 // profile 프로필 사진
 // twoline : content 보이게 할건지
 // feat : Tool, count, like 있음
-export default function Comment({
-  commentBody,
-  profile,
-  twoline,
-  feat,
-  DeleteComment,
-}) {
+export default function Comment({ commentBody, profile, twoline, feat }) {
+  const { id } = useParams();
   const [dropdown, setDropdown] = useState(false);
+  const [like, setLike] = useState(noneLike);
   let nikeName = commentBody.member.nickName;
   let content = commentBody.content;
   let createdAt =
@@ -23,6 +22,22 @@ export default function Comment({
   let likeCount = commentBody.like;
   let commentId = commentBody.articleCommentId;
   let profileImg = commentBody.member.profileImage;
+
+  function DeleteComment(articleCommentId) {
+    updateData(
+      {},
+      `/article/${id}/articleComments/${articleCommentId}`,
+      "delete"
+    )
+      .then(res => {
+        console.log(res);
+        window.location.reload();
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   return (
     <CommentContainer>
       {/* 프로필 나중에 서버에서 받아와서 만들자 */}
@@ -50,15 +65,23 @@ export default function Comment({
               <li>수정하기</li>
             </Modal>
           )}
-          <div>
-            <img src={Good} alt="good" /> {likeCount}
-          </div>
+          <ToolLike>
+            <img
+              src={like}
+              alt="good"
+              onClick={() => {
+                like === noneLike ? setLike(Like) : setLike(noneLike);
+              }}
+              aria-hidden="true"
+            />
+            <div>{likeCount}</div>
+          </ToolLike>
         </Side>
       )}
       {feat === "count" && <Count>{likeCount}</Count>}
       {feat === "like" && (
         <Count>
-          <img src={Good} alt="good" /> 12
+          <img src={Like} alt="good" /> 12
         </Count>
       )}
     </CommentContainer>
@@ -100,6 +123,10 @@ const Body = styled.div`
     color: ${({ theme }) => theme.color.gray100};
   }
 
+  & > :nth-child(2) {
+    word-break: break-all;
+  }
+
   ${({ twoline }) =>
     twoline === "true" &&
     css`
@@ -112,13 +139,10 @@ const Body = styled.div`
 
 const Side = styled.div`
   position: relative;
-  margin-bottom: 40px;
+  margin: 0 0 40px 20px;
+
   img {
     cursor: pointer;
-  }
-
-  div {
-    margin-top: 30px;
   }
 `;
 
@@ -161,4 +185,13 @@ const Count = styled.div`
   border: solid 1px ${props => props.theme.color.black};
   background-color: ${props => props.theme.color.sub};
   margin-top: 20px;
+`;
+
+const ToolLike = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+  & > :nth-child(2) {
+    margin-top: 5px;
+  }
 `;
