@@ -48,8 +48,7 @@ public class Article extends AuditingFields {
     }
 
     public void addComment(ArticleComment articleComment){
-        this.articleComments.add(articleComment);
-        this.commentCount = this.articleComments.size();
+        this.commentCount++;
     }
 
     public void removeComment(ArticleComment articleComment){

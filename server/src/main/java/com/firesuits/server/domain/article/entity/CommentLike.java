@@ -24,9 +24,9 @@ public class CommentLike extends AuditingFields {
     @JoinColumn(name = "article_comment_id")
     private ArticleComment articleComment;
 
-    private Integer value;
+    private int value;
 
-    public static CommentLike of(Member member, ArticleComment articleComment, Integer value){
+    public static CommentLike of(Member member, ArticleComment articleComment, int value){
         CommentLike entity = new CommentLike();
         entity.setMember(member);
         entity.setArticleComment(articleComment);
