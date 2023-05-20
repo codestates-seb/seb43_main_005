@@ -40,6 +40,14 @@ export default function Login() {
         });
     }
   };
+  // oauth
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams) {
+    const access_token = urlParams.get("access_token");
+    const refresh_token = urlParams.get("refresh_token");
+    localStorage.setItem("access_token", { access_token });
+    localStorage.setItem("refresh_token", { refresh_token });
+  }
 
   return (
     <PageContainer>
