@@ -19,15 +19,17 @@ export default function DiscussionDetail() {
   const [dialog, openDialog, closeDialog] = useModal();
   let data = { content: `<p>${comment}</p>` };
   function CreactComment() {
-    updateData(data, `/article/${id}/articleComments`, "post")
-      .then(res => {
-        console.log(res);
-        setComment("");
-        window.location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    if (comment !== "") {
+      updateData(data, `/article/${id}/articleComments`, "post")
+        .then(res => {
+          console.log(res);
+          setComment("");
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
   function DeleteComment(articleCommentId) {
     updateData(
@@ -59,7 +61,6 @@ export default function DiscussionDetail() {
         console.error(error);
       });
   }, []);
-
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -109,7 +110,6 @@ export default function DiscussionDetail() {
             />
           );
         })}
-
         <CommentInput>
           <textarea
             maxLength="200"
