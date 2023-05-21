@@ -8,38 +8,58 @@ import CustomButton from "../components/common/CustomButton.jsx";
 import CustomCourse from "../components/common/CustomCourse.jsx";
 import SearchBar from "../components/common/SearchBar.jsx";
 import Empty from "../components/common/Empty.jsx";
+import Pagination from "../components/common/Pagination.jsx";
 
 export default function Course() {
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
-  const [searchValue, searchReset] = useInput("");
   const [courses, setCourses] = useState(null);
-  const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
   const [totalCourse, setTotalCourse] = useState(0);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  // ! get 로직
+  // ! get 로직 (pagenation)
   const sliceData = async () => {
-    const { result } = await getData("/contents?size=20&page=0");
-    const { content, totalPage, totalElements } = result;
+    const { result } = await getData(`/contents?size=9&page=${page}`);
+    const { content, totalPages, totalElements } = result;
     setCourses(content);
     setTotalCourse(totalElements);
-    setTotalPage(totalPage);
+    setTotalPages(totalPages);
   };
   useEffect(() => {
     sliceData();
-  }, []);
+  }, [page]);
 
   // ! sorted 로직
-  const [selected, setSelected] = useState("default");
+  const [selected, setSelected] = useState("old");
   const handleSorted = sort => {
     setSelected(sort);
   };
+  useEffect(() => {
+    const copyCourse = courses?.slice();
+    const sortedCourse =
+      selected === "old"
+        ? copyCourse?.sort(
+            (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+          )
+        : copyCourse?.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
+    courses && setCourses(sortedCourse);
+  }, [selected]);
 
   // ! search 로직
-  const handleSearch = e => {
+  const [searchValue, searchReset] = useInput("");
+  const handleSearch = async e => {
+    const { result } = await getData(`/contents`);
+    const { content } = result;
     e.preventDefault();
     console.log(searchValue.value);
+    const searchCourse = content.filter(el =>
+      el.title.toUpperCase().includes(searchValue.value.toUpperCase())
+    );
+    setCourses(searchCourse);
+    searchReset();
   };
 
   return (
@@ -49,17 +69,17 @@ export default function Course() {
         <Sorted>
           <CustomButton
             type="button"
-            text="최신순"
-            onClick={e => handleSorted("default")}
-            feat="round"
-            reverse={selected === "default"}
-          />
-          <CustomButton
-            type="button"
             text="등록순"
             onClick={e => handleSorted("old")}
             feat="round"
             reverse={selected === "old"}
+          />
+          <CustomButton
+            type="button"
+            text="최신순"
+            onClick={e => handleSorted("recent")}
+            feat="round"
+            reverse={selected === "recent"}
           />
         </Sorted>
         <SearchBar value={searchValue} />
@@ -69,6 +89,9 @@ export default function Course() {
           <CustomCourse key={course.contentId} item={course} />
         ))}
       </CourseContainer>
+      {!!totalCourse && (
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+      )}
       <BottomGroup totalCourse={totalCourse}>
         {!totalCourse && <Empty />}
         {admin && <CustomButton text="강의 등록" path="/admin/write/course" />}
