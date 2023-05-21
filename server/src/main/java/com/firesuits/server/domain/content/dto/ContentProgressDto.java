@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class ContentProgressDto {
+
     private Long contentProgressId;
     private MemberDto member;
     private ContentDto content;

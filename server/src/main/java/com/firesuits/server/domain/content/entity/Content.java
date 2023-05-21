@@ -1,7 +1,6 @@
 package com.firesuits.server.domain.content.entity;
 
 import com.firesuits.server.domain.learn.entity.Learn;
-import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.global.audit.AuditingFields;

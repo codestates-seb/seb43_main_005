@@ -38,6 +38,7 @@ public class ContentService {
         this.contentProgressRepository = contentProgressRepository;
         this.learnCheckRepository = learnCheckRepository;
         this.learnCheckService = learnCheckService;
+
     }
 
     @Transactional

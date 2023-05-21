@@ -29,6 +29,7 @@ public class ContentController {
     @PostMapping
     public Response<Void> create(@RequestBody ContentRequest request, Authentication authentication){
         contentService.create(request.getTitle(), request.getContentImg(),authentication.getName());
+
         return Response.success();
     }
 
@@ -55,6 +56,7 @@ public class ContentController {
     public Response<Page<ContentResponse>> list(Pageable pageable){
         return Response.success(contentService.list(pageable).map(ContentResponse::from));
     }
+
     //조회 버튼을 선택하여 LearnCheck 와 contentProgress 생성
     @GetMapping("/{contentId}/access")
     public Response<Void> accessContent(@PathVariable Long contentId, Authentication authentication){
@@ -68,9 +70,11 @@ public class ContentController {
     }
 
     //진짜 contentProgress 조회
+
     @GetMapping("/{contentId}/progress")
     public Response<ContentProgressResponse> getProgress(@PathVariable Long contentId, Authentication authentication){
         ContentProgressDto contentProgressDto = contentProgressService.getContentProgress(contentId, authentication.getName());
         return Response.success(ContentProgressResponse.from(contentProgressDto));
     }
 }
+

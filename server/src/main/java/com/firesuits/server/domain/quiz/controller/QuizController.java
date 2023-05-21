@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+// 수정
+
 @RestController
-@RequestMapping("/contents/{content-id}/quizzes")
+@RequestMapping("/contents/{content-id}")
 public class QuizController {
     private QuizService quizService;
 
@@ -20,7 +22,7 @@ public class QuizController {
         this.quizService = quizService;
     }
 
-    @PostMapping
+    @PostMapping("/quizzes")
     public Response<Void> create(@PathVariable("content-id") Long contentId,
                                  @RequestBody QuizCreateRequest request,
                                  Authentication authentication){
@@ -29,7 +31,7 @@ public class QuizController {
         return Response.success();
     }
 
-    @PatchMapping("/{quiz-id}")
+    @PatchMapping("/quizzes/{quiz-id}")
     public Response<QuizResponse> update(@PathVariable("content-id") Long contentId,
                                          @PathVariable("quiz-id") Long quizId,
                                          @RequestBody QuizUpdateRequest request, Authentication authentication){
@@ -38,23 +40,26 @@ public class QuizController {
         return Response.success(QuizResponse.from(quizDto));
     }
 
-    @DeleteMapping("/{quiz-id}")
+    @DeleteMapping("/quizzes/{quiz-id}")
     public Response<Void> delete(@PathVariable("content-id") Long contentId,
                                  @PathVariable("quiz-id") Long quizId,
                                  Authentication authentication){
-        quizService.delete(authentication.getName(), quizId);
+        quizService.delete(authentication.getName(), quizId ,contentId);
         return Response.success();
     }
 
-    @GetMapping("/{quiz-id}")
+    @GetMapping("/quizzes/{quiz-id}")
     public Response<QuizResponse> get(@PathVariable("quiz-id") Long quizId,
-                                      @PathVariable("content-id") Long contentId){
-        QuizDto quizDto = quizService.findById(quizId);
+                                      @PathVariable("content-id") Long contentId,
+                                      Authentication authentication){
+        QuizDto quizDto = quizService.findById(quizId , authentication.getName());
         return Response.success(QuizResponse.from(quizDto));
     }
 
-    @GetMapping
-    public Response<Page<QuizResponse>> list(Pageable pageable){
-        return Response.success(quizService.list(pageable).map(QuizResponse::from));
+    @GetMapping("/quizzes")
+    public Response<Page<QuizResponse>> list(
+            Pageable pageable,
+            @PathVariable("content-id") Long contentId){
+        return Response.success(quizService.list(contentId, pageable).map(QuizResponse::from));
     }
 }

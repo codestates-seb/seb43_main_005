@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Repository
 public interface ContentProgressRepository extends JpaRepository<ContentProgress, Long> {
+
     Optional<ContentProgress> findByMemberAndContent_ContentId(Member member, Long contentId);
 
     ContentProgress findByMemberAndContent(Member member, Content content);

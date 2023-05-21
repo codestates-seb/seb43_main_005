@@ -16,6 +16,7 @@ import java.util.List;
 @Setter
 @Entity
 public class ContentProgress extends AuditingFields {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contentProgressId;

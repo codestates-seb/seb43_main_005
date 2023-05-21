@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface LearnCheckRepository extends JpaRepository<LearnCheck, Long> {
+
     List<LearnCheck> findAllByMemberAndLearn_ContentBoard_ContentId(Member member, Long contentId);
 
     @Query("SELECT DISTINCT c FROM LearnCheck c WHERE c.member.id = :memberId")

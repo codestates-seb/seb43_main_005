@@ -20,10 +20,12 @@ import java.util.List;
 
 @Service
 public class ContentProgressService {
+
     private final ContentProgressRepository contentProgressRepository;
     private final LearnCheckRepository learnCheckRepository;
     private final MemberRepository memberRepository;
     private ContentRepository contentRepository;
+
 
     public ContentProgressService(ContentProgressRepository contentProgressRepository, LearnCheckRepository learnCheckRepository, MemberRepository memberRepository, ContentRepository contentRepository) {
         this.contentProgressRepository = contentProgressRepository;
@@ -33,6 +35,7 @@ public class ContentProgressService {
     }
 
     @Transactional
+
     public void updateContentProgress(String email, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
@@ -70,6 +73,7 @@ public class ContentProgressService {
         return memberRepository.findByEmail(email).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
     }
+
     private Content contentOrException(Long contentId){
         return contentRepository.findById(contentId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 컨텐츠가 존재 하지 않습니다.", contentId)));

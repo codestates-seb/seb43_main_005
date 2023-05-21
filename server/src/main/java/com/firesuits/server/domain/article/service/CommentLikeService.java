@@ -11,6 +11,9 @@ import com.firesuits.server.global.error.exception.ExceptionCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.stream.events.Comment;
+import java.util.Optional;
+
 @Service
 public class CommentLikeService {
 
@@ -29,10 +32,19 @@ public class CommentLikeService {
     public void like(Long articleCommentId, String email){
         Member member = memberOrException(email);
         ArticleComment articleComment = articleCommentOrException(articleCommentId);
-        commentLikeRepository.findByMemberAndArticleComment(member, articleComment).ifPresent(it -> {
-            throw new BusinessLogicException(ExceptionCode.ALREADY_LIKED, String.format("%s 는 이미 %s 댓글의 좋아요를 눌렀습니다.", email, articleCommentId));
-        });
-        commentLikeRepository.save(CommentLike.of(member, articleComment, 1));
+        Optional<CommentLike> optionalCommentLike = commentLikeRepository.findByMemberAndArticleComment(member, articleComment);
+        if (optionalCommentLike.isPresent()){
+            CommentLike like = optionalCommentLike.get();
+            if (like.getValue() > 0){
+                like.setValue(0);
+                commentLikeRepository.save(like);
+            } else {
+                like.setValue(1);
+                commentLikeRepository.save(like);
+            }
+        } else {
+            commentLikeRepository.save(CommentLike.of(member, articleComment, 1));
+        }
     }
 
     //TODO: 성능개선 방법검토

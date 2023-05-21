@@ -23,3 +23,6 @@ cloud:
       static: ap-northeast-2
     stack:
       auto: false
+
+openai:
+  api-key: ${OPEN_AI_KEY}

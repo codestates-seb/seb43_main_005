@@ -17,7 +17,7 @@ public class ArticleCommentDto {
     private String content;
     private Long articleId;
     private String articleTitle;
-    private Integer like;
+    private int like;
     private MemberDto member;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

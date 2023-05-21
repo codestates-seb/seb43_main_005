@@ -22,7 +22,8 @@ public enum ExceptionCode {
     INTERNAL_SERVER_ERROR(500, "내부 서버 오류"),
     CONTENT_NOT_FOUND(404,"컨텐츠를 찾을 수 없음"),
     QUIZ_NOT_FOUND(404,"퀴즈를 찾을 수 없음"),
-    QUIZRESULT_NOT_FOUND(404, "퀴즈결과를 찾을 수 없음"),
+    QUIZRESULT_NOT_FOUND(404, "퀴즈 결과를 찾을 수 없음"),
+    QUIZRESULT_EXISTS(409, "퀴즈 결과가 이미 존재함"),
     LEARN_NOT_FOUND(404, "학습 내용을 찾을 수 없음"),
     CHECK_NOT_FOUND(404, "학습내용 현황을 찾을 수 없음"),
     CHECK_PROGRESS_NOT_FOUND(404, "진행률을 찾을 수 없음")

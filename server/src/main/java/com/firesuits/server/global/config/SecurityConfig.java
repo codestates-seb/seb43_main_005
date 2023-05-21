@@ -56,6 +56,7 @@ public class SecurityConfig {
                         .permitAll()
                         .antMatchers("/oauth2/authorization/**").permitAll()
                         .antMatchers("/login/oauth2/code/*").permitAll()
+                        .antMatchers("/chat").permitAll()
                         .antMatchers("/members", "/members/login").permitAll()
                         .antMatchers("/members/password-reset-request", "/members/password-reset").permitAll()
                         .antMatchers("/members/**").hasAnyRole("USER", "ADMIN")
