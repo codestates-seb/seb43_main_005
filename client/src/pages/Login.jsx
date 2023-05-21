@@ -40,23 +40,6 @@ export default function Login() {
         });
     }
   };
-  // oauth
-  // const urlParams = new URLSearchParams(window.location.search);
-  // if (urlParams) {
-  //   const access_token = urlParams.get("access_token");
-  //   const refresh_token = urlParams.get("refresh_token");
-  //   localStorage.setItem("access_token", { access_token });
-  //   localStorage.setItem("refresh_token", { refresh_token });
-  // }
-
-  let accessToken = new URL(location.href).searchParams.get("access_token");
-  let refreshToken = new URL(location.href).searchParams.get("refresh_token");
-  if (accessToken || refreshToken) {
-    localStorage.setItem("accessToken", accessToken);
-    localStorage.setItem("refreshToken", refreshToken);
-  }
-
-  // location.href = 'my-page.html'
 
   return (
     <PageContainer>
@@ -90,12 +73,14 @@ export default function Login() {
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
           <div>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/google");
-              }}>
-              <img src={google} alt="googleLogo" />
-            </button>
+            <a href="http://localhost:8080/oauth2/authorization/google">
+              <button
+                onClick={() => {
+                  navigate("/oauth2/authorization/google");
+                }}>
+                <img src={google} alt="googleLogo" />
+              </button>
+            </a>
             <button
               onClick={() => {
                 navigate("/oauth2/authorization/kakao");
