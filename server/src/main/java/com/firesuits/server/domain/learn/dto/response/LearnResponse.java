@@ -1,12 +1,10 @@
 package com.firesuits.server.domain.learn.dto.response;
 
-import com.firesuits.server.domain.content.dto.response.ContentResponse;
 import com.firesuits.server.domain.learn.dto.LearnDto;
-import com.firesuits.server.domain.member.dto.response.MemberResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+
 
 @AllArgsConstructor
 @Getter

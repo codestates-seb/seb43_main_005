@@ -7,14 +7,15 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ContentProgressResponse {
-
-    private String title;
+    private Long contentProgressId;
     private Double progress;
+    private ContentResponse content;
 
     public static ContentProgressResponse from(ContentProgressDto dto){
         return new ContentProgressResponse(
-                dto.getContent().getTitle(),
-                dto.getProgress()
+                dto.getContentProgressId(),
+                dto.getProgress(),
+                ContentResponse.from(dto.getContent())
         );
     }
 }

@@ -44,7 +44,7 @@ public class ContentProgressService {
 
         //learnCheck true 개수로 progress 계산
         List<LearnCheck> learnCheckslist = learnCheckRepository.findAllByMemberAndLearn_ContentBoard_ContentId(member, contentId);
-        double completedCount = learnCheckslist.stream().filter(LearnCheck::isCompleted).count();
+        double completedCount = learnCheckslist.stream().filter(LearnCheck::getCompleted).count();
         double progress = completedCount / learnCheckslist.size() * 100;
 
         contentProgress.setProgress(progress);
@@ -62,6 +62,10 @@ public class ContentProgressService {
     public Page<ContentProgressDto> listContentProgress(String email, Pageable pageable){
         Member member = memberOrException(email);
 
+        List<ContentProgress> contentProgresses = contentProgressRepository.findByAllContentProgress(member.getMemberId());
+        if(contentProgresses.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND);
+        }
         return contentProgressRepository.findAllByContentProgress(member.getMemberId(),pageable).map(ContentProgressDto::from);
     }
 
@@ -74,4 +78,6 @@ public class ContentProgressService {
         return contentRepository.findById(contentId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 컨텐츠가 존재 하지 않습니다.", contentId)));
     }
+
+
 }

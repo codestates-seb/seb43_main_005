@@ -2,8 +2,7 @@ package com.firesuits.server.domain.content.controller;
 
 import com.firesuits.server.domain.content.dto.ContentDto;
 import com.firesuits.server.domain.content.dto.ContentProgressDto;
-import com.firesuits.server.domain.content.dto.request.ContentCreateRequest;
-import com.firesuits.server.domain.content.dto.request.ContentUpdateRequest;
+import com.firesuits.server.domain.content.dto.request.ContentRequest;
 import com.firesuits.server.domain.content.dto.response.ContentProgressResponse;
 import com.firesuits.server.domain.content.dto.response.ContentResponse;
 import com.firesuits.server.domain.content.entity.Content;
@@ -28,7 +27,7 @@ public class ContentController {
     }
 
     @PostMapping
-    public Response<Void> create(@RequestBody ContentCreateRequest request, Authentication authentication){
+    public Response<Void> create(@RequestBody ContentRequest request, Authentication authentication){
         contentService.create(request.getTitle(), request.getContentImg(),authentication.getName());
 
         return Response.success();
@@ -36,8 +35,7 @@ public class ContentController {
 
     @PatchMapping("/{content-id}")
     public Response<ContentResponse> update(@PathVariable("content-id") Long contentId,
-                                            @RequestBody ContentUpdateRequest request, Authentication authentication){
-
+                                       @RequestBody ContentRequest request, Authentication authentication){
         ContentDto contentDto = contentService.update(request.getTitle(), request.getContentImg(), authentication.getName(), contentId);
         return Response.success(ContentResponse.from(contentDto));
     }
