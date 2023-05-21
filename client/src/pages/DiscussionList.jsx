@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
 import searchImg from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
 import { getData } from "../api/apiUtil.js";
+import Empty from "../components/common/Empty.jsx";
+
 export default function Discussion() {
   const [body, setBody] = useState([]);
   const { userRole } = useSelector(state => state.user);
@@ -79,11 +81,14 @@ export default function Discussion() {
         })}
       </DiscussionList>
       <PageNation>123</PageNation>
-      {admin && (
-        <DiscussionCreat>
+      {/* 어드민만 보이도록 해야된다. */}
+
+      <DiscussionCreat totalArticle={body?.length}>
+        {!body?.length && <Empty />}
+        {admin && (
           <CustomButton text="토론글 등록" path="/admin/write/article" />
-        </DiscussionCreat>
-      )}
+        )}
+      </DiscussionCreat>
     </PageContainer>
   );
 }
@@ -127,8 +132,22 @@ const DiscussionList = styled.div`
   margin: 50px 0px;
 `;
 
+// ! Empty, admin button group
 const DiscussionCreat = styled.div`
-  float: right;
+  display: flex;
+  margin-top: 50px;
+  flex-direction: row-reverse;
+  ${({ totalArticle }) =>
+    !totalArticle &&
+    css`
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding-top: 50px;
+      button {
+        margin-top: 15px;
+      }
+    `}
 `;
 
 const PageNation = styled.div`
