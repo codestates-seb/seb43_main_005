@@ -81,6 +81,7 @@ export default function DiscussionDetail() {
   function removeTags(str) {
     return str.replace(/<\/?[^>]+(>|$)/g, "");
   }
+
   return (
     <PageContainer>
       <h2>Discussion</h2>

@@ -31,7 +31,6 @@ export default function Discussion() {
         console.error(error);
       });
   }, [sort]);
-
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -74,14 +73,12 @@ export default function Discussion() {
           />
         </Search>
       </Bar>
-      {/* 맵, 페이지네이션, 어드민 토론글 작성  */}
       <DiscussionList>
         {body.map(item => {
           return <Discussions body={item} key={item.articleId} />;
         })}
       </DiscussionList>
       <PageNation>123</PageNation>
-      {/* 어드민만 보이도록 해야된다. */}
       {admin && (
         <DiscussionCreat>
           <CustomButton text="토론글 등록" path="/admin/write/article" />
