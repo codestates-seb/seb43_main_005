@@ -49,6 +49,15 @@ export default function Login() {
     localStorage.setItem("refresh_token", { refresh_token });
   }
 
+  // let accessToken = new URL(location.href).searchParams.get("access_token");
+  // let refreshToken = new URL(location.href).searchParams.get("refresh_token");
+  // if (accessToken || refreshToken) {
+  //   localStorage.setItem("accessToken", accessToken);
+  //   localStorage.setItem("refreshToken", refreshToken);
+  // }
+
+  // location.href = 'my-page.html'
+
   return (
     <PageContainer>
       <LoginWrap>
