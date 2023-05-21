@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomButton from "./CustomButton.jsx";
 
 export default function Empty({ button, text = "데이터가 없습니다." }) {
-  const admin = true; // 임시변수
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
   const feat = {
     course: "강의 등록",
     quiz: "퀴즈 등록",
