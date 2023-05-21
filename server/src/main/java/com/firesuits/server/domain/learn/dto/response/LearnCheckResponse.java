@@ -11,16 +11,14 @@ public class LearnCheckResponse {
     private Long learnCheckId;
     private Boolean completed;
     private ContentProgressResponse contentProgress;
-    private Long learnId;
-    private String title;
+    private LearnResponse learn;
 
     public static LearnCheckResponse from(LearnCheckDto dto){
         return new LearnCheckResponse(
                 dto.getLearnCheckId(),
                 dto.getCompleted(),
                 ContentProgressResponse.from(dto.getContentProgress()),
-                dto.getLearn().getLearnId(),
-                dto.getLearn().getTitle()
+                LearnResponse.from(dto.getLearn())
         );
     }
 
