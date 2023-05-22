@@ -70,7 +70,6 @@ public class ContentController {
     }
 
     //진짜 contentProgress 조회
-
     @GetMapping("/{contentId}/progress")
     public Response<ContentProgressResponse> getProgress(@PathVariable Long contentId, Authentication authentication){
         ContentProgressDto contentProgressDto = contentProgressService.getContentProgress(contentId, authentication.getName());
