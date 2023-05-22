@@ -57,7 +57,6 @@ public class QuizService {
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
         quizRepository.delete(quiz);
-
     }
 
     @Transactional
