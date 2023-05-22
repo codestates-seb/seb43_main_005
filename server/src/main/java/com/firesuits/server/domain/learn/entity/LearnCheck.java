@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.learn.entity;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.global.audit.AuditingFields;
@@ -19,13 +20,13 @@ public class LearnCheck extends AuditingFields {
     private Long learnCheckId;
     private Boolean completed;
     @ManyToOne
-    @JoinColumn(name = "member_Id")
+    @JoinColumn(name = "member_id")
     private Member member;
     @ManyToOne
-    @JoinColumn(name = "learn_Id")
+    @JoinColumn(name = "learn_id")
     private Learn learn;
     @ManyToOne
-    @JoinColumn(name = "contentProgress_Id")
+    @JoinColumn(name = "contentProgress_id")
     private ContentProgress contentProgress;
 
     public static LearnCheck of(Learn learn, Member member, ContentProgress contentProgress){
