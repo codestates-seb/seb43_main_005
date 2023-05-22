@@ -11,14 +11,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LearnRepository extends JpaRepository<Learn, Long> {
     @Query("SELECT c FROM Learn c WHERE c.contentBoard.id = :contentId")
     Page<Learn> findAllByContent(@Param("contentId") Long contentId, Pageable pageable);
-
-
- //   Learn findByLearnAndContent_Learn(Long learnId, Content contentBoard, Member member);
+    @Query("SELECT c FROM Learn c WHERE c.learnId = :learnId and c.contentBoard = :contentBoard")
+    Optional<Learn> findByLearnAndContentAndLearn(@Param("learnId")Long learnId, Content contentBoard);
 
     @Query("SELECT c FROM Learn c WHERE c.contentBoard.id = :contentId")
     List<Learn> findByContentId(@Param("contentId") Long contentId);

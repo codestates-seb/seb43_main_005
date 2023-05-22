@@ -59,8 +59,9 @@ public class LearnService {
         Learn learn = learnOrException(learnId);
         Content contentBoard = contentOrException(contentId);
 
-      //  learn = learnRepository.findByLearnAndContent_Learn(learn.getLearnId(),contentBoard,member);
-        return LearnDto.from(learn);
+        Learn checkLearn = learnRepository.findByLearnAndContentAndLearn(learn.getLearnId(), contentBoard)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.INVALID_REQUEST));
+        return LearnDto.from(checkLearn);
     }
     @Transactional(readOnly = true)
     public Page<LearnDto> list(Long contentId, String email, Pageable pageable){
