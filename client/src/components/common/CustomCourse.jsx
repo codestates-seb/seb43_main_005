@@ -32,16 +32,18 @@ export default function CustomCourse({ feat = "default", item, progress = 0 }) {
       e.preventDefault();
       return;
     }
-    const apiUrl = `contents/${id}`;
-    // 프로그래스 생성
-    await getData(`${apiUrl}/access`);
+
     // 진입할 첫번째 learnId 추출 (learnId는 고유한 값이기 때문에 다른 코스라하더라도 중복되면 안됨)
-    const { result } = await getData(`${apiUrl}/learns`);
-    const learnId = !!result.totalElements && result.content[0]?.learnId;
-    if (!learnId) {
-      // 예외처리 - 강의 내 생성된 학습 컨텐츠가 없을때
+    try {
+      // 프로그래스 생성
+      const apiUrl = `contents/${id}`;
+      const { result } = await getData(`${apiUrl}/learns`);
+      const learnId = !!result.totalElements && result.content[0]?.learnId;
+      await getData(`${apiUrl}/access`);
+      navigate(`/course/${id}/learn/${learnId}`);
+    } catch {
       openAlert();
-    } else navigate(`/course/${id}/learn/${learnId}`);
+    }
   };
 
   return (
@@ -49,13 +51,15 @@ export default function CustomCourse({ feat = "default", item, progress = 0 }) {
       {
         // 예외처리 - 강의 내 생성된 학습 컨텐츠가 없을때 Alert
         alert && (
-          <Alert closeAlert={closeAlert} ment={["학습 컨텐츠가 없습니다"]} />
+          <Alert
+            redirect={false}
+            closeAlert={closeAlert}
+            ment={["학습 컨텐츠가 없습니다"]}
+          />
         )
       }
       <Thumnail>
-        <Link onClick={e => handleAccess(e)}>
-          {<img src={thumnail} alt="" />}
-        </Link>
+        <Link onClick={handleAccess}>{<img src={thumnail} alt="" />}</Link>
       </Thumnail>
       <Title>
         {feat === "default" ? (

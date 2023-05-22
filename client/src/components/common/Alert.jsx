@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 export default function Alert({
   closeAlert,
   ment = ["토큰이 만료되었습니다.", "다시 로그인 해주세요"],
+  redirect = true,
 }) {
   const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       closeAlert();
-      navigate("/");
+      redirect && navigate("/");
     }, 1000);
     return () => clearTimeout(timer);
   }, []);
