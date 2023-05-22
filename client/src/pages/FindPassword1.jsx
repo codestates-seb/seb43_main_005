@@ -45,6 +45,16 @@ export default function FindPassword() {
           />
           <ButtonGroup type="submit">이메일 보내기</ButtonGroup>
         </InputBundle>
+        <LoginNavigate>
+          비밀번호가 생각났나요?
+          <span
+            onClick={() => {
+              navigate("/user/signup");
+            }}
+            aria-hidden="true">
+            로그인
+          </span>
+        </LoginNavigate>
       </LoginWrap>
     </PageContainer>
   );
@@ -79,7 +89,21 @@ const ButtonGroup = styled.button`
   padding: 10px;
   border-radius: 10px;
   border: 1px solid black;
+  margin-bottom: 50px;
   background-color: ${({ theme }) => theme.whiteOp50};
   color: ${({ theme }) => theme.black};
   cursor: pointer;
+`;
+
+const LoginNavigate = styled.div`
+  white-space: normal;
+  font-size: 0.875em;
+  text-align: center;
+  color: ${({ theme }) => theme.gray100};
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.black};
+    cursor: pointer;
+    margin-left: 8px;
+  }
 `;
