@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
 
-export default function Alert({ closeAlert }) {
+export default function Alert({
+  closeAlert,
+  ment = ["토큰이 만료되었습니다.", "다시 로그인 해주세요"],
+}) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,8 +19,9 @@ export default function Alert({ closeAlert }) {
   return (
     <AlertBack>
       <AlertContainer>
-        <p>토큰이 만료되었습니다.</p>
-        <p className="ment">다시 로그인 해주세요</p>
+        {ment?.map((el, i) => (
+          <p key={i}>{el}</p>
+        ))}
       </AlertContainer>
     </AlertBack>
   );
@@ -57,9 +61,9 @@ const AlertContainer = styled.div`
   p {
     line-height: 1.5em;
     color: ${({ theme }) => theme.white};
-  }
-  .ment:after {
-    content: "｡°(°.◜ᯅ◝°)°｡";
-    padding-left: 10px;
+    &:last-of-type:after {
+      content: "｡°(°.◜ᯅ◝°)°｡";
+      padding-left: 10px;
+    }
   }
 `;
