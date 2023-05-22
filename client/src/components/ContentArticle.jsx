@@ -1,21 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomButton from "./common/CustomButton.jsx";
-import { useParams } from "react-router-dom";
 import useModal from "../hooks/useModal.js";
 import Dialog from "../components/common/Dialog.jsx";
+import { getData } from "../api/apiUtil.js";
 
-export default function ContentArticle({ item }) {
-  const admin = true; // 임시 변수
-  const { id } = useParams();
-  const editPath = `/admin/edit/course/${id}/content/${item?.learnId}`;
-  const deletePath = `/contents/${id}/learns/${item?.learnId}`;
+export default function ContentArticle({ id, item }) {
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole !== "ADMIN";
   const [dialog, openDialog, closeDialog] = useModal();
 
-  // quiz Test
-  const quiz = true;
-  const quizEditPath = `/admin/edit/course/${id}/quiz/${item?.quizId}`;
-  const quizDeletePath = `/contents/${id}/quizzes/${item?.quizId}`;
+  // ! content API path
+  const editPath = `/admin/edit/course/${id}/content/${item?.learnId}`;
+  const deletePath = `/contents/${id}/learns/${item?.learnId}`;
 
   return (
     <ContentWrap>
@@ -44,28 +42,14 @@ export default function ContentArticle({ item }) {
           closeDialog={closeDialog}
         />
       )}
-      {quiz && (
-        <AdminWrap>
-          <CustomButton
-            text="퀴즈 수정"
-            feat="tag"
-            mode="patch"
-            path={quizEditPath}
-            item={item}
-          />
-          <CustomButton text="게시글 삭제" feat="tag" onClick={openDialog} />
-        </AdminWrap>
-      )}
     </ContentWrap>
   );
 }
 const ContentWrap = styled.div`
-  max-width: 1020px;
-  width: 90%;
-  margin: 0 auto;
-  padding-top: 70px;
+  padding-bottom: 30px;
   h1 {
     font-size: 2.3em;
+    margin-bottom: 40px;
   }
   h2 {
     font-size: 1.8em;
@@ -85,6 +69,28 @@ const ContentWrap = styled.div`
   }
   img {
     max-width: 100%;
+  }
+  blockquote {
+    padding: 10px 20px;
+    background-color: ${({ theme }) => theme.disabeld};
+    position: relative;
+    line-height: 1.2em;
+    &:before {
+      content: "";
+      display: block;
+      width: 10px;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: ${({ theme }) => theme.main};
+    }
+  }
+  ul li {
+    padding: 5px 0;
+  }
+  strong {
+    font-family: "GmarketSansBold", cursive;
   }
 `;
 const AdminWrap = styled.div`
