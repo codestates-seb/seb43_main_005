@@ -34,11 +34,10 @@ export default function AdminWrite({ mode = "post" }) {
           ? `/contents/${courseId}/quizzes`
           : `/contents/${courseId}/quizzes/${id}`,
       fields: [
-        { key: "content", value: "내용" },
+        { key: "detail", value: "내용" },
         { key: "example", value: "예시" },
         { key: "correct", value: "정답" },
         { key: "commentary", value: "해설" },
-        { key: "result", value: "결과" },
       ],
     },
     content: {
@@ -66,7 +65,7 @@ export default function AdminWrite({ mode = "post" }) {
   const [title, titleReset] = useInput(item?.title || "");
   const [content, conentReset] = useInput(item?.content || "", "editor");
   // course, content, article
-  // const [detail, detailReset] = useInput(item?.detail || "", "editor");
+  const [detail, detailReset] = useInput(item?.detail || "", "editor");
   const [example, exampleReset] = useInput(item?.example || "", "editor");
   const [correct, correctReset] = useInput(item?.correct ? "O" : "X");
   const [commentary, comentaryReset] = useInput(
@@ -80,6 +79,7 @@ export default function AdminWrite({ mode = "post" }) {
     contentImg,
     title,
     content,
+    detail,
     example,
     commentary,
     result,
@@ -90,7 +90,7 @@ export default function AdminWrite({ mode = "post" }) {
   const interceptor = () => {
     // 강좌수정시 대표사진 변경안하면 500 -> 요청 전에 /upload로 이미지 요청 보내기 때문
     // edit 모드에서 이미지 payload가 없다면 img요청 안하고 바로 return
-    if (!payload) return;
+    if (!payload) return contentImg.preview;
     return getImagesUrl(payload).then(res => res.result);
   };
   const handleSubmit = async e => {
@@ -104,11 +104,10 @@ export default function AdminWrite({ mode = "post" }) {
           }
         : feat === "quiz"
         ? {
-            detail: content.value,
+            detail: detail.value,
             example: example.value,
             correct: correct.value === "O" ? true : false,
             commentary: commentary.value,
-            result: result.value,
           }
         : {
             title: title.value,
@@ -119,8 +118,8 @@ export default function AdminWrite({ mode = "post" }) {
       console.log(res);
       navigate("/");
     });
-    // console.log(payload);
-    // console.log(types[feat].path);
+    console.log(payload);
+    console.log(types[feat].path);
     // console.log(mode);
   };
 

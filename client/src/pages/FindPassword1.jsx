@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
+  const navigate = useNavigate();
   const [emailAlert, setEmailAlert] = useState("");
   const [email, setEmail] = useState("");
   let data = { email };
-  useEffect(() => {
-    setEmailAlert(email === "" ? "이메일을 입력해주세요" : "");
-  }, [email]);
-  const onSubmitHandler = async event => {
+  const onSubmitHandler = event => {
     event.preventDefault();
-
-    try {
-      await updateData(data, `/members/password-reset-request`, "post");
-      // 요청이 성공하면 페이지 이동
-      // window.location.href = "/user/login";
-    } catch (error) {
-      // 요청이 실패한 경우 에러 처리
-      console.error(error);
-      setEmailAlert("이메일을 확인해주세요");
+    const newEmailAlert = email === "" ? "이메일을 입력해주세요" : "";
+    setEmailAlert(newEmailAlert);
+    if (newEmailAlert === "") {
+      updateData(data, `/members/password-reset-request`, "post")
+        .then(() => {
+          navigate("user/findpw/2");
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   };
   return (

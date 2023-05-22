@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import CustomButton from "../components/common/CustomButton.jsx";
 import Comment from "../components/common/Comment.jsx";
@@ -15,36 +15,10 @@ export default function DiscussionDetail() {
   const [body, setBody] = useState([]);
   const [commentBody, setCommentBody] = useState([]);
   const [comment, setComment] = useState("");
+  const [sortTool, setSortTool] = useState(1);
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
-
   let data = { content: `<p>${comment}</p>` };
-  function CreactComment() {
-    updateData(data, `/article/${id}/articleComments`, "post")
-      .then(res => {
-        console.log(res);
-        setComment("");
-        window.location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
-  function DeleteComment(articleCommentId) {
-    updateData(
-      data,
-      `/article/${id}/articleComments/${articleCommentId}`,
-      "Delete"
-    )
-      .then(res => {
-        console.log(res);
-        setComment("");
-        window.location.reload();
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }
   useEffect(() => {
     getData(`article/${id}`)
       .then(data => {
@@ -61,6 +35,28 @@ export default function DiscussionDetail() {
         console.error(error);
       });
   }, []);
+  function CreactComment() {
+    if (comment !== "") {
+      updateData(data, `/article/${id}/articleComments`, "post")
+        .then(res => {
+          console.log(res);
+          setComment("");
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+  function SortButton(sort) {
+    getData(`article/${id}/articleComments?${sort}`)
+      .then(data => {
+        setCommentBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return (
     <PageContainer>
@@ -92,12 +88,29 @@ export default function DiscussionDetail() {
         <span dangerouslySetInnerHTML={{ __html: body.title }} />
         <span dangerouslySetInnerHTML={{ __html: body.content }} />
       </Subject>
-      {/* 탭으로 만들어야한다. 누르면 색깔 변하게 */}
-      <CommitBar>
+      <CommitBar sortTool={sortTool}>
         <div>댓글 {body.commentCount}</div>
-        <button>등록순</button>
-        <button>최신순</button>
-        <button>추천순</button>
+        <button
+          onClick={() => {
+            setSortTool(1);
+            SortButton("");
+          }}>
+          작성순
+        </button>
+        <button
+          onClick={() => {
+            setSortTool(2);
+            SortButton("sort=createdAt");
+          }}>
+          최신순
+        </button>
+        <button
+          onClick={() => {
+            setSortTool(3);
+            SortButton("sort=likes");
+          }}>
+          추천순
+        </button>
       </CommitBar>
       <Comments>
         {commentBody.map(item => {
@@ -107,11 +120,9 @@ export default function DiscussionDetail() {
               profile="true"
               feat="tool"
               key={item.articleCommentId}
-              DeleteComment={DeleteComment}
             />
           );
         })}
-
         <CommentInput>
           <textarea
             maxLength="200"
@@ -145,25 +156,45 @@ const Subject = styled.div`
   border: solid 1px ${({ theme }) => theme.black};
 
   & > :nth-child(1) {
+    font-size: 1.25em;
     padding: 30px;
-    height: 100px;
+    word-break: break-all;
   }
 
   & > :nth-child(2) {
     border-top: solid 1px ${({ theme }) => theme.black};
     padding: 30px;
-    min-height: 150px;
+    min-height: 100px;
     word-break: break-all;
   }
 `;
 
 const CommitBar = styled.div`
   display: flex;
-
+  align-items: center;
+  * {
+    font-size: 1.25em;
+  }
   div {
     margin-right: 20px;
   }
+
+  & > :nth-child(2) {
+    ${({ sortTool }) =>
+      sortTool === 1 &&
+      css`
+        color: ${({ theme }) => theme.color.main};
+        font-weight: bold;
+      `};
+  }
+
   & > :nth-child(3) {
+    ${({ sortTool }) =>
+      sortTool === 2 &&
+      css`
+        color: ${({ theme }) => theme.color.main};
+        font-weight: bold;
+      `};
     ::before {
       content: "";
       display: inline-block;
@@ -180,6 +211,14 @@ const CommitBar = styled.div`
       margin-right: 10px;
       border-right: 1px solid ${props => props.theme.gray100};
     }
+  }
+  & > :nth-child(4) {
+    ${({ sortTool }) =>
+      sortTool === 3 &&
+      css`
+        color: ${({ theme }) => theme.color.main};
+        font-weight: bold;
+      `};
   }
 `;
 
