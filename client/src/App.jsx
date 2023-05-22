@@ -113,7 +113,8 @@ function App() {
         </Route>
         {/* Admin path 접근 제한 */}
       </Routes>
-      <ChatBot></ChatBot>
+
+      {!hideHeaderFooter && <ChatBot />}
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
   );
