@@ -66,11 +66,11 @@ public class LearnCheckService {
 
         contentProgressService.updateContentProgress(email, contentId);
     }
-
     @Transactional(readOnly = true)
     public LearnCheckDto findById(Long contentId, Long learnId, Long learnCheckId, String email){
         Member member = memberOrException(email);
         LearnCheck learnCheck = learnCheckOrException(learnCheckId);
+
         checkLearnCheckAndMember(learnCheck,member,email,learnCheckId);
         return LearnCheckDto.from(learnCheck);
     }

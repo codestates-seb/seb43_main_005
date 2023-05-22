@@ -26,9 +26,10 @@ public class LearnCheckController {
     @PatchMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<Void> update(@PathVariable Long contentId,
                                  @PathVariable Long learnId,
-                                 @PathVariable Long learnCheckId,
+                                 @PathVariable Long learnCheck
                                  @RequestBody LearnCheckRequest request, Authentication authentication) {
         learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(), contentId, learnId, learnCheckId);
+
         return Response.success();
     }
 
@@ -37,12 +38,13 @@ public class LearnCheckController {
                                             @PathVariable Long learnId,
                                             @PathVariable Long learnCheckId, Authentication authentication) {
         LearnCheckDto learnCheckDto = learnCheckService.findById(contentId, learnId, learnCheckId, authentication.getName());
+
         return Response.success(LearnCheckResponse.from(learnCheckDto));
     }
 
     @GetMapping("/{contentId}/learns/learnChecks")
     public Response<Page<LearnCheckResponse>> list(@PathVariable Long contentId,
-                                                   Authentication authentication, Pageable pageable) {
+                                                   Authentication authentication, Pageable pageable ){
         return Response.success(learnCheckService.list(contentId, authentication.getName(), pageable).map(LearnCheckResponse::from));
     }
 }
