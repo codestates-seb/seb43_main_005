@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
-import AuthInput from "../components/AuthInput.jsx";
+import AuthInput from "../components/common/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
   const navigate = useNavigate();
