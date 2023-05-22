@@ -64,6 +64,9 @@ public class ContentService {
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
+
+        List<Learn> learns = learnRepository.findByContentId(contentId);
+        learnRepository.deleteAll(learns);
         contentRepository.delete(content);
     }
 
