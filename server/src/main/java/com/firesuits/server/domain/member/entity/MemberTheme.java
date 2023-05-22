@@ -11,6 +11,6 @@ public enum MemberTheme {
     forestDark,
     spaceLight,
     spaceDark,
-    puppyLight,
-    kittyDark
+    petLight,
+    petDark
 }
