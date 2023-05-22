@@ -62,7 +62,7 @@ function App() {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme !== null) {
       setSelectedTheme(savedTheme);
-      console.log(savedTheme);
+      // console.log(savedTheme);
     }
   };
 
@@ -84,7 +84,6 @@ function App() {
         />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
-        <Route path="/user/error" element={<ErrorPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/course" element={<Course />} />
@@ -106,6 +105,7 @@ function App() {
           path="/admin/edit/course/:courseId/:feat/:id"
           element={<AdminWrite mode="patch" />}
         />
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>

@@ -6,15 +6,23 @@ export default function ThemeCircle({ eachTheme, onClick, opened }) {
   const eTheme = themes[eachTheme];
   return (
     <>
-      {opened ? (
-        <ThemeImg theme={eTheme} onClick={onClick}></ThemeImg>
-      ) : (
-        <LockedImg />
-      )}
+      <ThemeCircleBox>
+        {opened ? (
+          <ThemeImg theme={eTheme} onClick={onClick}></ThemeImg>
+        ) : (
+          <LockedImg />
+        )}
+        <div>{eachTheme}</div>
+      </ThemeCircleBox>
     </>
   );
 }
-
+const ThemeCircleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-transform: capitalize;
+`;
 const ThemeImg = styled.div`
   width: 0px;
   height: 0px;

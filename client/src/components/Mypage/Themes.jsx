@@ -14,6 +14,7 @@ export default function Themes() {
 
   // 유저의 경험치가 해당 레벨에 도달하지 않았을 경우 : 기본 설정으로 자물쇠 이미지 넣기
   // 유저 인포 가져와서 경험치로 레벨 확인하고나서 opened 여부 내려주기?
+  // 경험치 별로 유저 레벨을 계산해놓고... idx 가 레벨보다 크면 setOpened(false)
   const [opened, setOpened] = useState(true);
 
   const themeList = ["default", "ocean", "desert", "forest", "space", "pet"];
