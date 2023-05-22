@@ -15,8 +15,9 @@ export default function FindPassword() {
     setEmailAlert(newEmailAlert);
     if (newEmailAlert === "") {
       updateData(data, `/members/password-reset-request`, "post")
-        .then(() => {
-          navigate("user/findpw/2");
+        .then(res => {
+          console.log(res);
+          navigate("/user/findpw/2");
         })
         .catch(error => {
           console.error(error);
