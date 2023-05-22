@@ -12,31 +12,45 @@ import earth from "../assets/images/imgEarth.png";
 import ProfileImage from "../components/common/ProfileImage.jsx";
 import Empty from "../components/common/Empty.jsx";
 import today from "../components/common/Date.jsx";
-import Alert from "../components/common/Alert.jsx";
+import useModal from "../hooks/useModal";
+import TestModal from "../components/Main/TestModal.jsx";
 
 export default function Main({ userInfo }) {
   const [course, setCourse] = useState(null);
   const [article, setArticle] = useState(null);
   const [dashboard, setDashboard] = useState(null);
+  const [modal, openModal, closeModal] = useModal();
+  const { userTest } = useSelector(state => state.user);
 
   // ! Get main data
   const sliceData = async (path, slice = 2) => {
     const { result } = await getData(`/${path}?size=${slice}&page=0`);
     const { content } = result;
-
-    if (path === "article") {
-      setArticle(content);
-    } else {
-      setCourse(content);
-      const [tempo] = content;
-      setDashboard(tempo); // tempo
+    switch (path) {
+      case "article":
+        setArticle(content);
+        break;
+      case "contents":
+        setCourse(content);
+        break;
+      case "contents/progress":
+        setDashboard(...content);
+        break;
     }
   };
 
   // ! mbti 테스트 유도 모달
   const checkMbti = () => {
+    const expirationTime = Number(localStorage.getItem("expirationTime"));
     if (userInfo.memberMbti === "테스트전") {
-      console.log("d");
+      const currentTime = new Date().getTime();
+      if (currentTime > expirationTime) {
+        // !userTest && openModal();
+        openModal();
+      }
+    } else {
+      expirationTime && localStorage.removeItem("expirationTime");
+      return;
     }
   };
 
@@ -48,13 +62,13 @@ export default function Main({ userInfo }) {
       let attendedDate = res.result;
       if (!attendedDate[0] === today) {
         localStorage.removeitem("attendance_date");
-        console.log(res);
-        console.log("출첵 아직");
-        console.log(today);
+        // console.log(res);
+        // console.log("출첵 아직");
+        // console.log(today);
       } else if (attendedDate[0] === today) {
         // 오늘 date와 일치하면 출석 버튼색상 반전하고 disabled 설정해놓기
-        console.log(res);
-        console.log("이미 출첵완료");
+        // console.log(res);
+        // console.log("이미 출첵완료");
         setAttended(true);
       }
     });
@@ -63,7 +77,13 @@ export default function Main({ userInfo }) {
   useEffect(() => {
     sliceData("article");
     sliceData("contents", 3);
+    userInfo && sliceData("contents/progress", 1);
     userInfo && attendanceCheck();
+    if (userInfo) {
+      setTimeout(() => {
+        checkMbti();
+      }, 1000);
+    }
     userInfo && checkMbti();
   }, [userInfo]);
   // useEffect(() => {
@@ -74,6 +94,13 @@ export default function Main({ userInfo }) {
 
   return (
     <MainContainer>
+      {modal && (
+        <TestModal
+          userTest={userTest}
+          userName={userInfo?.nickName}
+          closeModal={closeModal}
+        />
+      )}
       <VisualArea>
         <h2>
           Set Sail on <br /> Your Coding Voyage!
@@ -112,7 +139,11 @@ export default function Main({ userInfo }) {
                   </a>
                 </Title>
                 <Content className="dashboard">
-                  <CustomCourse feat="progress" item={dashboard} />
+                  <CustomCourse
+                    feat="progress"
+                    item={dashboard?.content}
+                    progress={dashboard?.progress}
+                  />
                 </Content>
               </>
             ) : (

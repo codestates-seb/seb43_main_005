@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
+// 메인 테스트 유도모달 상태변경
+import useTestModal from "../hooks/useTestModal.js";
 import KakaoShateBtn from "../components/mbti/KakaoShateBtn.jsx";
 // 이미지를 불러옵니다.
 import kakaoIcon from "../assets/images/icon_sns_kakao.svg";
@@ -15,6 +17,9 @@ function MbtiResult(props) {
   const mbti = searchParams.get("mbti");
   //mbti state
   const [resultData, setResultData] = useState({});
+
+  // 메인 테스트 유도모달 상태변경
+  useTestModal();
 
   useEffect(() => {
     const mbtiResultObj = mbtiResultData.find(el => el.mbti === mbti);
