@@ -5,6 +5,8 @@ import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
 import searchImg from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
+// eslint-disable-next-line import/no-unresolved
+import Pagination from "../components/common/Pagination";
 import { getData } from "../api/apiUtil.js";
 import Empty from "../components/common/Empty.jsx";
 
@@ -15,6 +17,9 @@ export default function Discussion() {
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+
   function SearchInput() {
     getData(`/article/search?keyword=${search}`)
       .then(data => {
@@ -25,14 +30,15 @@ export default function Discussion() {
       });
   }
   useEffect(() => {
-    getData(`/article?${sort}&size=20`)
+    getData(`/article?${sort}&page=${page}`)
       .then(data => {
         setBody(data.result.content);
+        setTotalPages(data.result.totalPages);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [sort]);
+  }, [sort, page]);
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -80,8 +86,7 @@ export default function Discussion() {
           return <Discussions body={item} key={item.articleId} />;
         })}
       </DiscussionList>
-      <PageNation>123</PageNation>
-      {/* 어드민만 보이도록 해야된다. */}
+      <Pagination page={page} setPage={setPage} totalPages={totalPages} />
 
       <DiscussionCreat totalArticle={body?.length}>
         {!body?.length && <Empty />}
@@ -148,8 +153,4 @@ const DiscussionCreat = styled.div`
         margin-top: 15px;
       }
     `}
-`;
-
-const PageNation = styled.div`
-  text-align: center;
 `;

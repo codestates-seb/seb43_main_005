@@ -8,6 +8,8 @@ import Comment from "../components/common/Comment.jsx";
 import { getData, updateData } from "../api/apiUtil.js";
 import useModal from "../hooks/useModal.js";
 import Dialog from "../components/common/Dialog.jsx";
+// eslint-disable-next-line import/no-unresolved
+import Pagination from "../components/common/Pagination";
 
 export default function DiscussionDetail() {
   const { userRole } = useSelector(state => state.user);
@@ -18,6 +20,8 @@ export default function DiscussionDetail() {
   const [sortTool, setSortTool] = useState(1);
   const [patchCommentCount, setPatchCommentCount] = useState(0);
   const [patchComment, setPatchComment] = useState("");
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
   let data = { content: `<p>${comment}</p>` };
@@ -30,14 +34,15 @@ export default function DiscussionDetail() {
       .catch(error => {
         console.error(error);
       });
-    getData(`article/${id}/articleComments`)
+    getData(`article/${id}/articleComments?page=${page}`)
       .then(data => {
         setCommentBody(data.result.content);
+        setTotalPages(data.result.totalPages);
       })
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  }, [page]);
   function CreactComment() {
     if (comment !== "") {
       updateData(data, `/article/${id}/articleComments`, "post")
@@ -165,6 +170,11 @@ export default function DiscussionDetail() {
                   </button>
                   <button onClick={PatchCommentInput}>수정하기</button>
                 </form>
+                <Pagination
+                  page={page}
+                  setPage={setPage}
+                  totalPages={totalPages}
+                />
               </CommentPatch>
             </ContainerCommentPatch>
           );
@@ -180,12 +190,15 @@ export default function DiscussionDetail() {
           <div>
             <button
               onClick={() => {
-                CreactComment;
+                CreactComment();
               }}>
               댓글등록
             </button>
           </div>
         </CommentInput>
+        <PaginationContainer>
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+        </PaginationContainer>
       </Comments>
       <MoveList>
         <CustomButton text="목록보기" feat="round" path="/discussion" />
@@ -341,4 +354,7 @@ const CommentPatch = styled.div`
 
 const MoveList = styled.div`
   text-align: right;
+`;
+const PaginationContainer = styled.div`
+  margin-bottom: 48px;
 `;
