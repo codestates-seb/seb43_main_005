@@ -59,7 +59,7 @@ export default function Signup() {
           console.error(error);
           const errorMessage = error.response.data.message;
           errorMessage
-            ? setPasswordAlert(`${errorMessage}합니다.`)
+            ? setEssentialAlert(`${errorMessage}합니다.`)
             : setPasswordAlert("이메일과 비밀번호를 확인해주세요");
         });
     } else {
