@@ -177,7 +177,14 @@ export default function DiscussionDetail() {
             onInput={e => {
               setComment(e.target.value);
             }}></textarea>
-          <button onClick={CreactComment}>댓글등록</button>
+          <div>
+            <button
+              onClick={() => {
+                CreactComment;
+              }}>
+              댓글등록
+            </button>
+          </div>
         </CommentInput>
       </Comments>
       <MoveList>
@@ -293,9 +300,11 @@ const CommentInput = styled.div`
       outline: none;
     }
   }
+  div {
+    text-align: right;
+  }
   button {
     color: ${({ theme }) => theme.mainHover};
-    text-align: right;
   }
 `;
 
