@@ -1,7 +1,9 @@
 package com.firesuits.server.domain.learn.service;
 
+import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.entity.ContentProgress;
 import com.firesuits.server.domain.content.repository.ContentProgressRepository;
+import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.content.service.ContentProgressService;
 import com.firesuits.server.domain.learn.dto.LearnCheckDto;
 import com.firesuits.server.domain.learn.entity.Learn;
@@ -27,13 +29,15 @@ public class LearnCheckService {
     private final LearnRepository learnRepository;
     private final ContentProgressService contentProgressService;
     private final ContentProgressRepository contentProgressRepository;
+    private final ContentRepository contentRepository;
 
-    public LearnCheckService(MemberRepository memberRepository, LearnCheckRepository learnCheckRepository, LearnRepository learnRepository, ContentProgressService contentProgressService, ContentProgressRepository contentProgressRepository) {
+    public LearnCheckService(MemberRepository memberRepository, LearnCheckRepository learnCheckRepository, LearnRepository learnRepository, ContentProgressService contentProgressService, ContentProgressRepository contentProgressRepository, ContentRepository contentRepository) {
         this.memberRepository = memberRepository;
         this.learnCheckRepository = learnCheckRepository;
         this.learnRepository = learnRepository;
         this.contentProgressService = contentProgressService;
         this.contentProgressRepository = contentProgressRepository;
+        this.contentRepository = contentRepository;
     }
 
     @Transactional
@@ -50,9 +54,13 @@ public class LearnCheckService {
     }
 
     @Transactional
-    public void updateLearnCheck(boolean completed,  String email, Long learnCheckId){
+    public void updateLearnCheck(boolean completed,  String email, Long contentId, Long learnId, Long learnCheckId){
         Member member = memberOrException(email);
         LearnCheck learnCheck = learnCheckOrException(learnCheckId);
+
+        if(!(learnCheck.getLearn().getContentBoard().getContentId().equals(contentId) && learnCheck.getLearn().getLearnId().equals(learnId))){
+            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
+        }
 
         if (!learnCheck.getMember().equals(member)){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION);
@@ -60,27 +68,29 @@ public class LearnCheckService {
 
         learnCheck.setCompleted(completed);
 
-        Long contentId = learnCheck.getLearn().getContentBoard().getContentId();
-        contentProgressService.updateContentProgress(email, contentId);
+        contentProgressService.updateContentProgress(email,contentId);
     }
-
     @Transactional(readOnly = true)
-    public LearnCheckDto findById(Long learnCheckId, String email){
+    public LearnCheckDto findById(Long contentId, Long learnId, Long learnCheckId, String email){
         Member member = memberOrException(email);
         LearnCheck learnCheck = learnCheckOrException(learnCheckId);
+
+        if(!(learnCheck.getLearn().getContentBoard().getContentId().equals(contentId) && learnCheck.getLearn().getLearnId().equals(learnId))){
+            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
+        }
+
         checkLearnCheckAndMember(learnCheck,member,email,learnCheckId);
         return LearnCheckDto.from(learnCheck);
     }
 
     @Transactional(readOnly = true)
-    public Page<LearnCheckDto> list(String email, Pageable pageable) {
+    public Page<LearnCheckDto> list(Long contentId, Long learnId, String email, Pageable pageable) {
         Member member = memberOrException(email);
 
         List<LearnCheck> learnChecks = learnCheckRepository.findAllByLearnCheck(member.getMemberId());
         if(learnChecks.isEmpty()){
             throw new BusinessLogicException(ExceptionCode.CHECK_NOT_FOUND);
         }
-
         return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), pageable).map(LearnCheckDto::from);
     }
 
@@ -102,5 +112,9 @@ public class LearnCheckService {
         if (!Objects.equals(learnCheck.getMember().getMemberId(), member.getMemberId())){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION, String.format("%s 는 %s 학습에 대한 진행 여부 권한을 가지고 있지 않습니다.", email, learnCheckId));
         }
+    }
+    private Content contentOrException(Long contentId){
+        return contentRepository.findById(contentId).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.CONTENT_NOT_FOUND, String.format("%s 번의 컨텐츠가 존재 하지 않습니다.", contentId)));
     }
 }
