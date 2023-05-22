@@ -31,6 +31,7 @@ import CourseOXquiz from "./pages/CourseOXquiz.jsx";
 import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
+import AdminRoute from "./components/route/AdminRoute.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -92,22 +93,26 @@ function App() {
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/admin/write/:feat" element={<AdminWrite />} />
         <Route path="/course/:id/learn/:learnId" element={<CouresDetail />} />
         <Route path="/course/:id/quiz" element={<CourseOXquiz />} />
-        <Route
-          path="/admin/write/course/:courseId/:feat"
-          element={<AdminWrite />}
-        />
-        <Route
-          path="/admin/edit/:feat/:id"
-          element={<AdminWrite mode="patch" />}
-        />
-        <Route
-          path="/admin/edit/course/:courseId/:feat/:id"
-          element={<AdminWrite mode="patch" />}
-        />
+        {/* Admin path 접근 제한 */}
+        <Route element={<AdminRoute />}>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/write/:feat" element={<AdminWrite />} />
+          <Route
+            path="/admin/write/course/:courseId/:feat"
+            element={<AdminWrite />}
+          />
+          <Route
+            path="/admin/edit/:feat/:id"
+            element={<AdminWrite mode="patch" />}
+          />
+          <Route
+            path="/admin/edit/course/:courseId/:feat/:id"
+            element={<AdminWrite mode="patch" />}
+          />
+        </Route>
+        {/* Admin path 접근 제한 */}
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
