@@ -1,6 +1,5 @@
 package com.firesuits.server.domain.learn.dto.response;
 
-import com.firesuits.server.domain.content.dto.response.ContentProgressResponse;
 import com.firesuits.server.domain.learn.dto.LearnCheckDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

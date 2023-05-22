@@ -58,10 +58,6 @@ public class LearnCheckService {
         Member member = memberOrException(email);
         LearnCheck learnCheck = learnCheckOrException(learnCheckId);
 
-        if(!(learnCheck.getLearn().getContentBoard().getContentId().equals(contentId) && learnCheck.getLearn().getLearnId().equals(learnId))){
-            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
-        }
-
         if (!learnCheck.getMember().equals(member)){
             throw new BusinessLogicException(ExceptionCode.INVALID_PERMISSION);
         }
@@ -75,23 +71,21 @@ public class LearnCheckService {
         Member member = memberOrException(email);
         LearnCheck learnCheck = learnCheckOrException(learnCheckId);
 
-        if(!(learnCheck.getLearn().getContentBoard().getContentId().equals(contentId) && learnCheck.getLearn().getLearnId().equals(learnId))){
-            throw new BusinessLogicException(ExceptionCode.INVALID_REQUEST);
-        }
-
         checkLearnCheckAndMember(learnCheck,member,email,learnCheckId);
         return LearnCheckDto.from(learnCheck);
     }
 
     @Transactional(readOnly = true)
-    public Page<LearnCheckDto> list(Long contentId, Long learnId, String email, Pageable pageable) {
+    public Page<LearnCheckDto> list(Long contentId, String email, Pageable pageable) {
         Member member = memberOrException(email);
+        Content content = contentOrException(contentId);
 
         List<LearnCheck> learnChecks = learnCheckRepository.findAllByLearnCheck(member.getMemberId());
-        if(learnChecks.isEmpty()){
+        boolean contentNot = learnChecks.stream().anyMatch(learnCheck -> learnCheck.getLearn().getContentBoard().getContentId() == contentId);
+        if(learnChecks.isEmpty() || !contentNot ){
             throw new BusinessLogicException(ExceptionCode.CHECK_NOT_FOUND);
         }
-        return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), pageable).map(LearnCheckDto::from);
+        return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), content.getContentId(), pageable).map(LearnCheckDto::from);
     }
 
     private Member memberOrException(String email){

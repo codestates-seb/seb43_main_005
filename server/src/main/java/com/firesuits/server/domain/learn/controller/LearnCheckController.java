@@ -23,7 +23,7 @@ public class LearnCheckController {
         this.learnCheckService = learnCheckService;
     }
 
-    @PatchMapping("/{contentId}/learns/{learnId}/learnCheck/{learnCheckId}")
+    @PatchMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<Void> update(@PathVariable Long contentId,
                                  @PathVariable Long learnId,
                                  @PathVariable Long learnCheckId,
@@ -32,7 +32,7 @@ public class LearnCheckController {
         return Response.success();
     }
 
-    @GetMapping("/{contentId}/learns/{learnId}/learnCheck/{learnCheckId}")
+    @GetMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<LearnCheckResponse> get(@PathVariable Long contentId,
                                             @PathVariable Long learnId,
                                             @PathVariable Long learnCheckId, Authentication authentication){
@@ -40,10 +40,9 @@ public class LearnCheckController {
         return Response.success(LearnCheckResponse.from(learnCheckDto));
     }
 
-    @GetMapping("/{contentId}/learns/{learnId}/learnCheck")
+    @GetMapping("/{contentId}/learns/learnChecks")
     public Response<Page<LearnCheckResponse>> list(@PathVariable Long contentId,
-                                                   @PathVariable Long learnId,
                                                    Authentication authentication, Pageable pageable ){
-        return Response.success(learnCheckService.list(contentId,learnId, authentication.getName(), pageable).map(LearnCheckResponse::from));
+        return Response.success(learnCheckService.list(contentId, authentication.getName(), pageable).map(LearnCheckResponse::from));
     }
 }

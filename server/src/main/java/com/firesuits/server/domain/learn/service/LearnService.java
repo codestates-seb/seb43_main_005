@@ -4,6 +4,7 @@ import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.learn.dto.LearnDto;
 import com.firesuits.server.domain.learn.entity.Learn;
+import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.learn.repository.LearnRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -44,7 +46,7 @@ public class LearnService {
         learn.setContent(content);
         return LearnDto.from(learnRepository.save(learn));
     }
-
+    @Transactional
     public void delete(String email, Long contentId, Long learnId){
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
@@ -62,6 +64,11 @@ public class LearnService {
     public Page<LearnDto> list(Long contentId, String email, Pageable pageable){
         Member member = memberOrException(email);
         Content contentBoard = contentOrException(contentId);
+
+        List<Learn> learn = learnRepository.findByContentId(contentId);
+        if(learn.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.LEARN_NOT_FOUND);
+        }
         return learnRepository.findAllByContent(contentBoard.getContentId(), pageable).map(LearnDto::from);
     }
 

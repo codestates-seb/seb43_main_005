@@ -51,7 +51,7 @@ public class ContentProgressService {
 
         contentProgress.setProgress(progress);
     }
-
+    //ContentProgress 단건 조회
     public ContentProgressDto getContentProgress(Long contentId, String email){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
@@ -60,7 +60,7 @@ public class ContentProgressService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.CHECK_PROGRESS_NOT_FOUND));
         return ContentProgressDto.from(contentProgress);
     }
-
+    //ContentProgress 전체 조회
     public Page<ContentProgressDto> listContentProgress(String email, Pageable pageable){
         Member member = memberOrException(email);
 

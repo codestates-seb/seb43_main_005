@@ -58,7 +58,7 @@ public class ContentService {
 
         return ContentDto.from(contentRepository.save(content));
     }
-
+    @Transactional(readOnly = true)
     public void delete(String email, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
