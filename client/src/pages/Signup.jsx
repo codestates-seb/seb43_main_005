@@ -16,7 +16,7 @@ export default function Signup() {
   const [checkPW, setCheckPW] = useState("");
   const [essentialAlert, setEssentialAlert] = useState("");
   const [passwordAlert, setPasswordAlert] = useState("");
-
+  let baseUrl = process.env.REACT_APP_BASE_URL;
   let data = {
     email: email.trim(),
     password: password.trim(),
@@ -118,24 +118,15 @@ export default function Signup() {
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
           <div>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/google");
-              }}>
+            <a href={`${baseUrl}oauth2/authorization/google`}>
               <img src={google} alt="googleLogo" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/kakao");
-              }}>
+            </a>
+            <a href={`${baseUrl}oauth2/authorization/kakao`}>
               <img src={kakao} alt="kakaoLogo" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/naver");
-              }}>
+            </a>
+            <a href={`${baseUrl}oauth2/authorization/naver`}>
               <img src={naver} alt="naverLogo" />
-            </button>
+            </a>
           </div>
           <div>
             이미 계정이 있으신가요?

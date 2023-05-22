@@ -9,6 +9,7 @@ import naver from "../assets/images/icon_sns_naver.svg";
 import { updateData } from "../api/apiUtil.js";
 
 export default function Login() {
+  let baseUrl = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
@@ -73,26 +74,15 @@ export default function Login() {
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
           <div>
-            <a href="http://localhost:8080/oauth2/authorization/google">
-              <button
-                onClick={() => {
-                  navigate("/oauth2/authorization/google");
-                }}>
-                <img src={google} alt="googleLogo" />
-              </button>
+            <a href={`${baseUrl}oauth2/authorization/google`}>
+              <img src={google} alt="googleLogo" />
             </a>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/kakao");
-              }}>
+            <a href={`${baseUrl}oauth2/authorization/kakao`}>
               <img src={kakao} alt="kakaoLogo" />
-            </button>
-            <button
-              onClick={() => {
-                navigate("/oauth2/authorization/naver");
-              }}>
+            </a>
+            <a href={`${baseUrl}oauth2/authorization/naver`}>
               <img src={naver} alt="naverLogo" />
-            </button>
+            </a>
           </div>
           <div>
             아직 회원이 아니신가요?
