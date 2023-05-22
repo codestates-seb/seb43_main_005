@@ -29,7 +29,7 @@ public class Learn extends AuditingFields {
 
     // learn 보드의 content와 변수명이 똑같아서 수정
     @ManyToOne
-    @JoinColumn(name = "content_Id")
+    @JoinColumn(name = "content_id")
     private Content contentBoard;
 
     @OneToMany(mappedBy = "learn", cascade = CascadeType.ALL)

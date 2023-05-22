@@ -26,7 +26,7 @@ public class LearnCheckController {
     @PatchMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<Void> update(@PathVariable Long contentId,
                                  @PathVariable Long learnId,
-                                 @PathVariable Long learnCheck
+                                 @PathVariable Long learnCheckId,
                                  @RequestBody LearnCheckRequest request, Authentication authentication) {
         learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(), contentId, learnId, learnCheckId);
 
