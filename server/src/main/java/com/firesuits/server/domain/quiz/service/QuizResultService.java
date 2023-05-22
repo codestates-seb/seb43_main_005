@@ -43,7 +43,7 @@ public class QuizResultService {
         Boolean checkPoint;
 
         // quizId와 memberId가 같은 경우는 하나이기 때문에 true 인경우 exist exception 호출
-        Boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberId(quizId, member.getMemberId());
+        Boolean isExist = quizResultRepository.existsByQuizQuizIdAndMemberMemberIdAndContentContentId(quizId, member.getMemberId(), content.getContentId());
         if(isExist){
             throw new BusinessLogicException(ExceptionCode.QUIZRESULT_EXISTS, String.format("%s의 결과가 이미 존재합니다.", quizId));
         }
@@ -66,10 +66,13 @@ public class QuizResultService {
 
     // 퀴즈 결과 단건 조회
     @Transactional
-    public QuizResultDto findQuizResult(Long quizResultId, Long quizId, String email){
-        memberOrException(email);
-        quizOrException(quizId);
+    public QuizResultDto findQuizResult(Long quizResultId, Long quizId, String email, Long contentId){
+        Member member = memberOrException(email);
+        Quiz quiz = quizOrException(quizId);
+        Content content = contentOrException(contentId);
         QuizResult quizResult = quizResultIdOrException(quizResultId);
+
+        quizResult = quizResultRepository.findByQuizResultIdAndContentAndAndQuizAndMember(quizResult.getQuizResultId(), content, quiz, member);
 
         return QuizResultDto.from(quizResult);
     }
