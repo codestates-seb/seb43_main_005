@@ -60,5 +60,4 @@ public class LearnController {
     public Response<Page<LearnResponse>> list(@PathVariable Long contentId, Authentication authentication, Pageable pageable){
         return Response.success(learnService.list(contentId, authentication.getName(), pageable).map(LearnResponse::from));
     }
-
 }

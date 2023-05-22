@@ -15,7 +15,7 @@ public class LearnCheckDto {
     private Boolean completed;
     private MemberDto member;
     private LearnDto learn;
-    private ContentProgressDto contentProgress;
+    private ContentProgressDto contentProgressDto;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

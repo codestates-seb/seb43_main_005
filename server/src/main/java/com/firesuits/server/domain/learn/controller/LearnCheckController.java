@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/learn-checks")
+@RequestMapping("/contents")
 public class LearnCheckController {
     private final LearnCheckService learnCheckService;
 
@@ -23,21 +23,26 @@ public class LearnCheckController {
         this.learnCheckService = learnCheckService;
     }
 
-    @PatchMapping("/{learnCheckId}")
-    public Response<Void> update(@PathVariable Long learnCheckId,
+    @PatchMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
+    public Response<Void> update(@PathVariable Long contentId,
+                                 @PathVariable Long learnId,
+                                 @PathVariable Long learnCheckId,
                                  @RequestBody LearnCheckRequest request, Authentication authentication){
-        learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(), learnCheckId);
+        learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(),contentId, learnId, learnCheckId);
         return Response.success();
     }
 
-    @GetMapping("/{learnCheckId}")
-    public Response<LearnCheckResponse> get(@PathVariable Long learnCheckId, Authentication authentication){
-        LearnCheckDto learnCheckDto = learnCheckService.findById(learnCheckId,authentication.getName());
+    @GetMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
+    public Response<LearnCheckResponse> get(@PathVariable Long contentId,
+                                            @PathVariable Long learnId,
+                                            @PathVariable Long learnCheckId, Authentication authentication){
+        LearnCheckDto learnCheckDto = learnCheckService.findById(contentId, learnId, learnCheckId,authentication.getName());
         return Response.success(LearnCheckResponse.from(learnCheckDto));
     }
 
-    @GetMapping
-    public Response<Page<LearnCheckResponse>> list(Authentication authentication, Pageable pageable){
-        return Response.success(learnCheckService.list(authentication.getName(), pageable).map(LearnCheckResponse::from));
+    @GetMapping("/{contentId}/learns/learnChecks")
+    public Response<Page<LearnCheckResponse>> list(@PathVariable Long contentId,
+                                                   Authentication authentication, Pageable pageable ){
+        return Response.success(learnCheckService.list(contentId, authentication.getName(), pageable).map(LearnCheckResponse::from));
     }
 }
