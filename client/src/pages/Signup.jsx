@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { updateData } from "../api/apiUtil.js";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/common/AuthInput.jsx";
-import { updateData } from "../api/apiUtil.js";
-import Oauth from "../components/Login/Oauth.jsx";
+import Oauth from "../components/Login/OauthInputBundle.jsx";
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ export default function Signup() {
   const [checkPW, setCheckPW] = useState("");
   const [essentialAlert, setEssentialAlert] = useState("");
   const [passwordAlert, setPasswordAlert] = useState("");
-  let baseUrl = process.env.REACT_APP_BASE_URL;
   let data = {
     email: email.trim(),
     password: password.trim(),
@@ -27,9 +26,9 @@ export default function Signup() {
     data["memberMbti"] = mbtidata;
   }
   // 비밀번호 조건
-  const isPasswordValid = pw => {
+  const isPasswordValid = password => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
-    return passwordRegex.test(pw);
+    return passwordRegex.test(password);
   };
 
   // 비밀번호 에러별 경고문구
@@ -44,33 +43,28 @@ export default function Signup() {
       return "";
     }
   };
-
+  const passwordAlertMessage = pwAlertCondition(password, checkPW);
+  const isEssentialInfoValid =
+    nickName === "" || email === "" ? "닉네임과 이메일을 입력해주세요." : "";
+  // 회원가입 핸들러
   const onSubmitHandler = event => {
     event.preventDefault();
-    const passwordAlertMessage = pwAlertCondition(password, checkPW);
-    setPasswordAlert(passwordAlertMessage);
-    const isEssentialInfoValid =
-      nickName === "" || email === "" ? "필수 정보 입니다." : "";
-    setEssentialAlert(isEssentialInfoValid);
-
     // 경고창과 비번조건 만족하면 post요청
-    if (isEssentialInfoValid === "" && passwordAlertMessage === "") {
-      if (isPasswordValid(password)) {
-        updateData(data, `/members`, "post")
-          .then(res => {
-            console.log(res);
-            navigate("/user/login");
-          })
-          .catch(error => {
-            console.error(error);
-            const errorMessage = error.response.data.message;
-            if (errorMessage) {
-              setPasswordAlert(`${errorMessage}합니다.`);
-            } else setPasswordAlert("이메일과 비밀번호를 확인해주세요");
-          });
-      } else {
-        setPasswordAlert("비밀번호가 유효하지 않습니다.");
-      }
+    if (passwordAlertMessage === "" && isEssentialInfoValid === "") {
+      updateData(data, `/members`, "post")
+        .then(res => {
+          navigate("/user/login");
+        })
+        .catch(error => {
+          console.error(error);
+          const errorMessage = error.response.data.message;
+          errorMessage
+            ? setPasswordAlert(`${errorMessage}합니다.`)
+            : setPasswordAlert("이메일과 비밀번호를 확인해주세요");
+        });
+    } else {
+      setEssentialAlert(isEssentialInfoValid);
+      setPasswordAlert(passwordAlertMessage);
     }
   };
 
@@ -108,11 +102,19 @@ export default function Signup() {
             alertMessage={passwordAlert}
             value={setCheckPW}
           />
-          <ButtonGroup type="submit">
-            <button>회원가입</button>
-          </ButtonGroup>
+          <ButtonGroup type="submit">회원가입</ButtonGroup>
         </InputBundle>
         <Oauth />
+        <LoginNavigate>
+          이미 계정이 있으세요?
+          <span
+            onClick={() => {
+              navigate("/user/login");
+            }}
+            aria-hidden="true">
+            로그인
+          </span>
+        </LoginNavigate>
       </LoginWrap>
     </PageContainer>
   );
@@ -120,7 +122,6 @@ export default function Signup() {
 
 const LoginWrap = styled.div`
   max-width: 445px;
-  width: 100%;
   margin: 0 auto;
 `;
 
@@ -136,16 +137,27 @@ const InputBundle = styled.form`
   }
 `;
 
-const ButtonGroup = styled.div`
-  button {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 20px 0px 10px 0px;
-    background-color: ${({ theme }) => theme.whiteOp50};
+const ButtonGroup = styled.button`
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 9px;
+  background-color: ${({ theme }) => theme.whiteOp50};
+  color: ${({ theme }) => theme.black};
+  border: 1px solid black;
+  cursor: pointer;
+  margin-bottom: 50px;
+`;
+
+const LoginNavigate = styled.div`
+  white-space: normal;
+  font-size: 0.875em;
+  text-align: center;
+  color: ${({ theme }) => theme.gray100};
+  span {
+    text-decoration: underline;
     color: ${({ theme }) => theme.black};
-    border: 1px solid black;
     cursor: pointer;
-    margin-bottom: 50px;
+    margin-left: 8px;
   }
 `;

@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { updateData } from "../api/apiUtil.js";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/common/AuthInput.jsx";
-import Oauth from "../components/Login/Oauth.jsx";
-
-import { updateData } from "../api/apiUtil.js";
+import Oauth from "../components/Login/OauthInputBundle.jsx";
 
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
+
+  let data = { email: email.trim(), password };
   // 로그인 핸들러
   const onSubmitHandler = event => {
     event.preventDefault();
     if (email === "" || password === "") {
       setLoginAlert("아이디 또는 비밀번호를 입력해주세요");
     } else {
-      let data = { email, password };
       updateData(data, "/members/login", "post")
         .then(res => {
           localStorage.removeItem("access_token");
@@ -61,6 +61,16 @@ export default function Login() {
           <ButtonGroup type="submit">로그인</ButtonGroup>
         </form>
         <Oauth />
+        <LoginNavigate>
+          아직 회원이 아니신가요?
+          <span
+            onClick={() => {
+              navigate("/user/signup");
+            }}
+            aria-hidden="true">
+            회원가입
+          </span>
+        </LoginNavigate>
       </LoginWrap>
     </PageContainer>
   );
@@ -90,4 +100,17 @@ const ButtonGroup = styled.button`
   border: 1px solid black;
   cursor: pointer;
   margin-bottom: 50px;
+`;
+
+const LoginNavigate = styled.div`
+  white-space: normal;
+  font-size: 0.875em;
+  text-align: center;
+  color: ${({ theme }) => theme.gray100};
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.black};
+    cursor: pointer;
+    margin-left: 8px;
+  }
 `;
