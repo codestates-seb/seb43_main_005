@@ -170,11 +170,6 @@ export default function DiscussionDetail() {
                   </button>
                   <button onClick={PatchCommentInput}>수정하기</button>
                 </form>
-                <Pagination
-                  page={page}
-                  setPage={setPage}
-                  totalPages={totalPages}
-                />
               </CommentPatch>
             </ContainerCommentPatch>
           );
@@ -188,12 +183,7 @@ export default function DiscussionDetail() {
               setComment(e.target.value);
             }}></textarea>
           <div>
-            <button
-              onClick={() => {
-                CreactComment();
-              }}>
-              댓글등록
-            </button>
+            <button onClick={CreactComment}>댓글등록</button>
           </div>
         </CommentInput>
         <PaginationContainer>
