@@ -49,10 +49,10 @@ public class QuizController {
     }
 
     @GetMapping("/quizzes/{quiz-id}")
-    public Response<QuizResponse> get(@PathVariable("quiz-id") Long quizId,
-                                      @PathVariable("content-id") Long contentId,
+    public Response<QuizResponse> get(@PathVariable("content-id") Long contentId,
+                                      @PathVariable("quiz-id") Long quizId,
                                       Authentication authentication){
-        QuizDto quizDto = quizService.findById(quizId , authentication.getName());
+        QuizDto quizDto = quizService.findByQuiz(quizId, contentId, authentication.getName());
         return Response.success(QuizResponse.from(quizDto));
     }
 

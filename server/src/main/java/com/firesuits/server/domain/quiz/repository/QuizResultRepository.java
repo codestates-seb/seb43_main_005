@@ -1,12 +1,10 @@
 package com.firesuits.server.domain.quiz.repository;
 
-import com.firesuits.server.domain.quiz.dto.QuizResultDto;
+import com.firesuits.server.domain.content.entity.Content;
+import com.firesuits.server.domain.member.entity.Member;
+import com.firesuits.server.domain.quiz.entity.Quiz;
 import com.firesuits.server.domain.quiz.entity.QuizResult;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,7 +14,7 @@ public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
 
 
     // 멤버가 이미 푼 퀴즈 결과 확인
-    Boolean existsByQuizQuizIdAndMemberMemberId(Long quizId, Long memberId);
+    Boolean existsByQuizQuizIdAndMemberMemberIdAndContentContentId(Long quizId, Long memberId, Long contentId);
 
     // 퀴즈 결과 응답 갯수
     int countByQuizQuizIdIsNotNullAndContentContentId(Long content_id);
@@ -33,4 +31,6 @@ public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
     Page<QuizResultDto> findAllByContentIdAndMemberId(@Param("contentId") Long contentId, @Param("memberId") Long memberId, Pageable pageable);
 
      */
+
+    QuizResult findByQuizResultIdAndContentAndAndQuizAndMember(Long quizResultId, Content content, Quiz quiz, Member member);
 }
