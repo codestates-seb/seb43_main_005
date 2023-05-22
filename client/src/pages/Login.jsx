@@ -14,30 +14,40 @@ export default function Login() {
   let [password, setPassword] = useState("");
   const [loginAlert, setLoginAlert] = useState("");
   let data = { email, password };
-
   // 로그인 버튼 핸들러
-  const onSubmitHandler = async event => {
-    // 버튼만 누르면 리로드 되는것을 막아줌
+  const onSubmitHandler = event => {
     event.preventDefault();
-    setLoginAlert(
-      (email === "" || password === "") && "아이디 또는 비밀번호를 입력해주세요"
-    );
-    if (email === "" || password === "") return;
+    const newLoginAlert =
+      email === "" || password === ""
+        ? "아이디 또는 비밀번호를 입력해주세요"
+        : "";
+    setLoginAlert(newLoginAlert);
     // 성공하면 "/으로이동"
-    try {
-      await updateData(data, `/members/login`, "post").then(res => {
-        localStorage.setItem("access_token", res.authorization);
-        localStorage.setItem("refresh_token", res.refresh);
-      });
-      // 요청이 성공하면 페이지 이동
-
-      navigate("/");
-    } catch (error) {
-      // 요청이 실패한 경우 에러 처리
-      console.error(error);
-      setLoginAlert("아이디와 비밀번호를 확인해주세요");
+    if (newLoginAlert === "") {
+      updateData(data, "/members/login", "post")
+        .then(res => {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          localStorage.setItem("access_token", res.authorization);
+          localStorage.setItem("refresh_token", res.refresh);
+          console.log(res);
+          navigate("/");
+        })
+        .catch(res => {
+          console.error(res);
+          setLoginAlert("아이디와 비밀번호를 확인해주세요");
+          console.log(res.response.data.message);
+        });
     }
   };
+  // oauth
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams) {
+    const access_token = urlParams.get("access_token");
+    const refresh_token = urlParams.get("refresh_token");
+    localStorage.setItem("access_token", { access_token });
+    localStorage.setItem("refresh_token", { refresh_token });
+  }
 
   return (
     <PageContainer>
@@ -61,14 +71,11 @@ export default function Login() {
             onClick={() => {
               navigate("/user/findpw/1");
             }}
-            // 이거 안넣으면 오류뜸
             aria-hidden="true">
             비밀번호를 잊으셨나요?
           </PasswordFinder>
           <ButtonGroup>
             <button type="submit">로그인</button>
-            {/* 로그인 실패시 뜨게할 창 */}
-            {/* <p className={loginFailed}>Login failed</p> */}
           </ButtonGroup>
         </form>
         <AuthButton>
@@ -76,19 +83,19 @@ export default function Login() {
           <div>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/google");
+                navigate("/oauth2/authorization/google");
               }}>
               <img src={google} alt="googleLogo" />
             </button>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/kakao");
+                navigate("/oauth2/authorization/kakao");
               }}>
               <img src={kakao} alt="kakaoLogo" />
             </button>
             <button
               onClick={() => {
-                navigate("http://localhost:8080/oauth2/authorization/naver");
+                navigate("/oauth2/authorization/naver");
               }}>
               <img src={naver} alt="naverLogo" />
             </button>

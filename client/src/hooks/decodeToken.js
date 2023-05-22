@@ -7,10 +7,10 @@ export const decodeToken = () => {
     const now = Date.now().valueOf() / 1000;
     let isValid;
     if (decodeToken.exp < now) {
-      console.log("토큰 만료");
+      // console.log("토큰 만료");
       isValid = false;
     } else {
-      console.log("토큰 유효");
+      // console.log("토큰 유효");
       isValid = true;
     }
 

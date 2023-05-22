@@ -6,7 +6,7 @@ export default function SearchBar({ value }) {
   return (
     <Search>
       <input type="search" {...value} />
-      <button type="submit" aria-label="검색버튼">
+      <button type="button" aria-label="검색버튼">
         <SearchIcon width="3em" />
       </button>
     </Search>

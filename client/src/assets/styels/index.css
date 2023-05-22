@@ -21,36 +21,3 @@
 }
 @import url("https://fonts.googleapis.com/css2?family=Shrikhand&display=swap");
 /* import Fonts */
-
-:root {
-  --brand-color: #39896b;
-  --brand-color-hover-light: #e5f0ec;
-  --brand-color-hover: #2b6d55;
-  --sub-color: #fae928;
-  --bg-color: #ffefe7;
-  --text-color: #495057;
-  --text-bold: #343a40;
-  --gray-200: #868e96;
-  /* sub-text */
-  --gray-100: #adb5bd;
-  /* 댓글 날짜 etc */
-  --gray-50: #dee2e6;
-  /* progress bg, 구분선 etc */
-  --black: #000000;
-  --black-op50: rgba(0, 0, 0, 50%);
-  --white: #ffffff;
-  --white-op50: rgba(255, 255, 255, 50%);
-  --blue: #339af0;
-  --red: #ff6b6b;
-
-  --border-bold: 1px solid #343a40;
-  --border-light: 1px solid #dee2e6;
-  --border-main: 1px solid #39896b;
-}
-
-/* html 에 클래스명을 변경해줘서 document.documentElement.classList.add/remove('클래스명') */
-/* 바꿀 색상 : main, bg, text, textBold? */
-html.oceanLight {
-  --brand-color: #5EC0CB;
-  --bg-color: #FBF2EA;
-}

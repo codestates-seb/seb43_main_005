@@ -48,7 +48,7 @@ export default function HeaderUser({ profileImage }) {
           onClick={handleDrop}
         />
       ) : (
-        <CustomButton text="login" feat="round" path="/user/login" />
+        <CustomButton text="LOGIN" feat="round" path="/user/login" />
       )}
       {drop && (
         <DropBox ref={dropRef}>

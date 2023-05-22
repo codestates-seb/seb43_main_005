@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
@@ -47,25 +47,31 @@ export default function Signup() {
     }
   };
 
-  const onSubmitHandler = async event => {
-    // 버튼만 누르면 리로드 되는것을 막아줌
+  const onSubmitHandler = event => {
     event.preventDefault();
+    const passwordAlertMessage = pwAlertCondition(password, checkPW);
+    setPasswordAlert(passwordAlertMessage);
+    const isEssentialInfoValid =
+      nickName === "" || email === "" ? "필수 정보 입니다." : "";
+    setEssentialAlert(isEssentialInfoValid);
 
-    // alert
-    setEssentialAlert(
-      nickName === "" || email === "" ? "필수 정보 입니다." : ""
-    );
-    setPasswordAlert(pwAlertCondition(password, checkPW));
-    // 알람이 빈값이면 서버에 post보내기
-
-    try {
-      await updateData(data, `/members`, "post");
-
-      navigate("/user/login");
-    } catch (error) {
-      console.error(error);
-      if (passwordAlert === "") {
-        setPasswordAlert("이메일과 비밀번호를 확인해주세요");
+    // 경고창과 비번조건 만족하면 post요청
+    if (isEssentialInfoValid === "" && passwordAlertMessage === "") {
+      if (isPasswordValid(password)) {
+        updateData(data, `/members`, "post")
+          .then(res => {
+            console.log(res);
+            navigate("/user/login");
+          })
+          .catch(error => {
+            console.error(error);
+            const errorMessage = error.response.data.message;
+            if (errorMessage) {
+              setPasswordAlert(`${errorMessage}합니다.`);
+            } else setPasswordAlert("이메일과 비밀번호를 확인해주세요");
+          });
+      } else {
+        setPasswordAlert("비밀번호가 유효하지 않습니다.");
       }
     }
   };
@@ -112,11 +118,24 @@ export default function Signup() {
         <AuthButton>
           <div className="line">SNS 계정으로 로그인</div>
           <div>
-            <button /* onClick={oAuthHandler} aria-hidden="true" */>
+            <button
+              onClick={() => {
+                navigate("/oauth2/authorization/google");
+              }}>
               <img src={google} alt="googleLogo" />
             </button>
-            <img src={kakao} alt="kakaoLogo" />
-            <img src={naver} alt="naverLogo" />
+            <button
+              onClick={() => {
+                navigate("/oauth2/authorization/kakao");
+              }}>
+              <img src={kakao} alt="kakaoLogo" />
+            </button>
+            <button
+              onClick={() => {
+                navigate("/oauth2/authorization/naver");
+              }}>
+              <img src={naver} alt="naverLogo" />
+            </button>
           </div>
           <div>
             이미 계정이 있으신가요?
@@ -124,7 +143,6 @@ export default function Signup() {
               onClick={() => {
                 navigate("/user/login");
               }}
-              // 이거 안넣으면 오류뜸
               aria-hidden="true">
               로그인
             </span>

@@ -18,7 +18,7 @@ export default function CustomCourse({ feat = "default", item }) {
   const id = item?.contentId;
   const thumnail = item?.contentImg;
   const title = item?.title;
-  const path = `/course/${id}`;
+  const path = `/course/${id}/learn/1`;
 
   return (
     <Course feat={feat}>

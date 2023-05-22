@@ -64,15 +64,17 @@ export default function Admin() {
           </BtnGroup>
           {contents?.length || quizzes ? (
             <Contents>
-              {contents?.map(content => (
-                <li key={content.learnId}>
-                  <Link to={`/course/${id}`}>{content.title}</Link>
+              {contents?.map(item => (
+                <li key={item.learnId}>
+                  <Link to={`/course/${id}/learn/${item.learnId}`}>
+                    {item.title}
+                  </Link>
                 </li>
               ))}
 
               {quizzes && (
                 <li>
-                  <Link to={`/course/${id}`}> OX 퀴즈</Link>
+                  <Link to={`/course/${id}/quiz`}> OX 퀴즈</Link>
                 </li>
               )}
             </Contents>

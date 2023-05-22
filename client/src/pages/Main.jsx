@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { getData, attendance } from "../api/apiUtil";
 import Banner from "../components/Main/Banner.jsx";
 import CustomCourse from "../components/common/CustomCourse.jsx";
@@ -11,6 +12,7 @@ import earth from "../assets/images/imgEarth.png";
 import ProfileImage from "../components/common/ProfileImage.jsx";
 import Empty from "../components/common/Empty.jsx";
 import today from "../components/common/Date.jsx";
+import Alert from "../components/common/Alert.jsx";
 
 export default function Main({ userInfo }) {
   const [course, setCourse] = useState(null);
@@ -28,6 +30,13 @@ export default function Main({ userInfo }) {
       setCourse(content);
       const [tempo] = content;
       setDashboard(tempo); // tempo
+    }
+  };
+
+  // ! mbti 테스트 유도 모달
+  const checkMbti = () => {
+    if (userInfo.memberMbti === "테스트전") {
+      console.log("d");
     }
   };
 
@@ -55,7 +64,8 @@ export default function Main({ userInfo }) {
     sliceData("article");
     sliceData("contents", 3);
     userInfo && attendanceCheck();
-  }, []);
+    userInfo && checkMbti();
+  }, [userInfo]);
   // useEffect(() => {
   //   // 유저 출석여부 확인
   //   // console.log(attended);
