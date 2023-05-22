@@ -143,4 +143,10 @@ public class MemberController {
         return Response.success(checkInDates);
     }
 
+    //멤버 경험치 수동
+    @PostMapping("/experience")
+    public Response<Void> addExperience(@RequestBody MemberExperienceRequest request, Authentication authentication){
+        memberService.addExperience(authentication.getName(), request.getExperience());
+        return Response.success();
+    }
 }
