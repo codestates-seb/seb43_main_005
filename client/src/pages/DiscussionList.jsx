@@ -85,11 +85,11 @@ export default function Discussion() {
         {body.map(item => {
           return <Discussions body={item} key={item.articleId} />;
         })}
+        {!body?.length && <Empty />}
       </DiscussionList>
       <Pagination page={page} setPage={setPage} totalPages={totalPages} />
 
       <DiscussionCreat totalArticle={body?.length}>
-        {!body?.length && <Empty />}
         {admin && (
           <CustomButton text="토론글 등록" path="/admin/write/article" />
         )}
