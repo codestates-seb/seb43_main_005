@@ -42,7 +42,6 @@ public class QuizService {
         Content content = contentOrException(contentId);
         checkQuizMember(quiz, member, email, quizId);
 
-        quiz.setContent(content);
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCommentary(commentary);
