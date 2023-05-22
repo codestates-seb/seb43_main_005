@@ -14,9 +14,9 @@ export default function MyComment() {
       })
       .catch(error => console.log(error));
   }
-  // useEffect(() => {
-  //   myCommentCheck();
-  // }, []);
+  useEffect(() => {
+    myCommentCheck();
+  }, []);
 
   // 임시 랜덤이미지 => 전역 상태에서 받아오기
   let userProfileImage = "https://source.unsplash.com/random/300x300/?animal";
@@ -24,31 +24,7 @@ export default function MyComment() {
   return (
     <>
       <DebateContainer className="DebateContainer">
-        <button onClick={myCommentCheck}>불러오기</button>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
+        {/* <button onClick={myCommentCheck}>불러오기</button> */}
         <CommentContainer>
           <ProfileImage profileImg={userProfileImage} feat="mycomment" />
           <CommentBox>

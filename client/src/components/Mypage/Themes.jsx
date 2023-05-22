@@ -1,47 +1,82 @@
 import styled from "styled-components";
 import ThemeCircle from "./ThemeCircle.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getData, updateData } from "../../api/apiUtil.js";
+import { useNavigate } from "react-router-dom";
+
+const themeList = [
+  { name: "default", level: 0 },
+  { name: "ocean", level: 1 },
+  { name: "desert", level: 2 },
+  { name: "forest", level: 3 },
+  { name: "space", level: 5 },
+  { name: "pet", level: 6 },
+];
 
 export default function Themes() {
+  const navigate = useNavigate();
+  // 임시 로컬스테이지 저장 => 서버에 보내기 (/members/theme)
   const handleThemeChange = value => {
-    // 유저가 바꾼 테마를 서버로 보내서 저장하기 => 임시로 로컬 스토리지에 저장
     localStorage.setItem("theme", value);
-    // console.log(`저장 : ${value}`);
-    // 다시 가져와서 상태 업데이트하기
-    // const savedTheme = localStorage.getItem("theme");
-    // setSelectedTheme(savedTheme);
+    const payload = { memberTheme: value };
+    updateData(payload, "/members/theme", "patch").then(res => {
+      console.log(res);
+      alert("테마 수정됨.");
+    });
+    localStorage.getItem("theme");
+    // 새로고침해서 적용되면 좋겠는데.. 아니면 모든 theme 을 바꿔줘야 하니까...
+    // location.reload();
   };
+  // 유저가 여러가지 골라보고 마이페이지에만 적용된 다음에, 적용 버튼 눌러서 저장하면 한번만 서버에 보내면 좋겠는데...
+  // app.js 에서 서버 정보를 불러와서 내려주고, 여기서는 로컬에 저장하고 바로 불러와서 보여주기? 저장할때 로컬에서 삭제하고 서버에 patch 요청 보내고...
+  // UI : 유저가 선택하고 있는 테마, 클릭한 테마에 이펙트
 
-  // 유저의 경험치가 해당 레벨에 도달하지 않았을 경우 : 기본 설정으로 자물쇠 이미지 넣기
-  // 유저 인포 가져와서 경험치로 레벨 확인하고나서 opened 여부 내려주기?
-  // 경험치 별로 유저 레벨을 계산해놓고... idx 가 레벨보다 크면 setOpened(false)
-  const [opened, setOpened] = useState(true);
+  // useEffect(() => {
+  //   getData("/members/info").then(res => {
+  //     // console.log(res.result.level);
+  //     setUserLv(res.result.level);
+  //   });
+  // }, []);
 
-  const themeList = ["default", "ocean", "desert", "forest", "space", "pet"];
+  const [userLv, setUserLv] = useState(2);
+  const [openedThemes, setOpenedThemes] = useState([]);
+
+  useEffect(() => {
+    const updatedOpenedThemes = themeList.map(theme => ({
+      ...theme,
+      opened: userLv >= theme.level,
+    }));
+    setOpenedThemes(updatedOpenedThemes);
+  }, [userLv]);
 
   return (
     <>
-      {themeList.map((el, idx) => {
+      {openedThemes.map(({ name, opened }, idx) => {
+        const themeKey = `theme_${idx}`;
         return (
-          <ThemeBox className="ThemeBox" key={idx}>
+          <ThemeBox className="ThemeBox_0" key={themeKey}>
             <span>Lv.{idx}</span>
-            <span> {el}</span>
+            <span> {name}</span>
             <Theme className="Theme">
               <ThemeCircle
-                value={`${el}Light`}
-                onClick={() => handleThemeChange(`${el}Light`)}
+                value={`${name}Light`}
+                onClick={() => {
+                  handleThemeChange(`${name}Light`);
+                }}
                 role="none"
-                eachTheme={`${el}Light`}
+                eachTheme={`${name}Light`}
                 opened={opened}>
-                {`${el}Light`}
+                {`${name}Light`}
               </ThemeCircle>
               <ThemeCircle
-                value={`${el}Dark`}
-                onClick={() => handleThemeChange(`${el}Dark`)}
+                value={`${name}Dark`}
+                onClick={() => {
+                  handleThemeChange(`${name}Dark`);
+                }}
                 role="none"
-                eachTheme={`${el}Dark`}
+                eachTheme={`${name}Dark`}
                 opened={opened}>
-                {`${el}Dark`}
+                {`${name}Dark`}
               </ThemeCircle>
             </Theme>
           </ThemeBox>

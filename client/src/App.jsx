@@ -46,26 +46,23 @@ function App() {
       if (isValid) {
         dispatch(fetchUserInfo());
         useScrollTop(10);
+        // // 테마 적용 => 마이페이지 내, 마이페이지->메인 이동시 적용 안됨
+        userInfo.memberTheme
+          ? setTheme(userInfo.memberTheme)
+          : setTheme("defaultLight");
       } else if (pathname !== "/") {
         openAlert();
       }
     }
-    getTheme();
   }, [pathname, dispatch]);
 
   // ! hide Header and Footer
   const hideHeaderFooter =
     pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
-
-  // 로컬스토리지(임시) theme 가져오기 => 추후 redux 로 변경 예정
-  const getTheme = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme !== null) {
-      setSelectedTheme(savedTheme);
-      // console.log(savedTheme);
-    }
+  const setTheme = memberTheme => {
+    setSelectedTheme(memberTheme);
+    console.log(`main ${memberTheme}`);
   };
-
   return (
     <ThemeProvider theme={themes[selectedTheme]}>
       <GlobalStyle />

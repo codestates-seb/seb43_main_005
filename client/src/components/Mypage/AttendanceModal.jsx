@@ -67,7 +67,7 @@ export default function AttendanceModal({ attended }) {
             </div>
             <div className="desc">
               <p>어서오세요, {userName}님!</p>
-              <p>출석 체크 하고 경험치(10xp) 받아가는 것을 잊지 마세요!</p>
+              <p>출석 체크 하고 경험치(20xp) 받아가는 것을 잊지 마세요!</p>
               <AttendanceImgBox>
                 <svg
                   width="82"
