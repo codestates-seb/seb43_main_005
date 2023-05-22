@@ -47,23 +47,27 @@ function App() {
       if (isValid) {
         dispatch(fetchUserInfo());
         useScrollTop(10);
-        // // 테마 적용 => 마이페이지 내, 마이페이지->메인 이동시 적용 안됨
-        userInfo.memberTheme
-          ? setTheme(userInfo.memberTheme)
-          : setTheme("defaultLight");
       } else if (pathname !== "/") {
         openAlert();
       }
     }
   }, [pathname, dispatch]);
 
+  useEffect(() => {
+    // 테마 적용
+    const setTheme = memberTheme => {
+      setSelectedTheme(memberTheme);
+      console.log(`main ${memberTheme}`);
+    };
+    userInfo?.memberTheme
+      ? setTheme(userInfo.memberTheme)
+      : setTheme("defaultLight");
+  }, [userInfo]);
+
   // ! hide Header and Footer
   const hideHeaderFooter =
     pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
-  const setTheme = memberTheme => {
-    setSelectedTheme(memberTheme);
-    console.log(`main ${memberTheme}`);
-  };
+
   return (
     <ThemeProvider theme={themes[selectedTheme]}>
       <GlobalStyle />
@@ -78,7 +82,8 @@ function App() {
         <Route path="/user/findpw/2" element={<FindPassword2 />} />
         <Route
           path="/mypage"
-          element={<Mypage setSelectedTheme={setSelectedTheme} />}
+          element={<Mypage />}
+          // element={<Mypage setSelectedTheme={setSelectedTheme} />}
         />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />

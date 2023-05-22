@@ -15,7 +15,7 @@ const themeList = [
 
 export default function Themes() {
   const navigate = useNavigate();
-  // 임시 로컬스테이지 저장 => 서버에 보내기 (/members/theme)
+  // 임시 로컬스테이지 저장 => 서버에 patch (/members/theme)
   const handleThemeChange = value => {
     localStorage.setItem("theme", value);
     const payload = { memberTheme: value };
@@ -27,8 +27,12 @@ export default function Themes() {
     // 새로고침해서 적용되면 좋겠는데.. 아니면 모든 theme 을 바꿔줘야 하니까...
     // location.reload();
   };
+
+  // 테마를 리덕스에 저장해서 불러오기...
+
   // 유저가 여러가지 골라보고 마이페이지에만 적용된 다음에, 적용 버튼 눌러서 저장하면 한번만 서버에 보내면 좋겠는데...
-  // app.js 에서 서버 정보를 불러와서 내려주고, 여기서는 로컬에 저장하고 바로 불러와서 보여주기? 저장할때 로컬에서 삭제하고 서버에 patch 요청 보내고...
+  // app.js 에서 서버 정보를 불러와서 내려주고, 여기서는 로컬에 저장하고 바로 불러와서 보여주기? 저장할때 로컬에서 삭제하고 서버에 patch 요청 보내고... => theme 은 최상단에서 ThemeProvider 로만 내려줘야 바꿀 수 있음.
+  // => redux toolkit 전역 상태로 관리해주고... 유지시켜주려면 userInfo에서 가져오고...
   // UI : 유저가 선택하고 있는 테마, 클릭한 테마에 이펙트
 
   // useEffect(() => {

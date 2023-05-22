@@ -7,16 +7,16 @@ export default function MyComment() {
   // 내가 작성한 토론글 목록 get => 임시, 버튼 누르면 불러오기
   // 불러온대로 페이지네이션으로 보여주기
   // 정렬 : 버튼 누르면 sort 별로 요청하기
-  function myCommentCheck() {
-    getComment({ page: 5, size: 10, sort: "likes" }, "/members/my-comment")
-      .then(res => {
-        console.log(res.result);
-      })
-      .catch(error => console.log(error));
-  }
-  useEffect(() => {
-    myCommentCheck();
-  }, []);
+  // function myCommentCheck() {
+  //   getComment({ page: 5, size: 10, sort: "likes" }, "/members/my-comment")
+  //     .then(res => {
+  //       console.log(res.result);
+  //     })
+  //     .catch(error => console.log(error));
+  // }
+  // useEffect(() => {
+  //   myCommentCheck();
+  // }, []);
 
   // 임시 랜덤이미지 => 전역 상태에서 받아오기
   let userProfileImage = "https://source.unsplash.com/random/300x300/?animal";
