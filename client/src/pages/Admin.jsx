@@ -17,6 +17,12 @@ export default function Admin() {
   const [quizzes, setQuizzes] = useState(null);
   const [dialog, openDialog, closeDialog] = useModal();
 
+  const handleAcess = async () => {
+    // 프로그래스 생성
+    const apiUrl = `contents/${id}`;
+    await getData(`${apiUrl}/access`);
+  };
+
   // ! get
   const sliceData = async path => {
     const { result } = await getData(`/contents/${id}/${path}`);
@@ -66,7 +72,9 @@ export default function Admin() {
             <Contents>
               {contents?.map(item => (
                 <li key={item.learnId}>
-                  <Link to={`/course/${id}/learn/${item.learnId}`}>
+                  <Link
+                    onClick={handleAcess}
+                    to={`/course/${id}/learn/${item.learnId}`}>
                     {item.title}
                   </Link>
                 </li>
