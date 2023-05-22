@@ -42,7 +42,6 @@ public class QuizService {
         Content content = contentOrException(contentId);
         checkQuizMember(quiz, member, email, quizId);
 
-        quiz.setContent(content);
         quiz.setDetail(detail);
         quiz.setExample(example);
         quiz.setCommentary(commentary);
@@ -51,19 +50,23 @@ public class QuizService {
         return QuizDto.from(quizRepository.save(quiz));
     }
 
+    @Transactional
     public void delete(String email, Long quizId, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         Quiz quiz = quizOrException(quizId);
         checkQuizMember(quiz, member, email, quizId);
         quizRepository.delete(quiz);
-
     }
 
     @Transactional
-    public QuizDto findById(Long quizId, String email){
+    public QuizDto findByQuiz(Long quizId, Long contentId, String email){
+        Content content = contentOrException(contentId);
         Member member = memberOrException(email);
         Quiz quiz = quizOrException(quizId);
+
+        quiz = quizRepository.findByQuizIdAndContentAndMember(quiz.getQuizId(),content, member);
+
         return QuizDto.from(quiz);
     }
 
