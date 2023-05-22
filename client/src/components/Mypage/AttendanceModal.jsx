@@ -67,7 +67,7 @@ export default function AttendanceModal({ attended }) {
             </div>
             <div className="desc">
               <p>어서오세요, {userName}님!</p>
-              <p>출석 체크 하고 경험치(10xp) 받아가는 것을 잊지 마세요!</p>
+              <p>출석 체크 하고 경험치(20xp) 받아가는 것을 잊지 마세요!</p>
               <AttendanceImgBox>
                 <svg
                   width="82"
@@ -106,10 +106,7 @@ export default function AttendanceModal({ attended }) {
                   viewBox="0 0 82 82"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg">
-                  <path
-                    d="M5.12506 82H76.8759V71.7499H5.12506V82ZM66.6258 40.9995H55.9656C53.3615 40.9995 51.2506 38.8886 51.2506 36.2845V34.7694C51.2506 30.3859 52.6728 26.2153 54.6876 22.3219C56.1466 19.5015 56.7536 16.1734 56.137 12.6451C55.0527 6.43422 49.9757 1.32197 43.7632 0.240905C34.0528 -1.44876 25.6253 5.97777 25.6253 15.3742C25.6253 17.6421 26.125 19.785 27.0171 21.7133C29.152 26.3339 30.7503 31.1818 30.7503 36.2733V36.2845C30.7503 38.8886 28.6395 40.9995 26.0353 40.9995H15.3752C6.88359 40.9995 0 47.8831 0 56.3747V61.4998C0 64.3298 2.29507 66.6248 5.12506 66.6248H76.8759C79.7059 66.6248 82.0009 64.3298 82.0009 61.4998V56.3747C82.0009 47.8831 75.1173 40.9995 66.6258 40.9995Z"
-                    fill="#39896B"
-                  />
+                  <path d="M5.12506 82H76.8759V71.7499H5.12506V82ZM66.6258 40.9995H55.9656C53.3615 40.9995 51.2506 38.8886 51.2506 36.2845V34.7694C51.2506 30.3859 52.6728 26.2153 54.6876 22.3219C56.1466 19.5015 56.7536 16.1734 56.137 12.6451C55.0527 6.43422 49.9757 1.32197 43.7632 0.240905C34.0528 -1.44876 25.6253 5.97777 25.6253 15.3742C25.6253 17.6421 26.125 19.785 27.0171 21.7133C29.152 26.3339 30.7503 31.1818 30.7503 36.2733V36.2845C30.7503 38.8886 28.6395 40.9995 26.0353 40.9995H15.3752C6.88359 40.9995 0 47.8831 0 56.3747V61.4998C0 64.3298 2.29507 66.6248 5.12506 66.6248H76.8759C79.7059 66.6248 82.0009 64.3298 82.0009 61.4998V56.3747C82.0009 47.8831 75.1173 40.9995 66.6258 40.9995Z" />
                 </svg>
               </AttendanceImgBox>
             </div>
@@ -130,7 +127,7 @@ const ModalBtn = styled.button`
   border-radius: 50%;
   background-color: ${props =>
     props.attended ? props.theme.main : props.theme.bg};
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(${props => props.theme.shadow});
   display: flex;
   align-items: center;
   justify-content: center;
@@ -189,6 +186,7 @@ const ModalView = styled.div.attrs(props => ({
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin-bottom: 20px;
   }
   > div.desc > p {
     font-size: 1.5rem;
@@ -217,5 +215,8 @@ const AttendanceImgBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 30px;
-  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(${props => props.theme.shadow});
+  & > svg > path {
+    fill: ${props => (props.attended ? props.theme.bg : props.theme.main)};
+  }
 `;

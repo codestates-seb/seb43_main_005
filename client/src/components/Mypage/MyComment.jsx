@@ -7,13 +7,13 @@ export default function MyComment() {
   // 내가 작성한 토론글 목록 get => 임시, 버튼 누르면 불러오기
   // 불러온대로 페이지네이션으로 보여주기
   // 정렬 : 버튼 누르면 sort 별로 요청하기
-  function myCommentCheck() {
-    getComment({ page: 5, size: 10, sort: "likes" }, "/members/my-comment")
-      .then(res => {
-        console.log(res.result);
-      })
-      .catch(error => console.log(error));
-  }
+  // function myCommentCheck() {
+  //   getComment({ page: 5, size: 10, sort: "likes" }, "/members/my-comment")
+  //     .then(res => {
+  //       console.log(res.result);
+  //     })
+  //     .catch(error => console.log(error));
+  // }
   // useEffect(() => {
   //   myCommentCheck();
   // }, []);
@@ -24,31 +24,7 @@ export default function MyComment() {
   return (
     <>
       <DebateContainer className="DebateContainer">
-        <button onClick={myCommentCheck}>불러오기</button>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
-        <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
-        </CommentContainer>
+        {/* <button onClick={myCommentCheck}>불러오기</button> */}
         <CommentContainer>
           <ProfileImage profileImg={userProfileImage} feat="mycomment" />
           <CommentBox>

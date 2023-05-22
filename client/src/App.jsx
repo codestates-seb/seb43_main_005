@@ -51,21 +51,22 @@ function App() {
         openAlert();
       }
     }
-    getTheme();
   }, [pathname, dispatch]);
+
+  useEffect(() => {
+    // 테마 적용
+    const setTheme = memberTheme => {
+      setSelectedTheme(memberTheme);
+      console.log(`main ${memberTheme}`);
+    };
+    userInfo?.memberTheme
+      ? setTheme(userInfo.memberTheme)
+      : setTheme("defaultLight");
+  }, [userInfo]);
 
   // ! hide Header and Footer
   const hideHeaderFooter =
     pathname.startsWith("/user") || /^\/course\/\w/.test(pathname);
-
-  // 로컬스토리지(임시) theme 가져오기 => 추후 redux 로 변경 예정
-  const getTheme = () => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme !== null) {
-      setSelectedTheme(savedTheme);
-      console.log(savedTheme);
-    }
-  };
 
   return (
     <ThemeProvider theme={themes[selectedTheme]}>
@@ -81,11 +82,11 @@ function App() {
         <Route path="/user/findpw/2" element={<FindPassword2 />} />
         <Route
           path="/mypage"
-          element={<Mypage setSelectedTheme={setSelectedTheme} />}
+          element={<Mypage />}
+          // element={<Mypage setSelectedTheme={setSelectedTheme} />}
         />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
-        <Route path="/user/error" element={<ErrorPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
         <Route path="/mbtiresult" element={<MbtiResult />} />
         <Route path="/course" element={<Course />} />

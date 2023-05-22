@@ -8,7 +8,8 @@ export default function Level({ userInfo }) {
   let myType = userInfo.memberMbti;
   let myLevel = userInfo.level;
   let currentExp = userInfo.experience;
-  let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
+  let nextLevelExp = userInfo.requiredExperience;
+  // let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
 
   return (
     <LvExpContainer>
@@ -97,7 +98,7 @@ export default function Level({ userInfo }) {
         </ExpNum>
       </ExpBox>
       <Link>
-        <a href="/">레벨업하면 보상!</a>
+        <div>레벨업하면 새로운 테마가 열려요!</div>
       </Link>
     </LvExpContainer>
   );
@@ -172,7 +173,7 @@ const Link = styled.span`
   display: flex;
   justify-content: flex-end;
   margin: 8px 0;
-  & > a {
+  & > div {
     color: ${props => props.theme.gray200};
   }
   & :hover {
