@@ -193,6 +193,13 @@ public class MemberService {
         return MemberDto.from(savedMember);
     }
 
+    //멤버 경험치 수동
+    @Transactional
+    public void addExperience(String email, int experience){
+        Member member = memberOrException(email);
+        member.addExperience(experience);
+    }
+
     private Member memberOrException(String email) {
         return memberRepository.findByEmail(email).orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
