@@ -49,7 +49,7 @@ export default function FindPassword() {
           비밀번호가 생각났나요?
           <span
             onClick={() => {
-              navigate("/user/signup");
+              navigate("/user/login");
             }}
             aria-hidden="true">
             로그인
