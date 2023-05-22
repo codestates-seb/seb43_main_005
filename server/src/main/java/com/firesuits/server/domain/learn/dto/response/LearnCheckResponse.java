@@ -12,13 +12,12 @@ public class LearnCheckResponse {
     private Long learnId;
     private String title;
 
-    public static LearnCheckResponse from(LearnCheckDto dto){
+    public static LearnCheckResponse from(LearnCheckDto dto) {
         return new LearnCheckResponse(
                 dto.getLearnCheckId(),
                 dto.getCompleted(),
                 dto.getLearn().getLearnId(),
                 dto.getLearn().getTitle()
-                );
+        );
     }
-
 }

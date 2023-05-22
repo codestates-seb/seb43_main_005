@@ -26,17 +26,19 @@ public class LearnCheckController {
     @PatchMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<Void> update(@PathVariable Long contentId,
                                  @PathVariable Long learnId,
-                                 @PathVariable Long learnCheckId,
-                                 @RequestBody LearnCheckRequest request, Authentication authentication){
-        learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(),contentId, learnId, learnCheckId);
+                                 @PathVariable Long learnCheck
+                                 @RequestBody LearnCheckRequest request, Authentication authentication) {
+        learnCheckService.updateLearnCheck(request.getCompleted(), authentication.getName(), contentId, learnId, learnCheckId);
+
         return Response.success();
     }
 
     @GetMapping("/{contentId}/learns/{learnId}/learnChecks/{learnCheckId}")
     public Response<LearnCheckResponse> get(@PathVariable Long contentId,
                                             @PathVariable Long learnId,
-                                            @PathVariable Long learnCheckId, Authentication authentication){
-        LearnCheckDto learnCheckDto = learnCheckService.findById(contentId, learnId, learnCheckId,authentication.getName());
+                                            @PathVariable Long learnCheckId, Authentication authentication) {
+        LearnCheckDto learnCheckDto = learnCheckService.findById(contentId, learnId, learnCheckId, authentication.getName());
+
         return Response.success(LearnCheckResponse.from(learnCheckDto));
     }
 

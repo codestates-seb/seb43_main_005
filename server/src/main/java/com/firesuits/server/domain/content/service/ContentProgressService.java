@@ -85,6 +85,4 @@ public class ContentProgressService {
         return learnRepository.findById(learnId).orElseThrow(()->
                 new BusinessLogicException(ExceptionCode.INVALID_REQUEST, String.format("%s 번의 요청이 잘못되었습니다.", learnId)));
     }
-
-
 }

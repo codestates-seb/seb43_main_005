@@ -64,7 +64,7 @@ public class LearnCheckService {
 
         learnCheck.setCompleted(completed);
 
-        contentProgressService.updateContentProgress(email,contentId);
+        contentProgressService.updateContentProgress(email, contentId);
     }
     @Transactional(readOnly = true)
     public LearnCheckDto findById(Long contentId, Long learnId, Long learnCheckId, String email){
@@ -85,7 +85,7 @@ public class LearnCheckService {
         if(learnChecks.isEmpty() || !contentNot ){
             throw new BusinessLogicException(ExceptionCode.CHECK_NOT_FOUND);
         }
-        return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), content.getContentId(), pageable).map(LearnCheckDto::from);
+        return learnCheckRepository.findAllByLearnCheck(member.getMemberId(), content.getContentId(),pageable).map(LearnCheckDto::from);
     }
 
     private Member memberOrException(String email){

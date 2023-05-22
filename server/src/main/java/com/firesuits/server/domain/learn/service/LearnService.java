@@ -58,6 +58,8 @@ public class LearnService {
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
         Content contentBoard = contentOrException(contentId);
+
+      //  learn = learnRepository.findByLearnAndContent_Learn(learn.getLearnId(),contentBoard,member);
         return LearnDto.from(learn);
     }
     @Transactional(readOnly = true)
