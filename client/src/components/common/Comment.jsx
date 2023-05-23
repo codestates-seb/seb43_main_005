@@ -5,16 +5,23 @@ import Tool from "../../assets/images/Tool.svg";
 import Like from "../../assets/images/Like.svg";
 import noneLike from "../../assets/images/noneLike.svg";
 import { updateData, deleteData } from "../../api/apiUtil.js";
+import { useSelector } from "react-redux";
 // commentBody 데이터
 // profile 프로필 사진
 // twoline : content 보이게 할건지
 // feat : Tool, count, like 있음
-export default function Comment({ commentBody, profile, twoline, feat }) {
+export default function Comment({
+  commentBody,
+  profile,
+  twoline,
+  feat,
+  setPatchCommentCount,
+}) {
   const { id } = useParams();
   const [dropdown, setDropdown] = useState(false);
   const [like, setLike] = useState(noneLike);
   const [likeCount, setLikeCount] = useState(commentBody.like);
-  let nikeName = commentBody.member.nickName;
+
   let content = commentBody.content;
   let createdAt =
     commentBody.createdAt.slice(0, 10) +
@@ -22,6 +29,11 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
     commentBody.createdAt.slice(11, 16);
   let commentId = commentBody.articleCommentId;
   let profileImg = commentBody.member.profileImage;
+  let nikeName = commentBody.member.nickName;
+  let reduxNickName = useSelector(state => {
+    return state.user.userInfo.nickName;
+  });
+
   function DeleteComment(articleCommentId) {
     deleteData(`/article/${id}/articleComments/${articleCommentId}`, "delete")
       .then(res => {
@@ -53,23 +65,31 @@ export default function Comment({ commentBody, profile, twoline, feat }) {
       </Body>
       {feat === "tool" && (
         <Side feat={feat}>
-          <img
-            src={Tool}
-            alt="CommentTool"
-            aria-hidden="true"
-            onClick={() => {
-              setDropdown(prev => !prev);
-            }}
-          />
+          {nikeName === reduxNickName && (
+            <img
+              src={Tool}
+              alt="CommentTool"
+              aria-hidden="true"
+              onClick={() => {
+                setDropdown(prev => !prev);
+              }}
+            />
+          )}
           {dropdown && (
             <Modal>
               <li onClick={() => DeleteComment(commentId)} aria-hidden="true">
                 삭제하기
               </li>
-              <li>수정하기</li>
+              <li
+                onClick={() => {
+                  setPatchCommentCount(commentId);
+                }}
+                aria-hidden="true">
+                수정하기
+              </li>
             </Modal>
           )}
-          <ToolLike>
+          <ToolLike nikeName={nikeName} reduxNickName={reduxNickName}>
             <img
               src={like}
               alt="good"
@@ -113,7 +133,7 @@ const Profile = styled.img`
   height: 55px;
   margin-right: 15px;
   border-radius: 100%;
-  border: solid 1px ${({ theme }) => theme.color.gray50};
+  border: solid 1px ${({ theme }) => theme.gray50};
   ${({ profile }) =>
     profile === "false" &&
     css`
@@ -149,7 +169,7 @@ const Body = styled.div`
 
 const Side = styled.div`
   position: relative;
-  min-width: 40px;
+  min-width: 50px;
   margin-left: 20px;
   img {
     cursor: pointer;
@@ -200,7 +220,8 @@ const Count = styled.div`
 const ToolLike = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: ${({ nikeName, reduxNickName }) =>
+    nikeName === reduxNickName ? "30px" : "57px"};
   & > :nth-child(2) {
     margin-top: 5px;
   }

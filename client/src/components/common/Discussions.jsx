@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 export default function Discusstions({ body }) {
   let title = body.title;
   let createdAt = body.createdAt.slice(0, 10);
-  let view = body.view;
+  let view = body.viewCount;
   let commentCount = body.commentCount;
   let id = body.articleId;
   const navigate = useNavigate();

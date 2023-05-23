@@ -19,6 +19,7 @@ const userSlice = createSlice({
     userInfo: null,
     userRole: null,
     loading: false,
+    userTest: false,
   },
   reducers: {
     setUserInfo: (state, action) => {
@@ -31,6 +32,9 @@ const userSlice = createSlice({
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
+    },
+    setUserTest: (state, action) => {
+      state.userTest = action.payload;
     },
   },
   extraReducers: builder => {
@@ -49,5 +53,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUserInfo, clearUserInfo, setLoading } = userSlice.actions;
+export const { setUserInfo, clearUserInfo, setLoading, setUserTest } =
+  userSlice.actions;
 export default userSlice.reducer;
