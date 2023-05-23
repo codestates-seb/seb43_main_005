@@ -71,7 +71,8 @@ export default function Discussion() {
             }}
             onKeyDown={e => {
               e.key === "Enter" && SearchInput();
-            }}></input>
+            }}
+          />
           <img
             src={searchImg}
             alt="reading glasses"
