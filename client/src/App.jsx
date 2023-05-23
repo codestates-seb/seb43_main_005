@@ -89,9 +89,11 @@ function App() {
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
-        <Route path="/course/:id/learn" element={<CouresDetail />} />
-        <Route path="/course/:id/quiz" element={<CourseOXquiz />} />
-
+        <Route
+          path="/course/:id/learn"
+          element={<CouresDetail feat="content" />}
+        />
+        <Route path="/course/:id/quiz" element={<CouresDetail feat="quiz" />} />
         {/* Admin path 접근 제한 */}
         <Route element={<AdminRoute />}>
           <Route path="/admin" element={<Admin />} />
