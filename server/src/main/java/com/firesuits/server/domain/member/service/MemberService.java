@@ -1,7 +1,10 @@
 package com.firesuits.server.domain.member.service;
 
 import com.firesuits.server.domain.article.dto.ArticleCommentDto;
+import com.firesuits.server.domain.article.entity.Article;
+import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.repository.ArticleCommentRepository;
+import com.firesuits.server.domain.article.repository.ArticleRepository;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.entity.Attendance;
 import com.firesuits.server.domain.member.entity.Member;
@@ -19,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -32,12 +36,14 @@ public class MemberService {
     private final ArticleCommentRepository articleCommentRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final ArticleRepository articleRepository;
 
-    public MemberService(MemberRepository memberRepository, ArticleCommentRepository articleCommentRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils) {
+    public MemberService(MemberRepository memberRepository, ArticleCommentRepository articleCommentRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils, ArticleRepository articleRepository) {
         this.memberRepository = memberRepository;
         this.articleCommentRepository = articleCommentRepository;
         this.passwordEncoder = passwordEncoder;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.articleRepository = articleRepository;
     }
 
     //회원가입
@@ -119,9 +125,16 @@ public class MemberService {
         MemberDto.from(member);
     }
 
+    @Transactional
     //회원 탈퇴
     public void delete(String email){
         Member member = memberOrException(email);
+
+        for(ArticleComment comment : member.getArticleComments()){
+            Article article = comment.getArticle();
+            article.setCommentCount(article.getCommentCount() - 1);
+            articleRepository.save(article);
+        }
         memberRepository.delete(member);
     }
 
