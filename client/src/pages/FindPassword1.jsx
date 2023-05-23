@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
-import AuthInput from "../components/AuthInput.jsx";
+import AuthInput from "../components/common/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
   const navigate = useNavigate();
@@ -11,15 +11,16 @@ export default function FindPassword() {
   let data = { email };
   const onSubmitHandler = event => {
     event.preventDefault();
-    const newEmailAlert = email === "" ? "이메일을 입력해주세요" : "";
-    setEmailAlert(newEmailAlert);
-    if (newEmailAlert === "") {
-      updateData(data, `/members/password-reset-request`, "post")
-        .then(() => {
-          navigate("user/findpw/2");
+    if (email === "") {
+      setEmailAlert("이메일을 입력해주세요.");
+    } else {
+      updateData(data, "/members/password-reset-request", "post")
+        .then(res => {
+          navigate("/user/findpw/2");
         })
-        .catch(error => {
-          console.error(error);
+        .catch(err => {
+          console.error(err);
+          setEmailAlert("이메일을 확인해주세요.");
         });
     }
   };
@@ -42,50 +43,67 @@ export default function FindPassword() {
             alertMessage={emailAlert}
             value={setEmail}
           />
-          <ButtonGroup>
-            <button type="submit">이메일 보내기</button>
-          </ButtonGroup>
+          <ButtonGroup type="submit">이메일 보내기</ButtonGroup>
         </InputBundle>
+        <LoginNavigate>
+          비밀번호가 생각났나요?
+          <span
+            onClick={() => {
+              navigate("/user/login");
+            }}
+            aria-hidden="true">
+            로그인
+          </span>
+        </LoginNavigate>
       </LoginWrap>
     </PageContainer>
   );
 }
 const LoginWrap = styled.div`
   max-width: 445px;
-  width: 100%;
-  margin: 0 auto;
   padding: 0 10px;
+  margin: 0 auto;
   box-sizing: border-box;
 `;
 
 const Information = styled.div`
+  display: flex;
+  align-items: center;
+  line-height: 2em;
   height: 150px;
   padding: 10px;
   border: 1px solid black;
   border-radius: 10px;
   margin-bottom: 30px;
   background-color: ${({ theme }) => theme.white};
-  display: flex;
-  align-items: center;
-  line-height: 2em;
-`;
-
-const ButtonGroup = styled.div`
-  button {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 10px 0px;
-    background-color: ${({ theme }) => theme.whiteOp50};
-    color: ${({ theme }) => theme.black};
-    border: 1px solid black;
-    margin-bottom: 50px;
-  }
 `;
 
 const InputBundle = styled.form`
   & > :nth-child(1) {
     margin-bottom: ${({ emailAlert }) => (emailAlert === "" ? "0px" : "40px")};
   }}
+`;
 
+const ButtonGroup = styled.button`
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 50px;
+  background-color: ${({ theme }) => theme.whiteOp50};
+  color: ${({ theme }) => theme.black};
+  cursor: pointer;
+`;
+
+const LoginNavigate = styled.div`
+  white-space: normal;
+  font-size: 0.875em;
+  text-align: center;
+  color: ${({ theme }) => theme.gray100};
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.black};
+    cursor: pointer;
+    margin-left: 8px;
+  }
 `;

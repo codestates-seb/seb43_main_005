@@ -14,6 +14,7 @@ import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
 import FindPassword1 from "./pages/FindPassword1.jsx";
 import FindPassword2 from "./pages/FindPassword2.jsx";
+import Oauth from "./pages/Oauth.jsx";
 import Mypage from "./pages/Mypage.jsx";
 import EditMyPage from "./pages/Mypage_edit.jsx";
 import TeamPage from "./pages/TeamPage.jsx";
@@ -81,6 +82,7 @@ function App() {
         <Route path="/user/signup" element={<Signup />} />
         <Route path="/user/findpw/1" element={<FindPassword1 />} />
         <Route path="/user/findpw/2" element={<FindPassword2 />} />
+        <Route path="/user/oauth" element={<Oauth />} />
         <Route
           path="/mypage"
           element={<Mypage />}
