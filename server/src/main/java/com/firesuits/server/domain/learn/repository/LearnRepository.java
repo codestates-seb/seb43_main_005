@@ -2,7 +2,6 @@ package com.firesuits.server.domain.learn.repository;
 
 import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.learn.entity.Learn;
-import com.firesuits.server.domain.member.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,6 +16,7 @@ import java.util.Optional;
 public interface LearnRepository extends JpaRepository<Learn, Long> {
     @Query("SELECT c FROM Learn c WHERE c.contentBoard.id = :contentId")
     Page<Learn> findAllByContent(@Param("contentId") Long contentId, Pageable pageable);
+
     @Query("SELECT c FROM Learn c WHERE c.learnId = :learnId and c.contentBoard = :contentBoard")
     Optional<Learn> findByLearnAndContentAndLearn(@Param("learnId")Long learnId, Content contentBoard);
 
