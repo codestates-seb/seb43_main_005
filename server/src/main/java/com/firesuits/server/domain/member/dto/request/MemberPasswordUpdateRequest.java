@@ -1,5 +1,6 @@
 package com.firesuits.server.domain.member.dto.request;
 
+import com.firesuits.server.global.validation.ValidPassword;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,6 +8,7 @@ import lombok.Getter;
 @Getter
 public class MemberPasswordUpdateRequest {
     private String currentPassword;
+    @ValidPassword
     private String newPassword;
     private String checkNewPassword;
 }

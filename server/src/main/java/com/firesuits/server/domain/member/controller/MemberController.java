@@ -17,6 +17,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class MemberController {
 
     //회원가입
     @PostMapping
-    public Response<MemberJoinResponse> join(@RequestBody MemberJoinRequest request){
+    public Response<MemberJoinResponse> join(@Valid @RequestBody MemberJoinRequest request){
         return Response.success(MemberJoinResponse.from(memberService.join(request.getEmail(), request.getPassword(), request.getCheckPassword(), request.getNickname(), request.getMemberMbti())));
     }
 
@@ -54,7 +55,7 @@ public class MemberController {
 
     //닉네임 수정
     @PatchMapping("/change-nickname")
-    public Response<Void> updateNickName(@RequestBody MemberNickNameUpdateRequest request,
+    public Response<Void> updateNickName(@Valid @RequestBody MemberNickNameUpdateRequest request,
                                                    Authentication authentication){
         memberService.updateNickName(authentication.getName(), request.getNickName());
         return Response.success();
@@ -86,7 +87,7 @@ public class MemberController {
 
     //비밀번호 수정
     @PatchMapping("/change-password")
-    public Response<Void> updatePassword(@RequestBody MemberPasswordUpdateRequest request,
+    public Response<Void> updatePassword(@Valid @RequestBody MemberPasswordUpdateRequest request,
                                          Authentication authentication){
         memberService.updatePassword(authentication.getName(), request.getCurrentPassword(), request.getNewPassword(), request.getCheckNewPassword());
         return Response.success();
@@ -94,14 +95,14 @@ public class MemberController {
 
     //비밀번호 재설정 코드 이메일 전송
     @PostMapping("/password-reset-request")
-    public Response<Void> requestPasswordReset(@RequestBody MemberPasswordResetRequest request){
+    public Response<Void> requestPasswordReset(@Valid @RequestBody MemberPasswordResetRequest request){
         passwordResetService.sendResetPasswordCode(request.getEmail());
         return Response.success();
     }
 
     //비밀번호 재설정
     @PostMapping("/password-reset")
-    public Response<Void> resetPassword(@RequestBody MemberPasswordResetRequestTo request){
+    public Response<Void> resetPassword(@Valid @RequestBody MemberPasswordResetRequestTo request){
         passwordResetService.resetPassword(request.getToken(), request.getNewPassword());
         return Response.success();
     }
