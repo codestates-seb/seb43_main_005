@@ -10,24 +10,15 @@ import searchImg from "../assets/images/search.svg";
 import { getData } from "../api/apiUtil.js";
 
 export default function Discussion() {
-  const [body, setBody] = useState([]);
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
+  const [body, setBody] = useState([]);
   const [sort, setSort] = useState("");
   const [reverse, setReverse] = useState(true);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  function SearchInput() {
-    getData(`/article/search?keyword=${search}`)
-      .then(data => {
-        setBody(data.result.content);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
   useEffect(() => {
     getData(`/article?${sort}&page=${page}`)
       .then(data => {
@@ -38,6 +29,17 @@ export default function Discussion() {
         console.error(error);
       });
   }, [sort, page]);
+
+  function SearchInput() {
+    getData(`/article/search?keyword=${search}`)
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   return (
     <PageContainer>
       <h2>Discussion</h2>
@@ -62,7 +64,6 @@ export default function Discussion() {
             }}
           />
         </SortButtons>
-        {/* 돋보기가 input 안에 들어가도록, 반응형으로 바꾸자 */}
         <Search>
           <input
             onInput={e => {
@@ -88,7 +89,6 @@ export default function Discussion() {
         {!body?.length && <Empty />}
       </DiscussionList>
       <Pagination page={page} setPage={setPage} totalPages={totalPages} />
-
       <DiscussionCreat totalArticle={body?.length}>
         {admin && (
           <CustomButton text="토론글 등록" path="/admin/write/article" />
