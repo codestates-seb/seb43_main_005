@@ -80,11 +80,7 @@ function App() {
         <Route path="/user/signup" element={<Signup />} />
         <Route path="/user/findpw/1" element={<FindPassword1 />} />
         <Route path="/user/findpw/2" element={<FindPassword2 />} />
-        <Route
-          path="/mypage"
-          element={<Mypage />}
-          // element={<Mypage setSelectedTheme={setSelectedTheme} />}
-        />
+        <Route path="/mypage" element={<Mypage />} />
         <Route path="/mypage/edit" element={<EditMyPage />} />
         <Route path="/teampage" element={<TeamPage />} />
         <Route path="/mbti" element={<MbtiTest />} />
@@ -112,6 +108,8 @@ function App() {
           />
         </Route>
         {/* Admin path 접근 제한 */}
+        {/* 정의되지 않은 URL 접근시 404에러 페이지로 연결 */}
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>

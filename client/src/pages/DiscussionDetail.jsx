@@ -183,7 +183,7 @@ const CommitBar = styled.div`
     ${({ sortTool }) =>
       sortTool === 1 &&
       css`
-        color: ${({ theme }) => theme.color.main};
+        color: ${({ theme }) => theme.main};
         font-weight: bold;
       `};
   }
@@ -192,7 +192,7 @@ const CommitBar = styled.div`
     ${({ sortTool }) =>
       sortTool === 2 &&
       css`
-        color: ${({ theme }) => theme.color.main};
+        color: ${({ theme }) => theme.main};
         font-weight: bold;
       `};
     ::before {
@@ -216,7 +216,7 @@ const CommitBar = styled.div`
     ${({ sortTool }) =>
       sortTool === 3 &&
       css`
-        color: ${({ theme }) => theme.color.main};
+        color: ${({ theme }) => theme.main};
         font-weight: bold;
       `};
   }
