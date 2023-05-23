@@ -75,7 +75,7 @@ export default function DiscussionDetail() {
     }
   }
   function SortButton(sort) {
-    getData(`article/${id}/articleComments?${sort}`)
+    getData(`/article/${id}/articleComments?${sort}`)
       .then(data => {
         setCommentBody(data.result.content);
       })
