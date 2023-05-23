@@ -72,6 +72,19 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.POST, "/article/*/articleComments").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.PATCH, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/article/*/articleComments/*").hasAnyRole("USER", "ADMIN")
+
+                        .antMatchers(HttpMethod.POST, "/contents").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/contents/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/contents/*").hasRole("ADMIN")
+
+                        .antMatchers(HttpMethod.POST, "/contents/*/learns").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/contents/*/learns/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/contents/*/learns/*").hasRole("ADMIN")
+
+                        .antMatchers(HttpMethod.POST, "/contents/*/quizzes").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/contents/*/quizzes/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.DELETE, "/contents/*/quizzes/*").hasRole("ADMIN")
+
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
