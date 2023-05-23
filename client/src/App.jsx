@@ -28,7 +28,6 @@ import Admin from "./pages/Admin.jsx";
 import Course from "./pages/Course.jsx";
 import CouresDetail from "./pages/CouresDetail.jsx";
 import CourseOXquiz from "./pages/CourseOXquiz.jsx";
-import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
 import AdminRoute from "./components/route/AdminRoute.jsx";
@@ -36,7 +35,7 @@ import ChatBot from "./components/ChatBot/ChatBot.jsx";
 
 function App() {
   const { pathname } = useLocation();
-  const { loading, userInfo } = useSelector(state => state.user);
+  const { userInfo } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [alert, openAlert, closeAlert] = useModal();
   const [selectedTheme, setSelectedTheme] = useState("defaultLight");
@@ -74,7 +73,6 @@ function App() {
     <ThemeProvider theme={themes[selectedTheme]}>
       <GlobalStyle />
       {alert && <Alert closeAlert={closeAlert} />}
-      {/* {loading && <Loading />} */}
       {!hideHeaderFooter && <Header userInfo={userInfo} />}
       <Routes>
         <Route path="/" element={<Main userInfo={userInfo} />} />
@@ -95,7 +93,7 @@ function App() {
         <Route path="/course" element={<Course />} />
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
-        <Route path="/course/:id/learn/:learnId" element={<CouresDetail />} />
+        <Route path="/course/:id/learn" element={<CouresDetail />} />
         <Route path="/course/:id/quiz" element={<CourseOXquiz />} />
         {/* Admin path 접근 제한 */}
         <Route element={<AdminRoute />}>

@@ -1,17 +1,36 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomSideBar from "../components/common/CustomSideBar.jsx";
 import Header from "../components/Header/Header.jsx";
-import ContentArticle from "../components/ContentArticle.jsx";
+import ContentArticle from "../components/CourseDetail/ContentArticle.jsx";
+import { getData } from "../api/apiUtil.js";
+import { useParams } from "react-router-dom";
+import Loading from "../components/common/Loading.jsx";
 
-function CouresDetail(props) {
-  const [lnb, setLnb] = useState(false);
+export default function CouresDetail() {
+  const [lnb, setLnb] = useState(true);
+  const { userInfo } = useSelector(state => state.user);
+  const { id } = useParams();
+  const [learnChecks, setLearnChecks] = useState(null);
+
+  // ! Get LearnChecks
+  const sliceLearnChecks = async () => {
+    const { result } = await getData(`/contents/${id}/learns/learnChecks`);
+    const { content } = result;
+    setLearnChecks(content);
+  };
+  useEffect(() => {
+    sliceLearnChecks();
+  }, [id]);
+
+  if (!learnChecks) return <Loading />;
   return (
     <Container>
-      <Header course setLnb={setLnb} />
+      <Header course setLnb={setLnb} userInfo={userInfo} />
       <Body>
-        {lnb && <CustomSideBar>사이드바 컴포넌트</CustomSideBar>}
-        <ContentArticle>학습내용 컴포넌트</ContentArticle>
+        {lnb && <CustomSideBar />}
+        <ContentArticle courseId={id} learnChecks={learnChecks} />
       </Body>
     </Container>
   );
@@ -24,5 +43,3 @@ const Body = styled.section`
   display: flex;
   padding-top: 60px;
 `;
-
-export default CouresDetail;
