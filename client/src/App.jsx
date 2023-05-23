@@ -96,7 +96,7 @@ function App() {
         <Route path="/course/:id/quiz" element={<CouresDetail feat="quiz" />} />
         {/* Admin path 접근 제한 */}
         <Route element={<AdminRoute />}>
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/admin/:id" element={<Admin />} />
           <Route path="/admin/write/:feat" element={<AdminWrite />} />
           <Route
             path="/admin/write/course/:courseId/:feat"

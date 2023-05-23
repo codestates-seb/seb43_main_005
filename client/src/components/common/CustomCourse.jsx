@@ -69,7 +69,7 @@ export default function CustomCourse({ feat = "default", item, progress = 0 }) {
               <CustomButton
                 feat="tag"
                 text="강좌 편집"
-                path={`/admin`}
+                path={`/admin/${id}`}
                 item={item}
               />
             )}
