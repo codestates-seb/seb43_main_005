@@ -113,7 +113,7 @@ const Profile = styled.img`
   height: 55px;
   margin-right: 15px;
   border-radius: 100%;
-  border: solid 1px ${({ theme }) => theme.color.gray50};
+  border: solid 1px ${({ theme }) => theme.gray50};
   ${({ profile }) =>
     profile === "false" &&
     css`

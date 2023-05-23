@@ -31,6 +31,7 @@ import Loading from "./components/common/Loading.jsx";
 import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
 import AdminRoute from "./components/route/AdminRoute.jsx";
+import ChatBot from "./components/ChatBot/ChatBot.jsx";
 
 function App() {
   const { pathname } = useLocation();
@@ -113,6 +114,8 @@ function App() {
         </Route>
         {/* Admin path 접근 제한 */}
       </Routes>
+
+      {!hideHeaderFooter && <ChatBot />}
       {!hideHeaderFooter && <Footer />}
     </ThemeProvider>
   );
