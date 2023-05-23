@@ -5,11 +5,13 @@ import Profile from "../components/Mypage/Profile.jsx";
 import Level from "../components/Mypage/Level.jsx";
 import BtnTabContainer from "../components/Mypage/BtnTabContainer.jsx";
 import { useEffect } from "react";
+import Loading from "../components/common/Loading.jsx";
 
 export default function Mypage() {
   const { userInfo } = useSelector(state => state.user);
   // console.log(userInfo);
 
+  if (!userInfo) return <Loading />;
   return (
     <PageContainer>
       <MyContainer className="Mycontaner">
