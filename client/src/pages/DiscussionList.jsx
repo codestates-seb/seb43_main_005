@@ -75,7 +75,7 @@ export default function Discussion() {
           />
           <img
             src={searchImg}
-            alt="reading glasses"
+            alt="searchImg"
             height="30px"
             onClick={SearchInput}
             aria-hidden="true"
@@ -83,7 +83,7 @@ export default function Discussion() {
         </Search>
       </Bar>
       <DiscussionList>
-        {body.map(item => {
+        {body?.map(item => {
           return <Discussions body={item} key={item.articleId} />;
         })}
         {!body?.length && <Empty />}

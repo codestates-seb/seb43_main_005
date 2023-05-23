@@ -111,10 +111,9 @@ export default function DiscussionDetail() {
           )}
         </Bar>
       )}
-
       <Subject>
-        <span dangerouslySetInnerHTML={{ __html: body.title }} />
-        <span dangerouslySetInnerHTML={{ __html: body.content }} />
+        <div dangerouslySetInnerHTML={{ __html: body.title }} />
+        <div dangerouslySetInnerHTML={{ __html: body.content }} />
       </Subject>
       <CommitBar sortTool={sortTool}>
         <div>댓글 {body.commentCount}</div>
@@ -212,12 +211,14 @@ const Subject = styled.div`
   border: solid 1px ${({ theme }) => theme.black};
 
   & > :nth-child(1) {
+    line-height: 1.5;
     font-size: 1.25em;
     padding: 30px;
     word-break: break-all;
   }
 
   & > :nth-child(2) {
+    line-height: 1.5;
     border-top: solid 1px ${({ theme }) => theme.black};
     padding: 30px;
     min-height: 100px;
