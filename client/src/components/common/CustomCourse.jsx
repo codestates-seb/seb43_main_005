@@ -40,7 +40,7 @@ export default function CustomCourse({ feat = "default", item, progress = 0 }) {
       const { result } = await getData(`${apiUrl}/learns`);
       const learnId = !!result.totalElements && result.content[0]?.learnId;
       await getData(`${apiUrl}/access`);
-      navigate(`/course/${id}/learn/${learnId}`);
+      navigate(`/course/${id}/learn`);
     } catch {
       openAlert();
     }

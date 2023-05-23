@@ -70,11 +70,9 @@ export default function Admin() {
           </BtnGroup>
           {contents?.length || quizzes ? (
             <Contents>
-              {contents?.map(item => (
+              {contents?.map((item, i) => (
                 <li key={item.learnId}>
-                  <Link
-                    onClick={handleAcess}
-                    to={`/course/${id}/learn/${item.learnId}`}>
+                  <Link onClick={handleAcess} to={`/course/${id}/learn`}>
                     {item.title}
                   </Link>
                 </li>
