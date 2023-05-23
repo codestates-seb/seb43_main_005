@@ -8,6 +8,8 @@ import Comment from "../components/common/Comment.jsx";
 import { getData, updateData } from "../api/apiUtil.js";
 import useModal from "../hooks/useModal.js";
 import Dialog from "../components/common/Dialog.jsx";
+// eslint-disable-next-line import/no-unresolved
+import Pagination from "../components/common/Pagination";
 
 export default function DiscussionDetail() {
   const { userRole } = useSelector(state => state.user);
@@ -16,9 +18,14 @@ export default function DiscussionDetail() {
   const [commentBody, setCommentBody] = useState([]);
   const [comment, setComment] = useState("");
   const [sortTool, setSortTool] = useState(1);
+  const [patchCommentCount, setPatchCommentCount] = useState(0);
+  const [patchComment, setPatchComment] = useState("");
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const { id } = useParams();
   const [dialog, openDialog, closeDialog] = useModal();
   let data = { content: `<p>${comment}</p>` };
+  let patchData = { content: `<p>${patchComment}</p>` };
   useEffect(() => {
     getData(`article/${id}`)
       .then(data => {
@@ -27,20 +34,39 @@ export default function DiscussionDetail() {
       .catch(error => {
         console.error(error);
       });
-    getData(`article/${id}/articleComments`)
+    getData(`article/${id}/articleComments?page=${page}`)
       .then(data => {
         setCommentBody(data.result.content);
+        setTotalPages(data.result.totalPages);
       })
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  }, [page]);
   function CreactComment() {
     if (comment !== "") {
       updateData(data, `/article/${id}/articleComments`, "post")
         .then(res => {
           console.log(res);
-          setComment("");
+          setPatchComment("");
+          window.location.reload();
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
+  }
+  function PatchCommentInput() {
+    if (patchComment !== "") {
+      updateData(
+        patchData,
+        `/article/${id}/articleComments/${patchCommentCount}`,
+        "patch"
+      )
+        .then(res => {
+          console.log(res);
+          setPatchComment("");
+          setPatchCommentCount(0);
           window.location.reload();
         })
         .catch(err => {
@@ -56,6 +82,9 @@ export default function DiscussionDetail() {
       .catch(error => {
         console.error(error);
       });
+  }
+  function removeTags(str) {
+    return str.replace(/<\/?[^>]+(>|$)/g, "");
   }
 
   return (
@@ -76,7 +105,6 @@ export default function DiscussionDetail() {
             <Dialog
               feat="삭제하기"
               path={`/article/${id}`}
-              // path={quizDeletePath}
               text={["토론글을 삭제하시겠습니까?"]}
               closeDialog={closeDialog}
             />
@@ -113,14 +141,37 @@ export default function DiscussionDetail() {
         </button>
       </CommitBar>
       <Comments>
-        {commentBody.map(item => {
-          return (
+        {commentBody?.map(item => {
+          return item.articleCommentId !== patchCommentCount ? (
             <Comment
               commentBody={item}
               profile="true"
               feat="tool"
+              setPatchCommentCount={setPatchCommentCount}
               key={item.articleCommentId}
             />
+          ) : (
+            <ContainerCommentPatch key={item.articleCommentId}>
+              <CommentPatch>
+                <textarea
+                  maxLength="200"
+                  placeholder="댓글을 입력하세요."
+                  type="text"
+                  defaultValue={removeTags(item.content)}
+                  onInput={e => {
+                    setPatchComment(e.target.value);
+                  }}></textarea>
+                <form>
+                  <button
+                    onClick={() => {
+                      setPatchCommentCount(0);
+                    }}>
+                    취소하기
+                  </button>
+                  <button onClick={PatchCommentInput}>수정하기</button>
+                </form>
+              </CommentPatch>
+            </ContainerCommentPatch>
           );
         })}
         <CommentInput>
@@ -131,8 +182,13 @@ export default function DiscussionDetail() {
             onInput={e => {
               setComment(e.target.value);
             }}></textarea>
-          <button onClick={CreactComment}>댓글등록</button>
+          <div>
+            <button onClick={CreactComment}>댓글등록</button>
+          </div>
         </CommentInput>
+        <PaginationContainer>
+          <Pagination page={page} setPage={setPage} totalPages={totalPages} />
+        </PaginationContainer>
       </Comments>
       <MoveList>
         <CustomButton text="목록보기" feat="round" path="/discussion" />
@@ -248,11 +304,47 @@ const CommentInput = styled.div`
     }
   }
   div {
+    text-align: right;
+  }
+  button {
     color: ${({ theme }) => theme.mainHover};
+  }
+`;
+
+const ContainerCommentPatch = styled.div`
+  margin-bottom: 40px;
+  border-bottom: solid 1px ${({ theme }) => theme.gray100};
+`;
+
+const CommentPatch = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 30px;
+  margin: 30px;
+  padding: 20px;
+  border: solid 1px ${({ theme }) => theme.gray100};
+  border-radius: 10px;
+  textarea {
+    width: 100%;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    :focus {
+      outline: none;
+    }
+  }
+  form {
+    button {
+      color: ${({ theme }) => theme.mainHover};
+      margin-left: 10px;
+    }
     text-align: right;
   }
 `;
 
 const MoveList = styled.div`
   text-align: right;
+`;
+const PaginationContainer = styled.div`
+  margin-bottom: 48px;
 `;

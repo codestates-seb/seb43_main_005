@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-// eslint-disable-next-line react/prop-types
 function AuthInput({ type, id, placeholder, alertMessage, value }) {
   return (
     <FormGroup className={alertMessage ? "alert-on" : ""}>

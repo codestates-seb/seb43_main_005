@@ -2,40 +2,30 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
-import AuthInput from "../components/AuthInput.jsx";
+import AuthInput from "../components/common/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
 export default function FindPassword() {
   const navigate = useNavigate();
   const [Alert, setAlert] = useState("");
-  const [code, setCode] = useState("");
+  const [token, setToken] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  let data = { token: code, newPassword };
+  let data = { token, newPassword };
   const isPasswordValid = pw => {
     const passwordRegex = /^(?=.*[a-z])(?=.*[0-9]).{4,12}$/;
     return passwordRegex.test(pw);
-  };
-  const pwAlertCondition = (code, newPassword) => {
-    if (code === "" || newPassword === "") {
-      return "코드 또는 패스워드를 입력해주세요";
-    } else if (isPasswordValid(newPassword) === false) {
-      return "4~12자, 숫자와 소문자 영어를 포함해야합니다.";
-    } else {
-      return "";
-    }
   };
 
   // 핸들러
   const onSubmitHandler = event => {
     event.preventDefault();
-
-    const passwordAlertMessage = pwAlertCondition(code, newPassword);
-    setAlert(passwordAlertMessage);
-
-    if (passwordAlertMessage === "") {
-      updateData(data, `/members/password-reset`, "post")
+    if (token === "" || newPassword === "") {
+      setAlert("코드 또는 패스워드를 입력해주세요");
+    } else if (!isPasswordValid(newPassword)) {
+      setAlert("4~12자, 숫자와 소문자 영어를 포함해야합니다.");
+    } else {
+      updateData(data, "/members/password-reset", "post")
         .then(res => {
-          console.log(res);
-          navigate("/");
+          navigate("/user/login");
         })
         .catch(error => {
           // 요청이 실패한 경우 에러 처리
@@ -56,7 +46,7 @@ export default function FindPassword() {
             type="text"
             id="text"
             placeholder="코드 확인"
-            value={setCode}
+            value={setToken}
           />
           <AuthInput
             type="text"
@@ -65,38 +55,55 @@ export default function FindPassword() {
             alertMessage={Alert}
             value={setNewPassword}
           />
-          <ButtonGroup>
-            <button type="submit">이메일 보내기</button>
-          </ButtonGroup>
+          <ButtonGroup type="submit">비밀번호 변경하기</ButtonGroup>
         </InputBundle>
+        <LoginNavigate>
+          비밀번호가 생각났나요?
+          <span
+            onClick={() => {
+              navigate("/user/login");
+            }}
+            aria-hidden="true">
+            로그인
+          </span>
+        </LoginNavigate>
       </LoginWrap>
     </PageContainer>
   );
 }
 const LoginWrap = styled.div`
   max-width: 445px;
-  width: 100%;
   margin: 0 auto;
   padding: 0 10px;
   box-sizing: border-box;
 `;
 
-const ButtonGroup = styled.div`
-  button {
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    margin: 10px 0px;
-    background-color: ${({ theme }) => theme.whiteOp50};
-    color: ${({ theme }) => theme.black};
-    border: 1px solid black;
-    margin-bottom: 50px;
-  }
+const ButtonGroup = styled.button`
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 50px;
+  background-color: ${({ theme }) => theme.whiteOp50};
+  color: ${({ theme }) => theme.black};
+  cursor: pointer;
 `;
 
 const InputBundle = styled.form`
   & > :nth-child(2) {
-    margin-bottom: ${({ codeAlert }) => (codeAlert === "" ? "0px" : "40px")};
-  }}
+    margin-bottom: 40px;
+  }
+`;
 
+const LoginNavigate = styled.div`
+  white-space: normal;
+  font-size: 0.875em;
+  text-align: center;
+  color: ${({ theme }) => theme.gray100};
+  span {
+    text-decoration: underline;
+    color: ${({ theme }) => theme.black};
+    cursor: pointer;
+    margin-left: 8px;
+  }
 `;
