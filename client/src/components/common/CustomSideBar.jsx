@@ -3,24 +3,40 @@ import styled from "styled-components";
 import CustomProgressBar from "./CustomProgressBar.jsx";
 import { IoIosArrowBack } from "react-icons/io";
 import CustomCheckBox from "./CustomCheckBox.jsx";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import axios from "axios";
 
 function CustomSideBar(props) {
+  const [titleData, setTitleData] = useState(null);
   const [checkboxStatuses, setCheckboxStatuses] = useState([]);
+  const { id } = useParams();
+  // console.log(id);
+  const token = localStorage.getItem("access_token");
+  const host = process.env.REACT_APP_BASE_URL;
+
+  // `${host}/contents/${id}/learns?size=20&page=0`
+  // http://13.124.42.111:8080/contents/1/learns?size=20&page=0
+  useEffect(() => {
+    axios
+      .get(`${host}/contents/${id}/learns?size=20&page=0`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(response => {
+        setTitleData(response.result);
+        console.log(titleData);
+      })
+      .catch(error => {
+        console.error("타이틀 불러오기 에러");
+      });
+  }, []); // 빈 배열을 종속성으로 넘겨주어 컴포넌트가 처음 마운트될 때만 실행하게 함
 
   const [titles, setTitles] = useState([
     { id: 1, text: "Learn React" },
     { id: 2, text: "Learn styled" },
     { id: 3, text: "Build a todo " },
     { id: 4, text: "OX 문제" },
-    { id: 1, text: "Learn React" },
-    { id: 2, text: "Learn styled" },
-    { id: 3, text: "Build a todo app" },
-    // { id: 4, text: "OX 문제" },
-    // { id: 1, text: "Learn React" },
-    // { id: 2, text: "Learn styled" },
-    // { id: 3, text: "Build a todo app" },
-    // { id: 4, text: "OX 문제" },
   ]);
   useEffect(() => {
     // titles 배열을 기반으로 체크박스 상태 초기화
@@ -58,14 +74,14 @@ function CustomSideBar(props) {
         </h2>
         <CustomProgressBar progress={50} feat={"simple"} />
         <CustomCheckBox />
-        {checkboxStatuses.map(status => (
+        {/* {titleData?.map(status => (
           <CustomCheckBox
             key={status.id}
             text={status.text}
             checked={status.checked}
             onCheck={() => handleCheckChange(status.id)}
           />
-        ))}
+        ))} */}
       </InnerContainer>
     </SideBarContainer>
   );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CustomProgressBar from "../common/CustomProgressBar.jsx";
 import O from "../../assets/images/O.png";
@@ -23,6 +24,8 @@ function OxQuiz(props) {
   const editPath = `/admin/edit/course/${1}/quiz/${QuizId}`; // 퀴즈 수정페이지 경로
   const [dialog, openDialog, closeDialog] = useModal();
 
+  const { id } = useParams();
+  // console.log(id);
   const handleQuizClick = () => {
     if (QuizCount < QuizData.length - 1) {
       setQuizCount(QuizCount + 1);
@@ -35,7 +38,7 @@ function OxQuiz(props) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://13.124.42.111:8080/contents/1/quizzes"
+          `http://13.124.42.111:8080/contents/${id}/quizzes`
         );
         setQuizData(response.data.result.content);
       } catch (error) {
@@ -69,6 +72,8 @@ function OxQuiz(props) {
             feat={"simple"}
           />
           <h2>OX퀴즈</h2>
+          <p>{id}</p>
+          <p>안녕</p>
 
           <Quiz>{QuizData[0]?.detail}</Quiz>
 
