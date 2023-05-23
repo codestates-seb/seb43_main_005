@@ -1,22 +1,38 @@
 import styled from "styled-components";
 import CustomCourse from "../common/CustomCourse.jsx";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { getData } from "../../api/apiUtil.js";
 
 export default function Dashbord() {
-  // CustomCourse 서버 열리면 item={} 으로 받아온 학습정보 넣어주기
+  // CustomCourse 에 item={} 으로 받아온 학습정보 넣어주기
+  const [contentList, setContentList] = useState([]);
 
-  // 컨텐츠 진행률과 학습 여부 불러오기
+  // GET - 컨텐츠 진행률 전체 조회
+  const getProgress = async () => {
+    const { result } = await getData(`/contents/progress`);
+    console.log(`getProgress`);
+    const { content, pageable, sort, totalElements, totalPages } = result;
+    console.log(content);
+    setContentList(content);
+  };
+
+  useEffect(() => {
+    getProgress();
+  }, []);
+
+  // 콘텐츠리스트 progress, 내용 매핑 => body에 넣어서 item 으로 내려주기
 
   return (
     <>
       <CourseBox>
-        <CustomCourse feat="progress" />
-        <CustomCourse feat="progress" />
-        <CustomCourse feat="progress" />
-        <CustomCourse feat="progress" />
-        <CustomCourse feat="progress" />
-        <CustomCourse feat="progress" />
+        {contentList.map(el => (
+          <CustomCourse
+            key={el.contentId}
+            feat="progress"
+            item={el.content}
+            progress={el.progress}
+          />
+        ))}
       </CourseBox>
     </>
   );

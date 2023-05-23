@@ -1,48 +1,81 @@
 import styled from "styled-components";
 import ProfileImage from "../common/ProfileImage.jsx";
-import { getComment } from "../../api/apiUtil.js";
-import useEffect from "react";
+import { getData } from "../../api/apiUtil.js";
+import React, { useEffect, useState } from "react";
+import MyDebateComments from "./MyDebateComments.jsx";
 
 export default function MyComment() {
   // 내가 작성한 토론글 목록 get => 임시, 버튼 누르면 불러오기
   // 불러온대로 페이지네이션으로 보여주기
-  // 정렬 : 버튼 누르면 sort 별로 요청하기
-  // function myCommentCheck() {
-  //   getComment({ page: 5, size: 10, sort: "likes" }, "/members/my-comment")
-  //     .then(res => {
-  //       console.log(res.result);
-  //     })
-  //     .catch(error => console.log(error));
-  // }
-  // useEffect(() => {
-  //   myCommentCheck();
-  // }, []);
 
-  // 임시 랜덤이미지 => 전역 상태에서 받아오기
+  // 임시 랜덤이미지 => 서버에서 유저 프로필 이미지 받아오기
   let userProfileImage = "https://source.unsplash.com/random/300x300/?animal";
+
+  // Comment 가져오기
+  const [body, setBody] = useState([]);
+
+  function myCommentCheck() {
+    getData(`/members/my-comment?${sort}&size=5`)
+      .then(res => {
+        console.log(res.result.content);
+        setBody(res.result.content);
+      })
+      .catch(error => console.log(error));
+  }
+
+  // let userProfileImage =  content[n].member.profileImage
+
+  // 정렬 : 버튼 누르면 sort 별로 요청하기
+  const [sort, setSort] = useState("");
+  useEffect(() => {
+    getData(`/members/my-comment?${sort}`)
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [sort]);
+  // 정렬 버튼
+  const Sort = e => {
+    // console.log(e.target.value);
+    setSort(e.target.value);
+  };
+  useEffect(() => {
+    myCommentCheck();
+  }, [sort]);
+
   // DebateTitle 클릭 시 해당 토론글로 이동하기
   return (
     <>
       <DebateContainer className="DebateContainer">
+        <button value="default" onClick={e => Sort(e)}>
+          등록순
+        </button>
+        <button value="createdAt" onClick={e => Sort(e)}>
+          최신순
+        </button>
+        <button value="likes" onClick={e => Sort(e)}>
+          추천순
+        </button>
         {/* <button onClick={myCommentCheck}>불러오기</button> */}
         <CommentContainer>
-          <ProfileImage profileImg={userProfileImage} feat="mycomment" />
-          <CommentBox>
-            <DebateTitle>리덕스 상태관리?</DebateTitle>
-            <MyComments>toolkit?</MyComments>
-            <CommentDate>2023.05.11</CommentDate>
-          </CommentBox>
+          {body.map(item => {
+            return <MyDebateComments body={item} key={item.articleCommentId} />;
+          })}
         </CommentContainer>
       </DebateContainer>
     </>
   );
 }
+
 const DebateContainer = styled.section`
   display: flex;
   flex-direction: column;
 `;
 const CommentContainer = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100px;
   background-color: ${props => props.theme.white};
   border: ${props => props.theme.borderBold};
