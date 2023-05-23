@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useSelector } from "react-redux";
 import CustomProgressBar from "../common/CustomProgressBar.jsx";
 import O from "../../assets/images/O.png";
 import X from "../../assets/images/X.png";
 import resultImg from "../../assets/images/resultImg.png";
 import axios from "axios";
+import CustomButton from "../common/CustomButton.jsx";
+import useModal from "../../hooks/useModal.js";
+import Dialog from "../common/Dialog.jsx";
 
 function OxQuiz(props) {
   const [isFinished, setisFinished] = useState(false); // 초기 상태를 체크된 상태로 설정
   const [QuizData, setQuizData] = useState(null);
   const [QuizCount, setQuizCount] = useState(0); //퀴즈가 몇번 째 문제인지
+  // Admin button
+  const { userRole } = useSelector(state => state.user);
+  const admin = userRole === "ADMIN";
+  const item = QuizData && QuizData[QuizCount];
+  const QuizId = item?.quizId;
+  const apiUrl = `/contents/${1}/quizzes/${QuizId}`; // 수정 및 삭제 api url
+  const editPath = `/admin/edit/course/${1}/quiz/${QuizId}`; // 퀴즈 수정페이지 경로
+  const [dialog, openDialog, closeDialog] = useModal();
 
   const handleQuizClick = () => {
     if (QuizCount < QuizData.length - 1) {
@@ -58,7 +70,7 @@ function OxQuiz(props) {
           />
           <h2>OX퀴즈</h2>
 
-          <Quiz>{QuizData[1].content}</Quiz>
+          <Quiz>{QuizData[0]?.detail}</Quiz>
 
           <AnswerContainer>
             <Answer
@@ -79,6 +91,31 @@ function OxQuiz(props) {
             <br />
             {QuizData[QuizCount].commentary}
           </QuizSolution>
+          {admin && (
+            <AdminWrap>
+              <CustomButton
+                text="게시글 수정"
+                feat="tag"
+                mode="patch"
+                path={editPath}
+                item={item}
+                reverse
+              />
+              <CustomButton
+                text="게시글 삭제"
+                feat="tag"
+                onClick={openDialog}
+              />
+            </AdminWrap>
+          )}
+          {dialog && (
+            <Dialog
+              feat="삭제하기"
+              path={apiUrl}
+              text={["게시을 삭제하시겠습니까?"]}
+              closeDialog={closeDialog}
+            />
+          )}
         </>
       )}
     </QuizContainer>
@@ -150,4 +187,11 @@ const QuizSolution = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   padding: 50px;
+`;
+
+const AdminWrap = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
 `;
