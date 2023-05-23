@@ -8,8 +8,7 @@ export default function Level({ userInfo }) {
   let myType = userInfo.memberMbti;
   let myLevel = userInfo.level;
   let currentExp = userInfo.experience;
-  let nextLevelExp = userInfo.requiredExperience;
-  // let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
+  let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
 
   return (
     <LvExpContainer>

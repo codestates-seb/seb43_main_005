@@ -35,12 +35,12 @@ export default function Themes() {
   // => redux toolkit 전역 상태로 관리해주고... 유지시켜주려면 userInfo에서 가져오고...
   // UI : 유저가 선택하고 있는 테마, 클릭한 테마에 이펙트
 
-  // useEffect(() => {
-  //   getData("/members/info").then(res => {
-  //     // console.log(res.result.level);
-  //     setUserLv(res.result.level);
-  //   });
-  // }, []);
+  useEffect(() => {
+    getData("/members/info").then(res => {
+      // console.log(res.result.level);
+      setUserLv(res.result.level);
+    });
+  }, []);
 
   const [userLv, setUserLv] = useState(2);
   const [openedThemes, setOpenedThemes] = useState([]);
