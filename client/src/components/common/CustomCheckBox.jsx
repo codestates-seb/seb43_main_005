@@ -3,7 +3,7 @@ import styled from "styled-components";
 import checkbox_check from "../../assets/images/checkbox_check.png";
 import checkbox_uncheck from "../../assets/images/checkbox_uncheck.png";
 
-function CheckBox({ text = "테스트" }) {
+function CheckBox({ text = "테스트", onClick, checked }) {
   const [isChecked, setIsChecked] = useState(true); // 초기 상태를 체크된 상태로 설정
 
   const handleCheck = () => {
@@ -16,7 +16,9 @@ function CheckBox({ text = "테스트" }) {
         type="checkbox"
         id={text}
         name={text}
-        onChange={handleCheck}></StyledInput>
+        onChange={handleCheck}
+        onClick={onClick}
+        checked={checked}></StyledInput>
       <StyledLabel htmlFor={text}>
         <StyledP>{text}</StyledP>
       </StyledLabel>

@@ -114,12 +114,10 @@ export default function AdminWrite({ mode = "post" }) {
             content: content.value,
           };
 
-    updateData(payload, types[feat].path, mode).then(res => {
-      console.log(res);
-      navigate("/");
-    });
-    console.log(payload);
-    console.log(types[feat].path);
+    await updateData(payload, types[feat].path, mode);
+    navigate("/");
+    // console.log(payload);
+    // console.log(types[feat].path);
     // console.log(mode);
   };
 
