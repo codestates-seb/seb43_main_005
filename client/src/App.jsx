@@ -90,7 +90,7 @@ function App() {
         <Route path="/discussion" element={<DiscussionList />} />
         <Route path="/discussion/:id" element={<DiscussionDetail />} />
         <Route
-          path="/course/:id/learn"
+          path="/course/:id/learn/:learn"
           element={<CouresDetail feat="content" />}
         />
         <Route path="/course/:id/quiz" element={<CouresDetail feat="quiz" />} />

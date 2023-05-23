@@ -72,7 +72,9 @@ export default function Admin() {
             <Contents>
               {contents?.map((item, i) => (
                 <li key={item.learnId}>
-                  <Link onClick={handleAcess} to={`/course/${id}/learn`}>
+                  <Link
+                    onClick={handleAcess}
+                    to={`/course/${id}/learn/${item.learnId}`}>
                     {item.title}
                   </Link>
                 </li>
