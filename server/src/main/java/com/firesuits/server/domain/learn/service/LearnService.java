@@ -4,7 +4,6 @@ import com.firesuits.server.domain.content.entity.Content;
 import com.firesuits.server.domain.content.repository.ContentRepository;
 import com.firesuits.server.domain.learn.dto.LearnDto;
 import com.firesuits.server.domain.learn.entity.Learn;
-import com.firesuits.server.domain.learn.entity.LearnCheck;
 import com.firesuits.server.domain.learn.repository.LearnRepository;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;

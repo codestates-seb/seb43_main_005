@@ -18,8 +18,8 @@ import java.util.List;
 @Setter
 @Entity
 public class Content extends AuditingFields {
-    @Id // 식별자 등록
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // 식별자 자동 등록
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long contentId;
 
     private String title;
@@ -30,14 +30,12 @@ public class Content extends AuditingFields {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    // learn 테이블 매핑을 위해서 임의로 작성
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Learn> learns = new ArrayList<>();
 
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Quiz> quizzes = new ArrayList<>();
 
-    // contentProgress 테이블 매핑을 위해서 임의로 작성
     @OneToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<ContentProgress> contentProgresses = new ArrayList<>();
 
