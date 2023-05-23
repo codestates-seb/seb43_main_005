@@ -9,14 +9,12 @@ import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
 import com.firesuits.server.global.error.exception.ExceptionCode;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleCommentService {
@@ -78,7 +76,19 @@ public class ArticleCommentService {
             pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("createdAt").ascending());
         }
         Article article = articleOrException(articleId);
-        return articleCommentRepository.findAllByArticle(article, pageable).map(ArticleCommentDto::from);
+        Page<ArticleComment> commentPage = articleCommentRepository.findAllByArticle(article, pageable);
+
+        Set<Long> commentIds = new HashSet<>();
+        List<ArticleComment> filteredComments = new ArrayList<>();
+
+        for(ArticleComment comment : commentPage.getContent()){
+            if (!commentIds.contains(comment.getArticleCommentId())){
+                commentIds.add(comment.getArticleCommentId());
+                filteredComments.add(comment);
+            }
+        }
+
+        return new PageImpl<>(filteredComments.stream().map(ArticleCommentDto::from).collect(Collectors.toList()),pageable, commentPage.getTotalElements());
     }
 
     private Article articleOrException(Long articleId) {
