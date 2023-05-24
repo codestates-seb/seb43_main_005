@@ -140,7 +140,7 @@ const CommentContainer = styled.div`
 `;
 
 const Profile = styled.img`
-  width: 55px;
+  min-width: 55px;
   height: 55px;
   margin-right: 15px;
   border-radius: 100%;
