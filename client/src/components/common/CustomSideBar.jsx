@@ -6,7 +6,7 @@ import CustomCheckBox from "./CustomCheckBox.jsx";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getData } from "../../api/apiUtil.js";
 import { useDispatch } from "react-redux";
-import { setLearnId } from "../../redux/features/user/learnSlice.js";
+import { setLearnId } from "../../redux/features/learn/learnSlice.js";
 import { FaBook } from "react-icons/fa";
 
 export default function CustomSideBar({

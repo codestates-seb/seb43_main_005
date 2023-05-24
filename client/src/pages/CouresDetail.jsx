@@ -14,7 +14,7 @@ import {
   setClear,
   setLearnId,
   setLearnIndex,
-} from "../redux/features/user/learnSlice.js";
+} from "../redux/features/learn/learnSlice.js";
 import OxQuiz from "../components/OxQuiz/OxQuiz.jsx";
 
 export default function CouresDetail({ feat }) {

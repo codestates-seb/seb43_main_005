@@ -10,7 +10,7 @@ import party from "../../assets/images/icons8-confetti-64.png";
 import {
   setLearnId,
   setLearnIndex,
-} from "../../redux/features/user/learnSlice.js";
+} from "../../redux/features/learn/learnSlice.js";
 
 export default function ContentArticle({ courseId, learnChecks, quizzes }) {
   // item
