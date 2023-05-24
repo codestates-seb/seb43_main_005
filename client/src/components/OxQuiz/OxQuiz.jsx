@@ -15,6 +15,7 @@ function OxQuiz(props) {
   const [isFinished, setisFinished] = useState(false); // 초기 상태를 체크된 상태로 설정
   const [QuizData, setQuizData] = useState(null);
   const [QuizCount, setQuizCount] = useState(0); //퀴즈가 몇번 째 문제인지
+  const token = localStorage.getItem("access_token");
   // Admin button
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
@@ -27,9 +28,10 @@ function OxQuiz(props) {
   const { id } = useParams();
   // console.log(id);
   const handleQuizClick = () => {
-    if (QuizCount < QuizData.length - 1) {
+    if (QuizCount < QuizData.length - 2) {
       setQuizCount(QuizCount + 1);
     } else {
+      setisFinished(true);
       console.log("다풀었네요");
     }
   };
@@ -45,16 +47,16 @@ function OxQuiz(props) {
         console.error("Quiz Data 오류입니다.", error);
       }
     };
-
     fetchData();
   }, []);
 
   useEffect(() => {
-    console.log(QuizData); // After state update, log the data
+    console.log(QuizData);
+    console.log(token);
   }, [QuizData]);
 
   if (!QuizData) {
-    return <div>Loading...</div>; // Render a loading div if data is not loaded yet
+    return <div>Loading...</div>;
   }
 
   return (
@@ -72,10 +74,10 @@ function OxQuiz(props) {
             feat={"simple"}
           />
           <h2>OX퀴즈</h2>
-          <p>{id}</p>
-          <p>안녕</p>
 
-          <Quiz>{QuizData[0]?.detail}</Quiz>
+          <Quiz
+            dangerouslySetInnerHTML={{ __html: QuizData[QuizCount]?.detail }}
+          />
 
           <AnswerContainer>
             <Answer
@@ -94,7 +96,10 @@ function OxQuiz(props) {
             <br />
             <br />
             <br />
-            {QuizData[QuizCount].commentary}
+            <div
+              dangerouslySetInnerHTML={{
+                __html: QuizData[QuizCount].commentary,
+              }}></div>
           </QuizSolution>
           {admin && (
             <AdminWrap>
