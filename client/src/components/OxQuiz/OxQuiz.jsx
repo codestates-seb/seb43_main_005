@@ -60,7 +60,6 @@ function OxQuiz(props) {
   useEffect(() => {
     if (isFinished && !viewSolution) {
       const score = QuizScore * 10;
-      console.log("Score: " + score);
       updateExperience(score);
     }
   }, [isFinished, QuizScore, viewSolution]);
@@ -105,7 +104,7 @@ function OxQuiz(props) {
           <h2>테스트 결과[경험치는 최초 1번만 올라갑니다]</h2>
           <StyledImage src={resultImg} alt="resultImg"></StyledImage>
           <Quiz>
-            {QuizScore} / {QuizCount} 점
+            {QuizScore} / {QuizData.length} 점
           </Quiz>
           <AdminWrap>
             <CustomButton
