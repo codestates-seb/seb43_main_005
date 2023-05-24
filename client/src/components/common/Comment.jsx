@@ -165,6 +165,7 @@ const Body = styled.div`
   }
 
   & > :nth-child(2) {
+    margin: 10px 0px;
     word-break: break-all;
   }
 
