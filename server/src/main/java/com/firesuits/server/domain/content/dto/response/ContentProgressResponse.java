@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class ContentProgressResponse {
     private Long contentProgressId;
-    private Double progress;
+    private int progress;
     private ContentResponse content;
 
     public static ContentProgressResponse from(ContentProgressDto dto){
