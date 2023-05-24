@@ -12,9 +12,11 @@ import useModal from "../../hooks/useModal.js";
 import Dialog from "../common/Dialog.jsx";
 
 function OxQuiz(props) {
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const [isFinished, setisFinished] = useState(false); // 초기 상태를 체크된 상태로 설정
   const [QuizData, setQuizData] = useState(null);
   const [QuizCount, setQuizCount] = useState(0); //퀴즈가 몇번 째 문제인지
+  const [QuizScore, setQuizScore] = useState(0); // 맞춘 퀴즈 스코어
   const token = localStorage.getItem("access_token");
   // Admin button
   const { userRole } = useSelector(state => state.user);
@@ -24,15 +26,56 @@ function OxQuiz(props) {
   const apiUrl = `/contents/${1}/quizzes/${QuizId}`; // 수정 및 삭제 api url
   const editPath = `/admin/edit/course/${1}/quiz/${QuizId}`; // 퀴즈 수정페이지 경로
   const [dialog, openDialog, closeDialog] = useModal();
+  const [viewSolution, setViewSolution] = useState(false);
 
   const { id } = useParams();
-  // console.log(id);
-  const handleQuizClick = () => {
+  const resetQuizNum = () => {
+    setQuizScore(0);
+    setQuizCount(0);
+    setisFinished(false);
+    setViewSolution(true);
+  };
+
+  const updateExperience = async experience => {
+    const url = `${baseUrl}/members/experience`;
+
+    try {
+      const response = await axios.post(
+        url,
+        {
+          experience: experience,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error("경험치보내기에러");
+    }
+  };
+
+  useEffect(() => {
+    if (isFinished && !viewSolution) {
+      const score = QuizScore * 10;
+      console.log("Score: " + score);
+      updateExperience(score);
+    }
+  }, [isFinished, QuizScore, viewSolution]);
+
+  const handleQuizClick = ({ userCheckedAnswer }) => {
     if (QuizCount < QuizData.length - 1) {
       setQuizCount(QuizCount + 1);
+      if (QuizData[QuizCount].correct === userCheckedAnswer) {
+        setQuizScore(QuizScore + 1);
+      }
     } else {
       setisFinished(true);
-      console.log("다풀었네요");
+      if (QuizData[QuizCount].correct === userCheckedAnswer) {
+        setQuizScore(QuizScore + 1);
+      }
     }
   };
 
@@ -43,17 +86,13 @@ function OxQuiz(props) {
           `http://13.124.42.111:8080/contents/${id}/quizzes`
         );
         setQuizData(response.data.result.content);
+        setisFinished(false);
       } catch (error) {
         console.error("Quiz Data 오류입니다.", error);
       }
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    console.log(QuizData);
-    console.log(token);
-  }, [QuizData]);
 
   if (!QuizData) {
     return <div>Loading...</div>;
@@ -63,9 +102,19 @@ function OxQuiz(props) {
     <QuizContainer>
       {isFinished ? (
         <>
-          <h2>테스트 결과</h2>
+          <h2>테스트 결과[경험치는 최초 1번만 올라갑니다]</h2>
           <StyledImage src={resultImg} alt="resultImg"></StyledImage>
-          <Quiz>9 / 10 점</Quiz>
+          <Quiz>
+            {QuizScore} / {QuizCount} 점
+          </Quiz>
+          <AdminWrap>
+            <CustomButton
+              text="돌아가서 풀이보기"
+              feat="tag"
+              reverse
+              onClick={resetQuizNum}
+            />
+          </AdminWrap>
         </>
       ) : (
         <>
@@ -81,26 +130,34 @@ function OxQuiz(props) {
 
           <AnswerContainer>
             <Answer
-              onClick={handleQuizClick}
+              viewSolution={viewSolution}
+              onClick={() =>
+                handleQuizClick({
+                  userCheckedAnswer: true,
+                })
+              }
               highlighted={QuizData[QuizCount].correct ? true : false}>
               <StyledImage src={O} alt="O"></StyledImage>
             </Answer>
             <Answer
-              onClick={handleQuizClick}
+              viewSolution={viewSolution}
+              onClick={() => handleQuizClick({ userCheckedAnswer: false })}
               highlighted={QuizData[QuizCount].correct ? false : true}>
               <StyledImage src={X} alt="X"></StyledImage>
             </Answer>
           </AnswerContainer>
-          <QuizSolution>
-            <p>정답 : {QuizData[QuizCount].correct ? "O" : "X"}</p>
-            <br />
-            <br />
-            <br />
-            <div
-              dangerouslySetInnerHTML={{
-                __html: QuizData[QuizCount].commentary,
-              }}></div>
-          </QuizSolution>
+          {viewSolution && (
+            <QuizSolution>
+              <p>정답 : {QuizData[QuizCount].correct ? "O" : "X"}</p>
+              <br />
+              <br />
+              <br />
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: QuizData[QuizCount].commentary,
+                }}></div>
+            </QuizSolution>
+          )}
           {admin && (
             <AdminWrap>
               <CustomButton
@@ -167,8 +224,10 @@ const AnswerContainer = styled.div`
 const Answer = styled.div`
   width: 500px;
   height: 222px;
-  border: ${({ highlighted, theme }) =>
-    highlighted ? `1px solid ${theme.blue}` : theme.borderLight};
+  border: ${({ highlighted, theme, viewSolution }) =>
+    viewSolution && highlighted
+      ? `1px solid ${theme.blue}`
+      : theme.borderLight};
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
