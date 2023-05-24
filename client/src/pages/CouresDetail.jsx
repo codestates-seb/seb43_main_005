@@ -95,10 +95,12 @@ export default function CouresDetail({ feat }) {
             onClickCheck={handleClickCheck}
           />
         )}
-        {feat === "content" && (
-          <ContentArticle courseId={id} learnChecks={learnChecks} />
-        )}
-        {feat === "quiz" && <OxQuiz />}
+        <ContentWrap>
+          {feat === "content" && (
+            <ContentArticle courseId={id} learnChecks={learnChecks} />
+          )}
+          {feat === "quiz" && <OxQuiz />}
+        </ContentWrap>
       </Body>
     </Container>
   );
@@ -110,4 +112,12 @@ const Container = styled.div`
 const Body = styled.section`
   display: flex;
   padding-top: 60px;
+  position: relative;
+`;
+const ContentWrap = styled.div`
+  width: calc(100% - 250px);
+  margin: 0 auto;
+  @media ${({ theme }) => theme.mediaQuery.mobile} {
+    width: 100%;
+  }
 `;

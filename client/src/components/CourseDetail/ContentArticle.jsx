@@ -85,7 +85,7 @@ export default function ContentArticle({ courseId, learnChecks }) {
   );
 }
 const ContentWrap = styled.div`
-  padding: 30px 10px;
+  padding: 50px 10px;
   max-width: 1027px;
   width: 90%;
   margin: 0 auto;
@@ -136,12 +136,13 @@ const ContentWrap = styled.div`
   }
 `;
 const Content = styled.div`
-  min-height: calc(100vh - 210px);
+  min-height: calc(100vh - 290px);
 `;
 const ButtonWrap = styled.div`
   display: flex;
   align-items: flex-end;
   flex-direction: column;
+  margin-top: 30px;
 `;
 const AdminWrap = styled.div`
   display: flex;
