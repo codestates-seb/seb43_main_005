@@ -9,8 +9,6 @@ import Loading from "../components/common/Loading.jsx";
 
 export default function Mypage() {
   const { userInfo } = useSelector(state => state.user);
-  // console.log(userInfo);
-
   if (!userInfo) return <Loading />;
   return (
     <PageContainer>
