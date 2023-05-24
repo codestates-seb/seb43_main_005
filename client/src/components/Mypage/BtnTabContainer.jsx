@@ -4,7 +4,7 @@ import BtnTab from "./BtnTab.jsx";
 import { useEffect, useState } from "react";
 import Dashbord from "./Dashbord.jsx";
 import MyDebate from "./MyComment.jsx";
-import Setting from "./Setting.jsx";
+import Setting from "./Themes.jsx";
 
 export default function BtnTabContainer(setSelectedTheme) {
   // 창 크기에 따라 버튼 탭(PC)/드롭다운(모바일) 변경하기

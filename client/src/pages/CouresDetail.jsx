@@ -7,8 +7,10 @@ import ContentArticle from "../components/CourseDetail/ContentArticle.jsx";
 import { getData } from "../api/apiUtil.js";
 import { useParams } from "react-router-dom";
 import Loading from "../components/common/Loading.jsx";
+import OxQuiz from "../components/OxQuiz/OxQuiz.jsx";
+import CustomButton from "../components/common/CustomButton.jsx";
 
-export default function CouresDetail() {
+export default function CouresDetail({ feat }) {
   const [lnb, setLnb] = useState(true);
   const { userInfo } = useSelector(state => state.user);
   const { id } = useParams();
@@ -29,8 +31,15 @@ export default function CouresDetail() {
     <Container>
       <Header course setLnb={setLnb} userInfo={userInfo} />
       <Body>
-        {lnb && <CustomSideBar />}
-        <ContentArticle courseId={id} learnChecks={learnChecks} />
+        {/* {lnb && <CustomSideBar />} */}
+        {feat === "content" && (
+          <ContentArticle courseId={id} learnChecks={learnChecks} />
+        )}
+        {feat === "quiz" && <OxQuiz />}
+
+        {/* !! 퀴즈페이지 이동을 위한 임시 버튼 !! */}
+        <CustomButton text="퀴즈로 이동" path={`/course/${id}/quiz`} />
+        {/* !! 퀴즈페이지 이동을 위한 임시 버튼 !! */}
       </Body>
     </Container>
   );

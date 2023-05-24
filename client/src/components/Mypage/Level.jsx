@@ -8,6 +8,7 @@ export default function Level({ userInfo }) {
   let myType = userInfo.memberMbti;
   let myLevel = userInfo.level;
   let currentExp = userInfo.experience;
+  let requiredExperience = userInfo.requiredExperience;
   let nextLevelExp = userInfo.requiredExperience + userInfo.experience;
 
   return (
@@ -93,11 +94,14 @@ export default function Level({ userInfo }) {
             <span>exp </span>
             <span>{currentExp}</span>
           </span>
-          <span>{nextLevelExp}</span>
+          <span>{requiredExperience}</span>
         </ExpNum>
       </ExpBox>
       <Link>
-        <div>레벨업하면 새로운 테마가 열려요!</div>
+        <div>
+          레벨업까지 {requiredExperience} 남았어요! 레벨업하면 새로운 테마가
+          열려요!
+        </div>
       </Link>
     </LvExpContainer>
   );

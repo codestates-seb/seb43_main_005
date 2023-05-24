@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import CustomButton from "../components/common/CustomButton.jsx";
@@ -9,6 +9,7 @@ import Dialog from "../components/common/Dialog.jsx";
 import useModal from "../hooks/useModal.js";
 import useInput from "../hooks/useInput.js";
 import useUploadImg from "../hooks/useUploadImg.js";
+import Modal from "../components/Mypage/Modal.jsx";
 
 export default function EditMypage() {
   // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기 => item 으로 받아오기
@@ -16,34 +17,38 @@ export default function EditMypage() {
   const { state } = useLocation();
   const item = state?.item;
   const [userProfile, payload] = useUploadImg(item?.profileImage);
+  // 수정 완료 알림 모달
+  const [modifiedModal, openModifiedModal, closeModifiedModal] =
+    useModal(false);
+  // 회원탈퇴 확인 모달
+  const [withdrawModal, openWithdrawModal, closeWithdrawModal] =
+    useModal(false);
 
   const [nickName] = useInput(item.nickName);
   const [email] = useInput(item.email);
   const [currentPassword] = useInput("");
   const [newPassword] = useInput("");
   const [checkNewPassword] = useInput("");
-  const [successAlert, setSuccessAlert] = useState("");
+  // const [successAlert, setSuccessAlert] = useState("");
+  const [failAlert, setFailAlert] = useState("");
   const navigate = useNavigate();
 
-  // 회원탈퇴 확인 모달
-  const [modal, openModal, closeModal] = useModal(false);
-  // 비밀번호 유효성 검사
-  const [failAlert, setFailAlert] = useState("");
-
-  // * 수정 버튼 클릭 시 유저 데이터 수정
+  // === 수정 버튼 클릭 시 유저 데이터 수정 ===
 
   // 프로필 이미지 수정
-  // 이미지 수정을 눌렀을 때 payload 를 보내기
   const submitImg = e => {
     e.preventDefault();
     if (!payload) {
+      // setSuccessAlert("");
       setFailAlert("이미지를 추가해 주세요.");
     } else {
       getImagesUrl(payload).then(res =>
         updateData(res.result, "/members/profile-image", "patch")
           .then(res => {
             // console.log(res);
-            setSuccessAlert("프로필 이미지 수정이 완료되었습니다.");
+            setFailAlert("");
+            // setSuccessAlert("프로필 이미지 수정이 완료되었습니다.");
+            openModifiedModal(true);
           })
           .catch(err => console.log(err))
       );
@@ -53,11 +58,11 @@ export default function EditMypage() {
   // 닉네임 수정
   const submitNickname = e => {
     e.preventDefault();
-    // console.log(nickName);
     updateData(nickName.value, "/members/change-nickname", "patch").then(
       res => {
-        // console.log(res);
-        setSuccessAlert("닉네임 수정이 완료되었습니다.");
+        setFailAlert("");
+        // setSuccessAlert("닉네임 수정이 완료되었습니다.");
+        openModifiedModal(true);
       }
     );
   };
@@ -75,24 +80,29 @@ export default function EditMypage() {
     if (
       !(currentPassword.value && newPassword.value && checkNewPassword.value)
     ) {
+      // setSuccessAlert("");
       setFailAlert("값을 입력해주세요.");
       // console.log("값 다 안 들어감");
     } else {
       // console.log("값 다 들어감");
       // 변경할 비밀번호 일치 여부 확인하기
+      // setSuccessAlert("");
       setFailAlert(pwAlertCondition(newPassword.value, checkNewPassword.value));
       // console.log(`failAlert : ${failAlert}`);
 
       if (failAlert === "") {
         // console.log("비밀번호 수정 요청 전송");
-        setSuccessAlert("");
+        // setSuccessAlert("");
         await updateData(passwordPayload, "/members/change-password", "patch")
           .then(res => {
             // console.log(res);
-            setSuccessAlert("비밀번호가 성공적으로 변경되었습니다.");
+            setFailAlert("");
+            // setSuccessAlert("비밀번호 수정이 완료되었습니다.");
+            openModifiedModal(true);
           })
           .catch(error => {
             // console.log(error.response.data.status);
+            // setSuccessAlert("");
             setFailAlert("현재 비밀번호를 재확인 해주세요.");
           });
       }
@@ -119,9 +129,8 @@ export default function EditMypage() {
   // 회원 탈퇴
   const handleSignOffBtnClick = e => {
     e => e.preventDefault();
-    openModal(true);
+    openWithdrawModal(true);
   };
-
   return (
     <PageContainer>
       <MyContainer>
@@ -189,21 +198,22 @@ export default function EditMypage() {
               reverse="true"
               onClick={submitPW}
             />
-            {successAlert && <SuccessMsg>{successAlert}</SuccessMsg>}
+            {/* {successAlert && <SuccessMsg>{successAlert}</SuccessMsg>} */}
             {failAlert && <AlertMsg>{failAlert}</AlertMsg>}
           </form>
         </InfoBox>
+        {modifiedModal && <Modal feat="수정" closeModal={closeModifiedModal} />}
         <BtnBox className="delete">
           <CustomButton
             text="회원탈퇴"
             feat="underline"
             onClick={e => handleSignOffBtnClick(e)}
           />
-          {modal && (
+          {withdrawModal && (
             <Dialog
               feat="탈퇴하기"
               text={["정말로 탈퇴하시겠습니까?"]}
-              closeDialog={closeModal}
+              closeDialog={closeWithdrawModal}
             />
           )}
         </BtnBox>
