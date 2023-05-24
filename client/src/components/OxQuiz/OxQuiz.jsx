@@ -28,7 +28,7 @@ function OxQuiz(props) {
   const { id } = useParams();
   // console.log(id);
   const handleQuizClick = () => {
-    if (QuizCount < QuizData.length - 2) {
+    if (QuizCount < QuizData.length - 1) {
       setQuizCount(QuizCount + 1);
     } else {
       setisFinished(true);
