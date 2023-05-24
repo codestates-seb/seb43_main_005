@@ -17,22 +17,24 @@ export default function Comment({
   feat,
   setPatchCommentCount,
 }) {
+  // commentBody 가 없는경우 실행안되도록 했다.
+  if (!commentBody || !commentBody.member) {
+    return null;
+  }
   const { id } = useParams();
   const [dropdown, setDropdown] = useState(false);
   const [like, setLike] = useState(noneLike);
   const [likeCount, setLikeCount] = useState();
 
-  let content = commentBody.content;
+  let content = commentBody?.content;
   let createdAt =
-    commentBody.createdAt.slice(0, 10) +
+    commentBody?.createdAt?.slice(0, 10) +
     " " +
-    commentBody.createdAt.slice(11, 16);
-  let commentId = commentBody.articleCommentId;
-  let profileImg = commentBody.member.profileImage;
-  let nikeName = commentBody.member.nickName;
-  let reduxNickName = useSelector(state => {
-    return state.user.userInfo?.nickName;
-  });
+    commentBody?.createdAt?.slice(11, 16);
+  let commentId = commentBody?.articleCommentId;
+  let profileImg = commentBody?.member?.profileImage;
+  let nikeName = commentBody?.member?.nickName;
+  let reduxNickName = useSelector(state => state.user.userInfo?.nickName);
 
   useEffect(() => {
     getData(`/articleComment/${commentId}/likes`)
@@ -66,7 +68,6 @@ export default function Comment({
   }
   return (
     <CommentContainer>
-      {/* 프로필 나중에 서버에서 받아와서 만들자 */}
       <Profile profile={profile} src={profileImg} />
       <Body twoline={twoline}>
         <div dangerouslySetInnerHTML={{ __html: nikeName }} />

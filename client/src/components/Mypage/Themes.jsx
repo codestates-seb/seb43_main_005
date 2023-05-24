@@ -3,7 +3,6 @@ import ThemeCircle from "./ThemeCircle.jsx";
 import { useState, useEffect } from "react";
 import { getData, updateData } from "../../api/apiUtil.js";
 import { useNavigate } from "react-router-dom";
-import Modal from "./Modal.jsx";
 
 const themeList = [
   { name: "default", level: 0 },
