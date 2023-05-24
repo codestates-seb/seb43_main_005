@@ -43,11 +43,11 @@ function App() {
   // ! Get userInfo
   const pathsToExclude = ["/user", "/mbti", "/mbtiresult", "/teampage"];
   useEffect(() => {
+    useScrollTop(10);
     const [isValid] = decodeToken();
     if (!pathsToExclude.some(path => pathname.startsWith(path))) {
       if (isValid) {
         dispatch(fetchUserInfo());
-        useScrollTop(10);
       } else if (pathname !== "/") {
         openAlert();
       }
