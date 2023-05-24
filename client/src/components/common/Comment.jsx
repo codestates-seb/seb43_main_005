@@ -35,17 +35,17 @@ export default function Comment({
   let profileImg = commentBody?.member?.profileImage;
   let nikeName = commentBody?.member?.nickName;
   let reduxNickName = useSelector(state => state.user.userInfo?.nickName);
-
+  // 좋아요 불러오기
   useEffect(() => {
     getData(`/articleComment/${commentId}/likes`)
-      .then(data => {
-        setLikeCount(data.result);
+      .then(res => {
+        setLikeCount(res.result);
       })
       .catch(error => {
         console.error(error);
       });
   }, []);
-
+  // 댓글삭제
   function DeleteComment(articleCommentId) {
     deleteData(`/article/${id}/articleComments/${articleCommentId}`, "delete")
       .then(res => {
@@ -56,7 +56,7 @@ export default function Comment({
         console.error(err);
       });
   }
-
+  // 좋아요 누르기
   function CommentLike(articleCommentId) {
     updateData({}, `articleComment/${articleCommentId}/likes`, "post")
       .then(res => {

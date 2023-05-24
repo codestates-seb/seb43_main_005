@@ -65,7 +65,7 @@ export default function Course() {
   return (
     <PageContainer>
       <h2>Roadmap</h2>
-      <TopGroup onSubmit={handleSearch}>
+      <Bar onSubmit={handleSearch}>
         <Sorted>
           <CustomButton
             type="button"
@@ -83,7 +83,7 @@ export default function Course() {
           /> */}
         </Sorted>
         <SearchBar value={searchValue} />
-      </TopGroup>
+      </Bar>
       <CourseContainer>
         {courses?.map(course => (
           <CustomCourse key={course.contentId} item={course} />
@@ -100,8 +100,10 @@ export default function Course() {
   );
 }
 
-const TopGroup = styled.form`
+const Bar = styled.form`
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 50px;
 `;
 const Sorted = styled.div`
