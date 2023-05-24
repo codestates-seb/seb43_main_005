@@ -26,10 +26,10 @@ export default function ContentArticle({ courseId, learnChecks }) {
   const editPath = `/admin/edit/course/${courseId}/content/${learnId}`;
 
   // ! Next button
-  const [text, setText] = useState("다음");
+  const [text, setText] = useState("학습체크");
   let nextLearId = learnChecks && learnChecks[learnIndex + 1]?.learnId;
   useEffect(() => {
-    nextLearId ? setText("다음") : setText("학습완료");
+    nextLearId ? setText("학습체크") : setText("학습완료");
   }, [learnId]);
 
   // ! handleNext
