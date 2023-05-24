@@ -27,15 +27,15 @@ export default function EditMypage() {
       work: ["학습상세", "진행"],
     },
     {
-      name: "이동근", //
-      nameENG: "Cho Yong Ju",
+      name: "이동근",
+      nameENG: "DONG KEUN",
       febe: "프론트엔드",
-      febeENG: "FRONT END",
+      febeENG: "BACK END",
       gitQR: "/", // 생략해주셔도 됩니다
-      gitAddress: "https://github.com/pizzaYami",
-      blogAddress: "https://cho9407.tistory.com/",
-      job: "FE 팀원",
-      work: ["로그인", "회원가입", "토론", "토론상세"],
+      gitAddress: "https://github.com/stge35",
+      blogAddress: "",
+      job: "BE 팀원",
+      work: ["OX퀴즈", "OX결과"],
     },
     {
       name: "유채원",
@@ -94,13 +94,13 @@ export default function EditMypage() {
 }
 
 const MyContainer = styled.article`
-  background-color: aliceblue;
   width: 100%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(2, minmax(200px, 1fr));
   grid-template-rows: 4 minmax(300px, auto);
   grid-gap: 10px;
+  box-sizing: border-box;
   @media screen and (max-width: 500px) {
     display: flex;
     flex-direction: column;

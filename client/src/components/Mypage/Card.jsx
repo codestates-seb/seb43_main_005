@@ -79,6 +79,7 @@ const ImgContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-shrink: 1;
+  /* margin: 8px; */
 `;
 const InfoContainer = styled.div`
   display: flex;

@@ -25,9 +25,9 @@ export default function Dashbord() {
   return (
     <>
       <CourseBox>
-        {contentList.map(el => (
+        {contentList.map((el, idx) => (
           <CustomCourse
-            key={el.contentId}
+            key={idx}
             feat="progress"
             item={el.content}
             progress={el.progress}
