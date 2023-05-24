@@ -9,6 +9,12 @@ export default function Oauth() {
     <AuthButton>
       <div className="line">SNS 계정으로 로그인</div>
       <div>
+        <a
+          href={
+            "http://ec2-13-124-42-111.ap-northeast-2.compute.amazonaws.com:8080/oauth2/authorization/google"
+          }>
+          <img src={google} alt="googleLogo" />
+        </a>
         <a href={`${baseUrl}/oauth2/authorization/kakao`}>
           <img src={kakao} alt="kakaoLogo" />
         </a>

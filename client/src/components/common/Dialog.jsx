@@ -49,7 +49,8 @@ export default function Dialog({ feat, path, text, closeDialog }) {
   // 회원 탈퇴
   const deleteUser = () => {
     deleteData("/members/withdrawal");
-    // navigate("/");
+    localStorage.clear();
+    navigate("/");
   };
   return (
     <DialogBack onClick={clickBack} className="close">

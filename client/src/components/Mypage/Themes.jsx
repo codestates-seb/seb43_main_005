@@ -3,6 +3,7 @@ import ThemeCircle from "./ThemeCircle.jsx";
 import { useState, useEffect } from "react";
 import { getData, updateData } from "../../api/apiUtil.js";
 import { useNavigate } from "react-router-dom";
+import Modal from "./Modal.jsx";
 
 const themeList = [
   { name: "default", level: 0 },
@@ -14,37 +15,31 @@ const themeList = [
 ];
 
 export default function Themes() {
+  // * 유저 레벨 별로 테마 잠금 풀리기
+  const [userLv, setUserLv] = useState(0);
+  const [openedThemes, setOpenedThemes] = useState([]);
+
   const navigate = useNavigate();
-  // 임시 로컬스테이지 저장 => 서버에 patch (/members/theme)
+  // 임시 로컬스테이지 저장 => 선택한 theme 을 서버에 patch (/members/theme)
+  // alert 를 테마를 적용하시겠습니까? 하고 yes 면 patch 적용하고 리다이렉션하는 걸로 바꾸기
+
   const handleThemeChange = value => {
-    localStorage.setItem("theme", value);
     const payload = { memberTheme: value };
     updateData(payload, "/members/theme", "patch").then(res => {
       console.log(res);
       alert("테마 수정됨.");
+      navigate("/");
     });
-    localStorage.getItem("theme");
-    // 새로고침해서 적용되면 좋겠는데.. 아니면 모든 theme 을 바꿔줘야 하니까...
-    // location.reload();
   };
 
-  // 테마를 리덕스에 저장해서 불러오기...
-
-  // 유저가 여러가지 골라보고 마이페이지에만 적용된 다음에, 적용 버튼 눌러서 저장하면 한번만 서버에 보내면 좋겠는데...
-  // app.js 에서 서버 정보를 불러와서 내려주고, 여기서는 로컬에 저장하고 바로 불러와서 보여주기? 저장할때 로컬에서 삭제하고 서버에 patch 요청 보내고... => theme 은 최상단에서 ThemeProvider 로만 내려줘야 바꿀 수 있음.
-  // => redux toolkit 전역 상태로 관리해주고... 유지시켜주려면 userInfo에서 가져오고...
-  // UI : 유저가 선택하고 있는 테마, 클릭한 테마에 이펙트
-
+  // === * 유저 레벨 별로 테마 잠금 풀리기 ===
+  // 유저 레벨 불러오기
   useEffect(() => {
     getData("/members/info").then(res => {
-      // console.log(res.result.level);
       setUserLv(res.result.level);
     });
   }, []);
-
-  const [userLv, setUserLv] = useState(2);
-  const [openedThemes, setOpenedThemes] = useState([]);
-
+  // 유저레벨 이하의 테마 불러오기(최초 렌더링 시 + 레벨 변경 시)
   useEffect(() => {
     const updatedOpenedThemes = themeList.map(theme => ({
       ...theme,

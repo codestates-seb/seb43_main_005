@@ -3,12 +3,11 @@ import styled, { css } from "styled-components";
 import { useSelector } from "react-redux";
 import CustomButton from "../components/common/CustomButton.jsx";
 import PageContainer from "../components/common/PageContainer.jsx";
-import searchImg from "../assets/images/search.svg";
 import Discussions from "../components/common/Discussions.jsx";
-// eslint-disable-next-line import/no-unresolved
-import Pagination from "../components/common/Pagination";
-import { getData } from "../api/apiUtil.js";
+import Pagination from "../components/common/Pagination.jsx";
 import Empty from "../components/common/Empty.jsx";
+import searchImg from "../assets/images/search.svg";
+import { getData } from "../api/apiUtil.js";
 
 export default function Discussion() {
   const [body, setBody] = useState([]);
