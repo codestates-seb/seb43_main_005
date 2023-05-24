@@ -4,18 +4,22 @@ import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import AuthInput from "../components/common/AuthInput.jsx";
 import { updateData } from "../api/apiUtil.js";
+import Loading from "../components/common/Loading.jsx";
 export default function FindPassword() {
   const navigate = useNavigate();
   const [emailAlert, setEmailAlert] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   let data = { email };
   const onSubmitHandler = event => {
     event.preventDefault();
+    setIsLoading(false);
     if (email === "") {
       setEmailAlert("이메일을 입력해주세요.");
     } else {
       updateData(data, "/members/password-reset-request", "post")
         .then(res => {
+          setIsLoading(true);
           navigate("/user/findpw/2");
         })
         .catch(err => {
@@ -56,6 +60,7 @@ export default function FindPassword() {
           </span>
         </LoginNavigate>
       </LoginWrap>
+      {isLoading ? null : <Loading />}
     </PageContainer>
   );
 }

@@ -42,7 +42,6 @@ function MbtiResult(props) {
           ))}
         </RecommendedStudyMethod>
 
-        <KakaoStyleBtn />
         <KakaoShateBtn resultData={resultData} />
         {/* <img src={kakaoIcon} alt="카카오 아이콘" /> */}
       </Container>
@@ -106,14 +105,14 @@ const BoldText = styled.span`
   font-weight: bold;
 `;
 
-const KakaoStyleBtn = styled.button`
-  background: url(${kakaoIcon}) no-repeat center center;
-  border: 1px solid black;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
+// const KakaoStyleBtn = styled.button`
+//   background: url(${kakaoIcon}) no-repeat center center;
+//   border: 1px solid black;
+//   width: 60px;
+//   height: 60px;
+//   border-radius: 30px;
 
-  :hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
-`;
+//   :hover {
+//     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+//   }
+// `;
