@@ -46,6 +46,7 @@ export default function Dialog({ feat, path, text, closeDialog }) {
   // 회원 탈퇴
   const deleteUser = () => {
     deleteData("/members/withdrawal");
+    localStorage.clear();
     navigate("/");
   };
   return (

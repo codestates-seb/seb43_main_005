@@ -1,69 +1,84 @@
 import styled from "styled-components";
-import ProfileImage from "../common/ProfileImage.jsx";
 import { getData } from "../../api/apiUtil.js";
 import React, { useEffect, useState } from "react";
 import MyDebateComments from "./MyDebateComments.jsx";
+import Pagination from "../common/Pagination.jsx";
 
 export default function MyComment() {
-  // 내가 작성한 토론글 목록 get => 임시, 버튼 누르면 불러오기
-  // 불러온대로 페이지네이션으로 보여주기
-
-  // 임시 랜덤이미지 => 서버에서 유저 프로필 이미지 받아오기
-  let userProfileImage = "https://source.unsplash.com/random/300x300/?animal";
-
-  // Comment 가져오기
   const [body, setBody] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  // const [sort, setSort] = useState("");
 
-  function myCommentCheck() {
-    getData(`/members/my-comment?${sort}&size=5`)
+  function getMyComment() {
+    getData(`/members/my-comment?page=${page}`)
       .then(res => {
-        console.log(res.result.content);
+        // console.log(res.result.content);
         setBody(res.result.content);
+        setTotalPages(res.result.totalPages);
       })
       .catch(error => console.log(error));
   }
 
-  // let userProfileImage =  content[n].member.profileImage
-
-  // 정렬 : 버튼 누르면 sort 별로 요청하기
-  const [sort, setSort] = useState("");
-  useEffect(() => {
-    getData(`/members/my-comment?${sort}`)
+  // sort : 작성순, 최신순, 추천순
+  const [sortTool, setSortTool] = useState(1);
+  function defaltSort() {
+    getData(`/members/my-comment?s&page=${page}`)
       .then(data => {
         setBody(data.result.content);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [sort]);
-  // 정렬 버튼
-  const Sort = e => {
-    // console.log(e.target.value);
-    setSort(e.target.value);
-  };
-  useEffect(() => {
-    myCommentCheck();
-  }, [sort]);
+  }
+  function getCommentSort(e) {
+    const sort = e.target.value;
+    getData(`/members/my-comment?sort=${sort}&page=${page}`)
+      .then(data => {
+        setBody(data.result.content);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
-  // DebateTitle 클릭 시 해당 토론글로 이동하기
+  useEffect(() => {
+    getMyComment();
+  }, [page]);
+
   return (
     <>
       <DebateContainer className="DebateContainer">
-        <button value="default" onClick={e => Sort(e)}>
-          등록순
-        </button>
-        <button value="createdAt" onClick={e => Sort(e)}>
-          최신순
-        </button>
-        <button value="likes" onClick={e => Sort(e)}>
-          추천순
-        </button>
-        {/* <button onClick={myCommentCheck}>불러오기</button> */}
-        <CommentContainer>
-          {body.map(item => {
-            return <MyDebateComments body={item} key={item.articleCommentId} />;
-          })}
-        </CommentContainer>
+        <CommitBar sortTool={sortTool}>
+          {/* <div>댓글 {body.commentCount}</div> */}
+          <button
+            onClick={e => {
+              setSortTool(1);
+              defaltSort();
+            }}>
+            작성순
+          </button>
+          <button
+            value="createdAt"
+            onClick={e => {
+              setSortTool(2);
+              getCommentSort(e);
+            }}>
+            최신순
+          </button>
+          <button
+            value="likes"
+            onClick={e => {
+              setSortTool(3);
+              getCommentSort(e);
+            }}>
+            추천순
+          </button>
+        </CommitBar>
+        {body.map(item => {
+          return <MyDebateComments body={item} key={item.articleCommentId} />;
+        })}
+        <Pagination page={page} setPage={setPage} totalPages={totalPages} />
       </DebateContainer>
     </>
   );
@@ -73,30 +88,57 @@ const DebateContainer = styled.section`
   display: flex;
   flex-direction: column;
 `;
-const CommentContainer = styled.div`
+
+const CommitBar = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 100px;
-  background-color: ${props => props.theme.white};
-  border: ${props => props.theme.borderBold};
-  border-radius: 10px;
-  margin-bottom: 20px;
-`;
-const CommentBox = styled.div`
-  width: 100%;
-  height: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-`;
-const DebateTitle = styled.div`
-  font-size: 1rem;
-  margin-bottom: 12px;
-`;
-const MyComments = styled.div`
-  font-size: 0.8rem;
-  margin-bottom: 10px;
-`;
-const CommentDate = styled.div`
-  font-size: 0.7rem;
-  color: ${props => props.theme.gray200};
+  align-items: center;
+  justify-content: flex-end;
+  * {
+    font-size: 1.25em;
+  }
+  div {
+    margin-right: 20px;
+  }
+
+  & > first-child {
+    ${({ sortTool }) =>
+      sortTool === 1 &&
+      `
+        color: ${({ theme }) => theme.main};
+        font-weight: bold;
+      `};
+  }
+
+  & > :nth-child(2) {
+    ${({ sortTool }) =>
+      sortTool === 2 &&
+      `
+        color: ${({ theme }) => theme.main};
+        font-weight: bold;
+      `};
+    ::before {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 8px;
+      margin-right: 10px;
+      border-right: 1px solid ${({ theme }) => theme.gray100};
+    }
+    ::after {
+      content: "";
+      display: inline-block;
+      width: 10px;
+      height: 8px;
+      margin-right: 10px;
+      border-right: 1px solid ${({ theme }) => theme.gray100};
+    }
+  }
+  & > :nth-child(3) {
+    ${({ sortTool }) =>
+      sortTool === 3 &&
+      `
+        color: ${({ theme }) => theme.main};
+        font-weight: bold;
+      `};
+  }
 `;
