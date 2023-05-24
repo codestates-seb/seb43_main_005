@@ -72,6 +72,7 @@ export default function CouresDetail({ feat }) {
   }, [id, learnId]);
 
   // ! Side Menu Handler & Post LearnCheck
+  const [quizzes, setQuizzes] = useState(null); // quiz
   const navigate = useNavigate();
   const handleClickCheck = async (learnId, learnCheckId, index) => {
     dispatch(setLearnIndex(index));
@@ -90,6 +91,8 @@ export default function CouresDetail({ feat }) {
       <Body>
         {lnb && (
           <CustomSideBar
+            quizzes={quizzes}
+            setQuizzes={setQuizzes}
             courseId={id}
             learnChecks={learnChecks}
             onClickCheck={handleClickCheck}
@@ -97,7 +100,11 @@ export default function CouresDetail({ feat }) {
         )}
         <ContentWrap>
           {feat === "content" && (
-            <ContentArticle courseId={id} learnChecks={learnChecks} />
+            <ContentArticle
+              courseId={id}
+              learnChecks={learnChecks}
+              quizzes={quizzes}
+            />
           )}
           {feat === "quiz" && <OxQuiz />}
         </ContentWrap>

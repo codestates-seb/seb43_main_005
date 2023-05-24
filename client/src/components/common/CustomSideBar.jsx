@@ -9,7 +9,13 @@ import { useDispatch } from "react-redux";
 import { setLearnId } from "../../redux/features/user/learnSlice.js";
 import { FaBook } from "react-icons/fa";
 
-export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
+export default function CustomSideBar({
+  onClickCheck,
+  courseId,
+  learnChecks,
+  quizzes,
+  setQuizzes,
+}) {
   const [progress, setProgress] = useState();
   const [title, setTitle] = useState();
 
@@ -26,7 +32,6 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
   const quizClick = () => navigate(`/course/${courseId}/quiz`);
 
   // ! Get Quiz
-  const [quizzes, setQuizzes] = useState(null);
   const getQuiz = async () => {
     const { result } = await getData(`/contents/${courseId}/quizzes`);
     const { content } = result;
@@ -70,24 +75,14 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
       </ProgressWrap>
       <InnerContainer>
         {learnChecks?.map((status, index) => (
-          <>
-            <CustomCheckBox
-              key={status.learnCheckId}
-              text={status.title}
-              checked={status.completed}
-              onClick={() =>
-                handleClickCheck(status.learnId, status.learnCheckId, index)
-              }
-            />
-            <CustomCheckBox
-              key={status.learnCheckId}
-              text={status.title}
-              checked={status.completed}
-              onClick={() =>
-                handleClickCheck(status.learnId, status.learnCheckId, index)
-              }
-            />
-          </>
+          <CustomCheckBox
+            key={status.learnCheckId}
+            text={status.title}
+            checked={status.completed}
+            onClick={() =>
+              handleClickCheck(status.learnId, status.learnCheckId, index)
+            }
+          />
         ))}
         {quizzes && (
           <OxContainer onClick={quizClick}>
