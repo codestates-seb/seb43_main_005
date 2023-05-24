@@ -1,67 +1,59 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CustomButton from "../common/CustomButton.jsx";
 import useModal from "../../hooks/useModal.js";
 import Dialog from "../common/Dialog.jsx";
 import { getData, updateData } from "../../api/apiUtil.js";
 import Alert from "../common/Alert.jsx";
 import Loading from "../common/Loading.jsx";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  setLearnId,
+  setLearnIndex,
+} from "../../redux/features/user/learnSlice.js";
 
 export default function ContentArticle({ courseId, learnChecks }) {
+  // item
+  const { learnId, learnIndex, learnContent } = useSelector(
+    state => state.learn
+  );
   // admin
   const { userRole } = useSelector(state => state.user);
   const admin = userRole === "ADMIN";
   const [dialog, openDialog, closeDialog] = useModal();
-  // item
-  const [index, setIndex] = useState(0);
-  const { length } = learnChecks;
-  const { learnId, learnCheckId } = learnChecks[index];
   const apiUrl = `/contents/${courseId}/learns/${learnId}`;
   const editPath = `/admin/edit/course/${courseId}/content/${learnId}`;
-  const [item, setItem] = useState(null);
-  // Next button
+
+  // ! Next button
   const [text, setText] = useState("다음");
-  // Error
-  const [error, openError, closeError] = useModal();
-
-  // ! Get 학습데이터
-  const sliceData = async () => {
-    try {
-      const { result } = await getData(apiUrl);
-      setItem(result);
-    } catch {
-      openError();
-    }
-  };
+  let nextLearId = learnChecks && learnChecks[learnIndex + 1]?.learnId;
   useEffect(() => {
-    sliceData();
-    if (index === length - 1) setText("학습완료");
-  }, [index]);
-
-  // ! Post LearnCheck
-  const postLearnCheck = async data => {
-    updateData(data, `${apiUrl}/learnCheck/${learnCheckId}`, "patch");
-  };
+    nextLearId ? setText("다음") : setText("학습완료");
+  }, [learnId]);
 
   // ! handleNext
-  const handleNext = () => {
-    postLearnCheck({ completed: true });
-    if (text === "학습완료") return;
-    if (index < length) {
-      setIndex(prev => prev + 1);
-    }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const learnCheckId = learnChecks && learnChecks[learnIndex]?.learnCheckId;
+  const handleNext = async () => {
+    // Common 완료체크
+    const updateUrl = `/contents/${courseId}/learns/${learnId}/learnChecks/${learnCheckId}`;
+    await updateData({ completed: true }, updateUrl, "patch");
+    // 마지막 페이지
+    if (text === "학습완료" || !nextLearId) return;
+    // 다음 학습으로 이동
+    dispatch(setLearnIndex(learnIndex + 1));
+    dispatch(setLearnId(nextLearId));
+    const pathLearnUrl = `/course/${courseId}/learn/${nextLearId}`;
+    navigate(pathLearnUrl);
   };
 
-  // ! error 처리
-  if (!item) return <Loading />;
-  if (error) return <Alert closeAlert={closeError} />;
   return (
     <ContentWrap>
       <Content>
-        <h1>{item?.title}</h1>
-        <span dangerouslySetInnerHTML={{ __html: item?.content }} />
+        <h1>{learnContent?.title}</h1>
+        <span dangerouslySetInnerHTML={{ __html: learnContent?.content }} />
       </Content>
       <ButtonWrap>
         <CustomButton text={text} feat="tag" onClick={handleNext} />
@@ -72,7 +64,7 @@ export default function ContentArticle({ courseId, learnChecks }) {
               feat="tag"
               mode="patch"
               path={editPath}
-              item={item}
+              item={learnContent}
               reverse
             />
             <CustomButton text="게시글 삭제" feat="tag" onClick={openDialog} />
@@ -84,6 +76,7 @@ export default function ContentArticle({ courseId, learnChecks }) {
         <Dialog
           feat="삭제하기"
           path={apiUrl}
+          id={courseId}
           text={["게시을 삭제하시겠습니까?"]}
           closeDialog={closeDialog}
         />

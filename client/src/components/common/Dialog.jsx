@@ -33,6 +33,9 @@ export default function Dialog({ feat, path, text, closeDialog }) {
   const logout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    localStorage.removeItem("memberTheme");
+    localStorage.removeItem("expirationTime");
+
     dispatch(clearUserInfo());
     navigate("/");
   };
