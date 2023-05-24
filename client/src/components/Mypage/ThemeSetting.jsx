@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Themes from "./Themes.jsx";
 
-export default function Setting() {
+export default function ThemeSetting() {
   return (
     <>
       <ThemeContainer className="ThemeContainer">

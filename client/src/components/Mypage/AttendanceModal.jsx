@@ -35,7 +35,7 @@ export default function AttendanceModal({ attended }) {
         // 출석 완료 및 경험치 얻음 모달 띄우기
         openAttend(true);
         // 로컬 스토리지에 출석한 날짜 저장하기
-        // localStorage.removeitem("attendance_date");
+        localStorage.removeitem("attendance_date");
         localStorage.setItem("attendance_date", today);
       })
       .catch(error => console.log(error));
@@ -98,7 +98,7 @@ export default function AttendanceModal({ attended }) {
             </div>
             <div className="desc">
               <p>출석 체크 완료!</p>
-              <p>경험치(10xp) 가 적립되었습니다.</p>
+              <p>경험치(20xp) 가 적립되었습니다.</p>
               <AttendanceImgBox>
                 <svg
                   width="82"
@@ -133,7 +133,7 @@ const ModalBtn = styled.button`
   justify-content: center;
   position: fixed;
   right: 50px;
-  bottom: 50px;
+  bottom: 150px;
   cursor: ${props => (props.attended ? "default" : "pointer")};
 
   &:hover {

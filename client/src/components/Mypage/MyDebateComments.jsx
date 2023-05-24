@@ -22,12 +22,11 @@ export default function MyDebateComments({ body }) {
           aria-hidden="true">
           {title}
         </div>
-        {content}
-        <p>
+        <span dangerouslySetInnerHTML={{ __html: content }} />
+        <p className="gray">
           {createdAt} | 좋아요 {like}
         </p>
       </Body>
-      {/* <Comment>댓글{commentCount}</Comment> */}
     </StyledDiscusstions>
   );
 }
@@ -35,7 +34,7 @@ export default function MyDebateComments({ body }) {
 const StyledDiscusstions = styled.div`
   display: flex;
   justify-content: space-between;
-  height: 100px;
+  min-height: 100px;
   margin: 10px 0px;
   background-color: ${props => props.theme.white};
   border: 1px solid ${props => props.theme.black};
@@ -53,11 +52,14 @@ const Body = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 20px;
+    margin-top: 4px;
+    margin-bottom: 18px;
   }
-
   p {
-    color: ${props => props.theme.gray200};
+    color: ${props => props.theme.text};
+  }
+  p .gray {
+    color: ${props => props.theme.gray100};
   }
 `;
 

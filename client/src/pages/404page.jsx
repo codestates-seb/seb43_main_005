@@ -4,9 +4,9 @@ import PageContainer from "../components/common/PageContainer.jsx";
 export default function ErrorPage() {
   return (
     <PageContainer>
-      <ErrorContainer>
+      <ErrorContainer className="ErrorContainer">
         <SVGBox>
-          <svg viewBox="0 0 1130 1080" fill="none">
+          <svg viewBox="0 0 1250 1100" fill="none">
             <g clipPath="url(#clip0_84_822)">
               <path d="M814.5 920.167H922.833V1028.5H814.5V920.167ZM814.5 486.833H922.833V811.833H814.5V486.833ZM868.125 216C569.125 216 327 458.667 327 757.667C327 1056.67 569.125 1299.33 868.125 1299.33C1167.67 1299.33 1410.33 1056.67 1410.33 757.667C1410.33 458.667 1167.67 216 868.125 216ZM868.667 1191C629.25 1191 435.333 997.083 435.333 757.667C435.333 518.25 629.25 324.333 868.667 324.333C1108.08 324.333 1302 518.25 1302 757.667C1302 997.083 1108.08 1191 868.667 1191Z" />
             </g>
@@ -21,7 +21,7 @@ export default function ErrorPage() {
 }
 
 const ErrorContainer = styled.div`
-  width: 100vw;
+  width: 95%;
   overflow: hidden;
 
   @media screen and (max-width: 500px) {
@@ -41,7 +41,7 @@ const ErrorContainer = styled.div`
 `;
 const SVGBox = styled.div`
   & > svg {
-    height: 80vh;
+    height: 65vh;
     position: absolute;
     right: 0px;
     z-index: -1;

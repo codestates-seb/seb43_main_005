@@ -156,7 +156,7 @@ export default function Main({ userInfo }) {
       <ContentsArea>
         <Title>
           <h3>
-            <Link to="/course">Course</Link>
+            <Link to="/course">Roadmap</Link>
           </h3>
           <p>이제 막 개발을 시작한 Code Traveler들을 위한 개발자 안내서!</p>
         </Title>
