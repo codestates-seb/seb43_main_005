@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import CustomSideBar from "../components/common/CustomSideBar.jsx";
@@ -36,11 +36,38 @@ export default function CouresDetail({ feat }) {
   }, [id]);
 
   // ! Get LearnData
-  const learnApi = async () => {
-    await dispatch(fetchLearnCheck(id)); // get learnCheckes Data
-    await dispatch(fetchLearnItem({ learnId, courseId: id })); // getLearnItem Data
-  };
+  const MAX_RETRY_COUNT = 3; // 최대 재시도 횟수
+  const learnApi = useCallback(
+    async (retryCount = 0) => {
+      if (retryCount >= MAX_RETRY_COUNT) {
+        console.log("API 요청에 실패했습니다. 재시도 횟수를 초과했습니다.");
+        return;
+      }
+      if (learnId) {
+        try {
+          const response = await dispatch(
+            fetchLearnItem({ learnId, courseId: id })
+          ); // getLearnItem Data
+          if (response.error) {
+            // Handle error case
+            console.log("API 요청에 실패했습니다. 재시도합니다.");
+            learnApi(retryCount + 1); // 재시도
+          }
+        } catch (error) {
+          // Handle error case
+          console.log("API 요청 중 오류가 발생했습니다. 재시도합니다.");
+          learnApi(retryCount + 1); // 재시도
+        }
+      } else {
+        console.log("API 요청을 위한 learnId가 유효하지 않습니다.");
+        dispatch(setLearnId(learn)); // set 0 -> LearnId
+      }
+    },
+    [learnId, id, dispatch]
+  );
+
   useEffect(() => {
+    dispatch(fetchLearnCheck(id)); // get learnCheckes Data
     learnApi();
   }, [id, learnId]);
 
