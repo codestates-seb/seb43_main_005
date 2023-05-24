@@ -32,7 +32,7 @@ export default function BtnTabContainer(setSelectedTheme) {
   const menuArr = [
     { name: "대시보드", content: <Dashbord /> },
     { name: "내가 쓴 토론 글", content: <MyDebate /> },
-    { name: "테마 설정", content: <Setting /> },
+    { name: "테마 설정", content: <ThemeSetting /> },
   ];
   // console.log(`컨테이너 selected : ${selected}`);
   return (
