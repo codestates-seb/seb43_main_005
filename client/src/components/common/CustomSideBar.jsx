@@ -3,91 +3,93 @@ import styled from "styled-components";
 import CustomProgressBar from "./CustomProgressBar.jsx";
 import { IoIosArrowBack } from "react-icons/io";
 import CustomCheckBox from "./CustomCheckBox.jsx";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
-import axios from "axios";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { getData } from "../../api/apiUtil.js";
+import { useDispatch } from "react-redux";
+import { setLearnId } from "../../redux/features/user/learnSlice.js";
 
-function CustomSideBar(props) {
-  const [titleData, setTitleData] = useState(null);
-  const [checkboxStatuses, setCheckboxStatuses] = useState([]);
-  const { id } = useParams();
-  // console.log(id);
-  const token = localStorage.getItem("access_token");
-  const host = process.env.REACT_APP_BASE_URL;
+export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
+  const [progress, setProgress] = useState();
+  const [title, setTitle] = useState();
 
-  // `${host}/contents/${id}/learns?size=20&page=0`
-  // http://13.124.42.111:8080/contents/1/learns?size=20&page=0
-  useEffect(() => {
-    axios
-      .get(`${host}/contents/${id}/learns?size=20&page=0`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then(response => {
-        setTitleData(response.result);
-        console.log(titleData);
-      })
-      .catch(error => {
-        console.error("타이틀 불러오기 에러");
-      });
-  }, []); // 빈 배열을 종속성으로 넘겨주어 컴포넌트가 처음 마운트될 때만 실행하게 함
-
-  const [titles, setTitles] = useState([
-    { id: 1, text: "Learn React" },
-    { id: 2, text: "Learn styled" },
-    { id: 3, text: "Build a todo " },
-    { id: 4, text: "OX 문제" },
-  ]);
-  useEffect(() => {
-    // titles 배열을 기반으로 체크박스 상태 초기화
-    const initialStatuses = titles.map(title => ({
-      id: title.id,
-      text: title.text,
-      checked: false,
-    }));
-    setCheckboxStatuses(initialStatuses);
-  }, [titles]);
-
-  const handleCheckChange = id => {
-    setCheckboxStatuses(prevStatuses =>
-      prevStatuses.map(status =>
-        status.id === id ? { ...status, checked: !status.checked } : status
-      )
-    );
+  // ! Get Progress
+  const getProgress = async () => {
+    const { result } = await getData(`/contents/${courseId}/progress`);
+    const { progress, content } = result;
+    setProgress(progress);
+    setTitle(content?.title);
   };
-  const navigate = useNavigate();
-  const location = useLocation();
 
+  // ! quizClick
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [quizCheck, setQuizCheck] = useState(false);
+  const quizClick = () => {
+    setQuizCheck(true);
+    navigate(`/course/${courseId}/quiz`);
+    // window.location.reload();
+  };
+
+  // ! Get Quiz
+  const [quizzes, setQuizzes] = useState(null);
+  const getQuiz = async () => {
+    const { result } = await getData(`/contents/${courseId}/quizzes`);
+    const { content } = result;
+    setQuizzes(...content);
+  };
+  useEffect(() => {
+    getProgress();
+    getQuiz();
+  }, []);
+
+  // ! Get learn data
+  const [check, setCheck] = useState(false);
+  const dispatch = useDispatch();
+  const handleClickCheck = async (learnId, learnCheckId, index) => {
+    setCheck(true);
+    dispatch(setLearnId(learnId));
+    onClickCheck(learnId, learnCheckId, index);
+  };
+
+  // ! 뒤로가기
   const goBack = () => {
     if (location.state?.from) {
       navigate(location.state.from, { replace: true });
     } else {
-      navigate(-1);
+      navigate("/course");
     }
   };
 
   return (
     <SideBarContainer>
       <InnerContainer>
-        <h2>
-          <IoIosArrowBack onClick={goBack} /> Redux
+        <h2 onClick={goBack} role="none">
+          <IoIosArrowBack /> {title}
         </h2>
-        <CustomProgressBar progress={50} feat={"simple"} />
-        <CustomCheckBox />
-        {/* {titleData?.map(status => (
+        <CustomProgressBar progress={progress} feat={"simple"} />
+        {learnChecks?.map((status, index) => (
           <CustomCheckBox
-            key={status.id}
-            text={status.text}
-            checked={status.checked}
-            onCheck={() => handleCheckChange(status.id)}
+            key={status.learnCheckId}
+            text={status.title}
+            checked={status.completed || check}
+            // onCheck={() => handleCheckChange(status.learnId)}
+            onClick={() =>
+              handleClickCheck(status.learnId, status.learnCheckId, index)
+            }
           />
-        ))} */}
+        ))}
+        {quizzes && (
+          <CustomCheckBox
+            text="OX 퀴즈"
+            defaultValue={false}
+            checked={pathname.includes("quiz") || quizCheck}
+            onClick={quizClick}
+          />
+        )}
       </InnerContainer>
     </SideBarContainer>
   );
 }
-
-export default CustomSideBar;
 
 const IconWrapper = styled.div``;
 
@@ -109,5 +111,7 @@ const InnerContainer = styled.div`
     display: flex;
     align-items: center; // 아이템들을 세로축 중앙으로 정렬합니다.
     margin-bottom: 20px;
+    cursor: pointer;
+    line-height: 17px;
   }
 `;
