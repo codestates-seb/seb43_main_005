@@ -207,6 +207,7 @@ const Quiz = styled.div`
   width: 100%;
   height: 126px;
   display: flex;
+  padding: 10px;
   justify-content: center;
   align-items: center;
   margin-bottom: 50px;
@@ -221,7 +222,7 @@ const AnswerContainer = styled.div`
 `;
 
 const Answer = styled.div`
-  width: 500px;
+  width: 47%;
   height: 222px;
   border: ${({ highlighted, theme, viewSolution }) =>
     viewSolution && highlighted
@@ -240,8 +241,8 @@ const Answer = styled.div`
 `;
 
 const StyledImage = styled.img`
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
 `;
 
 const QuizSolution = styled.div`
