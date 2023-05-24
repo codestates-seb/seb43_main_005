@@ -21,23 +21,27 @@ export default function CouresDetail({ feat }) {
   const [lnb, setLnb] = useState(true); // navi handler
   const { userInfo } = useSelector(state => state.user); // header User
   const { id, learn } = useParams();
-  const { learnId, learnChecks } = useSelector(state => state.learn); // learn data
+  const { loading, learnId, learnChecks } = useSelector(state => state.learn); // learn data
 
   // ! Current Index
   const dispatch = useDispatch();
   const currentIndex = () => {
     dispatch(setClear()); // data clear
+    dispatch(setLearnId(learn)); // set 0 -> LearnId
     const index = learnChecks?.findIndex(el => el.learnId === Number(learn));
     dispatch(setLearnIndex(index));
   };
   useEffect(() => {
     learnChecks && currentIndex();
   }, [id]);
+
   // ! Get LearnData
+  const learnApi = async () => {
+    await dispatch(fetchLearnCheck(id)); // get learnCheckes Data
+    await dispatch(fetchLearnItem({ learnId, courseId: id })); // getLearnItem Data
+  };
   useEffect(() => {
-    dispatch(setLearnId(learn)); // set 0 -> LearnId
-    dispatch(fetchLearnCheck(id)); // get learnCheckes Data
-    dispatch(fetchLearnItem({ learnId, courseId: id })); // getLearnItem Data
+    learnApi();
   }, [id, learnId]);
 
   // ! Side Menu Handler & Post LearnCheck
@@ -51,7 +55,8 @@ export default function CouresDetail({ feat }) {
     navigate(pathLearnUrl);
   };
 
-  if (!learnChecks) return <Loading />;
+  if (loading) return <Loading />;
+  // if (!learnChecks) return <Loading />;
   return (
     <Container>
       <Header course setLnb={setLnb} userInfo={userInfo} />

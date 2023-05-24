@@ -43,10 +43,8 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
   }, []);
 
   // ! Get learn data
-  const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
   const handleClickCheck = async (learnId, learnCheckId, index) => {
-    setCheck(true);
     dispatch(setLearnId(learnId));
     onClickCheck(learnId, learnCheckId, index);
   };
@@ -71,7 +69,7 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
           <CustomCheckBox
             key={status.learnCheckId}
             text={status.title}
-            checked={status.completed || check}
+            checked={status.completed}
             // onCheck={() => handleCheckChange(status.learnId)}
             onClick={() =>
               handleClickCheck(status.learnId, status.learnCheckId, index)
