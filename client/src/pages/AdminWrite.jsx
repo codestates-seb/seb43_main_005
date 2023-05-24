@@ -115,7 +115,9 @@ export default function AdminWrite({ mode = "post" }) {
           };
 
     await updateData(payload, types[feat].path, mode);
-    navigate("/");
+    // navigate("/");
+    navigate(-1);
+    // window.location.reload();
     // console.log(payload);
     // console.log(types[feat].path);
     // console.log(mode);

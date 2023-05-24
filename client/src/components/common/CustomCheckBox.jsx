@@ -42,6 +42,7 @@ const StyledLabel = styled.label`
   display: flex;
   align-items: center;
   user-select: none;
+  cursor: pointer;
 
   &:before {
     content: "";

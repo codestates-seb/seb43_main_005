@@ -74,13 +74,13 @@ export default function Course() {
             feat="round"
             reverse={selected === "old"}
           />
-          <CustomButton
+          {/* <CustomButton
             type="button"
             text="최신순"
             onClick={e => handleSorted("recent")}
             feat="round"
             reverse={selected === "recent"}
-          />
+          /> */}
         </Sorted>
         <SearchBar value={searchValue} />
       </TopGroup>

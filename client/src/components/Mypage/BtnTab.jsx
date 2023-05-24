@@ -3,7 +3,7 @@ import { useState } from "react";
 import CustomButton from "../common/CustomButton.jsx";
 import Dashbord from "./Dashbord.jsx";
 import MyDebate from "./MyComment.jsx";
-import Setting from "./Themes.jsx";
+import ThemeSetting from "./ThemeSetting.jsx";
 
 export default function BtnTab({ menuArr, selected, setSelected }) {
   const selectMenuHandler = index => {

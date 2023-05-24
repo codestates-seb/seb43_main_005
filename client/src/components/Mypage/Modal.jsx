@@ -1,69 +1,46 @@
 import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { deleteData } from "../../api/apiUtil.js";
-import CustomButton from "./CustomButton.jsx";
+import CustomButton from "../common/CustomButton.jsx";
 import { AiOutlineClose } from "react-icons/ai";
-import { clearUserInfo } from "../../redux/features/user/userSlice.js";
 
-export default function Dialog({ feat, path, text, closeDialog }) {
-  const dispatch = useDispatch();
+export default function Modal({ feat, path, text, closeModal }) {
   const navigate = useNavigate();
-  const clickBack = e => e.target.classList.contains("close") && closeDialog();
+  const clickBack = e => e.target.classList.contains("close") && closeModal();
 
   const handleDialog = () => {
     switch (feat) {
-      case "로그아웃":
-        logout();
+      case "수정":
+        console.log("수정");
         break;
-      case "삭제하기":
-        deleteItem();
-        break;
-      case "탈퇴하기":
-        deleteUser();
-        break;
+      // case "삭제하기":
+      //   deleteItem();
+      //   break;
+      // case "탈퇴하기":
+      //   deleteUser();
+      //   break;
       case "작성취소":
         navigate(-1);
         break;
     }
-    closeDialog();
+    closeModal();
   };
 
-  // ! logout
-  const logout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("memberTheme");
-    localStorage.removeItem("expirationTime");
-
-    dispatch(clearUserInfo());
-    navigate("/");
-  };
-
-  // ! delete
-  const deleteItem = async () => {
-    await deleteData(path);
-    navigate("/");
-  };
-
-  // 회원 탈퇴
-  const deleteUser = () => {
-    deleteData("/members/withdrawal");
-    localStorage.clear();
-    navigate("/");
-  };
   return (
     <DialogBack onClick={clickBack} className="close">
       <DialogContainer>
-        <DialogClose onClick={closeDialog}>
+        <DialogClose onClick={closeModal}>
           <AiOutlineClose />
         </DialogClose>
         <DialogText>
-          {text && text.map((el, i) => <p key={i}>{el}</p>)}
+          {text ? (
+            text.map((el, i) => <p key={i}>{el}</p>)
+          ) : (
+            <p>수정이 완료되었습니다.</p>
+          )}
         </DialogText>
         <DialogBtnGroup>
-          <CustomButton onClick={handleDialog} text={feat} reverse={true} />
-          <CustomButton onClick={closeDialog} text="취소" />
+          {/* <CustomButton onClick={handleDialog} text={feat} reverse={true} /> */}
+          <CustomButton onClick={closeModal} text="닫기" />
         </DialogBtnGroup>
       </DialogContainer>
     </DialogBack>
