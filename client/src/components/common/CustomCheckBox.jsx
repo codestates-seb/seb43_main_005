@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import checkbox_check from "../../assets/images/checkbox_check.png";
-import checkbox_uncheck from "../../assets/images/checkbox_uncheck.png";
+import Check from "../../assets/images/check.png";
 
 function CheckBox({ text = "테스트", onClick, checked }) {
   const [isChecked, setIsChecked] = useState(true); // 초기 상태를 체크된 상태로 설정
@@ -48,23 +47,18 @@ const StyledLabel = styled.label`
     content: "";
     height: 24px;
     width: 24px;
-    background-image: url(${checkbox_uncheck});
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
+    border: ${({ theme }) => theme.borderMain};
+    border-radius: 50%;
   }
 
   &:after {
+    border-radius: 50%;
     opacity: 0;
     content: "";
     position: absolute;
     height: 24px;
     width: 24px;
-    border-radius: 0.35rem;
-    background-image: url(${checkbox_check});
-    background-size: 100% 100%;
-    background-position: 50%;
-    background-repeat: no-repeat;
+    background-color: ${({ theme }) => theme.main};
   }
 `;
 
@@ -81,6 +75,10 @@ const StyledInput = styled.input`
   &:checked + ${StyledLabel} {
     :after {
       opacity: 1;
+      background-image: url(${Check});
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 15px;
     }
   }
 `;
@@ -88,4 +86,5 @@ const StyledInput = styled.input`
 const StyledP = styled.p`
   margin-left: 0.5rem;
   width: calc(100% - 24px);
+  line-height: 18px;
 `;
