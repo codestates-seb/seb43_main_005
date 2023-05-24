@@ -191,7 +191,7 @@ const ModalBtn = styled.button`
     transform: scale(1.1);
   }
   > img {
-    width: 70px;
+    width: 58px;
   }
 `;
 
