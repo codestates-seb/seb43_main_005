@@ -32,7 +32,7 @@ import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
 import AdminRoute from "./components/route/AdminRoute.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
-import { setTheme } from "./redux/features/user/themeSlice.js";
+import { setTheme } from "./redux/features/theme/themeSlice.js";
 
 function App() {
   const { pathname } = useLocation();

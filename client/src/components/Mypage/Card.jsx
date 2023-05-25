@@ -55,13 +55,15 @@ export default function Card({ teammateInfo }) {
             <AddressContainer className="AddressContainer">
               <div className="QRBox">QRBox</div>
               <div className="textBox">
+                <p>{teammateInfo.job}</p>
+                <p>{teammateInfo.work}</p>
                 <div className="gitAddress">{teammateInfo.gitAddress}</div>
                 <div className="blogAddress">{teammateInfo.blogAddress}</div>
               </div>
             </AddressContainer>
           </InfoContainer>
         </FrontCardBox>
-        <BackCardBox>
+        {/* <BackCardBox>
           <ImgContainer imgURL={teammateInfo.imgURL} />
           <InfoContainer>
             <NameContainer className="NameContainer">
@@ -117,7 +119,7 @@ export default function Card({ teammateInfo }) {
               </div>
             </AddressContainer>
           </InfoContainer>
-        </BackCardBox>
+        </BackCardBox> */}
       </FlipBox>
     </>
   );
@@ -128,12 +130,12 @@ const FlipBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 5px;
-  :hover :nth-child(2n-1) {
+  /* :hover :nth-child(2n-1) {
     transform: rotateX(180deg);
   }
   :hover :nth-child(2n) {
     transform: rotateX(0deg);
-  }
+  } */
 `;
 const FrontCardBox = styled.div`
   height: 200px;
@@ -141,13 +143,13 @@ const FrontCardBox = styled.div`
   border: ${props => props.theme.borderBold};
   clip-path: polygon(100% 10%, 100% 90%, 90% 100%, 0 100%, 0 0, 90% 0);
   display: flex;
-  backface-visibility: hidden;
+  /* backface-visibility: hidden;
   transition: 0.5s;
   position: absolute;
-  transform: rotateX(0deg);
+  transform: rotateX(0deg); */
 `;
 const BackCardBox = styled(FrontCardBox)`
-  transform: rotateX(-180deg);
+  /* transform: rotateX(-180deg); */
 `;
 const ImgContainer = styled.div`
   width: 150px;

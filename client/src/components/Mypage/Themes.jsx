@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { getData, updateData } from "../../api/apiUtil.js";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { setTheme } from "../../redux/features/user/themeSlice.js";
+import { setTheme } from "../../redux/features/theme/themeSlice.js";
 import useModal from "../../hooks/useModal.js";
 import Modal from "./Modal.jsx";
 
@@ -24,31 +24,23 @@ export default function Themes() {
   const [modal, openModal, closeModal] = useModal();
 
   const navigate = useNavigate();
-  // 임시 로컬스테이지 저장 => 선택한 theme 을 서버에 patch (/members/theme)
-  // alert 를 테마를 적용하시겠습니까? 하고 yes 면 patch 적용하고 리다이렉션하는 걸로 바꾸기
-  // => 리덕스 툴킷으로 상태관리시도!
 
   const dispatch = useDispatch();
 
   const handleThemeChange = value => {
     const payload = { memberTheme: value };
-    dispatch(setTheme(value)); // 테마 변경 액션 디스패치
+    dispatch(setTheme(value));
     updateData(payload, "/members/theme", "patch")
       .then(res => {
         console.log(res);
-        // alert("테마가 수정되었습니다.");
         openModal();
-        location.reload(); // 일단 바로 새로고침되게 해놓음...
+        location.reload();
       })
-      // .then(navigate("/"))
       .catch(error => {
         console.log(error);
-        dispatch(setTheme("defaultLight")); // 기본 테마로 변경 액션 디스패치
-        // alert("테마 변경에 실패했습니다.");
+        dispatch(setTheme("defaultLight"));
       });
   };
-
-  // alert => 모달로 변경하기(버튼 클릭 시 updateData 하고나서 일단은 메인으로 이동하기...)
 
   // === * 유저 레벨 별로 테마 잠금 풀리기 ===
   // 유저 레벨 불러오기

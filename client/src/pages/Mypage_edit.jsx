@@ -13,7 +13,6 @@ import Modal from "../components/Mypage/Modal.jsx";
 
 export default function EditMypage() {
   // 수정 페이지 최초 진입 시 유저 정보(userInfo) 받아와서 상태에 저장하기 => item 으로 받아오기
-  // => 기본이미지로 변경되어도 프리뷰에 보이게 하려면?
   const { state } = useLocation();
   const item = state?.item;
   const [userProfile, payload] = useUploadImg(item?.profileImage);
@@ -29,7 +28,6 @@ export default function EditMypage() {
   const [currentPassword] = useInput("");
   const [newPassword] = useInput("");
   const [checkNewPassword] = useInput("");
-  // const [successAlert, setSuccessAlert] = useState("");
   const [failAlert, setFailAlert] = useState("");
   const navigate = useNavigate();
 
@@ -39,15 +37,12 @@ export default function EditMypage() {
   const submitImg = e => {
     e.preventDefault();
     if (!payload) {
-      // setSuccessAlert("");
       setFailAlert("이미지를 추가해 주세요.");
     } else {
       getImagesUrl(payload).then(res =>
         updateData(res.result, "/members/profile-image", "patch")
           .then(res => {
-            // console.log(res);
             setFailAlert("");
-            // setSuccessAlert("프로필 이미지 수정이 완료되었습니다.");
             openModifiedModal(true);
           })
           .catch(err => console.log(err))
@@ -61,7 +56,6 @@ export default function EditMypage() {
     updateData(nickName.value, "/members/change-nickname", "patch").then(
       res => {
         setFailAlert("");
-        // setSuccessAlert("닉네임 수정이 완료되었습니다.");
         openModifiedModal(true);
       }
     );
@@ -75,34 +69,19 @@ export default function EditMypage() {
   };
   const submitPW = async e => {
     e.preventDefault();
-    // console.log(`passwordPayload ${passwordPayload}`);
-    // 세 값이 다 들어가 있지 않으면 값을 입력해주세요 뜨기
     if (
       !(currentPassword.value && newPassword.value && checkNewPassword.value)
     ) {
-      // setSuccessAlert("");
       setFailAlert("값을 입력해주세요.");
-      // console.log("값 다 안 들어감");
     } else {
-      // console.log("값 다 들어감");
-      // 변경할 비밀번호 일치 여부 확인하기
-      // setSuccessAlert("");
       setFailAlert(pwAlertCondition(newPassword.value, checkNewPassword.value));
-      // console.log(`failAlert : ${failAlert}`);
-
       if (failAlert === "") {
-        // console.log("비밀번호 수정 요청 전송");
-        // setSuccessAlert("");
         await updateData(passwordPayload, "/members/change-password", "patch")
           .then(res => {
-            // console.log(res);
             setFailAlert("");
-            // setSuccessAlert("비밀번호 수정이 완료되었습니다.");
             openModifiedModal(true);
           })
           .catch(error => {
-            // console.log(error.response.data.status);
-            // setSuccessAlert("");
             setFailAlert("현재 비밀번호를 재확인 해주세요.");
           });
       }

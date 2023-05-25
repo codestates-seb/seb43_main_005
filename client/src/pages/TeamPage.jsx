@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import PageContainer from "../components/common/PageContainer.jsx";
 import Card from "../components/Mypage/Card.jsx";
-import Fliptest from "../components/Mypage/fliptest.jsx";
 
 export default function EditMypage() {
   const teammateInfo = [
@@ -101,10 +100,9 @@ export default function EditMypage() {
   return (
     <PageContainer>
       <MyContainer>
-        <Fliptest />
-        {/* {teammateInfo.map(function (each, idx) {
+        {teammateInfo.map(function (each, idx) {
           return <Card teammateInfo={each} key={idx} />;
-        })} */}
+        })}
       </MyContainer>
     </PageContainer>
   );
