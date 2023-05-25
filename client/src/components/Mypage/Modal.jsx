@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CustomButton from "../common/CustomButton.jsx";
 import { AiOutlineClose } from "react-icons/ai";
 
-export default function Modal({ feat, path, text, closeModal }) {
+export default function Modal({ feat, path, text, payload, closeModal }) {
   const navigate = useNavigate();
   const clickBack = e => e.target.classList.contains("close") && closeModal();
 
@@ -12,12 +12,9 @@ export default function Modal({ feat, path, text, closeModal }) {
       case "수정":
         console.log("수정");
         break;
-      // case "삭제하기":
-      //   deleteItem();
-      //   break;
-      // case "탈퇴하기":
-      //   deleteUser();
-      //   break;
+      case "테마변경":
+        navigate("/");
+        break;
       case "작성취소":
         navigate(-1);
         break;
@@ -32,11 +29,7 @@ export default function Modal({ feat, path, text, closeModal }) {
           <AiOutlineClose />
         </DialogClose>
         <DialogText>
-          {text ? (
-            text.map((el, i) => <p key={i}>{el}</p>)
-          ) : (
-            <p>수정이 완료되었습니다.</p>
-          )}
+          {text ? <p>{text}</p> : <p>수정이 완료되었습니다.</p>}
         </DialogText>
         <DialogBtnGroup>
           {/* <CustomButton onClick={handleDialog} text={feat} reverse={true} /> */}

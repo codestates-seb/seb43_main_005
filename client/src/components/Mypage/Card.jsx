@@ -4,9 +4,9 @@ export default function Card({ teammateInfo }) {
   return (
     <>
       <CardBox className="CardBox">
-        <ImgContainer></ImgContainer>
-        <InfoContainer>
-          <div className="above">
+        <ImgContainer imgURL={teammateInfo.imgURL}></ImgContainer>
+        <InfoContainer className="InfoContainer">
+          <NameBox className="NameBox">
             <div>
               <p>{teammateInfo.name}</p>
               <p>{teammateInfo.nameENG}</p>
@@ -50,14 +50,26 @@ export default function Card({ teammateInfo }) {
               <p>{teammateInfo.febe}</p>
               <p>{teammateInfo.febeENG}</p>
             </div>
-          </div>
-          <div className="below">
-            <div className="QRBox"></div>
-            <div className="textBox">
-              <p>{teammateInfo.job}</p>
-              <p>{teammateInfo.work}</p>
-            </div>
-          </div>
+          </NameBox>
+          <InfoBox>
+            <QRBox
+              className="QRBox"
+              imgURL={teammateInfo.gitQR}
+              title="Github QRcode"
+            />
+            <TextBox className="TextBox">
+              <div className="textBox">
+                <div>{teammateInfo.job}</div>
+                <p>{teammateInfo.work}</p>
+              </div>
+              <div className="addressBox">
+                <div>gitAddress</div>
+                <p>{teammateInfo.gitAddress}</p>
+                <div>blogAddress</div>
+                <p>{teammateInfo.blogAddress}</p>
+              </div>
+            </TextBox>
+          </InfoBox>
         </InfoContainer>
       </CardBox>
     </>
@@ -68,25 +80,64 @@ const CardBox = styled.div`
   border: ${props => props.theme.borderBold};
   clip-path: polygon(100% 10%, 100% 90%, 90% 100%, 0 100%, 0 0, 90% 0);
   display: flex;
+  align-items: center;
+  padding: 20px;
+  @media ${props => props.theme.mediaQuery.tablet} {
+    width: 100%;
+  }
+  @media ${props => props.theme.mediaQuery.mobile} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 const ImgContainer = styled.div`
   width: 150px;
   height: 200px;
   border-radius: 10px;
   border: ${props => props.theme.borderBold};
-  background-color: antiquewhite;
+  background: url(${props => props.imgURL}) no-repeat center;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-shrink: 1;
-  /* margin: 8px; */
+  margin: auto 0;
 `;
 const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
+  margin: 20px 0 8px 0;
   flex-shrink: 2;
+`;
+const InfoBox = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+`;
+const NameBox = styled(InfoBox)`
+  display: flex;
+  margin-bottom: 20px;
+`;
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > div {
+    margin-bottom: 8px;
+  }
+  & > div > div {
+    color: ${props => props.theme.gray200};
+    margin-bottom: 4px;
+  }
+`;
+
+const QRBox = styled.div`
+  width: 50px;
+  height: 50px;
+  background: url(${props => props.imgURL}) no-repeat center;
+  background-size: cover;
 `;
