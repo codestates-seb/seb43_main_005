@@ -6,7 +6,7 @@ import CustomButton from "./CustomButton.jsx";
 import { AiOutlineClose } from "react-icons/ai";
 import { clearUserInfo } from "../../redux/features/user/userSlice.js";
 
-export default function Dialog({ feat, path, text, closeDialog }) {
+export default function Dialog({ feat, path, text, closeDialog, img }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const clickBack = e => e.target.classList.contains("close") && closeDialog();
@@ -24,6 +24,12 @@ export default function Dialog({ feat, path, text, closeDialog }) {
         break;
       case "작성취소":
         navigate(-1);
+        break;
+      case "퀴즈 풀러 가기":
+        navigate(path);
+        break;
+      case "더 공부하기":
+        navigate(path);
         break;
     }
     closeDialog();
@@ -60,6 +66,7 @@ export default function Dialog({ feat, path, text, closeDialog }) {
           <AiOutlineClose />
         </DialogClose>
         <DialogText>
+          {img && <img src={img} alt={img} />}
           {text && text.map((el, i) => <p key={i}>{el}</p>)}
         </DialogText>
         <DialogBtnGroup>
@@ -109,12 +116,25 @@ const DialogClose = styled.button`
     color: ${props => props.theme.text};
   }
 `;
+const shakeText = keyframes`
+  from{
+    transform: rotate(3deg) ;
+  }
+  to{
+    transform: rotate(-3deg);
+  }
+`;
 const DialogText = styled.div`
   padding: 20px 0 40px 0;
   text-align: center;
   color: ${props => props.theme.text};
   p:not(:last-of-type) {
     margin-bottom: 10px;
+  }
+  img {
+    width: 100px;
+    margin: 0 auto 50px auto;
+    animation: ${shakeText} 0.2s 0.05s alternate linear infinite;
   }
 `;
 const DialogBtnGroup = styled.div`

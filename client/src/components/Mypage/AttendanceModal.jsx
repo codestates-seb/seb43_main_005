@@ -58,7 +58,7 @@ export default function AttendanceModal({ attended, setAttended }) {
           className="ModalBtn"
           onClick={handleAttend}
           attended={attended}
-          disabled={attended ? "true" : ""}>
+          disabled={attended}>
           <svg
             width="33"
             height="33"

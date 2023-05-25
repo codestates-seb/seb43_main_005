@@ -270,6 +270,7 @@ const Title = styled.div`
       color: ${props => props.theme.textBold};
     }
   }
+  h3:hover a,
   .h3:hover {
     color: ${({ theme }) => theme.main};
   }
