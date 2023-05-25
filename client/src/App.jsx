@@ -58,7 +58,7 @@ function App() {
     // 테마 적용
     const setTheme = memberTheme => {
       setSelectedTheme(memberTheme);
-      console.log(`main ${memberTheme}`);
+      // console.log(`main ${memberTheme}`);
     };
     userInfo?.memberTheme
       ? setTheme(userInfo.memberTheme)

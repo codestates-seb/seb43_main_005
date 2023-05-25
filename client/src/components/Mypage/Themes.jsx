@@ -9,14 +9,15 @@ const themeList = [
   { name: "ocean", level: 1 },
   { name: "desert", level: 2 },
   { name: "forest", level: 3 },
-  { name: "space", level: 5 },
-  { name: "pet", level: 6 },
+  { name: "space", level: 4 },
+  { name: "pet", level: 5 },
 ];
 
 export default function Themes() {
   // * 유저 레벨 별로 테마 잠금 풀리기
   const [userLv, setUserLv] = useState(0);
   const [openedThemes, setOpenedThemes] = useState([]);
+  const [selectedTheme, setSelectedTheme] = useState("defaultLight");
 
   const navigate = useNavigate();
   // 임시 로컬스테이지 저장 => 선택한 theme 을 서버에 patch (/members/theme)
@@ -27,7 +28,8 @@ export default function Themes() {
     updateData(payload, "/members/theme", "patch").then(res => {
       console.log(res);
       alert("테마 수정됨.");
-      navigate("/");
+      // navigate("/");
+      // 리덕스 툴킷으로 App.js 의 테마 상태를 바꿔주기
     });
   };
 

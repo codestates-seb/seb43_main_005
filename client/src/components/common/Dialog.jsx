@@ -47,8 +47,9 @@ export default function Dialog({ feat, path, text, closeDialog }) {
   };
 
   // 회원 탈퇴
-  const deleteUser = () => {
-    deleteData("/members/withdrawal");
+  const deleteUser = async () => {
+    await deleteData("/members/withdrawal");
+    console.log("워원탈퇴");
     localStorage.clear();
     navigate("/");
   };
