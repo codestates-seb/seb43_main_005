@@ -1,3 +1,4 @@
+// 공통 속성
 const size = {
   mobile: "767px",
   tablet: ["768px", "1179px"],
@@ -37,8 +38,9 @@ const commonTheme = {
   mediaQuery,
   ...color,
 };
+
+// 개별 속성
 const themes = {
-  // 개별 속성
   defaultLight: { ...commonTheme },
   defaultDark: { ...commonTheme, main: "#5EC0CB", bg: "#494949" },
   oceanLight: {

@@ -4,8 +4,10 @@ import CustomButton from "../common/CustomButton.jsx";
 import useModal from "../../hooks/useModal.js";
 import { getData, attendance } from "../../api/apiUtil.js";
 import today from "../common/Date.jsx";
+import { useNavigate } from "react-router-dom";
 
-export default function AttendanceModal({ attended }) {
+export default function AttendanceModal({ attended, setAttended }) {
+  const navigate = useNavigate();
   const [attendModal, openModal, closeModal] = useModal(false);
   const [attend, openAttend, closeAttend] = useModal(false);
   const handleAttend = () => {
@@ -27,18 +29,26 @@ export default function AttendanceModal({ attended }) {
 
   // 출석하기 버튼
   function attendCheck() {
-    attendance("/members/check-in", "post")
-      .then(res => {
-        console.log(res);
-        // 출석체크 모달 닫기
-        closeModal(false);
-        // 출석 완료 및 경험치 얻음 모달 띄우기
-        openAttend(true);
-        // 로컬 스토리지에 출석한 날짜 저장하기
-        localStorage.removeitem("attendance_date");
-        localStorage.setItem("attendance_date", today);
-      })
-      .catch(error => console.log(error));
+    const attendedDate = localStorage.getItem("attendance_date");
+    if (attendedDate === null || attendedDate !== today) {
+      attendance("/members/check-in", "post")
+        .then(res => {
+          // console.log(res);
+          // 출석체크 모달 닫기
+          closeModal(false);
+          // 출석 완료 및 경험치 얻음 모달 띄우기
+          setAttended(true);
+          openAttend(true);
+          // 로컬 스토리지에 출석한 날짜 저장하기
+          localStorage.removeItem("attendance_date");
+          localStorage.setItem("attendance_date", today);
+          navigate("/");
+        })
+        .catch(error => console.log(error));
+    } else {
+      // console.log(attendedDate);
+      closeModal(false);
+    }
   }
 
   return (

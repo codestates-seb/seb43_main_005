@@ -32,6 +32,7 @@ import useModal from "./hooks/useModal.js";
 import Alert from "./components/common/Alert.jsx";
 import AdminRoute from "./components/route/AdminRoute.jsx";
 import ChatBot from "./components/ChatBot/ChatBot.jsx";
+import { setTheme } from "./redux/features/theme/themeSlice.js";
 
 function App() {
   const { pathname } = useLocation();
@@ -39,6 +40,8 @@ function App() {
   const dispatch = useDispatch();
   const [alert, openAlert, closeAlert] = useModal();
   const [selectedTheme, setSelectedTheme] = useState("defaultLight");
+  const theme = useSelector(state => state.theme.value);
+  console.log(theme);
 
   // ! Get userInfo
   const pathsToExclude = ["/user", "/mbti", "/mbtiresult", "/teampage"];
@@ -55,15 +58,25 @@ function App() {
   }, [pathname, dispatch]);
 
   useEffect(() => {
-    // 테마 적용
-    const setTheme = memberTheme => {
-      setSelectedTheme(memberTheme);
-      // console.log(`main ${memberTheme}`);
-    };
+    // 서버에서 받아온 테마 적용
     userInfo?.memberTheme
-      ? setTheme(userInfo.memberTheme)
-      : setTheme("defaultLight");
-  }, [userInfo]);
+      ? setSelectedTheme(userInfo.memberTheme)
+      : setSelectedTheme("defaultLight");
+  }, [userInfo, theme]);
+
+  // const isServerThemeLoaded = useSelector(
+  //   state => state.theme.isServerThemeLoaded
+  // );
+  // useEffect(() => {
+  //   if (userInfo?.memberTheme) {
+  //     dispatch(setTheme(userInfo.memberTheme));
+  //     setSelectedTheme(userInfo.memberTheme);
+  //   } else {
+  //     setSelectedTheme("defaultLight");
+  //   }
+  // }, [dispatch, isServerThemeLoaded, selectedTheme]);
+  // console.log(selectedTheme);
+  // console.log(theme);
 
   // ! hide Header and Footer
   const hideHeaderFooter =

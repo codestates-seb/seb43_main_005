@@ -3,32 +3,43 @@ import ThemeCircle from "./ThemeCircle.jsx";
 import { useState, useEffect } from "react";
 import { getData, updateData } from "../../api/apiUtil.js";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { setTheme } from "../../redux/features/theme/themeSlice.js";
+import useModal from "../../hooks/useModal.js";
+import Modal from "./Modal.jsx";
 
 const themeList = [
   { name: "default", level: 0 },
   { name: "ocean", level: 1 },
   { name: "desert", level: 2 },
   { name: "forest", level: 3 },
-  { name: "space", level: 5 },
-  { name: "pet", level: 6 },
+  { name: "space", level: 4 },
+  { name: "pet", level: 5 },
 ];
 
 export default function Themes() {
   // * 유저 레벨 별로 테마 잠금 풀리기
   const [userLv, setUserLv] = useState(0);
   const [openedThemes, setOpenedThemes] = useState([]);
+  const [modal, openModal, closeModal] = useModal();
 
   const navigate = useNavigate();
-  // 임시 로컬스테이지 저장 => 선택한 theme 을 서버에 patch (/members/theme)
-  // alert 를 테마를 적용하시겠습니까? 하고 yes 면 patch 적용하고 리다이렉션하는 걸로 바꾸기
+
+  const dispatch = useDispatch();
 
   const handleThemeChange = value => {
     const payload = { memberTheme: value };
-    updateData(payload, "/members/theme", "patch").then(res => {
-      console.log(res);
-      alert("테마 수정됨.");
-      navigate("/");
-    });
+    dispatch(setTheme(value));
+    updateData(payload, "/members/theme", "patch")
+      .then(res => {
+        console.log(res);
+        openModal();
+        location.reload();
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setTheme("defaultLight"));
+      });
   };
 
   // === * 유저 레벨 별로 테마 잠금 풀리기 ===
@@ -49,6 +60,13 @@ export default function Themes() {
 
   return (
     <>
+      {modal && (
+        <Modal
+          feat="테마변경"
+          text="테마가 적용되었습니다."
+          closeModal={closeModal}
+        />
+      )}
       {openedThemes.map(({ name, opened }, idx) => {
         const themeKey = `theme_${idx}`;
         return (
