@@ -86,7 +86,7 @@ const Information = styled.div`
 const InputBundle = styled.form`
   & > :nth-child(1) {
     margin-bottom: ${({ emailAlert }) => (emailAlert === "" ? "0px" : "40px")};
-  }}
+  }
 `;
 
 const ButtonGroup = styled.button`
