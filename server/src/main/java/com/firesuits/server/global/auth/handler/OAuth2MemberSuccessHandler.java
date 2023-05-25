@@ -1,6 +1,7 @@
 package com.firesuits.server.global.auth.handler;
 
 import com.firesuits.server.domain.member.entity.MemberMbti;
+import com.firesuits.server.domain.member.entity.MemberTheme;
 import com.firesuits.server.domain.member.service.MemberService;
 import com.firesuits.server.global.auth.jwt.JwtTokenizer;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
@@ -61,8 +62,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         }
 
         MemberMbti memberMbti = MemberMbti.테스트전;
+        MemberTheme memberTheme = MemberTheme.defaultLight;
         List<String> authorities = authorityUtils.createRoles(email);
-        memberService.oauthJoin(email, name, memberMbti);
+        memberService.oauthJoin(email, name, memberMbti, memberTheme);
         redirect(request, response, email, authorities);
     }
 
@@ -101,14 +103,19 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
             queryParams.add("access_token", "Bearer " + accessToken);
             queryParams.add("refresh_token", refreshToken);
 
-            return UriComponentsBuilder
+            String baseUri = UriComponentsBuilder
                     .newInstance()
                     .scheme("http")
-                    .host("localhost")
+                    .host("codetraveler.s3-website.ap-northeast-2.amazonaws.com")
                     .port(80)
-                    .path("/receive-token.html")
-                    .queryParams(queryParams)
                     .build()
-                    .toUri();
+                    .toUriString();
+
+            String finalUri = baseUri + "/#/user/oauth?" + UriComponentsBuilder
+                    .newInstance()
+                    .queryParams(queryParams)
+                    .toUriString();
+
+            return URI.create(finalUri);
         }
 }

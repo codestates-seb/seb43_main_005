@@ -12,10 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class ContentProgressDto {
+
     private Long contentProgressId;
     private MemberDto member;
     private ContentDto content;
-    private Double progress;
+    private int progress;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -24,7 +25,7 @@ public class ContentProgressDto {
                 entity.getContentProgressId(),
                 MemberDto.from(entity.getMember()),
                 ContentDto.from(entity.getContent()),
-                entity.getProgress(),
+                (int) Math.round(entity.getProgress()),
                 entity.getCreatedAt(),
                 entity.getModifiedAt()
         );

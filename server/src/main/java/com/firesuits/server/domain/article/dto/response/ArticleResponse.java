@@ -14,8 +14,8 @@ public class ArticleResponse {
     private Long articleId;
     private String title;
     private String content;
-    private Integer viewCount;
-    private Integer commentCount;
+    private int viewCount;
+    private int commentCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberResponse member;

@@ -13,7 +13,7 @@ public class ArticleCommentResponse {
     private Long articleCommentId;
     private Long articleId;
     private String content;
-    private Integer like;
+    private int like;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private MemberResponse member;

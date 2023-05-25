@@ -38,6 +38,7 @@ public class ContentService {
         this.contentProgressRepository = contentProgressRepository;
         this.learnCheckRepository = learnCheckRepository;
         this.learnCheckService = learnCheckService;
+
     }
 
     @Transactional
@@ -57,11 +58,15 @@ public class ContentService {
 
         return ContentDto.from(contentRepository.save(content));
     }
-
+  
+    @Transactional
     public void delete(String email, Long contentId){
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
         checkContentMember(content, member, email, contentId);
+
+        List<Learn> learns = learnRepository.findByContentId(contentId);
+        learnRepository.deleteAll(learns);
         contentRepository.delete(content);
     }
 
@@ -75,6 +80,12 @@ public class ContentService {
         Member member = memberOrException(email);
         Content content = contentOrException(contentId);
 
+        //contentProgress 해당되는 memberId랑 contentProgress의 contentId를 찾아서 없으면 생성
+        Optional<ContentProgress> optionalContentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId);
+        if(optionalContentProgress.isEmpty()){
+            contentProgressRepository.save(ContentProgress.of(member, content));
+        }
+
         //컨텐츠에 속한 모든 학습 항목
         List<Learn> learns = learnRepository.findByContentId(contentId);
 
@@ -87,11 +98,6 @@ public class ContentService {
             if(!isExist){
                 learnCheckService.createLearnCheck(learnId, email);
             }
-        }
-        //contentProgress 해당되는 memberId랑 contentProgress의 contentId를 찾아서 없으면 생성
-        Optional<ContentProgress> optionalContentProgress = contentProgressRepository.findByMemberAndContent_ContentId(member, contentId);
-        if(optionalContentProgress.isEmpty()){
-            contentProgressRepository.save(ContentProgress.of(member, content));
         }
         return content;
     }

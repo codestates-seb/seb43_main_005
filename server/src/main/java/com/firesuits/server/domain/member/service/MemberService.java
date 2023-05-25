@@ -1,11 +1,15 @@
 package com.firesuits.server.domain.member.service;
 
 import com.firesuits.server.domain.article.dto.ArticleCommentDto;
+import com.firesuits.server.domain.article.entity.Article;
+import com.firesuits.server.domain.article.entity.ArticleComment;
 import com.firesuits.server.domain.article.repository.ArticleCommentRepository;
+import com.firesuits.server.domain.article.repository.ArticleRepository;
 import com.firesuits.server.domain.member.dto.MemberDto;
 import com.firesuits.server.domain.member.entity.Attendance;
 import com.firesuits.server.domain.member.entity.Member;
 import com.firesuits.server.domain.member.entity.MemberMbti;
+import com.firesuits.server.domain.member.entity.MemberTheme;
 import com.firesuits.server.domain.member.repository.MemberRepository;
 import com.firesuits.server.global.auth.utils.CustomAuthorityUtils;
 import com.firesuits.server.global.error.exception.BusinessLogicException;
@@ -18,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -31,12 +36,14 @@ public class MemberService {
     private final ArticleCommentRepository articleCommentRepository;
     private final PasswordEncoder passwordEncoder;
     private final CustomAuthorityUtils customAuthorityUtils;
+    private final ArticleRepository articleRepository;
 
-    public MemberService(MemberRepository memberRepository, ArticleCommentRepository articleCommentRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils) {
+    public MemberService(MemberRepository memberRepository, ArticleCommentRepository articleCommentRepository, PasswordEncoder passwordEncoder, CustomAuthorityUtils customAuthorityUtils, ArticleRepository articleRepository) {
         this.memberRepository = memberRepository;
         this.articleCommentRepository = articleCommentRepository;
         this.passwordEncoder = passwordEncoder;
         this.customAuthorityUtils = customAuthorityUtils;
+        this.articleRepository = articleRepository;
     }
 
     //회원가입
@@ -51,7 +58,8 @@ public class MemberService {
         if (memberMbti == null){
             memberMbti = MemberMbti.테스트전;
         }
-        Member savedMember = saveMember(email, name, password, memberMbti);
+        MemberTheme memberTheme = MemberTheme.defaultLight;
+        Member savedMember = saveMember(email, name, password, memberMbti, memberTheme);
         defaultImageSet(savedMember);
         setRoles(savedMember, email);
         return MemberDto.from(savedMember);
@@ -94,6 +102,14 @@ public class MemberService {
         return MemberDto.from(memberRepository.save(member));
     }
 
+    //테마 수정
+    public void updateMemberTheme(String email, MemberTheme memberTheme){
+        Member member = memberOrException(email);
+        member.setMemberTheme(memberTheme);
+        memberRepository.save(member);
+        MemberDto.from(memberRepository.save(member));
+    }
+
     //비밀번호 수정
     public void updatePassword(String email, String currentPassword, String newPassword, String checkNewPassword){
         Member member = memberOrException(email);
@@ -109,9 +125,16 @@ public class MemberService {
         MemberDto.from(member);
     }
 
+    @Transactional
     //회원 탈퇴
     public void delete(String email){
         Member member = memberOrException(email);
+
+        for(ArticleComment comment : member.getArticleComments()){
+            Article article = comment.getArticle();
+            article.setCommentCount(article.getCommentCount() - 1);
+            articleRepository.save(article);
+        }
         memberRepository.delete(member);
     }
 
@@ -169,18 +192,25 @@ public class MemberService {
     }
 
     //Oauth2 유저 회원가입
-    public MemberDto oauthJoin(String email, String name, MemberMbti memberMbti){
+    public MemberDto oauthJoin(String email, String name, MemberMbti memberMbti, MemberTheme memberTheme){
         Optional<Member> existingMemberOptional = memberRepository.findByEmail(email);
         Member savedMember;
         if (existingMemberOptional.isPresent()) {
             savedMember = existingMemberOptional.get();
         } else {
             String password = UUID.randomUUID().toString();
-            savedMember = saveMember(email, name, password, memberMbti);
+            savedMember = saveMember(email, name, password, memberMbti, memberTheme);
         }
         defaultImageSet(savedMember);
         setRoles(savedMember, email);
         return MemberDto.from(savedMember);
+    }
+
+    //멤버 경험치 수동
+    @Transactional
+    public void addExperience(String email, int experience){
+        Member member = memberOrException(email);
+        member.addExperience(experience);
     }
 
     private Member memberOrException(String email) {
@@ -188,8 +218,8 @@ public class MemberService {
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND, String.format("%s 를 찾을 수 없습니다.", email)));
     }
 
-    private Member saveMember(String email, String name, String password, MemberMbti memberMbti){
-        Member member = Member.of(email, name, passwordEncoder.encode(password), memberMbti);
+    private Member saveMember(String email, String name, String password, MemberMbti memberMbti, MemberTheme memberTheme){
+        Member member = Member.of(email, name, passwordEncoder.encode(password), memberMbti, memberTheme);
         if (!member.getMemberMbti().equals(MemberMbti.테스트전)){
             member.addExperience(100);
         }

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -44,7 +45,7 @@ public class LearnService {
         learn.setContent(content);
         return LearnDto.from(learnRepository.save(learn));
     }
-
+    @Transactional
     public void delete(String email, Long contentId, Long learnId){
         Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
@@ -52,14 +53,24 @@ public class LearnService {
         learnRepository.delete(learn);
     }
     @Transactional(readOnly = true) //transaction 읽기만 가능하게 하여 성능 향상
-    public LearnDto findById(Long contentId, Long learnId){
+    public LearnDto findById(Long contentId, Long learnId, String email){
+        Member member = memberOrException(email);
         Learn learn = learnOrException(learnId);
         Content contentBoard = contentOrException(contentId);
-        return LearnDto.from(learn);
+
+        Learn checkLearn = learnRepository.findByLearnAndContentAndLearn(learn.getLearnId(), contentBoard)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.INVALID_REQUEST));
+        return LearnDto.from(checkLearn);
     }
     @Transactional(readOnly = true)
-    public Page<LearnDto> list(Long contentId, Pageable pageable){
+    public Page<LearnDto> list(Long contentId, String email, Pageable pageable){
+        Member member = memberOrException(email);
         Content contentBoard = contentOrException(contentId);
+
+        List<Learn> learn = learnRepository.findByContentId(contentId);
+        if(learn.isEmpty()){
+            throw new BusinessLogicException(ExceptionCode.LEARN_NOT_FOUND);
+        }
         return learnRepository.findAllByContent(contentBoard.getContentId(), pageable).map(LearnDto::from);
     }
 
