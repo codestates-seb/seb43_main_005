@@ -48,7 +48,7 @@ export default function AttendanceModal({ attended }) {
           className="ModalBtn"
           onClick={handleAttend}
           attended={attended}
-          disabled={attended ? "true" : ""}>
+          disabled={attended}>
           <svg
             width="33"
             height="33"
@@ -133,7 +133,7 @@ const ModalBtn = styled.button`
   justify-content: center;
   position: fixed;
   right: 50px;
-  bottom: 50px;
+  bottom: 150px;
   cursor: ${props => (props.attended ? "default" : "pointer")};
 
   &:hover {

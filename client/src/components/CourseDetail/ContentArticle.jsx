@@ -4,16 +4,15 @@ import { useSelector, useDispatch } from "react-redux";
 import CustomButton from "../common/CustomButton.jsx";
 import useModal from "../../hooks/useModal.js";
 import Dialog from "../common/Dialog.jsx";
-import { getData, updateData } from "../../api/apiUtil.js";
-import Alert from "../common/Alert.jsx";
-import Loading from "../common/Loading.jsx";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { updateData } from "../../api/apiUtil.js";
+import { useNavigate } from "react-router-dom";
+import party from "../../assets/images/icons8-confetti-64.png";
 import {
   setLearnId,
   setLearnIndex,
-} from "../../redux/features/user/learnSlice.js";
+} from "../../redux/features/learn/learnSlice.js";
 
-export default function ContentArticle({ courseId, learnChecks }) {
+export default function ContentArticle({ courseId, learnChecks, quizzes }) {
   // item
   const { learnId, learnIndex, learnContent } = useSelector(
     state => state.learn
@@ -26,11 +25,29 @@ export default function ContentArticle({ courseId, learnChecks }) {
   const editPath = `/admin/edit/course/${courseId}/content/${learnId}`;
 
   // ! Next button
-  const [text, setText] = useState("다음");
+  const [text, setText] = useState("학습체크");
   let nextLearId = learnChecks && learnChecks[learnIndex + 1]?.learnId;
   useEffect(() => {
-    nextLearId ? setText("다음") : setText("학습완료");
+    nextLearId ? setText("학습체크") : setText("학습완료");
   }, [learnId]);
+
+  // ! 학습완료 모달
+  const [modal, openModal, closeModal] = useModal();
+  const [modalText, setModalText] = useState();
+  const [feature, setFeature] = useState(null);
+  const lastLearn = async () => {
+    await openModal();
+    if (quizzes) {
+      setFeature({ feat: "퀴즈 풀러 가기", path: `/course/${courseId}/quiz` });
+      setModalText([
+        "모든 학습을 완료했습니다.",
+        "OX퀴즈를 풀러 가볼까요? (งᐛ)ว (งᐖ )ว",
+      ]);
+    } else {
+      setFeature({ feat: "더 공부하기", path: `/course` });
+      setModalText(["경험치 획득! (۶•̀ᴗ•́)۶ ", "레벨업에 더 가까워졌어요!"]);
+    }
+  };
 
   // ! handleNext
   const dispatch = useDispatch();
@@ -41,16 +58,28 @@ export default function ContentArticle({ courseId, learnChecks }) {
     const updateUrl = `/contents/${courseId}/learns/${learnId}/learnChecks/${learnCheckId}`;
     await updateData({ completed: true }, updateUrl, "patch");
     // 마지막 페이지
-    if (text === "학습완료" || !nextLearId) return;
-    // 다음 학습으로 이동
-    dispatch(setLearnIndex(learnIndex + 1));
-    dispatch(setLearnId(nextLearId));
-    const pathLearnUrl = `/course/${courseId}/learn/${nextLearId}`;
-    navigate(pathLearnUrl);
+    if (text === "학습완료" || !nextLearId) {
+      lastLearn();
+    } else {
+      // 다음 학습으로 이동
+      dispatch(setLearnIndex(learnIndex + 1));
+      dispatch(setLearnId(nextLearId));
+      const pathLearnUrl = `/course/${courseId}/learn/${nextLearId}`;
+      navigate(pathLearnUrl);
+    }
   };
 
   return (
     <ContentWrap>
+      {modal && (
+        <Dialog
+          feat={feature?.feat}
+          path={feature?.path}
+          img={party}
+          text={modalText}
+          closeDialog={closeModal}
+        />
+      )}
       <Content>
         <h1>{learnContent?.title}</h1>
         <span dangerouslySetInnerHTML={{ __html: learnContent?.content }} />
@@ -85,7 +114,7 @@ export default function ContentArticle({ courseId, learnChecks }) {
   );
 }
 const ContentWrap = styled.div`
-  padding: 30px 10px;
+  padding: 50px 10px;
   max-width: 1027px;
   width: 90%;
   margin: 0 auto;
@@ -136,12 +165,13 @@ const ContentWrap = styled.div`
   }
 `;
 const Content = styled.div`
-  min-height: calc(100vh - 210px);
+  min-height: calc(100vh - 290px);
 `;
 const ButtonWrap = styled.div`
   display: flex;
   align-items: flex-end;
   flex-direction: column;
+  margin-top: 30px;
 `;
 const AdminWrap = styled.div`
   display: flex;

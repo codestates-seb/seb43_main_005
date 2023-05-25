@@ -24,7 +24,7 @@ export const fetchLearnItem = createAsyncThunk(
 const learnSlice = createSlice({
   name: "learn",
   initialState: {
-    learnId: 0,
+    learnId: null,
     learnIndex: 0,
     learnContent: null,
     learnChecks: null,
@@ -44,7 +44,7 @@ const learnSlice = createSlice({
       state.learnChecks = action.payload;
     },
     setClear: state => {
-      state.learnId = 0;
+      state.learnId = null;
       // state.learnIndex = 0;
       state.learnContent = null;
       state.learnChecks = null;

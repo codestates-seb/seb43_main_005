@@ -10,9 +10,9 @@ export default function Dashbord() {
   // GET - 컨텐츠 진행률 전체 조회
   const getProgress = async () => {
     const { result } = await getData(`/contents/progress`);
-    console.log(`getProgress`);
+    // console.log(`getProgress`);
     const { content, pageable, sort, totalElements, totalPages } = result;
-    console.log(content);
+    // console.log(content);
     setContentList(content);
   };
 
