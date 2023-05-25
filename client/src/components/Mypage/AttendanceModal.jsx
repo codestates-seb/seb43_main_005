@@ -143,7 +143,7 @@ const ModalBtn = styled.button`
   justify-content: center;
   position: fixed;
   right: 50px;
-  bottom: 50px;
+  bottom: 150px;
   cursor: ${props => (props.attended ? "default" : "pointer")};
 
   &:hover {

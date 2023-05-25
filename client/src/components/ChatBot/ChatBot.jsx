@@ -94,7 +94,7 @@ const ModalContainer = styled.button`
   justify-content: center;
   position: fixed;
   right: 50px;
-  bottom: 250px;
+  bottom: 150px;
   flex-direction: column;
   z-index: 9999;
 `;
@@ -185,7 +185,7 @@ const ModalBtn = styled.button`
   justify-content: center;
   position: fixed;
   right: 50px;
-  bottom: 150px;
+  bottom: 50px;
 
   &:hover {
     transform: scale(1.1);

@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { mbtiQuestionData } from "../assets/data/mbtiQuestionData.js";
 
 function MbtiTest() {
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   //토큰
   const token = localStorage.getItem("access_token");
   //로그인 여부
@@ -48,7 +49,7 @@ function MbtiTest() {
         ""
       );
       if (token) {
-        const url = `http://13.124.42.111:8080/members/mbti`; // replace {{host}} with your actual host
+        const url = `${baseUrl}/members/mbti`; // replace {{host}} with your actual host
 
         axios
           .patch(

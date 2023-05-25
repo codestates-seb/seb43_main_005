@@ -7,6 +7,7 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getData } from "../../api/apiUtil.js";
 import { useDispatch } from "react-redux";
 import { setLearnId } from "../../redux/features/user/learnSlice.js";
+import { FaBook } from "react-icons/fa";
 
 export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
   const [progress, setProgress] = useState();
@@ -43,10 +44,8 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
   }, []);
 
   // ! Get learn data
-  const [check, setCheck] = useState(false);
   const dispatch = useDispatch();
   const handleClickCheck = async (learnId, learnCheckId, index) => {
-    setCheck(true);
     dispatch(setLearnId(learnId));
     onClickCheck(learnId, learnCheckId, index);
   };
@@ -71,7 +70,7 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
           <CustomCheckBox
             key={status.learnCheckId}
             text={status.title}
-            checked={status.completed || check}
+            checked={status.completed}
             // onCheck={() => handleCheckChange(status.learnId)}
             onClick={() =>
               handleClickCheck(status.learnId, status.learnCheckId, index)
@@ -79,19 +78,21 @@ export default function CustomSideBar({ onClickCheck, courseId, learnChecks }) {
           />
         ))}
         {quizzes && (
-          <CustomCheckBox
-            text="OX 퀴즈"
-            defaultValue={false}
-            checked={pathname.includes("quiz") || quizCheck}
-            onClick={quizClick}
-          />
+          <OxContainer onClick={quizClick}>
+            <IconWrapper>
+              <FaBook />
+            </IconWrapper>
+            OX 퀴즈
+          </OxContainer>
         )}
       </InnerContainer>
     </SideBarContainer>
   );
 }
 
-const IconWrapper = styled.div``;
+const IconWrapper = styled.div`
+  margin-right: 15px;
+`;
 
 const SideBarContainer = styled.div`
   padding-top: 20px;
@@ -113,5 +114,14 @@ const InnerContainer = styled.div`
     margin-bottom: 20px;
     cursor: pointer;
     line-height: 17px;
+  }
+`;
+
+const OxContainer = styled.div`
+  display: flex;
+  cursor: pointer;
+  width: 100%;
+  &:hover {
+    background-color: #f0f0f0;
   }
 `;
