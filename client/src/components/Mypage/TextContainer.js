@@ -28,7 +28,7 @@ const TextContainer = styled.div`
   & > p,
   input {
     font-size: ${props => props.pFontSize};
-    color: ${props => props.color};
+    color: ${props => props.divColor};
     margin-top: 16px;
   }
 `;
