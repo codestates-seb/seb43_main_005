@@ -8,14 +8,12 @@
 <br>
 
 ## 🌎 서비스 소개
-<hr>
 
 > "CODE Traveler"는 프로그래밍 학습 플랫폼으로, 사용자들에게 직관적이고 흥미로운 방식으로 프로그래밍을 학습할 수 있는 환경을 제공합니다. <br>다양한 학습 자료와 인터렉티브한 도구를 통해 프로그래밍 언어와 개념을 탐험할 수 있습니다. <br> 또한, MBTI 성격 유형에 맞춰 공부 방법을 제공하며 레벨업 시스템도 구현되어 있어 사용자들은 체계적인 학습과 성취감을 얻을 수 있습니다.
 
 <br>
 
 ## 🌟 팀원 소개
-<hr>
 
 ### ✨ Front-end
 <table style="table-layout:fixed">
@@ -98,14 +96,12 @@
 <br>
 
 ## ⚙️ System Architecture & Stack
-<hr>
 
 <img src="https://cdn.discordapp.com/attachments/1097749422852558848/1110912408559571044/image.png" />
 
 <br>
 
 ## 📝 문서
-<hr>
 
 - <a href="https://codestates.notion.site/e6500089472549928a8cfbdc1fea135f">사용자 요구사항 정의서</a>
 - <a href="https://www.figma.com/file/vDrOkZJDk64SVXCqOJOQNu/User-Flow?type=whiteboard&t=XXWJ6ucj995mBHG7-1">유저플로우</a>
