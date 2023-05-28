@@ -97,7 +97,7 @@
 
 ## ⚙️ System Architecture & Stack
 
-<img src="https://cdn.discordapp.com/attachments/1097749422852558848/1110912408559571044/image.png" />
+<img src="https://github.com/codestates-seb/seb43_main_005/assets/109960034/29a3642d-36e9-4baa-a3b7-febd03bd0cfe">
 
 <br>
 
@@ -107,4 +107,6 @@
 - <a href="https://www.figma.com/file/vDrOkZJDk64SVXCqOJOQNu/User-Flow?type=whiteboard&t=XXWJ6ucj995mBHG7-1">유저플로우</a>
 - <a href="https://codestates.notion.site/1ecbd34acc9546cd8c93075a74a53b2d">화면정의서</a>
 - <a href="https://www.figma.com/file/yWM0jRz3QqY6DmU36IRqBs/%EC%8B%9C%EC%95%88?type=design&node-id=0%3A1&t=XXWJ6ucj995mBHG7-1">디자인 시안</a>
+- <a href="https://www.erdcloud.com/d/QRxnFJrmiobqCsK6Z">ERD</a>
+- <a href="https://documenter.getpostman.com/view/27215474/2s93ebRVHe">API 문서</a>
 
