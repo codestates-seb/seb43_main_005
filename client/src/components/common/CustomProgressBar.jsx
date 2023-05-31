@@ -11,6 +11,8 @@ import sign from "../../assets/images/sign.png";
 /**
  *
  * @param progress 진행도를 입력하세요.
+ * @param marginBottom 마진Bottiom 값을 입력하세요. px단위
+ * @param feat simple 값을 props로 준다면 상태바의 기차 이미지가 사라집니다.
  * @returns 상태바가 현재 진행도를 나타냅니다.
  */
 function CustomProgressBar({ progress, marginBottom, feat }) {
