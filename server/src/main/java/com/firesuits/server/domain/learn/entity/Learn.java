@@ -44,5 +44,6 @@ public class Learn extends AuditingFields {
         learn.setContentBoard(contentBoard);
         return learn;
     }
+    //고생하셨습니다.
 
 }
