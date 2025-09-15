@@ -17,12 +17,6 @@
 
 ### ✨ Front-end
 <table style="table-layout:fixed">
-  <thead>
-  <th align="center"><a href="https://github.com/ychae1997"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fe2692b2e-ca67-4704-84b2-975225374aa7%2FRectangle_27.png?id=37ae8807-28dd-42cc-a8e0-f1bb8a37c6fd&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  <th align="center"><a href="https://github.com/lhj5924"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc49baf5a-e980-40d6-8d5f-7cfb588e5e9d%2FRectangle_28.png?id=e3c50b27-a84b-4f77-95c2-8cac0d54a468&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  <th align="center"><a href="https://github.com/pizzaYami"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F66af3b83-686c-4c14-9a4c-cc57b23c988f%2FRectangle_26.png?id=7b0bb6d2-a3bc-401a-9d53-8870f7a0332d&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  <th align="center"><a href="https://github.com/soulhn"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fc5c71f35-0855-451c-9352-b65e5f74db88%2FRectangle_25.png?id=07922f2d-0f62-46ee-abe2-41ca901a58bd&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  </thead>
   <tbody>
   <tr>
   <td align="center"><a href="https://github.com/ychae1997">유채원<br>(@ychae1997)</a></td>
@@ -60,12 +54,6 @@
 
 ### ✨ Back-end
 <table style="display:grid" >
-  <thead>
-  <th align="center"><a href="https://github.com/Gonue" ><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fdce9879b-f12a-4e30-9c6e-7d13d3617500%2FRectangle_22.png?id=b3f57628-128c-4cfc-ad82-93f6979e45dd&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  <th align="center"><a href="https://github.com/Yoon-JM"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F788bdf48-8474-468f-aac1-92d9b40b1ebd%2FRectangle_23.png?id=3b78603f-2fbf-4540-bf77-4c81e4137d95&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  <th align="center"><a href="https://github.com/stge35"><img src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Ff68133b1-0225-4518-980d-18a2bfd151ec%2FRectangle_24.png?id=63ccddae-ec2b-4cb7-bac1-c4d6c513482d&table=block&spaceId=82d63a72-8254-4cde-bf1e-b2597b7c099c&width=2000&userId=bacd43d8-31ef-433f-9b40-da676e9124d3&cache=v2" alt="프로필 이미지2" ></a></th>
-  
-  </thead>
   <tbody>
   <tr>
   <td align="center"><a href="https://github.com/Gonue">김석현<br>(@Gonue)</a></td>
